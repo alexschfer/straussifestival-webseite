@@ -1,14 +1,23 @@
-/* Schlichtes, mobil-zuerst-Layout. Keine externen Schriften, keine Frameworks. */
+/*
+ * Dunkles, schlichtes Thema, mobil zuerst. Keine externen Schriften, keine Frameworks.
+ * Farben und Abstände werden hier oben zentral eingestellt.
+ */
 
 :root {
-  --farbe-text: #1c2430;
-  --farbe-hintergrund: #ffffff;
-  --farbe-flaeche: #f3f5f8;
-  --farbe-primaer: #1f3a5f;
-  --farbe-akzent: #ffd166;
-  --farbe-linie: #d8dee7;
+  --farbe-hintergrund: #1e2021;
+  --farbe-flaeche: #26292a;
+  --farbe-flaeche-hell: #2f3334;
+  --farbe-text: #eceded;
+  --farbe-text-leise: #a9adae;
+  --farbe-akzent: #65d1d6;
+  --farbe-akzent-dunkel: #0f2f31;
+  --farbe-linie: #3a3e3f;
+
   --breite: 46rem;
-  --abstand: 1rem;
+  --breite-gross: 68rem;
+  --abstand: 1.25rem;
+  --radius: 1rem;
+  --radius-gross: 1.5rem;
 }
 
 *,
@@ -25,26 +34,43 @@ body {
   margin: 0;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   font-size: 1.0625rem;
-  line-height: 1.6;
+  line-height: 1.65;
   color: var(--farbe-text);
   background: var(--farbe-hintergrund);
 }
 
-.wrap {
+.wrap,
+.wrap-breit {
   width: 100%;
-  max-width: var(--breite);
   margin-inline: auto;
   padding-inline: var(--abstand);
 }
+.wrap {
+  max-width: var(--breite);
+}
+.wrap-breit {
+  max-width: var(--breite-gross);
+}
 
 a {
-  color: var(--farbe-primaer);
+  color: var(--farbe-akzent);
+  text-underline-offset: 0.2em;
 }
 
 a:focus-visible,
-.button:focus-visible {
+.button:focus-visible,
+.insta-kacheln:focus-visible {
   outline: 3px solid var(--farbe-akzent);
-  outline-offset: 2px;
+  outline-offset: 3px;
+}
+
+h1,
+h2 {
+  letter-spacing: -0.015em;
+}
+
+.akzent {
+  color: var(--farbe-akzent);
 }
 
 .skip {
@@ -56,13 +82,14 @@ a:focus-visible,
   top: var(--abstand);
   z-index: 10;
   padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
   background: var(--farbe-akzent);
+  color: var(--farbe-akzent-dunkel);
 }
 
-/* Kopfzeile: Name + Ticketbutton in einer Zeile, Menü darunter */
+/* Kopfzeile: abgesetzte Leiste, Name und Ticketbutton in einer Zeile, Menü darunter */
 .site-header {
-  background: var(--farbe-primaer);
-  color: #fff;
+  padding: var(--abstand) var(--abstand) 0;
 }
 .header-inner {
   display: flex;
@@ -70,36 +97,47 @@ a:focus-visible,
   align-items: center;
   justify-content: space-between;
   gap: 0.25rem 1rem;
-  padding-block: 0.6rem;
+  width: 100%;
+  max-width: var(--breite-gross);
+  margin-inline: auto;
+  padding: 0.7rem 1.1rem;
+  border: 1px solid var(--farbe-linie);
+  border-radius: var(--radius);
+  background: var(--farbe-flaeche);
 }
 .brand {
-  color: #fff;
+  color: var(--farbe-text);
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   text-decoration: none;
 }
-.site-header nav {
-  flex-basis: 100%;
-}
+
 ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
+.site-header nav {
+  flex-basis: 100%;
+}
 .site-header ul,
 .site-footer ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 0 1.1rem;
+  gap: 0 1.2rem;
 }
 .site-header nav a {
   display: inline-block;
-  padding: 0.4rem 0;
-  color: #fff;
-  text-underline-offset: 0.25em;
+  padding: 0.35rem 0;
+  color: var(--farbe-text-leise);
+  text-decoration: none;
+}
+.site-header nav a:hover {
+  color: var(--farbe-text);
 }
 .site-header nav a[aria-current='page'] {
-  font-weight: 700;
+  color: var(--farbe-text);
+  font-weight: 600;
   text-decoration: underline;
 }
 
@@ -107,88 +145,218 @@ ul {
 .button {
   display: inline-block;
   padding: 0.7rem 1.4rem;
-  border-radius: 0.5rem;
+  border-radius: 999px;
   background: var(--farbe-akzent);
-  color: var(--farbe-primaer);
+  color: var(--farbe-akzent-dunkel);
   font-weight: 700;
   text-align: center;
   text-decoration: none;
 }
 .button:hover {
-  filter: brightness(0.95);
+  filter: brightness(1.08);
 }
 .button-klein {
-  padding: 0.35rem 0.9rem;
+  padding: 0.35rem 1rem;
+  font-size: 0.95rem;
 }
 .button-gross {
-  padding: 1rem 2rem;
-  font-size: 1.25rem;
+  padding: 1rem 2.2rem;
+  font-size: 1.2rem;
 }
 
 /* Startseiten-Kopf */
 .hero {
-  padding-block: 2.5rem;
-  background: var(--farbe-flaeche);
-  border-bottom: 1px solid var(--farbe-linie);
+  padding-block: 3rem 2.5rem;
 }
 .hero h1 {
-  margin: 0 0 0.5rem;
-  font-size: clamp(1.9rem, 8vw, 3rem);
-  line-height: 1.15;
+  margin: 0 0 0.6rem;
+  font-size: clamp(2.2rem, 11vw, 4.5rem);
+  line-height: 1.05;
 }
 .hero-facts {
-  margin: 0 0 1.5rem;
-  font-size: 1.15rem;
+  margin: 0 0 1.75rem;
+  color: var(--farbe-text-leise);
+  font-size: 1.1rem;
 }
 .hero .button {
   width: 100%;
 }
 
-/* Markdown-Inhalt */
+/* Seiteninhalt (Texte, Überschriften, Listen) */
 .prose {
-  padding-block: 1.5rem 3rem;
+  padding-block: 1rem 3rem;
 }
 .prose h1 {
-  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  font-size: clamp(1.9rem, 7vw, 2.6rem);
+  line-height: 1.15;
 }
 .prose h2 {
-  margin-top: 2rem;
-  line-height: 1.25;
+  margin-top: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.35rem;
+  line-height: 1.3;
+}
+.prose ul {
+  padding-left: 1.2rem;
+  list-style: disc;
+}
+.prose li {
+  margin-block: 0.3rem;
 }
 .prose img {
   max-width: 100%;
   height: auto;
+  border-radius: var(--radius);
 }
-.prose table {
-  display: block;
-  overflow-x: auto;
-  border-collapse: collapse;
-}
-.prose th,
-.prose td {
-  padding: 0.4rem 0.7rem;
-  border: 1px solid var(--farbe-linie);
-  text-align: left;
+.prose strong {
+  color: #fff;
 }
 
-.site-footer {
-  padding-block: 1.5rem;
+/* Instagram-Abschnitt auf der Startseite */
+.insta {
+  padding: 0 var(--abstand) 3rem;
+}
+.insta-panel {
+  max-width: var(--breite-gross);
+  margin-inline: auto;
+  padding: 2.5rem 1.25rem;
+  border: 1px solid var(--farbe-linie);
+  border-radius: var(--radius-gross);
   background: var(--farbe-flaeche);
-  border-top: 1px solid var(--farbe-linie);
+  text-align: center;
+}
+.insta-panel h2 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.6rem, 7vw, 2.4rem);
+  line-height: 1.15;
+}
+.insta-text {
+  margin: 0 0 1.25rem;
+  color: var(--farbe-text-leise);
+}
+.insta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--farbe-linie);
+  border-radius: 999px;
+  background: var(--farbe-flaeche-hell);
+  color: var(--farbe-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+.insta-link:hover {
+  border-color: var(--farbe-akzent);
+  color: var(--farbe-akzent);
+}
+
+/* Kacheln: mobil zum Wischen, ab Tablet nebeneinander */
+.insta-kacheln {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding-bottom: 0.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.insta-kachel {
+  flex: 0 0 60%;
+  scroll-snap-align: center;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius);
+  background: var(--farbe-flaeche-hell);
+  overflow: hidden;
+}
+.insta-kachel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.insta-platzhalter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--farbe-text-leise);
+  font-size: 0.9rem;
+}
+
+/* Fußzeile */
+.site-footer {
+  padding: 0 var(--abstand) var(--abstand);
+}
+.footer-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: var(--breite-gross);
+  margin-inline: auto;
+  padding: 2rem 1.25rem;
+  border: 1px solid var(--farbe-linie);
+  border-radius: var(--radius-gross);
+  background: var(--farbe-flaeche);
   font-size: 0.95rem;
 }
-.site-footer p {
-  margin: 0 0 0.5rem;
+.footer-name {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.footer-veranstalter {
+  margin: 0.15rem 0 0;
+  color: var(--farbe-text-leise);
+}
+.site-footer nav a {
+  color: var(--farbe-text-leise);
+  text-decoration: none;
+}
+.site-footer nav a:hover {
+  color: var(--farbe-akzent);
+  text-decoration: underline;
 }
 
 @media (min-width: 40rem) {
+  /* Reihenfolge im Kopf: Name, Menü, Ticketbutton ganz rechts. */
+  .site-header nav {
+    order: 1;
+    margin-left: auto;
+  }
+  .header-inner .button {
+    order: 2;
+  }
   .hero {
-    padding-block: 4rem;
+    padding-block: 5rem 4rem;
   }
   .hero .button {
     width: auto;
   }
   .site-header nav {
     flex-basis: auto;
+  }
+  .insta-panel {
+    padding: 3rem 2rem;
+  }
+  .insta-kacheln {
+    overflow-x: visible;
+  }
+  .insta-kachel {
+    flex: 1 1 0;
+  }
+  .footer-panel {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem;
+  }
+}
+
+/* Wer Bewegung reduziert haben möchte, bekommt kein Einrasten beim Wischen. */
+@media (prefers-reduced-motion: reduce) {
+  .insta-kacheln {
+    scroll-snap-type: none;
   }
 }

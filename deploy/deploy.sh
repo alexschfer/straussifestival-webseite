@@ -71,6 +71,9 @@ fi
 if grep -q "url: '[^']*TODO" "$ROOT/web/src/config.ts"; then
   warnung "Die Ticket-URL in web/src/config.ts ist noch ein Platzhalter (TODO)."
 fi
+if grep -q "profilUrl: '[^']*TODO" "$ROOT/web/src/config.ts"; then
+  warnung "Das Instagram-Profil in web/src/config.ts ist noch ein Platzhalter (TODO)."
+fi
 
 # --- Bauen --------------------------------------------------------------------
 if [ "$SKIP_BUILD" -eq 0 ]; then

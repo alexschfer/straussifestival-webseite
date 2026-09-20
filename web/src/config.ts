@@ -1,17 +1,21 @@
 /**
  * Zentrale Konfiguration der Webseite.
  * Alles, was sich ändern kann (Ticket-Link, Schalter, Eckdaten), steht hier.
- * Texte der Seiten stehen NICHT hier, sondern als Markdown in src/content/seiten/.
+ * Texte der Seiten stehen NICHT hier, sondern direkt in den Dateien unter src/pages/ (z. B. infos.astro).
  */
 
+const kurzname = 'Straußi Festival';
+const jahr = '2027';
+
 export const festival = {
-  name: 'Straußi Festival 2027',
-  kurzname: 'Straußi Festival',
+  kurzname,
+  jahr,
+  name: `${kurzname} ${jahr}`,
   veranstalter: 'Wohnheimsreferat Straußäcker 3',
   ort: 'Studierendenwohnheime Straußäcker, Stuttgart',
   // TODO: Datum eintragen, sobald es feststeht (Freitext, z. B. "12. Juni 2027").
   datum: 'TODO Datum',
-} as const;
+};
 
 export const ticket = {
   // TODO: echte Ticketshop-URL eintragen (aktuell Platzhalter, der Button funktioniert erst danach).
@@ -26,6 +30,22 @@ export const ticket = {
    */
   utmWeitergeben: false,
 } as const;
+
+/**
+ * Instagram-Abschnitt auf der Startseite ("Bleib auf dem Laufenden").
+ * Es wird nichts von Instagram eingebunden, nur verlinkt. Die Fotos sind eigene Dateien.
+ */
+export const instagram = {
+  // TODO: echtes Profil eintragen (Adresse und Anzeigename).
+  profilUrl: 'https://www.instagram.com/TODO-benutzername/',
+  name: '@TODO-benutzername',
+  /**
+   * Eigene Fotos für die Kacheln (Hochformat, ca. 3:4). Datei in web/public/insta/ ablegen und hier eintragen:
+   *   { bild: '/insta/foto-1.jpg', alt: 'Kurze Beschreibung des Fotos' }
+   * Solange weniger als 5 eingetragen sind, stehen an den freien Stellen Platzhalter.
+   */
+  fotos: [] as { bild: string; alt: string }[],
+};
 
 /**
  * Umami-Tracking. Host und Website-ID kommen aus Umgebungsvariablen

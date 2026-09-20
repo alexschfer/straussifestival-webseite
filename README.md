@@ -32,9 +32,10 @@ Der Build erzeugt außerdem:
 
 ## Inhalte ändern
 
-- **Seitentexte:** Markdown-Dateien in `web/src/content/seiten/` (Startseite, Infos, FAQ, Anfahrt, Impressum, Datenschutz). Stellen mit **TODO** sind noch offen.
-  Im Kopf jeder Datei (zwischen den `---`) Texte immer in Anführungszeichen setzen: `title: "..."`.
-- **Ticket-Link, Datum, Schalter:** `web/src/config.ts`
+- **Seitentexte:** je eine Datei in `web/src/pages/` (`index.astro` = Startseite, `infos.astro`, `faq.astro`, `anfahrt.astro`, `impressum.astro`, `datenschutz.astro`). Der Text steht direkt darin als einfaches HTML (`<p>`, `<h2>`, `<ul>`). Stellen mit **TODO** sind noch offen.
+- **Neue Seite oder Menüpunkt:** Datei in `web/src/pages/` anlegen und die Navigationsliste oben in `web/src/layouts/Base.astro` ergänzen.
+- **Ticket-Link, Datum, Instagram-Profil, Schalter:** `web/src/config.ts`
+- **Fotos im Instagram-Abschnitt:** Datei in `web/public/insta/` ablegen und in `web/src/config.ts` eintragen (Anleitung: `web/public/insta/README.md`)
 - **Marketingkanäle:** `web/src/data/kanaele.ts` (Schreibregel für UTM-Werte: Kleinbuchstaben, keine Umlaute/ß/Leerzeichen, Bindestrich zwischen Wörtern; der Build prüft das)
 
 ## Analytics einbinden

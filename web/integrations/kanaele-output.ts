@@ -8,7 +8,7 @@ import { mkdir, readdir, rm, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import type { AstroIntegration } from 'astro';
 import QRCode from 'qrcode';
-import { ticket } from '../src/config';
+import { instagram, ticket } from '../src/config';
 import { CAMPAIGN, kanaele, kurzPfad, utmQuery } from '../src/data/kanaele';
 
 const istPlatzhalterDomain = (site: string) => new URL(site).hostname.endsWith('.invalid');
@@ -90,6 +90,9 @@ export default function kanaeleOutput(): AstroIntegration {
         }
         if (ticket.url.includes('TODO')) {
           logger.warn('Ticket-URL in src/config.ts ist noch ein Platzhalter (TODO).');
+        }
+        if (instagram.profilUrl.includes('TODO')) {
+          logger.warn('Instagram-Profil in src/config.ts ist noch ein Platzhalter (TODO).');
         }
       },
     },

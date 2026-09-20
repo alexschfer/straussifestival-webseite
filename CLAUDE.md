@@ -34,8 +34,8 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 ### Web (Phase 1)
 
 - Astro im statischen Modus (`output: 'static'`), TypeScript, **kein SSR, kein UI-Framework**, so wenig JavaScript wie möglich.
-- Seiteninhalte als **Markdown über Content Collections** (`web/src/content/seiten/`), damit auch nichttechnische Leute editieren können. Seiten: Startseite (`start.md`), Infos, FAQ, Anfahrt, Impressum, Datenschutz. Impressum und Datenschutz mit TODO-Platzhaltern, der Verein ist noch nicht gegründet.
-- Responsives, schlichtes Layout, mobil zuerst.
+- Seiteninhalte als **einfache Astro-Seiten**: Jede Seite ist eine `.astro`-Datei unter `web/src/pages/` mit dem Inhalt direkt darin (HTML), dazu ein gemeinsames Layout `web/src/layouts/Base.astro`. **Keine Content Collections, kein Markdown** (auf Wunsch des Auftraggebers bewusst so umgestellt; nicht wieder einführen). Die Navigation ist eine kleine Liste im Layout. Seiten: Startseite (`index.astro`), Infos, FAQ, Anfahrt, Impressum, Datenschutz. Impressum und Datenschutz mit TODO-Platzhaltern, der Verein ist noch nicht gegründet.
+- Responsives, schlichtes Layout, mobil zuerst. **Dunkles Thema** mit abgesetzten, abgerundeten Flächen (Kopfzeile, Instagram-Abschnitt, Fußzeile) und einem ruhigen türkisen Akzent; Vorbild war die Gestaltung von tiken.dev, ohne deren Schriften, Bilder oder Effekte zu übernehmen. Weiterhin Systemschriften, kein Framework.
 - Ticketbutton prominent, verlinkt auf eine **zentral konfigurierte Ticket-URL** (`web/src/config.ts`, aktuell Platzhalter).
 
 ### Kanäle und Tracking (Kern)
@@ -108,6 +108,17 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - Jeder Build mit echter Domain erzeugt `docs/kanaele.md` und `docs/qr/` neu; diese Änderungen sind zu committen.
 - **Die Domain darf sich beim Anbieterwechsel nicht ändern** (gedruckte QR-Codes). Der Wechsel wurde lokal getestet: frische VM, neuer Deploy, Backup einspielen; Passwort, Website und Website-ID kommen zurück.
 
+## Entscheidungen aus der Gestaltungsrunde (jederzeit änderbar)
+
+- **Dunkles Thema.** Farben stehen als Variablen oben in `web/src/styles/global.css` (`--farbe-hintergrund`, `--farbe-akzent` usw.). Eine andere Akzentfarbe ist eine einzige Zeile. Es gibt kein helles Thema; die Seite meldet sich per `color-scheme: dark` als dunkel an.
+- **Keine externen Schriften, Bilder oder Effekte.** Vorbild war nur die Anmutung (dunkler Grund, abgerundete Flächen, ein Akzentton). Weiterhin Systemschriften, damit nichts von fremden Servern nachgeladen wird (Datenschutz, Ladezeit).
+- **Instagram-Abschnitt auf der Startseite** ("Bleib auf dem Laufenden", Vorbild Ricola): Überschrift, ein Satz, ein Link zum Profil, darunter Kacheln. Mobil zum Wischen, ab Tablet nebeneinander.
+- **Es wird nichts von Instagram eingebunden**, nur verlinkt. Die Kachel-Fotos sind eigene Dateien aus `web/public/insta/` (Anleitung liegt dort). Grund: Ein eingebetteter Instagram-Feed würde Daten an Meta übertragen und die Seite cookie-bannerpflichtig machen. **Nicht durch ein Feed-Widget ersetzen.**
+- Profiladresse und Anzeigename stehen als Platzhalter in `web/src/config.ts` (`instagram`). Solange dort `TODO` steht, warnen der Build und `deploy.sh`. Ohne eingetragene Fotos zeigen die Kacheln "TODO Foto".
+- Die Fußzeile nennt Festival und Veranstalter links, Impressum und Datenschutz rechts (Vorbild Ricola). Die Links kommen weiterhin aus der Navigationsliste im Layout.
+- `festival.name` wird in `config.ts` aus `kurzname` und `jahr` zusammengesetzt, damit die Jahreszahl im Kopf farblich abgesetzt werden kann und nur an einer Stelle steht.
+- Die Datenschutzseite hat einen zusätzlichen Abschnitt zum Instagram-Link (mit TODO für die rechtliche Prüfung).
+
 ## Befehle (im Ordner `web/`)
 
 ```
@@ -119,11 +130,13 @@ npm run preview      gebaute Seite lokal ansehen
 
 Deployment (im Repo-Wurzelordner): `./deploy/deploy.sh`
 
-## Hinweise für Inhalte (Markdown)
+## Hinweise für Inhalte (Astro-Seiten)
 
-- Seiten liegen in `web/src/content/seiten/*.md`. Der Dateiname ist die Adresse (`infos.md` -> `/infos/`).
-- Der Kopf zwischen den `---` (Frontmatter) braucht **Anführungszeichen um Texte**, sobald ein Doppelpunkt vorkommt, sonst bricht der Build ab. Am sichersten: immer `title: "..."` und `description: "..."` in Anführungszeichen.
-- Neue Seite: neue `.md`-Datei mit `title`, `description` und `navigation` (`haupt`, `fuss` oder `keine`). Sie erscheint automatisch.
+- Jede Seite liegt in `web/src/pages/<name>.astro`. Der Dateiname ist die Adresse (`infos.astro` -> `/infos/`, `index.astro` ist die Startseite). Der Text steht direkt in der Datei als HTML zwischen `<div class="wrap prose">` und `</div>`: `<h2>` für Zwischenüberschriften, `<p>` für Absätze, `<ul><li>` für Listen.
+- Der Kopf der Datei (zwischen den `---`) und die Zeile `<Base title="..." description="...">` legen Titel und Beschreibung fest.
+- Geschweifte Klammern `{` und `}` sind in Astro-Texten Sonderzeichen. Im Text vermeiden oder als `{'{'}` schreiben.
+- **Neue Seite:** eine Datei in `web/src/pages/` anlegen (am einfachsten `infos.astro` kopieren) und **eine Zeile in der Navigationsliste** in `web/src/layouts/Base.astro` ergänzen (`hauptmenue` oder `fussmenue`). Ohne diese Zeile gibt es die Seite, aber keinen Link darauf.
+- Zwischenüberschriften bekommen keine automatischen Anker-`id`s mehr (waren bei Markdown automatisch da, wurden nirgends verwendet).
 
 ## Offene Punkte
 

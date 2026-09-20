@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import { getCollection } from 'astro:content';
 import Analytics from '../components/Analytics.astro';
 import TicketButton from '../components/TicketButton.astro';
 import UtmWeitergabe from '../components/UtmWeitergabe.astro';
@@ -15,17 +14,17 @@ interface Props {
 
 const { title, description, startseite = false } = Astro.props;
 
-const seiten = await getCollection('seiten');
-const sortiert = (bereich: 'haupt' | 'fuss') =>
-  seiten
-    .filter((s) => s.data.navigation === bereich)
-    .sort((a, b) => a.data.reihenfolge - b.data.reihenfolge)
-    .map((s) => ({
-      href: s.id === 'start' ? '/' : `/${s.id}/`,
-      text: s.data.linktext ?? s.data.title,
-    }));
-const hauptmenue = sortiert('haupt');
-const fussmenue = sortiert('fuss');
+// Navigation: neue Seite = neue Datei in src/pages/ und hier eine Zeile ergänzen.
+const hauptmenue = [
+  { href: '/', text: 'Start' },
+  { href: '/infos/', text: 'Infos' },
+  { href: '/faq/', text: 'FAQ' },
+  { href: '/anfahrt/', text: 'Anfahrt' },
+];
+const fussmenue = [
+  { href: '/impressum/', text: 'Impressum' },
+  { href: '/datenschutz/', text: 'Datenschutz' },
+];
 
 const seitentitel = startseite ? festival.name : `${title} – ${festival.kurzname}`;
 const aktuellerPfad = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -37,6 +36,8 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#1e2021" />
     <title>{seitentitel}</title>
     <meta name="description" content={description} />
     <meta property="og:title" content={seitentitel} />
@@ -49,8 +50,8 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
   <body>
     <a class="skip" href="#inhalt">Zum Inhalt springen</a>
     <header class="site-header">
-      <div class="wrap header-inner">
-        <a class="brand" href="/">{festival.kurzname}</a>
+      <div class="header-inner">
+        <a class="brand" href="/">{festival.kurzname} <span class="akzent">{festival.jahr}</span></a>
         <TicketButton position="header" text="Tickets" class="button-klein" />
         <nav aria-label="Hauptmenü">
           <ul>
@@ -73,8 +74,11 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
     </main>
 
     <footer class="site-footer">
-      <div class="wrap">
-        <p>{festival.name} · {festival.veranstalter}</p>
+      <div class="footer-panel">
+        <div class="footer-marke">
+          <p class="footer-name">{festival.kurzname} <span class="akzent">{festival.jahr}</span></p>
+          <p class="footer-veranstalter">{festival.veranstalter}</p>
+        </div>
         <nav aria-label="Rechtliches">
           <ul>
             {

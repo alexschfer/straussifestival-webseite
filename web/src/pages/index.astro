@@ -1,23 +1,36 @@
 ---
-import { getEntry, render } from 'astro:content';
-import TicketButton from '../components/TicketButton.astro';
 import Base from '../layouts/Base.astro';
+import InstaAbschnitt from '../components/InstaAbschnitt.astro';
+import TicketButton from '../components/TicketButton.astro';
 import { festival } from '../config';
-
-const seite = await getEntry('seiten', 'start');
-if (!seite) throw new Error('Die Startseite fehlt: src/content/seiten/start.md anlegen.');
-const { Content } = await render(seite);
 ---
 
-<Base title={seite.data.title} description={seite.data.description} startseite>
+<Base title="Startseite" description="Das Straußi Festival 2027 der Studierendenwohnheime Straußäcker in Stuttgart. Infos zu Programm, Anfahrt und Tickets." startseite>
   <section class="hero">
-    <div class="wrap">
-      <h1>{festival.name}</h1>
+    <div class="wrap-breit">
+      <h1>{festival.kurzname} <span class="akzent">{festival.jahr}</span></h1>
       <p class="hero-facts">{festival.datum} · {festival.ort}</p>
       <TicketButton position="hero" class="button-gross" />
     </div>
   </section>
   <div class="wrap prose">
-    <Content />
+    <p>
+      Das <strong>Straußi Festival 2027</strong> ist das Festival der Studierendenwohnheime Straußäcker in Stuttgart, veranstaltet vom Wohnheimsreferat Straußäcker 3.
+    </p>
+    <p><strong>TODO:</strong> Kurzer Willkommenstext (2 bis 3 Sätze): Worum geht es, was erwartet die Gäste?</p>
+    <h2>Programm und Line-up</h2>
+    <p>
+      <strong>TODO:</strong> Line-up und Programm eintragen, sobald sie feststehen. Bis dahin nichts ankündigen, was nicht bestätigt ist.
+    </p>
+    <h2>Tickets</h2>
+    <p>Tickets gibt es über unseren Ticketpartner. Der Button oben führt direkt zum Ticketshop.</p>
+    <p><strong>TODO:</strong> Hinweis zu Preisen und Vorverkaufsstart, sobald bekannt.</p>
+    <h2>Gut zu wissen</h2>
+    <ul>
+      <li>Alle Infos zum Ablauf: <a href="/infos/">Infos</a></li>
+      <li>Häufige Fragen: <a href="/faq/">FAQ</a></li>
+      <li>So kommst du hin: <a href="/anfahrt/">Anfahrt</a></li>
+    </ul>
   </div>
+  <InstaAbschnitt />
 </Base>

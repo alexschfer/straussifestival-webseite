@@ -7,8 +7,9 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 ### Phase 1: `web/` (erledigt)
 
 - [x] Astro statisch, TypeScript, kein UI-Framework
-- [x] Seiten als Markdown (Content Collection): Startseite, Infos, FAQ, Anfahrt, Impressum, Datenschutz
-- [x] Mobiles, schlichtes Layout, Ticketbutton prominent, zentrale Ticket-URL in `web/src/config.ts`
+- [x] Seiten als einfache Astro-Seiten (`web/src/pages/*.astro`, gemeinsames Layout, Navigation als Liste im Layout; ursprünglich Markdown/Content Collections, später auf Wunsch umgestellt): Startseite, Infos, FAQ, Anfahrt, Impressum, Datenschutz
+- [x] Mobiles, schlichtes Layout (dunkles Thema), Ticketbutton prominent, zentrale Ticket-URL in `web/src/config.ts`
+- [x] Instagram-Abschnitt auf der Startseite (nur Link, keine Einbettung)
 - [x] Zentrale Kanaldatei `web/src/data/kanaele.ts` mit Validierung der UTM-Schreibregel
 - [x] Aus den Kanälen generiert: Redirects `/q/<slug>`, QR-Codes (`docs/qr/`), `docs/kanaele.md`
 - [x] Umami-Einbindung über Umgebungsvariablen (ohne Werte kein Skript)
@@ -41,9 +42,10 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 - [ ] **Echte Ticketshop-URL** eintragen (`ticket.url` in `web/src/config.ts`)
 - [ ] **Wertet der Ticketshop UTM-Parameter aus?** (Anfrage läuft.) Erst danach den Schalter `ticket.utmWeitergeben` in `web/src/config.ts` auf `true` setzen.
 - [ ] **Verantwortliche Person für das Impressum**, solange kein e. V. besteht
-- [ ] **Endgültige Kanalliste** (aktuell nur vorläufige Beispiele in `web/src/data/kanaele.ts`) und **Festivalinhalte** (Datum, Line-up, Preise, Anfahrt, FAQ-Antworten; alles `TODO` in `web/src/content/seiten/` und `web/src/config.ts`)
+- [ ] **Endgültige Kanalliste** (aktuell nur vorläufige Beispiele in `web/src/data/kanaele.ts`) und **Festivalinhalte** (Datum, Line-up, Preise, Anfahrt, FAQ-Antworten; alles `TODO` in `web/src/pages/` und `web/src/config.ts`)
 - [ ] **`SITE_URL` setzen**, sobald die Domain feststeht, und die QR-Codes neu bauen. Erst dann drucken.
-- [ ] Datenschutzerklärung und Impressum rechtlich prüfen lassen
+- [ ] **Instagram-Profil** eintragen (`instagram` in `web/src/config.ts`) und **eigene Fotos** für die Kacheln ablegen (`web/public/insta/`, aktuell Platzhalter "TODO Foto")
+- [ ] Datenschutzerklärung und Impressum rechtlich prüfen lassen (inkl. neuem Abschnitt zum Instagram-Link)
 
 ## Zu prüfen (Risiken, die beim Bau aufgefallen sind)
 

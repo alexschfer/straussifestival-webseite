@@ -1,0 +1,56 @@
+---
+/**
+ * Abschnitt "Bleib auf dem Laufenden" mit Link zum Instagram-Profil und Foto-Kacheln.
+ * Alles kommt aus src/config.ts (Block "instagram"). Es wird nichts von Instagram geladen,
+ * die Fotos sind eigene Dateien aus public/insta/.
+ */
+import { instagram } from '../config';
+
+const anzahl = Math.max(5, instagram.fotos.length);
+const kacheln = Array.from({ length: anzahl }, (_, i) => instagram.fotos[i]);
+---
+
+<section class="insta" aria-labelledby="insta-titel">
+  <div class="insta-panel">
+    <h2 id="insta-titel">Bleib auf dem Laufenden</h2>
+    <p class="insta-text">Folge uns auf Instagram, um nichts zu verpassen.</p>
+    <a
+      class="insta-link"
+      href={instagram.profilUrl}
+      target="_blank"
+      rel="noopener"
+      aria-label={`${instagram.name} auf Instagram`}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+        <circle cx="12" cy="12" r="4"></circle>
+        <circle cx="17.5" cy="6.5" r=".6" fill="currentColor"></circle>
+      </svg>
+      <span>{instagram.name}</span>
+    </a>
+
+    <ul class="insta-kacheln" aria-label="Fotos" tabindex="0">
+      {
+        kacheln.map((foto) => (
+          <li class="insta-kachel">
+            {foto ? (
+              <img src={foto.bild} alt={foto.alt} loading="lazy" />
+            ) : (
+              <span class="insta-platzhalter">TODO Foto</span>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
