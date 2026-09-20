@@ -26,11 +26,14 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 - [x] `web/src/pages/404.astro` (Caddy braucht `404.html`)
 - [ ] Erster Test mit dem **echten Umami-Tracker** im Browser (bisher nur simulierte Requests) und auf der echten VM mit echtem HTTPS
 
-### Phase 3: `deploy/` (offen)
+### Phase 3: `deploy/` (erledigt, gegen eine simulierte VM getestet)
 
-- [ ] Deployment-Anleitung und einfaches Deploy-Skript (lokal bauen, `rsync`, Container hochfahren)
-- [ ] Schritte nach dem ersten Start: Umami-Admin-Passwort ändern, Website anlegen, Website-ID in die Web-Config eintragen
-- [ ] Hostunabhängig halten (Selfnet jetzt, später z. B. Hetzner)
+- [x] Deployment-Anleitung (`deploy/README.md`) und Deploy-Skript (`deploy/deploy.sh`: lokal bauen, `rsync`, Container hochfahren)
+- [x] Schritte nach dem ersten Start: Umami-Admin-Passwort ändern, Website anlegen, Website-ID in die Web-Config eintragen
+- [x] Hostunabhängig (nur `DEPLOY_HOST` ändert sich; Anbieterwechsel inkl. Backup-Restore lokal getestet, kein Terraform)
+- [ ] Erster echter Deploy auf die Selfnet-VM (wartet auf VM, Domain, DNS)
+- [ ] Umami-Oberfläche (Menünamen, Passwort ändern, Website-ID finden, Daten zurücksetzen) einmal im Browser durchgehen und `deploy/README.md` bei Abweichungen anpassen; bisher nur die API-Abläufe getestet
+- [ ] Backup-Cron auf der VM einrichten und eine Off-Site-Kopie der Sicherungen organisieren
 
 ## Offene Punkte (TODO, nicht erfinden)
 

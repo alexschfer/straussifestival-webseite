@@ -16,7 +16,7 @@ Ein `docker compose`-Stack mit drei Containern:
 | `.env.local.example` | Vorlage für den Test auf dem eigenen Rechner |
 | `backup.sh` | nächtliche Datenbanksicherung |
 
-Die Webseite selbst (`web/dist/`) wird nicht im Container gebaut, sondern als fertige Dateien in den Ordner `site/` neben der `docker-compose.yml` gelegt (Anleitung: Phase 3, `deploy/`).
+Die Webseite selbst (`web/dist/`) wird nicht im Container gebaut, sondern als fertige Dateien in den Ordner `site/` neben der `docker-compose.yml` gelegt. Das erledigt `deploy/deploy.sh` (siehe [deploy/README.md](../deploy/README.md)).
 
 ## Lokal mit Docker testen
 
@@ -56,9 +56,9 @@ docker compose down -v     # stoppen UND alle Daten des Tests löschen
 
 ## Betrieb auf dem Server
 
-Auf der VM: `cp .env.example .env`, alle Werte ausfüllen (Geheimnisse mit `openssl rand -hex 32` erzeugen), dann `docker compose up -d`. Voraussetzungen: DNS-Einträge für `<domain>` und `stats.<domain>` zeigen auf die VM, Ports 80 und 443 sind offen. Der vollständige Ablauf steht in `deploy/` (Phase 3).
+Normalerweise übernimmt `deploy/deploy.sh` alles: Es kopiert diese Dateien auf die VM, legt beim ersten Mal die `.env` mit frisch erzeugten Geheimnissen an und startet den Stack (Ablauf und Voraussetzungen: [deploy/README.md](../deploy/README.md)). Von Hand geht es so: `cp .env.example .env`, Werte ausfüllen (Geheimnisse mit `openssl rand -hex 32`), `docker compose up -d`.
 
-**Sofort nach dem ersten Start:** Umami hat den Standard-Zugang `admin` / `umami`. Das Passwort ändern, bevor irgendetwas anderes passiert.
+**Sofort nach dem ersten Start:** Umami hat den Standard-Zugang `admin` / `umami`. Das Passwort ändern, bevor irgendetwas anderes passiert (Schritte: [deploy/README.md](../deploy/README.md), Abschnitt "Nach dem ersten Start").
 
 Nützliche Befehle (im Ordner `analytics/`):
 
@@ -79,7 +79,7 @@ Datenschutz-Hinweis für die Datenschutzerklärung: Caddy schreibt in dieser Kon
 Nächtlich per Cron (als root auf der VM, `crontab -e`):
 
 ```cron
-15 3 * * * /opt/straussi/analytics/backup.sh >> /var/log/straussi-backup.log 2>&1
+15 3 * * * /opt/straussi/backup.sh >> /var/log/straussi-backup.log 2>&1
 ```
 
 (Den Pfad an den tatsächlichen Ort des Ordners anpassen.)

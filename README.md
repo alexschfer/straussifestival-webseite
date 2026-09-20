@@ -2,7 +2,7 @@
 
 Infoseite zum Straußi Festival 2027 (Studierendenwohnheime Straußäcker, Stuttgart) mit selbst gehosteten Web-Analytics (Umami). Die Seite verlinkt auf den externen Ticketshop und misst, über welchen Kanal Besucher kommen und wie viele auf den Ticketbutton klicken.
 
-Projektkontext und alle Entscheidungen: [CLAUDE.md](CLAUDE.md). Aufgaben und Stand: [docs/SPEC.md](docs/SPEC.md).
+Kurz: `web/` bauen, mit `./deploy/deploy.sh` auf die VM bringen. Projektkontext und alle Entscheidungen: [CLAUDE.md](CLAUDE.md). Aufgaben und Stand: [docs/SPEC.md](docs/SPEC.md).
 
 ## Lokal starten
 
@@ -51,4 +51,4 @@ Fehlt einer der Werte, wird das Tracking-Skript nicht eingebunden und die Seite 
 ## Analytics-Server und Deployment
 
 - Server-Stack (Caddy, Umami, Postgres, Backup) und lokaler Docker-Test: [analytics/README.md](analytics/README.md)
-- Deployment auf die VM: folgt in Phase 3 (`deploy/`).
+- Deployment auf die VM (`./deploy/deploy.sh`), Schritte nach dem ersten Start, Backup, Anbieterwechsel: [deploy/README.md](deploy/README.md)

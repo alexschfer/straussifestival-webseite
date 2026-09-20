@@ -2,7 +2,6 @@
 # Voraussetzung auf dem Server: DNS-Einträge für DOMAIN und stats.DOMAIN zeigen auf die VM,
 # Ports 80 und 443 sind erreichbar.
 # Werte kommen aus analytics/.env (über docker-compose.yml als Umgebungsvariablen).
-
 {
 	email {$ACME_EMAIL}
 	http_port {$HTTP_PORT:80}

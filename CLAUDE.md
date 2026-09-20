@@ -26,7 +26,7 @@ docs/kanaele.md  Tabelle der Marketingkanäle (GENERIERT, nicht von Hand ändern
 docs/qr/         QR-Codes als SVG pro Kanal (GENERIERT)
 web/             Astro-Seite
 analytics/       docker-compose.yml, Caddyfile, backup.sh, .env.example, README.md
-deploy/          Deployment-Anleitung und Skripte                          (Phase 3)
+deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 ```
 
 ## Entscheidungen (aus dem Auftrag)
@@ -65,7 +65,7 @@ deploy/          Deployment-Anleitung und Skripte                          (Phas
 - `backup.sh`: nächtlicher `pg_dump`, komprimiert, letzte 14 Stände behalten, plus Cron-Beispiel.
 - Kurze Anleitung zum lokalen Test mit Docker.
 
-### Deployment (Phase 3)
+### Deployment (Phase 3, umgesetzt)
 
 - Zielsystem: einzelne Linux-VM von Selfnet e.V. (noch nicht vorhanden, wird angefragt). Root-Zugriff und Docker vorausgesetzt.
 - Ablauf: Astro **lokal** bauen, Ausgabeordner per `rsync` auf die VM kopieren, Container hochfahren. **Node läuft nicht auf dem Server.**
@@ -95,6 +95,19 @@ deploy/          Deployment-Anleitung und Skripte                          (Phas
 - `backup.sh` läuft auf dem Host per `docker compose exec`, schreibt erst in eine `.partial`-Datei, prüft sie und benennt sie dann um. Sicherungen liegen standardmäßig in `analytics/backups/` (nicht im Git). Off-Site-Kopie ist Sache des Teams (in der Anleitung erwähnt).
 - **Attribution (getestet mit Umami 3.4.0, simulierte Requests):** Klickt ein Besucher nach Einstieg über `?utm_source=aushang` auf einer Unterseite ohne UTMs auf Tickets, ordnet der Umami-Bericht **Attribution** (Konversion = Event `ticket-click`) den Klick trotzdem dem Kanal zu. Ein direkter Filter auf das Event nach UTM würde ihn verpassen. Für die Auswertung deshalb den Attributionsbericht nutzen.
 
+## Entscheidungen aus Phase 3 (nicht im Auftrag festgelegt, jederzeit änderbar)
+
+- **Ein Skript für alles:** `deploy/deploy.sh` prüft, baut (`npm ci`, `npm run build`), kopiert per rsync und startet den Stack per SSH. Wiederholbar. Option `--skip-build`. Einstellungen in `deploy/deploy.env` (nicht im Git, Vorlage `deploy.env.example`), Adressen der Seite in `web/.env`.
+- **Serverlayout flach:** Die Dateien aus `analytics/` liegen direkt in `DEPLOY_PATH` (Standard `/opt/straussi`), die Seite in `DEPLOY_PATH/site/`, Sicherungen in `DEPLOY_PATH/backups/`.
+- **Die `.env` auf der VM legt das Skript beim ersten Deploy selbst an** (aus `analytics/.env.example`, `DOMAIN` aus `SITE_URL`, drei frisch erzeugte Geheimnisse, Rechte 600). Später wird sie nie überschrieben. Die Geheimnisse existieren nur auf der VM (Kopie im Passwortmanager empfohlen); die Datenbanksicherungen hängen nicht von ihnen ab.
+- **Schutz vor Fehldeploys:** Abbruch, wenn `SITE_URL` fehlt oder ein Platzhalter ist (`*.invalid`, `*.example.org`). Nur Warnung (kein Abbruch) bei fehlender Umami-ID (beim ersten Deploy normal, sie gibt es erst nach dem Start von Umami), abweichendem Umami-Host und Platzhalter-Ticket-URL.
+- **rsync-Details, die nicht "vereinfacht" werden dürfen:** Config-Dateien mit `--inplace` (der Caddyfile ist als Einzeldatei eingebunden; ein rsync-Rename würde ihn im Container veralten lassen). Danach `caddy reload`. Die Seite mit `--delete --delay-updates` in den bestehenden Ordner `site/` (der Ordner selbst darf nicht ersetzt werden, er ist in Caddy eingebunden).
+- **Compose-Projektname fest** (`name: straussi`), damit Volume-Namen nicht am Ordnernamen hängen. Nicht ändern, sonst wirkt die Datenbank leer.
+- **Cron für das Backup richtet das Skript nicht selbst ein**, es warnt nur, solange keiner existiert (Cron-Zeile in `deploy/README.md`).
+- Die Erreichbarkeitsprüfung am Ende ist nicht fatal (DNS und Zertifikat brauchen beim ersten Mal Zeit).
+- Jeder Build mit echter Domain erzeugt `docs/kanaele.md` und `docs/qr/` neu; diese Änderungen sind zu committen.
+- **Die Domain darf sich beim Anbieterwechsel nicht ändern** (gedruckte QR-Codes). Der Wechsel wurde lokal getestet: frische VM, neuer Deploy, Backup einspielen; Passwort, Website und Website-ID kommen zurück.
+
 ## Befehle (im Ordner `web/`)
 
 ```
@@ -103,6 +116,8 @@ npm run dev          lokaler Entwicklungsserver
 npm run build        Prüfen (astro check) und bauen nach web/dist/; erzeugt auch docs/qr/ und docs/kanaele.md
 npm run preview      gebaute Seite lokal ansehen
 ```
+
+Deployment (im Repo-Wurzelordner): `./deploy/deploy.sh`
 
 ## Hinweise für Inhalte (Markdown)
 

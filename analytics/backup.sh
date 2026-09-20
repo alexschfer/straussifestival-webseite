@@ -4,7 +4,7 @@
 # Aufruf:  ./backup.sh            (aus beliebigem Ordner, der Pfad des Skripts zählt)
 #
 # Cron-Beispiel (täglich um 03:15 Uhr, als root auf der VM):
-#   15 3 * * * /opt/straussi/analytics/backup.sh >> /var/log/straussi-backup.log 2>&1
+#   15 3 * * * /opt/straussi/backup.sh >> /var/log/straussi-backup.log 2>&1
 #
 # Einstellungen per Umgebungsvariable (optional):
 #   BACKUP_DIR   Zielordner der Sicherungen (Standard: <Ordner dieses Skripts>/backups)

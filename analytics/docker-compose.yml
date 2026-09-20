@@ -2,6 +2,10 @@
 # Konfiguration ausschließlich über analytics/.env (Vorlage: .env.example).
 # Nur Caddy veröffentlicht Ports; Umami und die Datenbank sind von außen nicht erreichbar.
 
+# Fester Projektname: Container- und Volume-Namen hängen sonst am Ordnernamen. Nicht ändern,
+# sonst legt Docker neue, leere Volumes an und die Datenbank scheint verschwunden.
+name: straussi
+
 x-logging: &logging
   driver: json-file
   options:
