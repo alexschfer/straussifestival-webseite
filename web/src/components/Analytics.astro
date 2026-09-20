@@ -1,0 +1,9 @@
+---
+import { analytics, analyticsAktiv } from '../config';
+---
+
+{
+  analyticsAktiv && (
+    <script defer src={`${analytics.host}/script.js`} data-website-id={analytics.websiteId} />
+  )
+}

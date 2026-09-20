@@ -1,0 +1,23 @@
+---
+import { getEntry, render } from 'astro:content';
+import TicketButton from '../components/TicketButton.astro';
+import Base from '../layouts/Base.astro';
+import { festival } from '../config';
+
+const seite = await getEntry('seiten', 'start');
+if (!seite) throw new Error('Die Startseite fehlt: src/content/seiten/start.md anlegen.');
+const { Content } = await render(seite);
+---
+
+<Base title={seite.data.title} description={seite.data.description} startseite>
+  <section class="hero">
+    <div class="wrap">
+      <h1>{festival.name}</h1>
+      <p class="hero-facts">{festival.datum} · {festival.ort}</p>
+      <TicketButton position="hero" class="button-gross" />
+    </div>
+  </section>
+  <div class="wrap prose">
+    <Content />
+  </div>
+</Base>

@@ -1,0 +1,25 @@
+---
+/**
+ * Optional, wird nur eingebunden, wenn ticket.utmWeitergeben in src/config.ts
+ * auf true steht (Standard: false).
+ *
+ * Kopiert die UTM-Parameter der aktuellen Adresse an alle Ticketlinks, damit
+ * sie beim Wechsel zum Ticketshop mitgehen. Kein Speichern: liest nur die
+ * aktuelle URL, kein Cookie, kein localStorage.
+ */
+---
+
+<script>
+  const UTM_PARAMETER = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  const aktuell = new URLSearchParams(location.search);
+
+  document.querySelectorAll<HTMLAnchorElement>('a[data-ticket-link]').forEach((link) => {
+    const ziel = new URL(link.href);
+    for (const name of UTM_PARAMETER) {
+      const wert = aktuell.get(name);
+      // Was der Ticketlink schon selbst mitbringt, bleibt unberührt.
+      if (wert && !ziel.searchParams.has(name)) ziel.searchParams.set(name, wert);
+    }
+    link.href = ziel.href;
+  });
+</script>

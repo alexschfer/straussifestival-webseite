@@ -1,0 +1,94 @@
+---
+import '../styles/global.css';
+import { getCollection } from 'astro:content';
+import Analytics from '../components/Analytics.astro';
+import TicketButton from '../components/TicketButton.astro';
+import UtmWeitergabe from '../components/UtmWeitergabe.astro';
+import { festival, ticket } from '../config';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Die Startseite bekommt den Festivalnamen als Titel, alle anderen "Seite – Festival". */
+  startseite?: boolean;
+}
+
+const { title, description, startseite = false } = Astro.props;
+
+const seiten = await getCollection('seiten');
+const sortiert = (bereich: 'haupt' | 'fuss') =>
+  seiten
+    .filter((s) => s.data.navigation === bereich)
+    .sort((a, b) => a.data.reihenfolge - b.data.reihenfolge)
+    .map((s) => ({
+      href: s.id === 'start' ? '/' : `/${s.id}/`,
+      text: s.data.linktext ?? s.data.title,
+    }));
+const hauptmenue = sortiert('haupt');
+const fussmenue = sortiert('fuss');
+
+const seitentitel = startseite ? festival.name : `${title} – ${festival.kurzname}`;
+const aktuellerPfad = Astro.url.pathname.replace(/\/$/, '') || '/';
+const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuellerPfad;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{seitentitel}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={seitentitel} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <Analytics />
+  </head>
+  <body>
+    <a class="skip" href="#inhalt">Zum Inhalt springen</a>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="brand" href="/">{festival.kurzname}</a>
+        <TicketButton position="header" text="Tickets" class="button-klein" />
+        <nav aria-label="Hauptmenü">
+          <ul>
+            {
+              hauptmenue.map((eintrag) => (
+                <li>
+                  <a href={eintrag.href} aria-current={istAktuell(eintrag.href) ? 'page' : undefined}>
+                    {eintrag.text}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="inhalt">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>{festival.name} · {festival.veranstalter}</p>
+        <nav aria-label="Rechtliches">
+          <ul>
+            {
+              fussmenue.map((eintrag) => (
+                <li>
+                  <a href={eintrag.href}>{eintrag.text}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </footer>
+
+    {ticket.utmWeitergeben && <UtmWeitergabe />}
+  </body>
+</html>

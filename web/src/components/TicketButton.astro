@@ -1,0 +1,23 @@
+---
+import { analytics, ticket } from '../config';
+
+interface Props {
+  /** Wo der Button sitzt; wird im Umami-Event als "position" mitgeschickt. */
+  position: 'header' | 'hero' | 'footer';
+  /** Buttontext */
+  text?: string;
+  class?: string;
+}
+
+const { position, text = 'Tickets kaufen', class: klasse } = Astro.props;
+---
+
+<a
+  class:list={['button', klasse]}
+  href={ticket.url}
+  target="_blank"
+  rel="noopener"
+  data-ticket-link
+  data-umami-event={analytics.ticketEvent}
+  data-umami-event-position={position}>{text}</a
+>
