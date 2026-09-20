@@ -285,36 +285,103 @@ ul {
   font-size: 0.9rem;
 }
 
-/* Fußzeile */
+/* Fußzeile: oben Spalten mit Links, unten die schmale Leiste mit Rechtlichem */
 .site-footer {
   padding: 0 var(--abstand) var(--abstand);
 }
 .footer-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
   max-width: var(--breite-gross);
   margin-inline: auto;
-  padding: 2rem 1.25rem;
+  padding: 2rem 1.25rem 1.5rem;
   border: 1px solid var(--farbe-linie);
   border-radius: var(--radius-gross);
   background: var(--farbe-flaeche);
   font-size: 0.95rem;
+}
+.footer-spalten {
+  display: grid;
+  gap: 2rem;
+}
+.footer-spalte h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.footer-spalte-text {
+  margin: 0 0 0.8rem;
+  color: var(--farbe-text-leise);
+}
+.footer-spalte ul {
+  display: block;
+}
+.footer-spalte li {
+  margin-block: 0.35rem;
+}
+.footer-spalte a {
+  color: var(--farbe-text-leise);
+  text-decoration: none;
+}
+.footer-spalte a:hover {
+  color: var(--farbe-akzent);
+  text-decoration: underline;
+}
+/* Runder Knopf für das Instagram-Symbol */
+.footer-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--farbe-linie);
+  border-radius: 50%;
+  background: var(--farbe-flaeche-hell);
+  color: var(--farbe-text);
+}
+.footer-icon:hover {
+  border-color: var(--farbe-akzent);
+  color: var(--farbe-akzent);
+}
+.footer-spalte .button {
+  color: var(--farbe-akzent-dunkel);
+  text-decoration: none;
+}
+
+.footer-unten {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--farbe-linie);
 }
 .footer-name {
   margin: 0;
   font-weight: 700;
   font-size: 1.05rem;
 }
-.footer-veranstalter {
+.footer-veranstalter,
+.footer-copyright {
   margin: 0.15rem 0 0;
   color: var(--farbe-text-leise);
+  font-size: 0.9rem;
 }
-.site-footer nav a {
+.footer-recht {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.2rem;
+}
+.footer-recht ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.2rem;
+}
+.footer-recht a {
   color: var(--farbe-text-leise);
+  font-size: 0.9rem;
   text-decoration: none;
 }
-.site-footer nav a:hover {
+.footer-recht a:hover {
   color: var(--farbe-akzent);
   text-decoration: underline;
 }
@@ -347,10 +414,16 @@ ul {
     flex: 1 1 0;
   }
   .footer-panel {
+    padding: 2.5rem 2rem 1.75rem;
+  }
+  .footer-spalten {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem 1.5rem;
+  }
+  .footer-unten {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 2rem;
   }
 }
 

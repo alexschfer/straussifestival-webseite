@@ -115,7 +115,9 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **Instagram-Abschnitt auf der Startseite** ("Bleib auf dem Laufenden", Vorbild Ricola): Überschrift, ein Satz, ein Link zum Profil, darunter Kacheln. Mobil zum Wischen, ab Tablet nebeneinander.
 - **Es wird nichts von Instagram eingebunden**, nur verlinkt. Die Kachel-Fotos sind eigene Dateien aus `web/public/insta/` (Anleitung liegt dort). Grund: Ein eingebetteter Instagram-Feed würde Daten an Meta übertragen und die Seite cookie-bannerpflichtig machen. **Nicht durch ein Feed-Widget ersetzen.**
 - Profiladresse und Anzeigename stehen als Platzhalter in `web/src/config.ts` (`instagram`). Solange dort `TODO` steht, warnen der Build und `deploy.sh`. Ohne eingetragene Fotos zeigen die Kacheln "TODO Foto".
-- Die Fußzeile nennt Festival und Veranstalter links, Impressum und Datenschutz rechts (Vorbild Ricola). Die Links kommen weiterhin aus der Navigationsliste im Layout.
+- **Fußzeile nach Vorbild von Ricola:** ein abgerundetes Panel mit vier Spalten (Folge uns mit Instagram-Knopf, Festival mit den Menülinks, Tickets mit Button, Kontakt) und darunter einer schmalen Leiste: links Festivalname und Veranstalter, rechts Impressum, Datenschutz und "© Straußi Festival 2027". Mobil stehen die Spalten untereinander. Menülinks und Rechtslinks kommen aus den Listen im Layout (`hauptmenue`, `fussmenue`).
+- **Der Ticketbutton kommt jetzt dreimal vor** (Kopfzeile, Startseiten-Kopf, Fußzeile). Das Klick-Event `ticket-click` ist dasselbe; die Stelle steht als `position` (`header`, `hero`, `footer`) im Event und lässt sich in Umami unterscheiden.
+- **Die Copyright-Zeile nennt bewusst keinen Rechteinhaber und kein Jahr.** Wer im Impressum verantwortlich ist, steht noch nicht fest (Verein nicht gegründet). Erst danach dort den passenden Rechteinhaber eintragen.
 - `festival.name` wird in `config.ts` aus `kurzname` und `jahr` zusammengesetzt, damit die Jahreszahl im Kopf farblich abgesetzt werden kann und nur an einer Stelle steht.
 - Die Datenschutzseite hat einen zusätzlichen Abschnitt zum Instagram-Link (mit TODO für die rechtliche Prüfung).
 

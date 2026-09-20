@@ -1,9 +1,10 @@
 ---
 import '../styles/global.css';
 import Analytics from '../components/Analytics.astro';
+import InstaIcon from '../components/InstaIcon.astro';
 import TicketButton from '../components/TicketButton.astro';
 import UtmWeitergabe from '../components/UtmWeitergabe.astro';
-import { festival, ticket } from '../config';
+import { festival, instagram, ticket } from '../config';
 
 interface Props {
   title: string;
@@ -21,10 +22,12 @@ const hauptmenue = [
   { href: '/faq/', text: 'FAQ' },
   { href: '/anfahrt/', text: 'Anfahrt' },
 ];
+// Rechtliches: erscheint unten in der schmalen Leiste der Fußzeile.
 const fussmenue = [
   { href: '/impressum/', text: 'Impressum' },
   { href: '/datenschutz/', text: 'Datenschutz' },
 ];
+// Das Menü oben erscheint in der Fußzeile noch einmal als Spalte "Festival".
 
 const seitentitel = startseite ? festival.name : `${title} – ${festival.kurzname}`;
 const aktuellerPfad = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -75,21 +78,67 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
 
     <footer class="site-footer">
       <div class="footer-panel">
-        <div class="footer-marke">
-          <p class="footer-name">{festival.kurzname} <span class="akzent">{festival.jahr}</span></p>
-          <p class="footer-veranstalter">{festival.veranstalter}</p>
+        <div class="footer-spalten">
+          <div class="footer-spalte">
+            <h2>Folge uns</h2>
+            <p class="footer-spalte-text">Neuigkeiten gibt es zuerst auf Instagram.</p>
+            <a
+              class="footer-icon"
+              href={instagram.profilUrl}
+              target="_blank"
+              rel="noopener"
+              aria-label={`${instagram.name} auf Instagram`}
+            >
+              <InstaIcon size={20} />
+            </a>
+          </div>
+
+          <nav class="footer-spalte" aria-label="Festival">
+            <h2>Festival</h2>
+            <ul>
+              {
+                hauptmenue.map((eintrag) => (
+                  <li>
+                    <a href={eintrag.href}>{eintrag.text}</a>
+                  </li>
+                ))
+              }
+            </ul>
+          </nav>
+
+          <div class="footer-spalte">
+            <h2>Tickets</h2>
+            <p class="footer-spalte-text">Der Verkauf läuft über unseren Ticketpartner.</p>
+            <TicketButton position="footer" class="button-klein" />
+          </div>
+
+          <div class="footer-spalte">
+            <h2>Kontakt</h2>
+            {/* TODO: E-Mail-Adresse des Wohnheimsreferats eintragen und als Link setzen. */}
+            <p class="footer-spalte-text"><strong>TODO:</strong> Kontaktadresse des Wohnheimsreferats</p>
+          </div>
         </div>
-        <nav aria-label="Rechtliches">
-          <ul>
-            {
-              fussmenue.map((eintrag) => (
-                <li>
-                  <a href={eintrag.href}>{eintrag.text}</a>
-                </li>
-              ))
-            }
-          </ul>
-        </nav>
+
+        <div class="footer-unten">
+          <div class="footer-marke">
+            <p class="footer-name">{festival.kurzname} <span class="akzent">{festival.jahr}</span></p>
+            <p class="footer-veranstalter">{festival.veranstalter}</p>
+          </div>
+          <div class="footer-recht">
+            <nav aria-label="Rechtliches">
+              <ul>
+                {
+                  fussmenue.map((eintrag) => (
+                    <li>
+                      <a href={eintrag.href}>{eintrag.text}</a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </nav>
+            <p class="footer-copyright">© {festival.name}</p>
+          </div>
+        </div>
       </div>
     </footer>
 

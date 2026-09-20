@@ -41,7 +41,8 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 - [ ] **Antwort von Selfnet:** VM, Domain, DNS
 - [ ] **Echte Ticketshop-URL** eintragen (`ticket.url` in `web/src/config.ts`)
 - [ ] **Wertet der Ticketshop UTM-Parameter aus?** (Anfrage läuft.) Erst danach den Schalter `ticket.utmWeitergeben` in `web/src/config.ts` auf `true` setzen.
-- [ ] **Verantwortliche Person für das Impressum**, solange kein e. V. besteht
+- [ ] **Verantwortliche Person für das Impressum**, solange kein e. V. besteht (danach auch die Copyright-Zeile in der Fußzeile anpassen, siehe `web/src/layouts/Base.astro`)
+- [ ] **Kontaktadresse** des Wohnheimsreferats: steht in der Fußzeile als TODO und gehört auch ins Impressum
 - [ ] **Endgültige Kanalliste** (aktuell nur vorläufige Beispiele in `web/src/data/kanaele.ts`) und **Festivalinhalte** (Datum, Line-up, Preise, Anfahrt, FAQ-Antworten; alles `TODO` in `web/src/pages/` und `web/src/config.ts`)
 - [ ] **`SITE_URL` setzen**, sobald die Domain feststeht, und die QR-Codes neu bauen. Erst dann drucken.
 - [ ] **Instagram-Profil** eintragen (`instagram` in `web/src/config.ts`) und **eigene Fotos** für die Kacheln ablegen (`web/public/insta/`, aktuell Platzhalter "TODO Foto")

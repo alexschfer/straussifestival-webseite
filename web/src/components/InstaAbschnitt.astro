@@ -5,6 +5,7 @@
  * die Fotos sind eigene Dateien aus public/insta/.
  */
 import { instagram } from '../config';
+import InstaIcon from './InstaIcon.astro';
 
 const anzahl = Math.max(5, instagram.fotos.length);
 const kacheln = Array.from({ length: anzahl }, (_, i) => instagram.fotos[i]);
@@ -21,21 +22,7 @@ const kacheln = Array.from({ length: anzahl }, (_, i) => instagram.fotos[i]);
       rel="noopener"
       aria-label={`${instagram.name} auf Instagram`}
     >
-      <svg
-        viewBox="0 0 24 24"
-        width="24"
-        height="24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <rect x="3" y="3" width="18" height="18" rx="5"></rect>
-        <circle cx="12" cy="12" r="4"></circle>
-        <circle cx="17.5" cy="6.5" r=".6" fill="currentColor"></circle>
-      </svg>
+      <InstaIcon />
       <span>{instagram.name}</span>
     </a>
 
