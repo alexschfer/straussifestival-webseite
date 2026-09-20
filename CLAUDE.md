@@ -25,7 +25,7 @@ docs/SPEC.md     Aufgaben und Stand (inkl. offene Punkte)
 docs/kanaele.md  Tabelle der Marketingkanäle (GENERIERT, nicht von Hand ändern)
 docs/qr/         QR-Codes als SVG pro Kanal (GENERIERT)
 web/             Astro-Seite
-analytics/       docker-compose.yml, Caddyfile, backup.sh, .env.example   (Phase 2)
+analytics/       docker-compose.yml, Caddyfile, backup.sh, .env.example, README.md
 deploy/          Deployment-Anleitung und Skripte                          (Phase 3)
 ```
 
@@ -57,7 +57,7 @@ deploy/          Deployment-Anleitung und Skripte                          (Phas
 - Ein **optionales Skript hängt die UTM-Parameter** des aktuellen Besuchs an den Ticketlink. Schalter `ticket.utmWeitergeben` in `web/src/config.ts`, **standardmäßig AUS** (noch ungeklärt, ob der Ticketshop UTMs auswertet). Bei AUS wird das Skript nicht ausgeliefert.
 - **Keine Cookies, kein localStorage, kein Google Analytics.** Die Seite kommt ohne Cookie-Banner aus. Deshalb auch: keine eingebetteten Karten, Videos, Schriften oder Widgets von Drittanbietern, ohne vorher den Datenschutz zu klären.
 
-### Analytics-Server (Phase 2)
+### Analytics-Server (Phase 2, umgesetzt)
 
 - `docker-compose.yml` mit Umami (offizielles Postgres-Image von Umami) und Postgres in benanntem Volume.
 - Caddy als Reverse Proxy mit automatischem HTTPS: Hauptdomain liefert die statischen Dateien der Astro-Seite, `stats.<domain>` reicht an Umami weiter.
@@ -82,6 +82,18 @@ deploy/          Deployment-Anleitung und Skripte                          (Phas
 - Ticketbutton öffnet den Shop in einem **neuen Tab** (`target="_blank"`), damit die Infoseite offen bleibt.
 - Redirects sind in Astro-Static **Meta-Refresh-Seiten** (`/q/<slug>/index.html`), keine echten HTTP-301. Für QR-Codes ausreichend; die UTM-Parameter bleiben erhalten.
 - **TypeScript ist auf 6.x gepinnt**, weil `astro check` mit TypeScript 7 noch nicht läuft. Erst anheben, wenn Astro das unterstützt.
+
+## Entscheidungen aus Phase 2 (nicht im Auftrag festgelegt, jederzeit änderbar)
+
+- **Umami-Version fest gepinnt** auf `ghcr.io/umami-software/umami:3.4.0`. Geprüft: `3.4.0`, `latest` und `postgresql-latest` sind derselbe Stand (Umami 3 unterstützt nur Postgres). Aktualisieren = Tag ändern, vorher Backup.
+- Datenbank: `postgres:17-alpine`. Umami läuft mit `DISABLE_TELEMETRY=1`.
+- **Caddy hängt nicht von Umami ab** (kein `depends_on`): Die Infoseite bleibt erreichbar, auch wenn Umami ausfällt. Getestet.
+- Domain, E-Mail für Let's Encrypt, alle Geheimnisse und ein optionaler Pfad zur Webseite (`SITE_DIR`, Standard `./site`) kommen aus `analytics/.env`. Fehlende Pflichtwerte lassen `docker compose` mit einer Fehlermeldung abbrechen.
+- `HTTP_PORT`/`HTTPS_PORT` sind nur für den lokalen Test überschreibbar (Vorlage `analytics/.env.local.example`, Domain `localhost`, Ports 8080/8443). Auf dem Server bleiben 80/443.
+- Caddy liefert `/q/<slug>` direkt aus (`try_files {path} {path}/index.html`), also ohne zusätzliche Weiterleitung auf den Slash. Unbekannte Adressen zeigen `404.html` (Seite `web/src/pages/404.astro`).
+- **Caddy schreibt keine Zugriffs-Logs** (Standardverhalten, bewusst so gelassen; für die Datenschutzerklärung relevant). Container-Logs sind auf 3 x 10 MB begrenzt.
+- `backup.sh` läuft auf dem Host per `docker compose exec`, schreibt erst in eine `.partial`-Datei, prüft sie und benennt sie dann um. Sicherungen liegen standardmäßig in `analytics/backups/` (nicht im Git). Off-Site-Kopie ist Sache des Teams (in der Anleitung erwähnt).
+- **Attribution (getestet mit Umami 3.4.0, simulierte Requests):** Klickt ein Besucher nach Einstieg über `?utm_source=aushang` auf einer Unterseite ohne UTMs auf Tickets, ordnet der Umami-Bericht **Attribution** (Konversion = Event `ticket-click`) den Klick trotzdem dem Kanal zu. Ein direkter Filter auf das Event nach UTM würde ihn verpassen. Für die Auswertung deshalb den Attributionsbericht nutzen.
 
 ## Befehle (im Ordner `web/`)
 

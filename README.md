@@ -50,4 +50,5 @@ Fehlt einer der Werte, wird das Tracking-Skript nicht eingebunden und die Seite 
 
 ## Analytics-Server und Deployment
 
-Folgt in Phase 2 (`analytics/`) und Phase 3 (`deploy/`).
+- Server-Stack (Caddy, Umami, Postgres, Backup) und lokaler Docker-Test: [analytics/README.md](analytics/README.md)
+- Deployment auf die VM: folgt in Phase 3 (`deploy/`).

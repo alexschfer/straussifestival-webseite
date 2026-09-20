@@ -1,0 +1,77 @@
+# Analytics-Stack: Caddy (HTTPS, Webseite) + Umami + Postgres.
+# Konfiguration ausschließlich über analytics/.env (Vorlage: .env.example).
+# Nur Caddy veröffentlicht Ports; Umami und die Datenbank sind von außen nicht erreichbar.
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      # Auf einem echten Server bleiben 80/443. Abweichende Ports nur für den lokalen Test.
+      - "${HTTP_PORT:-80}:${HTTP_PORT:-80}"
+      - "${HTTPS_PORT:-443}:${HTTPS_PORT:-443}"
+      - "${HTTPS_PORT:-443}:${HTTPS_PORT:-443}/udp"
+    environment:
+      DOMAIN: ${DOMAIN:?DOMAIN in .env setzen}
+      ACME_EMAIL: ${ACME_EMAIL:?ACME_EMAIL in .env setzen}
+      HTTP_PORT: ${HTTP_PORT:-80}
+      HTTPS_PORT: ${HTTPS_PORT:-443}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # Statische Dateien der Astro-Seite (Inhalt von web/dist/), read-only.
+      - ${SITE_DIR:-./site}:/srv/site:ro
+      # Zertifikate und Caddy-Zustand überleben Neustarts (sonst drohen Let's-Encrypt-Limits).
+      - caddy-data:/data
+      - caddy-config:/config
+    # Absichtlich KEIN depends_on auf Umami: Die Infoseite soll auch dann erreichbar
+    # bleiben, wenn Umami gerade nicht läuft.
+    logging: *logging
+
+  umami:
+    # Version bewusst festgelegt (gleicher Stand wie "latest" bzw. "postgresql-latest").
+    # Aktualisieren: Tag ändern, dann `docker compose pull && docker compose up -d`.
+    image: ghcr.io/umami-software/umami:3.4.0
+    init: true
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://umami:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD in .env setzen}@db:5432/umami
+      APP_SECRET: ${APP_SECRET:?APP_SECRET in .env setzen}
+      TWO_FACTOR_ENCRYPTION_KEY: ${TWO_FACTOR_ENCRYPTION_KEY:?TWO_FACTOR_ENCRYPTION_KEY in .env setzen}
+      DISABLE_TELEMETRY: "1"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:3000/api/heartbeat"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    logging: *logging
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD in .env setzen}
+    volumes:
+      - umami-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    logging: *logging
+
+volumes:
+  umami-db-data:
+  caddy-data:
+  caddy-config:
