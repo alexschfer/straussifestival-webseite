@@ -4,14 +4,21 @@
  */
 
 :root {
-  --farbe-hintergrund: #1e2021;
-  --farbe-flaeche: #26292a;
-  --farbe-flaeche-hell: #2f3334;
+  /* Neutrale Flächen: aus der Palettenfarbe C (#535552) abgeleitete, dunklere
+     Stufen, damit Fließtext genug Kontrast hat. --farbe-flaeche-hell ist C
+     unverändert (hellste, "markenfarbene" Stufe für Kacheln und Hover-Flächen). */
+  --farbe-hintergrund: #1c1d1c;
+  --farbe-flaeche: #2e2f2d;
+  --farbe-flaeche-hell: #535552;
   --farbe-text: #eceded;
   --farbe-text-leise: #a9adae;
-  --farbe-akzent: #65d1d6;
-  --farbe-akzent-dunkel: #0f2f31;
-  --farbe-linie: #3a3e3f;
+  /* Akzent A: durchgehender Interaktions-Akzent (Links, Buttons, Fokus, Hover). */
+  --farbe-akzent: #fbbb47;
+  /* Dunkle Variante von A für Text auf dem Akzent-Button (Kontrast). */
+  --farbe-akzent-dunkel: #3e2b09;
+  /* Akzent B: zweiter Akzent, nur für die abgesetzte Jahreszahl (.akzent). */
+  --farbe-akzent-zwei: #f84c85;
+  --farbe-linie: #424341;
 
   --breite: 46rem;
   --breite-gross: 68rem;
@@ -70,6 +77,12 @@ h2 {
 }
 
 .akzent {
+  color: var(--farbe-akzent-zwei);
+}
+/* Auf den Flächen-Panels (Kopf- und Fußzeile) hätte Akzent B zu wenig
+   Kontrast zum helleren Flächenton – dort läuft die Jahreszahl in Akzent A. */
+.header-inner .akzent,
+.footer-panel .akzent {
   color: var(--farbe-akzent);
 }
 
@@ -282,7 +295,9 @@ ul {
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: var(--farbe-text-leise);
+  /* farbe-text statt farbe-text-leise: auf --farbe-flaeche-hell (Kachel-
+     Hintergrund) reicht der Kontrast von text-leise sonst nicht aus. */
+  color: var(--farbe-text);
   font-size: 0.9rem;
 }
 
