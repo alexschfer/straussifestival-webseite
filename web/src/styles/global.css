@@ -348,6 +348,12 @@ ul {
   margin: 0 0 1.25rem;
   color: var(--farbe-text-leise);
 }
+.insta-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
 .insta-link {
   display: inline-flex;
   align-items: center;
@@ -439,7 +445,11 @@ ul {
   color: var(--farbe-akzent);
   text-decoration: underline;
 }
-/* Runder Knopf für das Instagram-Symbol */
+/* Runde Knöpfe für die Social-Media-Symbole */
+.footer-icons {
+  display: flex;
+  gap: 0.6rem;
+}
 .footer-icon {
   display: inline-flex;
   align-items: center;

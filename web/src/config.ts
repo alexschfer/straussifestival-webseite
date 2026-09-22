@@ -51,15 +51,22 @@ export const ticket = {
  * Es wird nichts von Instagram eingebunden, nur verlinkt. Die Fotos sind eigene Dateien.
  */
 export const instagram = {
-  // TODO: echtes Profil eintragen (Adresse und Anzeigename).
-  profilUrl: 'https://www.instagram.com/TODO-benutzername/',
-  name: '@TODO-benutzername',
+  profilUrl: 'https://www.instagram.com/straussifestival/',
+  name: '@straussifestival',
   /**
    * Eigene Fotos für die Kacheln (Hochformat, ca. 3:4). Datei in web/public/insta/ ablegen und hier eintragen:
    *   { bild: '/insta/foto-1.jpg', alt: 'Kurze Beschreibung des Fotos' }
    * Solange weniger als 5 eingetragen sind, stehen an den freien Stellen Platzhalter.
    */
   fotos: [] as { bild: string; alt: string }[],
+};
+
+/**
+ * TikTok-Profil, wird wie Instagram nur verlinkt (kein eingebettetes Video/Widget).
+ */
+export const tiktok = {
+  profilUrl: 'https://www.tiktok.com/@straussifestival',
+  name: '@straussifestival',
 };
 
 /**

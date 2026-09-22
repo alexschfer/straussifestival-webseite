@@ -11,6 +11,9 @@ const site = (env.SITE_URL || 'https://todo-domain.invalid').replace(/\/+$/, '')
 export default defineConfig({
   site,
   output: 'static',
+  // Die schwebende Astro-Werkzeugleiste unten links ist nur beim Entwickeln
+  // nützlich und für ein nicht-technisches Team eher verwirrend.
+  devToolbar: { enabled: false },
   // /q/<slug> -> /?utm_...  (Quelle: src/data/kanaele.ts)
   redirects: kanalRedirects(),
   integrations: [kanaeleOutput()],

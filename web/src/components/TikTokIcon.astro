@@ -1,0 +1,13 @@
+---
+/** TikTok-Symbol, wird im Instagram-Abschnitt (der auch auf TikTok verlinkt) und in der Fußzeile verwendet. */
+interface Props {
+  size?: number;
+}
+const { size = 24 } = Astro.props;
+---
+
+<svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" aria-hidden="true">
+  <path
+    d="M16.5 2h-3v13.5a2.5 2.5 0 1 1-2.5-2.5c.18 0 .35.01.5.04V9.98a5.5 5.5 0 1 0 5 5.48V8.4a7.2 7.2 0 0 0 4 1.2V6.6a4.2 4.2 0 0 1-4-4.2z"
+  ></path>
+</svg>

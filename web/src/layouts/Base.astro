@@ -2,9 +2,10 @@
 import '../styles/global.css';
 import Analytics from '../components/Analytics.astro';
 import InstaIcon from '../components/InstaIcon.astro';
+import TikTokIcon from '../components/TikTokIcon.astro';
 import TicketButton from '../components/TicketButton.astro';
 import UtmWeitergabe from '../components/UtmWeitergabe.astro';
-import { festival, instagram, ticket } from '../config';
+import { festival, instagram, tiktok, ticket } from '../config';
 
 interface Props {
   title: string;
@@ -19,6 +20,7 @@ const { title, description, startseite = false } = Astro.props;
 const hauptmenue = [
   { href: '/', text: 'Start' },
   { href: '/infos/', text: 'Infos' },
+  { href: '/lineup/', text: 'Line-up' },
   { href: '/faq/', text: 'FAQ' },
   { href: '/anfahrt/', text: 'Anfahrt' },
 ];
@@ -84,16 +86,27 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
         <div class="footer-spalten">
           <div class="footer-spalte">
             <h2>Folge uns</h2>
-            <p class="footer-spalte-text">Neuigkeiten gibt es zuerst auf Instagram.</p>
-            <a
-              class="footer-icon"
-              href={instagram.profilUrl}
-              target="_blank"
-              rel="noopener"
-              aria-label={`${instagram.name} auf Instagram`}
-            >
-              <InstaIcon size={20} />
-            </a>
+            <p class="footer-spalte-text">Neuigkeiten gibt es zuerst auf Instagram und TikTok.</p>
+            <div class="footer-icons">
+              <a
+                class="footer-icon"
+                href={instagram.profilUrl}
+                target="_blank"
+                rel="noopener"
+                aria-label={`${instagram.name} auf Instagram`}
+              >
+                <InstaIcon size={20} />
+              </a>
+              <a
+                class="footer-icon"
+                href={tiktok.profilUrl}
+                target="_blank"
+                rel="noopener"
+                aria-label={`${tiktok.name} auf TikTok`}
+              >
+                <TikTokIcon size={20} />
+              </a>
+            </div>
           </div>
 
           <nav class="footer-spalte" aria-label="Festival">

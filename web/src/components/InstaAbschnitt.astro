@@ -1,11 +1,12 @@
 ---
 /**
- * Abschnitt "Bleib auf dem Laufenden" mit Link zum Instagram-Profil und Foto-Kacheln.
- * Alles kommt aus src/config.ts (Block "instagram"). Es wird nichts von Instagram geladen,
- * die Fotos sind eigene Dateien aus public/insta/.
+ * Abschnitt "Bleib auf dem Laufenden" mit Links zu Instagram und TikTok und Foto-Kacheln.
+ * Alles kommt aus src/config.ts (Blöcke "instagram" und "tiktok"). Es wird nichts von
+ * Instagram oder TikTok eingebunden, die Fotos sind eigene Dateien aus public/insta/.
  */
-import { instagram } from '../config';
+import { instagram, tiktok } from '../config';
 import InstaIcon from './InstaIcon.astro';
+import TikTokIcon from './TikTokIcon.astro';
 
 const anzahl = Math.max(5, instagram.fotos.length);
 const kacheln = Array.from({ length: anzahl }, (_, i) => instagram.fotos[i]);
@@ -14,17 +15,29 @@ const kacheln = Array.from({ length: anzahl }, (_, i) => instagram.fotos[i]);
 <section class="insta" aria-labelledby="insta-titel">
   <div class="insta-panel">
     <h2 id="insta-titel">Bleib auf dem Laufenden</h2>
-    <p class="insta-text">Folge uns auf Instagram, um nichts zu verpassen.</p>
-    <a
-      class="insta-link"
-      href={instagram.profilUrl}
-      target="_blank"
-      rel="noopener"
-      aria-label={`${instagram.name} auf Instagram`}
-    >
-      <InstaIcon />
-      <span>{instagram.name}</span>
-    </a>
+    <p class="insta-text">Folge uns auf Instagram oder TikTok, um nichts zu verpassen.</p>
+    <div class="insta-links">
+      <a
+        class="insta-link"
+        href={instagram.profilUrl}
+        target="_blank"
+        rel="noopener"
+        aria-label={`${instagram.name} auf Instagram`}
+      >
+        <InstaIcon />
+        <span>{instagram.name}</span>
+      </a>
+      <a
+        class="insta-link"
+        href={tiktok.profilUrl}
+        target="_blank"
+        rel="noopener"
+        aria-label={`${tiktok.name} auf TikTok`}
+      >
+        <TikTokIcon />
+        <span>{tiktok.name}</span>
+      </a>
+    </div>
 
     <ul class="insta-kacheln" aria-label="Fotos" tabindex="0">
       {

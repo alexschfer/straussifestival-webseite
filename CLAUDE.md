@@ -112,14 +112,14 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 
 - **Dunkles Thema.** Farben stehen als Variablen oben in `web/src/styles/global.css` (`--farbe-hintergrund`, `--farbe-akzent` usw.). Eine andere Akzentfarbe ist eine einzige Zeile. Es gibt kein helles Thema; die Seite meldet sich per `color-scheme: dark` als dunkel an.
 - **Keine externen Schriften, Bilder oder Effekte.** Vorbild war nur die Anmutung (dunkler Grund, abgerundete Flächen, ein Akzentton). Weiterhin Systemschriften, damit nichts von fremden Servern nachgeladen wird (Datenschutz, Ladezeit).
-- **Instagram-Abschnitt auf der Startseite** ("Bleib auf dem Laufenden", Vorbild Ricola): Überschrift, ein Satz, ein Link zum Profil, darunter Kacheln. Mobil zum Wischen, ab Tablet nebeneinander.
-- **Es wird nichts von Instagram eingebunden**, nur verlinkt. Die Kachel-Fotos sind eigene Dateien aus `web/public/insta/` (Anleitung liegt dort). Grund: Ein eingebetteter Instagram-Feed würde Daten an Meta übertragen und die Seite cookie-bannerpflichtig machen. **Nicht durch ein Feed-Widget ersetzen.**
-- Profiladresse und Anzeigename stehen als Platzhalter in `web/src/config.ts` (`instagram`). Solange dort `TODO` steht, warnen der Build und `deploy.sh`. Ohne eingetragene Fotos zeigen die Kacheln "TODO Foto".
-- **Fußzeile nach Vorbild von Ricola:** ein abgerundetes Panel mit vier Spalten (Folge uns mit Instagram-Knopf, Festival mit den Menülinks, Tickets mit Button, Kontakt) und darunter einer schmalen Leiste: links Festivalname und Veranstalter, rechts Impressum, Datenschutz und "© Straußi Festival 2027". Mobil stehen die Spalten untereinander. Menülinks und Rechtslinks kommen aus den Listen im Layout (`hauptmenue`, `fussmenue`).
+- **Instagram-/TikTok-Abschnitt auf der Startseite** ("Bleib auf dem Laufenden", Vorbild Ricola): Überschrift, ein Satz, je ein Link-Knopf zu Instagram und TikTok, darunter Kacheln. Mobil zum Wischen, ab Tablet nebeneinander. Echte Profile: `@straussifestival` auf beiden Plattformen (`instagram` und `tiktok` in `web/src/config.ts`).
+- **Es wird nichts von Instagram oder TikTok eingebunden**, nur verlinkt. Die Kachel-Fotos sind eigene Dateien aus `web/public/insta/` (Anleitung liegt dort). Grund: Ein eingebetteter Feed würde Daten an Meta bzw. TikTok übertragen und die Seite cookie-bannerpflichtig machen. **Nicht durch ein Feed-Widget ersetzen.**
+- Solange `instagram.profilUrl` in `web/src/config.ts` noch `TODO` enthält, warnen der Build und `deploy.sh` (aktuell erledigt, das Profil ist echt eingetragen). Ohne eingetragene Fotos zeigen die Kacheln weiterhin "TODO Foto".
+- **Fußzeile nach Vorbild von Ricola:** ein abgerundetes Panel mit vier Spalten (Folge uns mit Instagram- und TikTok-Knopf, Festival mit den Menülinks, Tickets mit Button, Kontakt) und darunter einer schmalen Leiste: links Festivalname und Veranstalter, rechts Impressum, Datenschutz und "© Straußi Festival 2027". Mobil stehen die Spalten untereinander. Menülinks und Rechtslinks kommen aus den Listen im Layout (`hauptmenue`, `fussmenue`).
 - **Der Ticketbutton kommt jetzt dreimal vor** (Kopfzeile, Startseiten-Kopf, Fußzeile). Das Klick-Event `ticket-click` ist dasselbe; die Stelle steht als `position` (`header`, `hero`, `footer`) im Event und lässt sich in Umami unterscheiden.
 - **Die Copyright-Zeile nennt bewusst keinen Rechteinhaber und kein Jahr.** Wer im Impressum verantwortlich ist, steht noch nicht fest (Verein nicht gegründet). Erst danach dort den passenden Rechteinhaber eintragen.
 - `festival.name` wird in `config.ts` aus `kurzname` und `jahr` zusammengesetzt, damit die Jahreszahl im Kopf farblich abgesetzt werden kann und nur an einer Stelle steht.
-- Die Datenschutzseite hat einen zusätzlichen Abschnitt zum Instagram-Link (mit TODO für die rechtliche Prüfung).
+- Die Datenschutzseite hat einen zusätzlichen Abschnitt zu den Links zu Instagram und TikTok (mit TODO für die rechtliche Prüfung).
 
 ## Entscheidungen aus der Scroll-Neugestaltung (jederzeit änderbar)
 
@@ -130,6 +130,8 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **Logo eingesetzt wie ein finales Logo**, obwohl es laut Auftraggeber noch ausgetauscht wird: groß im Startbildschirm, klein in Kopf- und Fußzeile, als Favicon (`web/public/logo.png`). Die Datei bleibt austauschbar an dieser einen zentralen Stelle. `favicon.svg` wurde entfernt.
 - **Kopf- und Fußzeile bewusst ohne eingerückte Panel-Optik:** Anders als früher nehmen `.site-header` und `.site-footer` die volle Bildschirmbreite ein und stoßen an die Ober- bzw. Unterkante (Hintergrundfarbe und Trennlinie liegen auf dem äußeren Element, nur der Inhalt bleibt über `--breite-gross` zentriert). **Einzige Ausnahme ist der Insta-Abschnitt**, der weiterhin als eingerücktes, abgerundetes Panel steht – alle anderen Flächen-Panels (Countdown, Fußzeilen-Optik) wurden entsprechend nicht angetastet, nur Kopf- und Fußzeile.
 - **Countdown-Kacheln im Look der Fusion-Festival-Archivseite** (zweifarbige Kachel: große Zahl oben auf Akzentfläche, Label unten auf dunkler Fläche in Versalien), aber mit unseren Farben (`--farbe-akzent`/`--farbe-akzent-dunkel`) und der Systemschrift statt der Schrift/Bildsprache des Vorbilds.
+- **Die schwebende Astro-Werkzeugleiste ist abgeschaltet** (`devToolbar: { enabled: false }` in `astro.config.ts`): für ein nicht-technisches Team nur verwirrend, ohne Nutzen für Besucher.
+- **Line-up hat eine eigene Seite** (`web/src/pages/lineup.astro`, Navigationspunkt zwischen Infos und FAQ). Der Abschnitt "Programm und Line-up" auf der Startseite verlinkt nur noch kurz dorthin, statt die TODO-Hinweise doppelt zu pflegen.
 
 ## Befehle (im Ordner `web/`)
 
