@@ -167,6 +167,7 @@ ul {
 /* Startseiten-Kopf */
 .hero {
   padding-block: 3rem 2.5rem;
+  text-align: center;
 }
 .hero h1 {
   margin: 0 0 0.6rem;

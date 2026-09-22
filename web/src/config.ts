@@ -13,8 +13,7 @@ export const festival = {
   name: `${kurzname} ${jahr}`,
   veranstalter: 'Wohnheimsreferat Straußäcker 3',
   ort: 'Studierendenwohnheime Straußäcker, Stuttgart',
-  // TODO: Datum eintragen, sobald es feststeht (Freitext, z. B. "12. Juni 2027").
-  datum: 'TODO Datum',
+  datum: '11.06.–13.06.2027',
 };
 
 export const ticket = {
