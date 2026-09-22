@@ -209,7 +209,9 @@ ul {
 }
 .hero-fotos {
   position: absolute;
-  inset: -20% 0;
+  /* Puffer oben/unten größer als der stärkste Parallax-Faktor (0.26), sonst
+     würde bei starkem Scrollen der Hintergrund am Rand der Fotos durchschimmern. */
+  inset: -32% 0;
   z-index: -2;
   display: flex;
 }

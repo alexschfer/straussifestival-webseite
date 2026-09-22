@@ -11,7 +11,7 @@ import { festival, startBilder } from '../config';
     <div class="hero-fotos">
       {
         startBilder.map((foto, i) => (
-          <div class="hero-foto" data-parallax={[0.06, 0.12, 0.18][i % 3]}>
+          <div class="hero-foto" data-parallax={[0.1, 0.18, 0.26][i % 3]}>
             <img src={foto.bild} alt={foto.alt} loading="eager" />
           </div>
         ))
