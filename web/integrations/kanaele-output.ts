@@ -48,10 +48,9 @@ export default function kanaeleOutput(): AstroIntegration {
 
         // Kanaltabelle
         const zeilen = kanaele.map((k) => {
-          const status = k.vorlaeufig ? 'vorläufig' : 'bestätigt';
           const utmLink = `${site}/?${utmQuery(k)}`;
           return (
-            `| \`${k.slug}\` | ${status} | ${zelle(k.beschreibung)} ` +
+            `| \`${k.slug}\` | ${zelle(k.beschreibung)} ` +
             `| \`${site}${kurzPfad(k)}\` | \`${utmLink}\` | [${k.slug}.svg](qr/${k.slug}.svg) |`
           );
         });
@@ -73,10 +72,9 @@ export default function kanaeleOutput(): AstroIntegration {
           '',
           '- **Kurz-URL**: steht im QR-Code und leitet auf die Startseite mit UTM-Parametern weiter.',
           '- **Fertiger UTM-Link**: das Ziel der Weiterleitung, für Links, die nicht als QR-Code laufen.',
-          '- **vorläufig**: Kanal ist noch nicht bestätigt, den QR-Code noch nicht drucken.',
           '',
-          '| Slug | Status | Beschreibung | Kurz-URL (QR-Code) | Fertiger UTM-Link | QR-Datei |',
-          '| --- | --- | --- | --- | --- | --- |',
+          '| Slug | Beschreibung | Kurz-URL (QR-Code) | Fertiger UTM-Link | QR-Datei |',
+          '| --- | --- | --- | --- | --- |',
           ...zeilen,
           '',
         ].join('\n');

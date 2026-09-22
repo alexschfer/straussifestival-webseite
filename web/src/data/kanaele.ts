@@ -24,8 +24,6 @@ export interface Kanal {
   utm_content?: string;
   /** Freitext für das Team, erscheint in docs/kanaele.md */
   beschreibung: string;
-  /** true = Kanal ist noch nicht bestätigt, QR-Code noch nicht drucken */
-  vorlaeufig: boolean;
 }
 
 /** utm_campaign ist für alle Kanäle gleich. */
@@ -40,7 +38,6 @@ export const kanaele: Kanal[] = [
     utm_source: 'flyer',
     utm_medium: 'print',
     beschreibung: 'Flyer, die verteilt werden (allgemein).',
-    vorlaeufig: true,
   },
   {
     slug: 'aushang-wohnheim-a',
@@ -48,7 +45,6 @@ export const kanaele: Kanal[] = [
     utm_medium: 'print',
     utm_content: 'wohnheim-a',
     beschreibung: 'Aushang im Wohnheim A.',
-    vorlaeufig: true,
   },
   {
     slug: 'aushang-wohnheim-b',
@@ -56,28 +52,24 @@ export const kanaele: Kanal[] = [
     utm_medium: 'print',
     utm_content: 'wohnheim-b',
     beschreibung: 'Aushang im Wohnheim B.',
-    vorlaeufig: true,
   },
   {
     slug: 'mensa',
     utm_source: 'mensa',
     utm_medium: 'print',
     beschreibung: 'Aushang bzw. Auslage in der Mensa.',
-    vorlaeufig: true,
   },
   {
     slug: 'instagram',
     utm_source: 'instagram',
     utm_medium: 'social',
     beschreibung: 'Link im Instagram-Profil bzw. in Beiträgen.',
-    vorlaeufig: true,
   },
   {
     slug: 'whatsapp',
     utm_source: 'whatsapp',
     utm_medium: 'messenger',
     beschreibung: 'Link, der in WhatsApp-Gruppen und -Kanälen geteilt wird.',
-    vorlaeufig: true,
   },
 ];
 

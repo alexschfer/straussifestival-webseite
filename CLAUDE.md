@@ -14,7 +14,7 @@ Das Team ist ehrenamtlich und teils nicht technisch. **Alles einfach und wartbar
 - **Keine Secrets im Repo.** Konfiguration über `.env`, im Repo nur `.env.example`.
 - Arbeit in Phasen, **nach jeder Phase committen**. Bei fehlenden Entscheidungen nachfragen statt raten.
 - Sprache von Seitentexten, Doku und Kommentaren: Deutsch.
-- Sprechende Namen und Kommentare im Stil der vorhandenen Dateien beibehalten (deutsche Bezeichner in den Daten und in der Config, z. B. `kanaele`, `vorlaeufig`).
+- Sprechende Namen und Kommentare im Stil der vorhandenen Dateien beibehalten (deutsche Bezeichner in den Daten und in der Config, z. B. `kanaele`, `beschreibung`).
 
 ## Repo-Struktur
 
@@ -40,7 +40,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 
 ### Kanäle und Tracking (Kern)
 
-- **Eine einzige Datenquelle** für alle Marketingkanäle: `web/src/data/kanaele.ts`. Pro Kanal: Slug, `utm_source`, `utm_medium`, `utm_content` (optional), Beschreibung, Flag `vorlaeufig`.
+- **Eine einzige Datenquelle** für alle Marketingkanäle: `web/src/data/kanaele.ts`. Pro Kanal: Slug, `utm_source`, `utm_medium`, `utm_content` (optional), Beschreibung.
 - Daraus werden beim Build automatisch erzeugt:
   1. Redirects `/q/<slug>` -> `/` mit UTM-Parametern (`redirects`-Option in `astro.config.ts`).
   2. Ein QR-Code als SVG pro Kanal (npm-Paket `qrcode`), der auf `<Domain>/q/<slug>` zeigt, abgelegt in `docs/qr/`.
@@ -48,7 +48,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
   (2 und 3 erledigt die Integration `web/integrations/kanaele-output.ts` im Hook `astro:build:done`.)
 - `utm_campaign` ist immer `straussi-festival-2027`.
 - **Schreibregel für UTM-Werte** (und Slugs): nur Kleinbuchstaben (und Ziffern), keine Umlaute, kein ß, keine Leerzeichen, Wörter mit Bindestrich. Wird **beim Build per Validierung erzwungen** (`validiereKanaele` in `kanaele.ts`; der Build bricht bei Verstoß ab). Doppelte Slugs brechen den Build ebenfalls ab.
-- Beispielkanäle sind angelegt und als `vorlaeufig` markiert: flyer, aushang-wohnheim-a, aushang-wohnheim-b, mensa, instagram, whatsapp.
+- Beispielkanäle sind angelegt (noch nicht bestätigt, siehe `docs/SPEC.md`): flyer, aushang-wohnheim-a, aushang-wohnheim-b, mensa, instagram, whatsapp.
 
 ### Analytics-Einbindung
 
