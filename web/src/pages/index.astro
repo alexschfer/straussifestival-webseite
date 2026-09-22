@@ -58,12 +58,20 @@ import { festival, startBilder } from '../config';
 
 <script>
   // Blendet Abschnitte mit der Klasse "einblenden" sanft ein, sobald sie beim Scrollen
-  // in den sichtbaren Bereich kommen. Läuft unabhängig von prefers-reduced-motion: Der
-  // ausgeblendete Ausgangszustand existiert im CSS nur ohne reduzierte Bewegung, hier wird
-  // nur einmalig die Klasse "sichtbar" ergänzt.
-  const abschnitte = document.querySelectorAll<HTMLElement>('.einblenden');
+  // in den sichtbaren Bereich kommen. Wichtig: Ausgeblendet wird erst, wenn dieses Skript
+  // läuft (Klasse "einblenden-aktiv" am <html>). Läuft es nicht (Browser, Blocker, Skript
+  // lädt nicht), bleiben alle Inhalte einfach sichtbar. Der ausgeblendete Zustand steht im
+  // CSS außerdem nur ohne reduzierte Bewegung.
+  const abschnitte = Array.from(document.querySelectorAll<HTMLElement>('.einblenden'));
 
   if (abschnitte.length && 'IntersectionObserver' in window) {
+    // Was schon im Bild ist, sofort als sichtbar markieren, damit nichts kurz verschwindet.
+    for (const abschnitt of abschnitte) {
+      const rect = abschnitt.getBoundingClientRect();
+      if (rect.top < innerHeight && rect.bottom > 0) abschnitt.classList.add('sichtbar');
+    }
+    document.documentElement.classList.add('einblenden-aktiv');
+
     const beobachter = new IntersectionObserver(
       (eintraege, beobachterInstanz) => {
         for (const eintrag of eintraege) {
@@ -73,12 +81,11 @@ import { festival, startBilder } from '../config';
           }
         }
       },
-      { threshold: 0.15 },
+      // Schon bei der ersten sichtbaren Zeile auslösen (auch bei sehr hohen Abschnitten
+      // auf kleinen Bildschirmen), etwas vor der Unterkante.
+      { threshold: 0, rootMargin: '0px 0px -10% 0px' },
     );
-    abschnitte.forEach((abschnitt) => beobachter.observe(abschnitt));
-  } else {
-    // Sehr alte Browser ohne IntersectionObserver: Inhalte direkt zeigen statt versteckt zu lassen.
-    abschnitte.forEach((abschnitt) => abschnitt.classList.add('sichtbar'));
+    abschnitte.filter((a) => !a.classList.contains('sichtbar')).forEach((a) => beobachter.observe(a));
   }
 </script>
 

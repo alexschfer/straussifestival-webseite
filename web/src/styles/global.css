@@ -620,14 +620,16 @@ ul {
    Der ausgeblendete Ausgangszustand steht bewusst nur hinter prefers-reduced-motion: no-preference –
    wer reduzierte Bewegung eingestellt hat, sieht die Inhalte immer direkt. */
 @media (prefers-reduced-motion: no-preference) {
-  .einblenden {
+  /* Nur wenn das Skript läuft (es setzt .einblenden-aktiv am <html>). Ohne Skript
+     bliebe sonst alles zwischen Kopf- und Fußzeile unsichtbar. */
+  .einblenden-aktiv .einblenden {
     opacity: 0;
     transform: translateY(1.5rem);
     transition:
       opacity 0.6s ease,
       transform 0.6s ease;
   }
-  .einblenden.sichtbar {
+  .einblenden-aktiv .einblenden.sichtbar {
     opacity: 1;
     transform: translateY(0);
   }
