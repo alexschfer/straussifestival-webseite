@@ -1,19 +1,39 @@
 ---
 import Base from '../layouts/Base.astro';
+import Countdown from '../components/Countdown.astro';
 import InstaAbschnitt from '../components/InstaAbschnitt.astro';
 import TicketButton from '../components/TicketButton.astro';
-import { festival } from '../config';
+import { festival, startBilder } from '../config';
 ---
 
 <Base title="Startseite" description="Das Straußi Festival 2027 der Studierendenwohnheime Straußäcker in Stuttgart. Infos zu Programm, Anfahrt und Tickets." startseite>
   <section class="hero">
+    <div class="hero-fotos">
+      {
+        startBilder.map((foto, i) => (
+          <div class="hero-foto" data-parallax={[0.06, 0.12, 0.18][i % 3]}>
+            <img src={foto.bild} alt={foto.alt} loading="eager" />
+          </div>
+        ))
+      }
+    </div>
+    <div class="hero-verlauf"></div>
     <div class="wrap-breit">
+      <img class="hero-logo" src="/logo.png" alt="" width="88" height="88" />
       <h1>{festival.kurzname} <span class="akzent">{festival.jahr}</span></h1>
       <p class="hero-facts">{festival.datum} · {festival.ort}</p>
       <TicketButton position="hero" class="button-gross" />
     </div>
   </section>
-  <div class="wrap prose">
+
+  <section class="abschnitt-countdown einblenden" aria-labelledby="countdown-titel">
+    <div class="countdown-panel">
+      <h2 id="countdown-titel">Noch bis zum {festival.kurzname}</h2>
+      <Countdown />
+    </div>
+  </section>
+
+  <div class="wrap prose einblenden">
     <p>
       Das <strong>Straußi Festival 2027</strong> ist das Festival der Studierendenwohnheime Straußäcker in Stuttgart, veranstaltet vom Wohnheimsreferat Straußäcker 3.
     </p>
@@ -32,5 +52,69 @@ import { festival } from '../config';
       <li>So kommst du hin: <a href="/anfahrt/">Anfahrt</a></li>
     </ul>
   </div>
-  <InstaAbschnitt />
+
+  <div class="einblenden">
+    <InstaAbschnitt />
+  </div>
 </Base>
+
+<script>
+  // Blendet Abschnitte mit der Klasse "einblenden" sanft ein, sobald sie beim Scrollen
+  // in den sichtbaren Bereich kommen. Läuft unabhängig von prefers-reduced-motion: Der
+  // ausgeblendete Ausgangszustand existiert im CSS nur ohne reduzierte Bewegung, hier wird
+  // nur einmalig die Klasse "sichtbar" ergänzt.
+  const abschnitte = document.querySelectorAll<HTMLElement>('.einblenden');
+
+  if (abschnitte.length && 'IntersectionObserver' in window) {
+    const beobachter = new IntersectionObserver(
+      (eintraege, beobachterInstanz) => {
+        for (const eintrag of eintraege) {
+          if (eintrag.isIntersecting) {
+            eintrag.target.classList.add('sichtbar');
+            beobachterInstanz.unobserve(eintrag.target);
+          }
+        }
+      },
+      { threshold: 0.15 },
+    );
+    abschnitte.forEach((abschnitt) => beobachter.observe(abschnitt));
+  } else {
+    // Sehr alte Browser ohne IntersectionObserver: Inhalte direkt zeigen statt versteckt zu lassen.
+    abschnitte.forEach((abschnitt) => abschnitt.classList.add('sichtbar'));
+  }
+</script>
+
+<script>
+  // Leichter Parallax-Effekt für die drei Startbild-Fotos: bewusst per JS mit einem gedrosselten
+  // scroll-Listener statt background-attachment: fixed oder CSS-Scroll-Timelines, weil Fixed-
+  // Backgrounds auf iOS Safari unzuverlässig sind und Scroll-Timelines dort noch nicht unterstützt
+  // werden – die meisten Gäste kommen laut CLAUDE.md mobil per QR-Code. Bei reduzierter Bewegung
+  // bleiben die Fotos stehen.
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const fotos = document.querySelectorAll<HTMLElement>('.hero-foto');
+
+  if (hero && fotos.length && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    let angefragt = false;
+
+    const aktualisieren = () => {
+      angefragt = false;
+      const rect = hero.getBoundingClientRect();
+      // Nur rechnen, solange der Startbildschirm überhaupt (teilweise) sichtbar ist.
+      if (rect.bottom < 0 || rect.top > innerHeight) return;
+      fotos.forEach((foto) => {
+        const faktor = Number(foto.dataset.parallax ?? 0);
+        foto.style.transform = `translateY(${rect.top * faktor * -1}px)`;
+      });
+    };
+
+    const anfragen = () => {
+      if (!angefragt) {
+        angefragt = true;
+        requestAnimationFrame(aktualisieren);
+      }
+    };
+
+    aktualisieren();
+    addEventListener('scroll', anfragen, { passive: true });
+  }
+</script>

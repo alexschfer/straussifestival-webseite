@@ -14,7 +14,23 @@ export const festival = {
   veranstalter: 'Wohnheimsreferat Straußäcker 3',
   ort: 'Studierendenwohnheime Straußäcker, Stuttgart',
   datum: '11.06.–13.06.2027',
+  /**
+   * Ziel-Zeitpunkt für den Countdown auf der Startseite (ISO mit Zeitzone).
+   * Bewusst Mitternacht als einfacher Platzhalter, solange keine genauere
+   * Startzeit feststeht. Jederzeit anpassbar, sobald es eine echte Uhrzeit gibt.
+   */
+  startZeitpunkt: '2027-06-11T00:00:00+02:00',
 };
+
+/**
+ * Eigene Fotos für die Hintergrund-Collage im Startbildschirm (Querformat).
+ * Datei in web/public/wohnheime/ ablegen und hier eintragen, siehe README dort.
+ */
+export const startBilder: { bild: string; alt: string }[] = [
+  { bild: '/wohnheime/hof-1.jpg', alt: 'Innenhof der Wohnheime mit Terrasse, Fahrrädern und Beet' },
+  { bild: '/wohnheime/hof-2.jpg', alt: 'Grüner Innenhof der Wohnheime mit Bäumen und Sitzgelegenheiten' },
+  { bild: '/wohnheime/hof-3.jpg', alt: 'Von Bäumen gesäumter Weg zwischen zwei Wohnheimgebäuden' },
+];
 
 export const ticket = {
   // TODO: echte Ticketshop-URL eintragen (aktuell Platzhalter, der Button funktioniert erst danach).

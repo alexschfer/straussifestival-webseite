@@ -1,0 +1,70 @@
+---
+/**
+ * Countdown bis zum Festivalbeginn (festival.startZeitpunkt in src/config.ts).
+ * Zeigt beim ersten Rendern bewusst Platzhalter-Striche statt einer zur Build-Zeit
+ * berechneten Zahl – sonst könnte bei selten neu gebauter Seite kurz eine falsche
+ * Zahl aufblitzen, bevor das Skript sie korrigiert. Nach Ablauf erscheint ein Text
+ * statt negativer Zahlen.
+ */
+import { festival } from '../config';
+---
+
+<div class="countdown" data-countdown data-ziel={festival.startZeitpunkt}>
+  <div class="countdown-felder" data-countdown-felder aria-label="Countdown bis zum Festivalbeginn">
+    <div class="countdown-feld">
+      <span class="countdown-zahl" data-countdown-tage>–</span>
+      <span class="countdown-label">Tage</span>
+    </div>
+    <div class="countdown-feld">
+      <span class="countdown-zahl" data-countdown-stunden>–</span>
+      <span class="countdown-label">Stunden</span>
+    </div>
+    <div class="countdown-feld">
+      <span class="countdown-zahl" data-countdown-minuten>–</span>
+      <span class="countdown-label">Minuten</span>
+    </div>
+    <div class="countdown-feld">
+      <span class="countdown-zahl" data-countdown-sekunden>–</span>
+      <span class="countdown-label">Sekunden</span>
+    </div>
+  </div>
+  <p class="countdown-vorbei" data-countdown-vorbei hidden>Es ist so weit – schön, dass ihr da seid!</p>
+</div>
+
+<script>
+  const container = document.querySelector<HTMLElement>('[data-countdown]');
+
+  if (container) {
+    const ziel = new Date(container.dataset.ziel ?? '').getTime();
+    const tage = container.querySelector<HTMLElement>('[data-countdown-tage]');
+    const stunden = container.querySelector<HTMLElement>('[data-countdown-stunden]');
+    const minuten = container.querySelector<HTMLElement>('[data-countdown-minuten]');
+    const sekunden = container.querySelector<HTMLElement>('[data-countdown-sekunden]');
+    const felder = container.querySelector<HTMLElement>('[data-countdown-felder]');
+    const vorbei = container.querySelector<HTMLElement>('[data-countdown-vorbei]');
+
+    let intervall: ReturnType<typeof setInterval> | undefined;
+
+    const zweistellig = (zahl: number) => String(zahl).padStart(2, '0');
+
+    const aktualisieren = () => {
+      const rest = ziel - Date.now();
+
+      if (Number.isNaN(rest) || rest <= 0) {
+        felder?.setAttribute('hidden', '');
+        vorbei?.removeAttribute('hidden');
+        if (intervall) clearInterval(intervall);
+        return;
+      }
+
+      const restSekunden = Math.floor(rest / 1000);
+      if (tage) tage.textContent = String(Math.floor(restSekunden / 86400));
+      if (stunden) stunden.textContent = zweistellig(Math.floor((restSekunden % 86400) / 3600));
+      if (minuten) minuten.textContent = zweistellig(Math.floor((restSekunden % 3600) / 60));
+      if (sekunden) sekunden.textContent = zweistellig(restSekunden % 60);
+    };
+
+    aktualisieren();
+    intervall = setInterval(aktualisieren, 1000);
+  }
+</script>

@@ -121,6 +121,14 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - `festival.name` wird in `config.ts` aus `kurzname` und `jahr` zusammengesetzt, damit die Jahreszahl im Kopf farblich abgesetzt werden kann und nur an einer Stelle steht.
 - Die Datenschutzseite hat einen zusätzlichen Abschnitt zum Instagram-Link (mit TODO für die rechtliche Prüfung).
 
+## Entscheidungen aus der Scroll-Neugestaltung (jederzeit änderbar)
+
+- **Fließender Scroll mit sanften Einblend-Animationen**, kein Scroll-Snap/Einrasten (Vorbild: Fusion-Festival-Archivseiten). Abschnitte bekommen die Klasse `.einblenden`; ein `IntersectionObserver` in `index.astro` ergänzt beim Scrollen einmalig `.sichtbar`. Der ausgeblendete Ausgangszustand steht in `global.css` bewusst nur innerhalb von `@media (prefers-reduced-motion: no-preference)` – wer reduzierte Bewegung eingestellt hat, sieht alle Inhalte sofort.
+- **Startbildschirm mit Fotocollage:** drei eigene Fotos der Wohnheim-Innenhöfe/Gebäude als Hintergrund (`web/public/wohnheime/`, Anleitung in der README dort), dazu ein dunkles Verlauf-Overlay für Lesbarkeit des Textes. Bilder vor dem Einchecken mit Pillow verkleinert/komprimiert (max. ca. 1200 px breit, JPEG-Qualität ~70) – die meisten Gäste kommen laut Auftrag mobil per QR-Code.
+- **Leichter Parallax-Effekt** auf den drei Fotos beim Scrollen, bewusst per kleinem Vanilla-JS (`scroll`-Listener, `requestAnimationFrame`-gedrosselt) statt `background-attachment: fixed` oder CSS-Scroll-Timelines: Fixed-Backgrounds sind auf iOS Safari unzuverlässig, Scroll-Timelines werden dort noch nicht unterstützt. Bei `prefers-reduced-motion: reduce` bleiben die Fotos stehen.
+- **Countdown bis zum Festivalbeginn** (`web/src/components/Countdown.astro`) unterhalb des Startbildschirms. Ziel-Zeitpunkt ist `festival.startZeitpunkt` in `config.ts`, aktuell `2027-06-11T00:00:00+02:00` – Mitternacht als bewusster, jederzeit anpassbarer Platzhalter, solange keine genauere Startzeit feststeht. Der HTML-Ausgangszustand zeigt Platzhalter-Striche statt einer zur Build-Zeit berechneten Zahl (sonst könnte bei selten neu gebauter Seite kurz eine falsche Zahl aufblitzen); nach Ablauf erscheint ein Text statt negativer Zahlen.
+- **Logo eingesetzt wie ein finales Logo**, obwohl es laut Auftraggeber noch ausgetauscht wird: groß im Startbildschirm, klein in Kopf- und Fußzeile, als Favicon (`web/public/logo.png`). Die Datei bleibt austauschbar an dieser einen zentralen Stelle. `favicon.svg` wurde entfernt.
+
 ## Befehle (im Ordner `web/`)
 
 ```
