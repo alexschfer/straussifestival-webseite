@@ -271,7 +271,7 @@ ul {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
-  max-width: 32rem;
+  max-width: 34rem;
   margin-inline: auto;
 }
 .countdown-feld {
@@ -281,10 +281,10 @@ ul {
   overflow: hidden;
 }
 .countdown-zahl {
-  padding: 1.6rem 0.5rem 0.8rem;
+  padding: 1.9rem 0.5rem 1rem;
   background: var(--farbe-akzent);
   color: var(--farbe-akzent-dunkel);
-  font-size: clamp(3.2rem, 15vw, 5.5rem);
+  font-size: clamp(3.8rem, 17vw, 6.5rem);
   font-weight: 800;
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -585,7 +585,7 @@ ul {
   .countdown-felder {
     grid-template-columns: repeat(4, 1fr);
     gap: 1.25rem;
-    max-width: 58rem;
+    max-width: 64rem;
   }
   .insta-panel {
     max-width: calc(var(--breite-gross) - 6rem);
