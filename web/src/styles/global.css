@@ -70,9 +70,7 @@ a {
 }
 
 a:focus-visible,
-.button:focus-visible,
-.insta-kacheln:focus-visible,
-.insta-pfeil:focus-visible {
+.button:focus-visible {
   outline: 3px solid var(--farbe-akzent);
   outline-offset: 3px;
 }
@@ -259,10 +257,7 @@ ul {
 .countdown-panel {
   max-width: var(--breite-gross);
   margin-inline: auto;
-  padding: 2.5rem 1.25rem;
-  border: 1px solid var(--farbe-linie);
-  border-radius: var(--radius-gross);
-  background: var(--farbe-flaeche);
+  padding: 1rem 1.25rem 0;
   text-align: center;
 }
 .countdown-panel h2 {
@@ -340,17 +335,21 @@ ul {
   color: var(--farbe-akzent-zwei);
 }
 
-/* Instagram-Abschnitt auf der Startseite */
+/* Instagram-/TikTok-Abschnitt auf der Startseite, nach dem Vorbild von
+   ricola.com/de-de (Abschnitt "Stay in the Loop"): ein vollflächiges,
+   abgerundetes Farbfeld in der Aktionsfarbe mit Überschrift, Text und
+   Profil-Knöpfen, darunter ein versetztes Kachelraster, das bewusst über
+   den unteren Rand des Farbfelds hinausragt. */
 .insta {
   padding: 0 var(--abstand) 3rem;
 }
 .insta-panel {
   max-width: var(--breite-gross);
   margin-inline: auto;
-  padding: 2.5rem 1.25rem;
-  border: 1px solid var(--farbe-linie);
+  padding: 3rem 1.25rem 5rem;
   border-radius: var(--radius-gross);
-  background: var(--farbe-flaeche);
+  background: var(--farbe-akzent);
+  color: var(--farbe-akzent-dunkel);
   text-align: center;
 }
 .insta-panel h2 {
@@ -360,7 +359,6 @@ ul {
 }
 .insta-text {
   margin: 0 0 1.25rem;
-  color: var(--farbe-text-leise);
 }
 .insta-links {
   display: flex;
@@ -368,72 +366,63 @@ ul {
   justify-content: center;
   gap: 0.75rem;
 }
+/* Reine Icon-Knöpfe wie bei Ricola (Profilname steht nur im aria-label). */
 .insta-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.55rem 1.1rem;
-  border: 1px solid var(--farbe-linie);
-  border-radius: 999px;
-  background: var(--farbe-flaeche-hell);
-  color: var(--farbe-text);
-  font-weight: 600;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--farbe-akzent-dunkel);
+  color: var(--farbe-akzent);
   text-decoration: none;
+  transition: transform 0.15s ease;
 }
 .insta-link:hover {
-  border-color: var(--farbe-akzent);
-  color: var(--farbe-akzent);
+  transform: scale(1.08);
 }
 
-/* Karussell: Kacheln zum Wischen bzw. über die Pfeile, auf jeder Breite ist
-   immer ein Stück der nächsten Kachel sichtbar (Karussell-Optik). */
-.insta-karussell {
-  position: relative;
-  margin-top: 2rem;
-}
+/* Kachelraster: zieht sich per negativem Rand über den unteren Panelrand,
+   damit die hohen Kacheln wie bei Ricola sichtbar herausragen. Gerade und
+   ungerade Kacheln sind gegeneinander versetzt (Zickzack-Optik). */
 .insta-kacheln {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
-  padding-bottom: 0.5rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+  max-width: var(--breite-gross);
+  margin: -3rem auto 0;
 }
 .insta-kachel {
-  flex: 0 0 68%;
-  scroll-snap-align: center;
   aspect-ratio: 3 / 4;
   border-radius: var(--radius);
   background: var(--farbe-flaeche-hell);
   overflow: hidden;
 }
-.insta-pfeil {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 1px solid var(--farbe-linie);
-  border-radius: 50%;
-  background: rgba(28, 29, 28, 0.6);
-  color: var(--farbe-text);
-  font-size: 1.4rem;
-  line-height: 1;
-  cursor: pointer;
+.insta-kachel:nth-child(odd) {
+  margin-top: 2.5rem;
 }
-.insta-pfeil:hover {
-  border-color: var(--farbe-akzent);
-  color: var(--farbe-akzent);
+.insta-kachel:nth-child(even) {
+  margin-bottom: 2.5rem;
 }
-.insta-pfeil-zurueck {
-  left: 0.5rem;
+/* Mobil/Tablet zeigt die Dreierreihe nur die mittleren Kacheln (kein
+   angeschnittener zweiter Reihenrest); ab der Fünferreihe sind alle da. */
+@media (max-width: 39.99rem) {
+  .insta-kachel:first-child,
+  .insta-kachel:last-child {
+    display: none;
+  }
 }
-.insta-pfeil-vor {
-  right: 0.5rem;
+/* Leichte Nachzieh-Animation: gerade und ungerade Kacheln verschieben sich
+   beim Scrollen unterschiedlich schnell (siehe Skript in InstaAbschnitt.astro).
+   Nur ohne reduzierte Bewegung, sonst bleiben die Kacheln an ihrem Platz. */
+@media (prefers-reduced-motion: no-preference) {
+  .insta-kachel:nth-child(odd) {
+    transform: translateY(calc(var(--insta-fortschritt, 0) * -6%));
+  }
+  .insta-kachel:nth-child(even) {
+    transform: translateY(calc(var(--insta-fortschritt, 0) * -12%));
+  }
 }
 .insta-kachel img {
   width: 100%;
@@ -594,16 +583,18 @@ ul {
     max-width: 40rem;
   }
   .insta-panel {
-    padding: 3rem 2rem;
+    padding: 4rem 2rem 8rem;
   }
-  .insta-kachel {
-    flex-basis: 30%;
+  .insta-kacheln {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+    margin-top: -6.5rem;
   }
-  .insta-pfeil-zurueck {
-    left: 1rem;
+  .insta-kachel:nth-child(odd) {
+    margin-top: 4rem;
   }
-  .insta-pfeil-vor {
-    right: 1rem;
+  .insta-kachel:nth-child(even) {
+    margin-bottom: 4rem;
   }
   .footer-panel {
     padding: 2.5rem 2rem 1.75rem;
@@ -636,9 +627,3 @@ ul {
   }
 }
 
-/* Wer Bewegung reduziert haben möchte, bekommt kein Einrasten beim Wischen. */
-@media (prefers-reduced-motion: reduce) {
-  .insta-kacheln {
-    scroll-snap-type: none;
-  }
-}

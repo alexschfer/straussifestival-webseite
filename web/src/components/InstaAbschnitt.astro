@@ -1,8 +1,11 @@
 ---
 /**
  * Abschnitt "Bleib auf dem Laufenden" mit Links zu Instagram und TikTok und Foto-Kacheln.
- * Alles kommt aus src/config.ts (Blöcke "instagram" und "tiktok"). Es wird nichts von
- * Instagram oder TikTok eingebunden, die Fotos sind eigene Dateien aus public/insta/.
+ * Gestaltung nach dem Vorbild von ricola.com/de-de ("Stay in the Loop"): vollflächiges
+ * Farbfeld, reine Icon-Knöpfe, ein versetztes Kachelraster, das über den unteren Rand
+ * des Farbfelds hinausragt. Alles kommt aus src/config.ts (Blöcke "instagram" und
+ * "tiktok"). Es wird nichts von Instagram oder TikTok eingebunden, die Fotos sind eigene
+ * Dateien aus public/insta/.
  */
 import { instagram, tiktok } from '../config';
 import InstaIcon from './InstaIcon.astro';
@@ -25,7 +28,6 @@ const kacheln = Array.from({ length: anzahl }, (_, i) => instagram.fotos[i]);
         aria-label={`${instagram.name} auf Instagram`}
       >
         <InstaIcon />
-        <span>{instagram.name}</span>
       </a>
       <a
         class="insta-link"
@@ -35,46 +37,55 @@ const kacheln = Array.from({ length: anzahl }, (_, i) => instagram.fotos[i]);
         aria-label={`${tiktok.name} auf TikTok`}
       >
         <TikTokIcon />
-        <span>{tiktok.name}</span>
       </a>
     </div>
-
-    <div class="insta-karussell">
-      <button type="button" class="insta-pfeil insta-pfeil-zurueck" data-insta-zurueck aria-label="Vorheriges Foto">‹</button>
-      <ul class="insta-kacheln" aria-label="Fotos" tabindex="0" data-insta-kacheln>
-        {
-          kacheln.map((foto) => (
-            <li class="insta-kachel">
-              {foto ? (
-                <img src={foto.bild} alt={foto.alt} loading="lazy" />
-              ) : (
-                <span class="insta-platzhalter">TODO Foto</span>
-              )}
-            </li>
-          ))
-        }
-      </ul>
-      <button type="button" class="insta-pfeil insta-pfeil-vor" data-insta-vor aria-label="Nächstes Foto">›</button>
-    </div>
   </div>
+
+  {/* Bewusst AUSSERHALB von .insta-panel: nur so kann das Farbfeld auf die
+     Kopfzeile (Überschrift/Text/Icons) begrenzt bleiben, während die höheren
+     Kacheln unten darüber hinausragen (siehe Kommentar in global.css). */}
+  <ul class="insta-kacheln" aria-label="Fotos" data-insta-kacheln>
+    {
+      kacheln.map((foto) => (
+        <li class="insta-kachel">
+          {foto ? (
+            <img src={foto.bild} alt={foto.alt} loading="lazy" />
+          ) : (
+            <span class="insta-platzhalter">TODO Foto</span>
+          )}
+        </li>
+      ))
+    }
+  </ul>
 </section>
 
 <script>
-  // Karussell-Pfeile: verschieben die Fotoliste um jeweils eine Kachelbreite.
-  // Wischen per Touch/Trackpad funktioniert unabhängig davon weiter (natives Scrollen).
-  const liste = document.querySelector<HTMLElement>('[data-insta-kacheln]');
-  const zurueck = document.querySelector<HTMLButtonElement>('[data-insta-zurueck]');
-  const vor = document.querySelector<HTMLButtonElement>('[data-insta-vor]');
-  const reduziert = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Leichte "Nachzieh"-Animation der Kacheln beim Scrollen (Vorbild ricola.com):
+  // gerade und ungerade Kacheln verschieben sich unterschiedlich schnell. Die
+  // eigentliche Bewegung steckt in der CSS-Variable --insta-fortschritt (0 bis 1,
+  // je nachdem wie weit der Abschnitt durchs Bild gescrollt ist), ausgewertet in
+  // global.css. Nur ohne reduzierte Bewegung aktiv.
+  const raster = document.querySelector<HTMLElement>('[data-insta-kacheln]');
 
-  const verschieben = (richtung: 1 | -1) => {
-    if (!liste) return;
-    const kachel = liste.querySelector<HTMLElement>('.insta-kachel');
-    const luecke = parseFloat(getComputedStyle(liste).columnGap || '0');
-    const breite = (kachel?.getBoundingClientRect().width ?? liste.clientWidth * 0.6) + luecke;
-    liste.scrollBy({ left: richtung * breite, behavior: reduziert ? 'auto' : 'smooth' });
-  };
+  if (raster && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    let angefragt = false;
 
-  zurueck?.addEventListener('click', () => verschieben(-1));
-  vor?.addEventListener('click', () => verschieben(1));
+    const aktualisieren = () => {
+      angefragt = false;
+      const rect = raster.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > innerHeight) return;
+      const fortschritt = Math.min(1, Math.max(0, 1 - rect.top / innerHeight));
+      raster.style.setProperty('--insta-fortschritt', String(fortschritt));
+    };
+
+    const anfragen = () => {
+      if (!angefragt) {
+        angefragt = true;
+        requestAnimationFrame(aktualisieren);
+      }
+    };
+
+    aktualisieren();
+    addEventListener('scroll', anfragen, { passive: true });
+  }
 </script>
