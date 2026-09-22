@@ -343,8 +343,12 @@ ul {
 .insta {
   padding: 0 var(--abstand) 3rem;
 }
+/* Bewusst etwas schmaler als .insta-kacheln (max-width dort ohne Abzug):
+   Dadurch ragen die äußeren Kacheln links und rechts über den Rand des
+   Farbfelds hinaus, genau wie bei ricola.com/de-de. */
 .insta-panel {
-  max-width: var(--breite-gross);
+  max-width: calc(var(--breite-gross) - 2rem);
+  width: calc(100% - 2rem);
   margin-inline: auto;
   padding: 3rem 1.25rem 5rem;
   border-radius: var(--radius-gross);
@@ -583,6 +587,8 @@ ul {
     max-width: 40rem;
   }
   .insta-panel {
+    max-width: calc(var(--breite-gross) - 6rem);
+    width: calc(100% - 6rem);
     padding: 4rem 2rem 8rem;
   }
   .insta-kacheln {
