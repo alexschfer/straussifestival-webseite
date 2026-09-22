@@ -2,9 +2,15 @@
  * Einzige Datenquelle für alle Marketingkanäle.
  *
  * Aus dieser Liste werden beim Build automatisch erzeugt:
- *   1. Weiterleitungen  /q/<slug>  ->  /?utm_...   (astro.config.ts)
+ *   1. Weiterleitungen  <seite>/q/<slug>  ->  <seite>?utm_...  (astro.config.ts)
  *   2. QR-Codes         docs/qr/<slug>.svg          (integrations/kanaele-output.ts)
  *   3. Kanaltabelle     docs/kanaele.md             (integrations/kanaele-output.ts)
+ *
+ * "<seite>" ist dabei jede Seite der Webseite: /q/mensa landet auf der
+ * Startseite, /lineup/q/mensa auf der Line-up-Seite, /infos/q/mensa auf den
+ * Infos. Das gilt automatisch für jede Seite unter src/pages/, ein Kanal muss
+ * dafür nichts extra eingetragen bekommen. Die UTM-Parameter sind überall
+ * dieselben, nur die Zielseite unterscheidet sich.
  *
  * Neuen Kanal anlegen = einen Eintrag unten ergänzen, sonst nichts.
  *
@@ -29,8 +35,8 @@ export interface Kanal {
 /** utm_campaign ist für alle Kanäle gleich. */
 export const CAMPAIGN = 'straussi-festival-2027';
 
-/** Pfadpräfix der Weiterleitungen, also /q/<slug>. */
-export const REDIRECT_PREFIX = '/q';
+/** Pfadabschnitt der Weiterleitungen, also <seite>/q/<slug>. */
+export const REDIRECT_SEGMENT = 'q';
 
 export const kanaele: Kanal[] = [
   {
@@ -135,17 +141,26 @@ export function utmQuery(kanal: Kanal): string {
   return params.toString();
 }
 
-/** Pfad der Kurz-URL, z. B. "/q/flyer" (das steht im QR-Code). */
-export function kurzPfad(kanal: Kanal): string {
-  return `${REDIRECT_PREFIX}/${kanal.slug}`;
+/**
+ * Pfad der Kurz-URL, z. B. "/q/flyer" oder "/lineup/q/flyer".
+ * "seite" ist ein Seitenpfad mit Schrägstrich am Anfang und Ende ("/" = Startseite).
+ */
+export function kurzPfad(kanal: Kanal, seite = '/'): string {
+  return `${seite}${REDIRECT_SEGMENT}/${kanal.slug}`;
 }
 
-/** Weiterleitungsziel relativ zur Domain, z. B. "/?utm_source=flyer&...". */
-export function zielPfad(kanal: Kanal): string {
-  return `/?${utmQuery(kanal)}`;
+/** Weiterleitungsziel relativ zur Domain, z. B. "/lineup/?utm_source=flyer&...". */
+export function zielPfad(kanal: Kanal, seite = '/'): string {
+  return `${seite}?${utmQuery(kanal)}`;
 }
 
-/** Fertige Map für die redirects-Option in astro.config. */
-export function kanalRedirects(): Record<string, string> {
-  return Object.fromEntries(kanaele.map((k) => [kurzPfad(k), zielPfad(k)]));
+/**
+ * Fertige Map für die redirects-Option in astro.config: jede Seite mal jeden Kanal.
+ * Die Seitenliste kommt aus integrations/seiten.ts (alle Dateien in src/pages/).
+ */
+export function kanalRedirects(seiten: string[] = ['/']): Record<string, string> {
+  const paare = seiten.flatMap((seite) =>
+    kanaele.map((k) => [kurzPfad(k, seite), zielPfad(k, seite)] as const),
+  );
+  return Object.fromEntries(paare);
 }

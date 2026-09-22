@@ -20,3 +20,25 @@ Domain: `https://todo-domain.invalid` · Kampagne (`utm_campaign`): `straussi-fe
 | `mensa` | Aushang bzw. Auslage in der Mensa. | `https://todo-domain.invalid/q/mensa` | `https://todo-domain.invalid/?utm_source=mensa&utm_medium=print&utm_campaign=straussi-festival-2027` | [mensa.svg](qr/mensa.svg) |
 | `instagram` | Link im Instagram-Profil bzw. in Beiträgen. | `https://todo-domain.invalid/q/instagram` | `https://todo-domain.invalid/?utm_source=instagram&utm_medium=social&utm_campaign=straussi-festival-2027` | [instagram.svg](qr/instagram.svg) |
 | `whatsapp` | Link, der in WhatsApp-Gruppen und -Kanälen geteilt wird. | `https://todo-domain.invalid/q/whatsapp` | `https://todo-domain.invalid/?utm_source=whatsapp&utm_medium=messenger&utm_campaign=straussi-festival-2027` | [whatsapp.svg](qr/whatsapp.svg) |
+
+## Auf eine Unterseite zeigen
+
+Jeder Kanal funktioniert hinter **jeder** Seite: einfach `/q/<slug>` an den Seitenpfad
+hängen. Die UTM-Parameter sind dabei immer dieselben, nur die Seite ändert sich.
+
+```
+https://todo-domain.invalid/q/mensa           ->  Startseite
+https://todo-domain.invalid/lineup/q/mensa    ->  Line-up-Seite
+```
+
+Die passenden QR-Codes liegen fertig im Ordner `qr/` bereit:
+
+| Seite | QR-Codes |
+| --- | --- |
+| `/` | [qr/](qr/) |
+| `/anfahrt/` | [qr/anfahrt/](qr/anfahrt/) |
+| `/datenschutz/` | [qr/datenschutz/](qr/datenschutz/) |
+| `/faq/` | [qr/faq/](qr/faq/) |
+| `/impressum/` | [qr/impressum/](qr/impressum/) |
+| `/infos/` | [qr/infos/](qr/infos/) |
+| `/lineup/` | [qr/lineup/](qr/lineup/) |

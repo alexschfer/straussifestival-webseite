@@ -23,7 +23,7 @@ CLAUDE.md        dieser Projektkontext
 README.md        Kurzanleitung: lokal starten, bauen, deployen
 docs/SPEC.md     Aufgaben und Stand (inkl. offene Punkte)
 docs/kanaele.md  Tabelle der Marketingkanäle (GENERIERT, nicht von Hand ändern)
-docs/qr/         QR-Codes als SVG pro Kanal (GENERIERT)
+docs/qr/         QR-Codes als SVG pro Kanal und Seite (GENERIERT)
 web/             Astro-Seite
 analytics/       docker-compose.yml, Caddyfile, backup.sh, .env.example, README.md
 deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
@@ -42,8 +42,8 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 
 - **Eine einzige Datenquelle** für alle Marketingkanäle: `web/src/data/kanaele.ts`. Pro Kanal: Slug, `utm_source`, `utm_medium`, `utm_content` (optional), Beschreibung.
 - Daraus werden beim Build automatisch erzeugt:
-  1. Redirects `/q/<slug>` -> `/` mit UTM-Parametern (`redirects`-Option in `astro.config.ts`).
-  2. Ein QR-Code als SVG pro Kanal (npm-Paket `qrcode`), der auf `<Domain>/q/<slug>` zeigt, abgelegt in `docs/qr/`.
+  1. Redirects `<seite>/q/<slug>` -> `<seite>?utm_...` (`redirects`-Option in `astro.config.ts`). **`/q/<slug>` funktioniert hinter jeder Seite**, also `/q/mensa` (Startseite), `/lineup/q/mensa`, `/infos/q/mensa` usw. Die Seitenliste liest `web/integrations/seiten.ts` automatisch aus `src/pages/`; eine neue Seite bekommt ihre Weiterleitungen dadurch von selbst. Ein Kanal braucht dafür keinen Eintrag, die UTM-Parameter sind für jede Zielseite gleich.
+  2. Ein QR-Code als SVG pro Kanal **und Seite** (npm-Paket `qrcode`): `docs/qr/<slug>.svg` für die Startseite, `docs/qr/<seite>/<slug>.svg` für die übrigen Seiten.
   3. `docs/kanaele.md`: Tabelle mit Slug, fertigem UTM-Link und QR-Datei.
   (2 und 3 erledigt die Integration `web/integrations/kanaele-output.ts` im Hook `astro:build:done`.)
 - `utm_campaign` ist immer `straussi-festival-2027`.
@@ -80,7 +80,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - Erlaubt in UTM-Werten sind auch **Ziffern** (a-z, 0-9, Bindestrich).
 - Mediums der Beispielkanäle: `print` (Flyer, Aushänge, Mensa), `social` (Instagram), `messenger` (WhatsApp). Vorläufig.
 - Ticketbutton öffnet den Shop in einem **neuen Tab** (`target="_blank"`), damit die Infoseite offen bleibt.
-- Redirects sind in Astro-Static **Meta-Refresh-Seiten** (`/q/<slug>/index.html`), keine echten HTTP-301. Für QR-Codes ausreichend; die UTM-Parameter bleiben erhalten.
+- Redirects sind in Astro-Static **Meta-Refresh-Seiten** (`<seite>/q/<slug>/index.html`), keine echten HTTP-301. Für QR-Codes ausreichend; die UTM-Parameter bleiben erhalten.
 - **TypeScript ist auf 6.x gepinnt**, weil `astro check` mit TypeScript 7 noch nicht läuft. Erst anheben, wenn Astro das unterstützt.
 
 ## Entscheidungen aus Phase 2 (nicht im Auftrag festgelegt, jederzeit änderbar)
@@ -90,7 +90,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **Caddy hängt nicht von Umami ab** (kein `depends_on`): Die Infoseite bleibt erreichbar, auch wenn Umami ausfällt. Getestet.
 - Domain, E-Mail für Let's Encrypt, alle Geheimnisse und ein optionaler Pfad zur Webseite (`SITE_DIR`, Standard `./site`) kommen aus `analytics/.env`. Fehlende Pflichtwerte lassen `docker compose` mit einer Fehlermeldung abbrechen.
 - `HTTP_PORT`/`HTTPS_PORT` sind nur für den lokalen Test überschreibbar (Vorlage `analytics/.env.local.example`, Domain `localhost`, Ports 8080/8443). Auf dem Server bleiben 80/443.
-- Caddy liefert `/q/<slug>` direkt aus (`try_files {path} {path}/index.html`), also ohne zusätzliche Weiterleitung auf den Slash. Unbekannte Adressen zeigen `404.html` (Seite `web/src/pages/404.astro`).
+- Caddy liefert `/q/<slug>` und `<seite>/q/<slug>` direkt aus (`try_files {path} {path}/index.html`, gilt für beliebig tiefe Pfade), also ohne zusätzliche Weiterleitung auf den Slash. Unbekannte Adressen zeigen `404.html` (Seite `web/src/pages/404.astro`).
 - **Caddy schreibt keine Zugriffs-Logs** (Standardverhalten, bewusst so gelassen; für die Datenschutzerklärung relevant). Container-Logs sind auf 3 x 10 MB begrenzt.
 - `backup.sh` läuft auf dem Host per `docker compose exec`, schreibt erst in eine `.partial`-Datei, prüft sie und benennt sie dann um. Sicherungen liegen standardmäßig in `analytics/backups/` (nicht im Git). Off-Site-Kopie ist Sache des Teams (in der Anleitung erwähnt).
 - **Attribution (getestet mit Umami 3.4.0, simulierte Requests):** Klickt ein Besucher nach Einstieg über `?utm_source=aushang` auf einer Unterseite ohne UTMs auf Tickets, ordnet der Umami-Bericht **Attribution** (Konversion = Event `ticket-click`) den Klick trotzdem dem Kanal zu. Ein direkter Filter auf das Event nach UTM würde ihn verpassen. Für die Auswertung deshalb den Attributionsbericht nutzen.

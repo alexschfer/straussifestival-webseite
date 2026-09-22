@@ -1,15 +1,20 @@
 /**
  * Astro-Integration: erzeugt beim Build aus src/data/kanaele.ts
- *   - docs/qr/<slug>.svg   ein QR-Code pro Kanal (zeigt auf <Domain>/q/<slug>)
- *   - docs/kanaele.md      Tabelle mit Slug, UTM-Link und QR-Datei
+ *   - docs/qr/<slug>.svg           QR-Code pro Kanal für die Startseite
+ *   - docs/qr/<seite>/<slug>.svg   dasselbe für jede weitere Seite
+ *   - docs/kanaele.md              Tabelle mit Slug, UTM-Link und QR-Datei
  * und warnt laut, wenn noch Platzhalter (Domain, Ticket-URL) im Spiel sind.
  */
-import { mkdir, readdir, rm, writeFile } from 'node:fs/promises';
+import { mkdir, rm, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import type { AstroIntegration } from 'astro';
 import QRCode from 'qrcode';
 import { instagram, ticket } from '../src/config';
 import { CAMPAIGN, kanaele, kurzPfad, utmQuery } from '../src/data/kanaele';
+import { seitenPfade } from './seiten';
+
+/** "/" -> "" (liegt direkt in docs/qr/), "/lineup/" -> "lineup/" (Unterordner). */
+const qrOrdner = (seite: string) => seite.replace(/^\//, '');
 
 const istPlatzhalterDomain = (site: string) => new URL(site).hostname.endsWith('.invalid');
 
@@ -32,18 +37,22 @@ export default function kanaeleOutput(): AstroIntegration {
         const qrDir = new URL('qr/', docsDir);
         const platzhalter = istPlatzhalterDomain(site);
 
-        // QR-Codes: alte Dateien entfernen, damit gelöschte Kanäle nicht liegen bleiben.
-        await mkdir(qrDir, { recursive: true });
-        for (const datei of await readdir(qrDir)) {
-          if (datei.endsWith('.svg')) await rm(new URL(datei, qrDir));
-        }
-        for (const kanal of kanaele) {
-          const svg = await QRCode.toString(`${site}${kurzPfad(kanal)}`, {
-            type: 'svg',
-            errorCorrectionLevel: 'M',
-            margin: 4,
-          });
-          await writeFile(new URL(`${kanal.slug}.svg`, qrDir), svg);
+        const seiten = seitenPfade(new URL('src/pages/', rootDir));
+
+        // QR-Codes: kompletten Ordner neu aufbauen, damit gelöschte Kanäle und
+        // gelöschte Seiten keine alten Dateien hinterlassen.
+        await rm(qrDir, { recursive: true, force: true });
+        for (const seite of seiten) {
+          const ordner = new URL(qrOrdner(seite), qrDir);
+          await mkdir(ordner, { recursive: true });
+          for (const kanal of kanaele) {
+            const svg = await QRCode.toString(`${site}${kurzPfad(kanal, seite)}`, {
+              type: 'svg',
+              errorCorrectionLevel: 'M',
+              margin: 4,
+            });
+            await writeFile(new URL(`${kanal.slug}.svg`, ordner), svg);
+          }
         }
 
         // Kanaltabelle
@@ -77,10 +86,33 @@ export default function kanaeleOutput(): AstroIntegration {
           '| --- | --- | --- | --- | --- |',
           ...zeilen,
           '',
+          '## Auf eine Unterseite zeigen',
+          '',
+          'Jeder Kanal funktioniert hinter **jeder** Seite: einfach `/q/<slug>` an den Seitenpfad',
+          'hängen. Die UTM-Parameter sind dabei immer dieselben, nur die Seite ändert sich.',
+          '',
+          '```',
+          `${site}/q/mensa           ->  Startseite`,
+          `${site}/lineup/q/mensa    ->  Line-up-Seite`,
+          '```',
+          '',
+          'Die passenden QR-Codes liegen fertig im Ordner `qr/` bereit:',
+          '',
+          '| Seite | QR-Codes |',
+          '| --- | --- |',
+          ...seiten.map((seite) => {
+            const ordner = qrOrdner(seite);
+            const ziel = ordner === '' ? 'qr/' : `qr/${ordner}`;
+            return `| \`${seite}\` | [${ziel}](${ziel}) |`;
+          }),
+          '',
         ].join('\n');
         await writeFile(new URL('kanaele.md', docsDir), md);
 
-        logger.info(`${kanaele.length} QR-Codes und kanaele.md nach ${fileURLToPath(docsDir)} geschrieben.`);
+        logger.info(
+          `${kanaele.length * seiten.length} QR-Codes (${kanaele.length} Kanäle x ${seiten.length} Seiten) ` +
+            `und kanaele.md nach ${fileURLToPath(docsDir)} geschrieben.`,
+        );
         if (platzhalter) {
           logger.warn(
             `SITE_URL ist nicht gesetzt (Platzhalter ${site}). Die QR-Codes sind NICHT druckbar, bis SITE_URL gesetzt und neu gebaut ist.`,
