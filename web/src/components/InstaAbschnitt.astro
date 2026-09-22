@@ -39,18 +39,42 @@ const kacheln = Array.from({ length: anzahl }, (_, i) => instagram.fotos[i]);
       </a>
     </div>
 
-    <ul class="insta-kacheln" aria-label="Fotos" tabindex="0">
-      {
-        kacheln.map((foto) => (
-          <li class="insta-kachel">
-            {foto ? (
-              <img src={foto.bild} alt={foto.alt} loading="lazy" />
-            ) : (
-              <span class="insta-platzhalter">TODO Foto</span>
-            )}
-          </li>
-        ))
-      }
-    </ul>
+    <div class="insta-karussell">
+      <button type="button" class="insta-pfeil insta-pfeil-zurueck" data-insta-zurueck aria-label="Vorheriges Foto">‹</button>
+      <ul class="insta-kacheln" aria-label="Fotos" tabindex="0" data-insta-kacheln>
+        {
+          kacheln.map((foto) => (
+            <li class="insta-kachel">
+              {foto ? (
+                <img src={foto.bild} alt={foto.alt} loading="lazy" />
+              ) : (
+                <span class="insta-platzhalter">TODO Foto</span>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+      <button type="button" class="insta-pfeil insta-pfeil-vor" data-insta-vor aria-label="Nächstes Foto">›</button>
+    </div>
   </div>
 </section>
+
+<script>
+  // Karussell-Pfeile: verschieben die Fotoliste um jeweils eine Kachelbreite.
+  // Wischen per Touch/Trackpad funktioniert unabhängig davon weiter (natives Scrollen).
+  const liste = document.querySelector<HTMLElement>('[data-insta-kacheln]');
+  const zurueck = document.querySelector<HTMLButtonElement>('[data-insta-zurueck]');
+  const vor = document.querySelector<HTMLButtonElement>('[data-insta-vor]');
+  const reduziert = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const verschieben = (richtung: 1 | -1) => {
+    if (!liste) return;
+    const kachel = liste.querySelector<HTMLElement>('.insta-kachel');
+    const luecke = parseFloat(getComputedStyle(liste).columnGap || '0');
+    const breite = (kachel?.getBoundingClientRect().width ?? liste.clientWidth * 0.6) + luecke;
+    liste.scrollBy({ left: richtung * breite, behavior: reduziert ? 'auto' : 'smooth' });
+  };
+
+  zurueck?.addEventListener('click', () => verschieben(-1));
+  vor?.addEventListener('click', () => verschieben(1));
+</script>

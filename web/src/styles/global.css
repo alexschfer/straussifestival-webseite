@@ -12,11 +12,16 @@
   --farbe-flaeche-hell: #535552;
   --farbe-text: #eceded;
   --farbe-text-leise: #a9adae;
-  /* Akzent A: durchgehender Interaktions-Akzent (Links, Buttons, Fokus, Hover). */
+  /* Akzent A: Aktionsfarbe für Buttons (Ticketbutton) und den Fokusring. Bleibt
+     bewusst von der Highlight-Farbe getrennt, damit "Aktion" und "Highlight"
+     unterscheidbar bleiben. */
   --farbe-akzent: #fbbb47;
   /* Dunkle Variante von A für Text auf dem Akzent-Button (Kontrast). */
   --farbe-akzent-dunkel: #3e2b09;
-  /* Akzent B: zweiter Akzent, nur für die abgesetzte Jahreszahl (.akzent). */
+  /* Akzent B: Highlight-Farbe für Links, Hover-Zustände und hervorgehobenen
+     Text (u. a. .akzent, .prose strong). Auf den helleren Flächen-Panels
+     (Kopf-/Fußzeile, Kacheln) reicht ihr Kontrast nicht überall – dort bleibt
+     es bei Akzent A, siehe Kommentare weiter unten. */
   --farbe-akzent-zwei: #f84c85;
   --farbe-linie: #424341;
 
@@ -60,13 +65,14 @@ body {
 }
 
 a {
-  color: var(--farbe-akzent);
+  color: var(--farbe-akzent-zwei);
   text-underline-offset: 0.2em;
 }
 
 a:focus-visible,
 .button:focus-visible,
-.insta-kacheln:focus-visible {
+.insta-kacheln:focus-visible,
+.insta-pfeil:focus-visible {
   outline: 3px solid var(--farbe-akzent);
   outline-offset: 3px;
 }
@@ -153,10 +159,10 @@ ul {
   text-decoration: none;
 }
 .site-header nav a:hover {
-  color: var(--farbe-text);
+  color: var(--farbe-akzent-zwei);
 }
 .site-header nav a[aria-current='page'] {
-  color: var(--farbe-text);
+  color: var(--farbe-akzent-zwei);
   font-weight: 600;
   text-decoration: underline;
 }
@@ -171,9 +177,17 @@ ul {
   font-weight: 700;
   text-align: center;
   text-decoration: none;
+  transition:
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
 }
+/* Bewusst kein filter: brightness() mehr – das hellte den Button samt Text
+   gleichermaßen auf und ließ die Schrift auf dem hellen Gold verwaschen
+   wirken. Schatten und ein leichtes Anheben ändern keine Farben, der
+   Kontrast zwischen Text und Fläche bleibt beim Hover exakt gleich. */
 .button:hover {
-  filter: brightness(1.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  transform: translateY(-1px);
 }
 .button-klein {
   padding: 0.35rem 1rem;
@@ -323,7 +337,7 @@ ul {
   border-radius: var(--radius);
 }
 .prose strong {
-  color: #fff;
+  color: var(--farbe-akzent-zwei);
 }
 
 /* Instagram-Abschnitt auf der Startseite */
@@ -371,23 +385,55 @@ ul {
   color: var(--farbe-akzent);
 }
 
-/* Kacheln: mobil zum Wischen, ab Tablet nebeneinander */
+/* Karussell: Kacheln zum Wischen bzw. über die Pfeile, auf jeder Breite ist
+   immer ein Stück der nächsten Kachel sichtbar (Karussell-Optik). */
+.insta-karussell {
+  position: relative;
+  margin-top: 2rem;
+}
 .insta-kacheln {
   display: flex;
   gap: 0.75rem;
-  margin-top: 2rem;
   padding-bottom: 0.5rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 }
 .insta-kachel {
-  flex: 0 0 60%;
+  flex: 0 0 68%;
   scroll-snap-align: center;
   aspect-ratio: 3 / 4;
   border-radius: var(--radius);
   background: var(--farbe-flaeche-hell);
   overflow: hidden;
+}
+.insta-pfeil {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--farbe-linie);
+  border-radius: 50%;
+  background: rgba(28, 29, 28, 0.6);
+  color: var(--farbe-text);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.insta-pfeil:hover {
+  border-color: var(--farbe-akzent);
+  color: var(--farbe-akzent);
+}
+.insta-pfeil-zurueck {
+  left: 0.5rem;
+}
+.insta-pfeil-vor {
+  right: 0.5rem;
 }
 .insta-kachel img {
   width: 100%;
@@ -442,7 +488,7 @@ ul {
   text-decoration: none;
 }
 .footer-spalte a:hover {
-  color: var(--farbe-akzent);
+  color: var(--farbe-akzent-zwei);
   text-decoration: underline;
 }
 /* Runde Knöpfe für die Social-Media-Symbole */
@@ -468,6 +514,11 @@ ul {
 .footer-spalte .button {
   color: var(--farbe-akzent-dunkel);
   text-decoration: none;
+}
+/* Höhere Spezifität als ".footer-spalte a:hover" (sonst gewinnt dessen Hover-Farbe
+   und der Text verschwindet auf dem gleichfarbigen Button – genau das war der Bug). */
+.footer-spalte .button:hover {
+  color: var(--farbe-akzent-dunkel);
 }
 
 .footer-unten {
@@ -545,11 +596,14 @@ ul {
   .insta-panel {
     padding: 3rem 2rem;
   }
-  .insta-kacheln {
-    overflow-x: visible;
-  }
   .insta-kachel {
-    flex: 1 1 0;
+    flex-basis: 30%;
+  }
+  .insta-pfeil-zurueck {
+    left: 1rem;
+  }
+  .insta-pfeil-vor {
+    right: 1rem;
   }
   .footer-panel {
     padding: 2.5rem 2rem 1.75rem;
