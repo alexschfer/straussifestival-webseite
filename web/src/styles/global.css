@@ -100,9 +100,12 @@ h2 {
   color: var(--farbe-akzent-dunkel);
 }
 
-/* Kopfzeile: abgesetzte Leiste, Name und Ticketbutton in einer Zeile, Menü darunter */
+/* Kopfzeile: volle Bildschirmbreite, bündig mit der Oberkante; Name und Ticketbutton
+   in einer Zeile, Menü darunter. Nur der Insta-Abschnitt bekommt die "eingerückte"
+   Panel-Optik, Kopf- und Fußzeile bewusst nicht. */
 .site-header {
-  padding: var(--abstand) var(--abstand) 0;
+  background: var(--farbe-flaeche);
+  border-bottom: 1px solid var(--farbe-linie);
 }
 .header-inner {
   display: flex;
@@ -113,10 +116,7 @@ h2 {
   width: 100%;
   max-width: var(--breite-gross);
   margin-inline: auto;
-  padding: 0.7rem 1.1rem;
-  border: 1px solid var(--farbe-linie);
-  border-radius: var(--radius);
-  background: var(--farbe-flaeche);
+  padding: 0.9rem var(--abstand);
 }
 .brand {
   display: inline-flex;
@@ -252,34 +252,42 @@ ul {
   text-align: center;
 }
 .countdown-panel h2 {
-  margin: 0 0 1.5rem;
+  margin: 0 0 1.75rem;
   font-size: clamp(1.6rem, 7vw, 2.4rem);
   line-height: 1.15;
 }
+/* Zweifarbige Kacheln (Zahl oben, Label unten) nach dem Vorbild der
+   Fusion-Festival-Archivseite – hier in unseren Farben und unserer Systemschrift. */
 .countdown-felder {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
+  max-width: 26rem;
+  margin-inline: auto;
 }
 .countdown-feld {
-  min-width: 4.5rem;
-  padding: 0.9rem 0.5rem;
+  display: flex;
+  flex-direction: column;
   border-radius: var(--radius);
-  background: var(--farbe-flaeche-hell);
+  overflow: hidden;
 }
 .countdown-zahl {
-  display: block;
-  font-size: clamp(1.8rem, 6vw, 2.6rem);
-  font-weight: 700;
+  padding: 1.1rem 0.5rem 0.4rem;
+  background: var(--farbe-akzent);
+  color: var(--farbe-akzent-dunkel);
+  font-size: clamp(2rem, 8vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1;
   font-variant-numeric: tabular-nums;
-  color: var(--farbe-akzent);
 }
 .countdown-label {
-  display: block;
-  margin-top: 0.25rem;
-  font-size: 0.8rem;
-  color: var(--farbe-text-leise);
+  padding: 0.45rem 0.5rem;
+  background: var(--farbe-akzent-dunkel);
+  color: var(--farbe-akzent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 .countdown-vorbei {
   margin: 0;
@@ -392,17 +400,16 @@ ul {
   font-size: 0.9rem;
 }
 
-/* Fußzeile: oben Spalten mit Links, unten die schmale Leiste mit Rechtlichem */
+/* Fußzeile: volle Bildschirmbreite, bündig mit der Unterkante. Oben Spalten mit
+   Links, unten die schmale Leiste mit Rechtlichem. */
 .site-footer {
-  padding: 0 var(--abstand) var(--abstand);
+  background: var(--farbe-flaeche);
+  border-top: 1px solid var(--farbe-linie);
 }
 .footer-panel {
   max-width: var(--breite-gross);
   margin-inline: auto;
-  padding: 2rem 1.25rem 1.5rem;
-  border: 1px solid var(--farbe-linie);
-  border-radius: var(--radius-gross);
-  background: var(--farbe-flaeche);
+  padding: 2.5rem var(--abstand) 1.75rem;
   font-size: 0.95rem;
 }
 .footer-spalten {
@@ -520,6 +527,10 @@ ul {
   }
   .site-header nav {
     flex-basis: auto;
+  }
+  .countdown-felder {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 40rem;
   }
   .insta-panel {
     padding: 3rem 2rem;
