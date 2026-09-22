@@ -261,8 +261,8 @@ ul {
   text-align: center;
 }
 .countdown-panel h2 {
-  margin: 0 0 1.75rem;
-  font-size: clamp(1.6rem, 7vw, 2.4rem);
+  margin: 0 0 2rem;
+  font-size: clamp(1.8rem, 8vw, 3rem);
   line-height: 1.15;
 }
 /* Zweifarbige Kacheln (Zahl oben, Label unten) nach dem Vorbild der
@@ -271,7 +271,7 @@ ul {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
-  max-width: 26rem;
+  max-width: 32rem;
   margin-inline: auto;
 }
 .countdown-feld {
@@ -281,21 +281,21 @@ ul {
   overflow: hidden;
 }
 .countdown-zahl {
-  padding: 1.1rem 0.5rem 0.4rem;
+  padding: 1.6rem 0.5rem 0.8rem;
   background: var(--farbe-akzent);
   color: var(--farbe-akzent-dunkel);
-  font-size: clamp(2rem, 8vw, 2.8rem);
+  font-size: clamp(3.2rem, 15vw, 5.5rem);
   font-weight: 800;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 .countdown-label {
-  padding: 0.45rem 0.5rem;
+  padding: 0.6rem 0.5rem;
   background: var(--farbe-akzent-dunkel);
   color: var(--farbe-akzent);
-  font-size: 0.75rem;
+  font-size: clamp(0.8rem, 2.8vw, 1rem);
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 .countdown-vorbei {
@@ -584,7 +584,8 @@ ul {
   }
   .countdown-felder {
     grid-template-columns: repeat(4, 1fr);
-    max-width: 40rem;
+    gap: 1.25rem;
+    max-width: 58rem;
   }
   .insta-panel {
     max-width: calc(var(--breite-gross) - 6rem);
