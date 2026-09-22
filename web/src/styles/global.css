@@ -232,7 +232,9 @@ ul {
   background: linear-gradient(180deg, rgba(28, 29, 28, 0.55) 0%, rgba(28, 29, 28, 0.72) 55%, rgba(28, 29, 28, 0.94) 100%);
 }
 .hero-logo {
-  width: 16.5rem;
+  /* min(): auf schmalen Bildschirmen bis zur verfügbaren Breite schrumpfen,
+     statt über den Rand zu laufen. */
+  width: min(24.75rem, 100%);
   height: auto;
   margin: 0 auto 1.25rem;
   border-radius: var(--radius);
