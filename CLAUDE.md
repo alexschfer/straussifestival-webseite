@@ -2,7 +2,7 @@
 
 ## Kontext
 
-Das Straußi Festival 2027 ist ein Festival der Studierendenwohnheime Straußäcker in Stuttgart, veranstaltet vom Wohnheimsreferat Straußäcker 3, mit rund 7500 erwarteten Gästen.
+Das Straußi Festival 2027 ist ein Festival der Studierendenwohnheime Straußäcker in Stuttgart, veranstaltet von einem Team aus Bewohner*innen von Straußi 1, 2 & 3, mit rund 7500 erwarteten Gästen.
 
 Die Webseite ist eine **Infoseite**, die auf einen externen Ticketshop (dein-ticket.shop) verlinkt. Wichtigstes Ziel neben der Information: nachvollziehen, **über welchen Kanal** (Flyer, Aushänge, QR-Codes, Social Media) die Besucher kommen und **wie viele davon auf den Ticketbutton klicken**. Die meisten Besucher kommen per QR-Code vom Handy.
 
