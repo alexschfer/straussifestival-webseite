@@ -4,26 +4,30 @@
  */
 
 :root {
-  /* Neutrale Flächen: aus der Palettenfarbe C (#535552) abgeleitete, dunklere
-     Stufen, damit Fließtext genug Kontrast hat. --farbe-flaeche-hell ist C
-     unverändert (hellste, "markenfarbene" Stufe für Kacheln und Hover-Flächen). */
-  --farbe-hintergrund: #1c1d1c;
-  --farbe-flaeche: #2e2f2d;
-  --farbe-flaeche-hell: #535552;
+  /* Farben aus der Palette des Festivals (je 8 Stufen Pink, Grau, Gelb).
+     Kontrast nach WCAG-Formel geprüft (Fließtext braucht mindestens 4,5:1).
+     Die Palette hat keinen dunklen Ton; Hintergrund, Flächen und Linie sind
+     deshalb eigene, leicht bläuliche Dunkelstufen passend zum Palettengrau. */
+  --farbe-hintergrund: #1b1c20;
+  --farbe-flaeche: #2c2d33;
+  /* Palettengrau, dunkelste Stufe: Kacheln und runde Symbolknöpfe */
+  --farbe-flaeche-hell: #676a79;
   --farbe-text: #eceded;
-  --farbe-text-leise: #a9adae;
-  /* Akzent A: Aktionsfarbe für Buttons (Ticketbutton) und den Fokusring. Bleibt
-     bewusst von der Highlight-Farbe getrennt, damit "Aktion" und "Highlight"
-     unterscheidbar bleiben. */
-  --farbe-akzent: #fbbb47;
-  /* Dunkle Variante von A für Text auf dem Akzent-Button (Kontrast). */
-  --farbe-akzent-dunkel: #3e2b09;
-  /* Akzent B: Highlight-Farbe für Links, Hover-Zustände und hervorgehobenen
-     Text (u. a. .akzent, .prose strong). Auf den helleren Flächen-Panels
-     (Kopf-/Fußzeile, Kacheln) reicht ihr Kontrast nicht überall – dort bleibt
-     es bei Akzent A, siehe Kommentare weiter unten. */
-  --farbe-akzent-zwei: #f84c85;
-  --farbe-linie: #424341;
+  /* Palettengrau (#ABABAF): 7,4:1 auf dem Hintergrund, 6:1 auf den Flächen */
+  --farbe-text-leise: #ababaf;
+  /* Akzent A: Aktionsfarbe für Buttons (Ticketbutton) und den Fokusring
+     (Palettengelb, kräftigste Stufe). Bleibt bewusst von der Highlight-Farbe
+     getrennt, damit "Aktion" und "Highlight" unterscheidbar bleiben. */
+  --farbe-akzent: #f3e007;
+  /* Sehr dunkle Variante von A für Text auf gelben Flächen (11:1). */
+  --farbe-akzent-dunkel: #2a2700;
+  /* Akzent B: Highlight-Farbe für Links und hervorgehobenen Text (Palettenpink,
+     kräftigste Stufe, 4,7:1 auf dem Hintergrund). Auf den helleren Flächen
+     (Kopf-/Fußzeile) reicht das nicht, dort gilt die hellere Stufe darunter. */
+  --farbe-akzent-zwei: #ee0ce3;
+  /* Hellere Palettenstufe von B für Hover/Aktiv auf den Flächen (6:1). */
+  --farbe-akzent-zwei-hell: #f97bf3;
+  --farbe-linie: #41434b;
 
   --breite: 46rem;
   --breite-gross: 68rem;
@@ -157,10 +161,10 @@ ul {
   text-decoration: none;
 }
 .site-header nav a:hover {
-  color: var(--farbe-akzent-zwei);
+  color: var(--farbe-akzent-zwei-hell);
 }
 .site-header nav a[aria-current='page'] {
-  color: var(--farbe-akzent-zwei);
+  color: var(--farbe-akzent-zwei-hell);
   font-weight: 600;
   text-decoration: underline;
 }
@@ -241,7 +245,7 @@ button.button {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(180deg, rgba(28, 29, 28, 0.55) 0%, rgba(28, 29, 28, 0.72) 55%, rgba(28, 29, 28, 0.94) 100%);
+  background: linear-gradient(180deg, rgba(27, 28, 32, 0.55) 0%, rgba(27, 28, 32, 0.72) 55%, rgba(27, 28, 32, 0.94) 100%);
 }
 .hero-logo {
   /* min(): auf schmalen Bildschirmen bis zur verfügbaren Breite schrumpfen,
@@ -517,7 +521,7 @@ button.button {
   margin: 0 0 1rem;
   font-size: 0.95rem;
 }
-/* Gold statt Pink: auf der Fläche hätte Pink zu wenig Kontrast (siehe Variablen oben) */
+/* Gelb statt Pink: auf der Fläche hätte das kräftige Pink zu wenig Kontrast (siehe Variablen oben) */
 .cookie-text a {
   color: var(--farbe-akzent);
 }
@@ -582,7 +586,7 @@ button.button {
   text-decoration: none;
 }
 .footer-spalte a:hover {
-  color: var(--farbe-akzent-zwei);
+  color: var(--farbe-akzent-zwei-hell);
   text-decoration: underline;
 }
 /* Runde Knöpfe für die Social-Media-Symbole */

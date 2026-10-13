@@ -142,6 +142,13 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
   - Mobil/Tablet blendet eine Regel die erste und letzte Kachel aus, damit bei fünf Kacheln genau eine volle Dreierreihe übrig bleibt statt einer angeschnittenen zweiten Reihe (dieselbe Technik wie bei Ricola).
   - **Leichte "Nachzieh"-Animation:** ein kleines Vanilla-JS in `InstaAbschnitt.astro` setzt beim Scrollen die CSS-Variable `--insta-fortschritt` (0 bis 1, wie weit der Abschnitt durchs Bild gescrollt ist); gerade und ungerade Kacheln lesen sie mit unterschiedlichem Faktor aus (`-6%`/`-12%`), wodurch sie unterschiedlich schnell wandern. Nur innerhalb von `prefers-reduced-motion: no-preference` – sonst bleiben die Kacheln unbeweglich.
 
+## Farbpalette des Festivals (jederzeit änderbar)
+
+- Die Seite nutzt die **vom Team gelieferte Palette** (je 8 Stufen Pink, Grau, Gelb; jeweils 4 Helligkeitsstufen mit je einer kräftigen und einer gedämpften Variante). Thema bleibt **dunkel**.
+- Rollen wie bisher: **Gelb `#F3E007` = Aktionsfarbe** (Buttons, Countdown, Insta-Farbfeld, Fokusring; Text darauf `#2A2700`), **Pink `#EE0CE3` = Highlight** (Links, hervorgehobener Text). Auf den Flächen von Kopf- und Fußzeile reicht das kräftige Pink nicht (3,8:1), dort für Hover/Aktiv die hellere Stufe `#F97BF3` (`--farbe-akzent-zwei-hell`). Grau: `#ABABAF` leiser Text, `#676A79` Kacheln/Symbolknöpfe.
+- Die Palette hat **keinen dunklen Ton**. Hintergrund `#1B1C20`, Flächen `#2C2D33` und Linie `#41434B` sind eigene, leicht bläuliche Stufen passend zum Palettengrau. Ältere Abschnitte, die von "Gold" oder dem türkisen Akzent sprechen, meinen jetzt Gelb.
+- Das jetzige Logo hat noch die alten Farben (Himbeerpink/Goldorange); es wird laut Auftraggeber ausgetauscht.
+
 ## Instagram-Feed mit Cookie-Banner (jederzeit änderbar)
 
 - **Auf Wunsch des Auftraggebers ein echter Instagram-Feed** an der Stelle der Kacheln, über ein **kostenloses Widget eines Drittanbieters** per iframe. Empfohlen SnapWidget oder LightWidget (laut Anbieter ohne Aufruflimit); Elfsight ungeeignet (Gratis-Tarif nur 200 Aufrufe/Monat). Einstellungen in `instagram.widget` in `web/src/config.ts` (`url`, `anbieter`, `hoehe`), anbieterneutral.
