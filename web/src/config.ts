@@ -59,6 +59,23 @@ export const instagram = {
    * Solange weniger als 5 eingetragen sind, stehen an den freien Stellen Platzhalter.
    */
   fotos: [] as { bild: string; alt: string }[],
+
+  /**
+   * Echter Instagram-Feed über ein kostenloses Widget eines Drittanbieters
+   * (z. B. SnapWidget oder LightWidget, beide ohne Aufruflimit), Anleitung in README.md.
+   *
+   * - url: die Adresse aus dem iframe-Einbettungscode des Anbieters (das, was bei src="..." steht).
+   * - anbieter: Name des Anbieters, erscheint im Cookie-Banner und muss in die Datenschutzerklärung.
+   * - hoehe: Höhe des Feeds in Pixeln (je nach Anzahl der Reihen im Widget anpassen).
+   *
+   * Solange url leer ist, gibt es weder Feed noch Cookie-Banner, und es bleiben die Kacheln oben.
+   * Ist url gesetzt, lädt der Feed ERST nach Zustimmung im Cookie-Banner (vorher die Kacheln).
+   */
+  widget: {
+    url: '', // TODO: iframe-Adresse des Widgets eintragen
+    anbieter: 'TODO Anbieter',
+    hoehe: 420,
+  },
 };
 
 /**

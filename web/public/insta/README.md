@@ -21,3 +21,30 @@ Platzhalter mit "TODO Foto".
 
 **Wichtig:** Nur eigene Fotos verwenden oder solche, für die ihr die Rechte habt.
 Wer auf dem Foto erkennbar ist, sollte damit einverstanden sein.
+
+## Echter Instagram-Feed statt Kacheln (optional)
+
+Statt der Fotos kann hier auch der echte Feed von `@straussifestival` erscheinen.
+Er wird über ein kostenloses Widget eines Drittanbieters eingebunden und lädt erst,
+wenn Besucher im Cookie-Banner zustimmen.
+
+1. Bei **SnapWidget** (snapwidget.com) oder **LightWidget** (lightwidget.com) ein kostenloses
+   Konto anlegen, mit dem Instagram-Konto verbinden und ein Widget erstellen
+   (Layout z. B. „Slideshow“/„Carousel“ oder Raster, je nachdem, was der Gratis-Tarif anbietet).
+2. Den Einbettungscode kopieren und darin die Adresse bei `src="..."` des `<iframe>` suchen.
+3. In `web/src/config.ts` im Block `instagram` bei `widget` eintragen:
+
+   ```ts
+   widget: {
+     url: 'https://...die Adresse aus src...',
+     anbieter: 'SnapWidget',
+     hoehe: 420,
+   },
+   ```
+
+   `hoehe` ist die Höhe in Pixeln; anpassen, bis nichts abgeschnitten wird.
+4. Neu bauen und deployen. Banner und Datenschutz-Abschnitt erscheinen dann von selbst.
+   **Vor dem Veröffentlichen** die TODOs im Abschnitt „Instagram-Feed“ der
+   Datenschutzseite erledigen und rechtlich prüfen lassen.
+
+Zum Abschalten `url` wieder auf `''` setzen.

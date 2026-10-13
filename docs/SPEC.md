@@ -9,7 +9,7 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 - [x] Astro statisch, TypeScript, kein UI-Framework
 - [x] Seiten als einfache Astro-Seiten (`web/src/pages/*.astro`, gemeinsames Layout, Navigation als Liste im Layout; ursprünglich Markdown/Content Collections, später auf Wunsch umgestellt): Startseite, Infos, FAQ, Anfahrt, Impressum, Datenschutz
 - [x] Mobiles, schlichtes Layout (dunkles Thema), Ticketbutton prominent, zentrale Ticket-URL in `web/src/config.ts`
-- [x] Instagram-Abschnitt auf der Startseite (nur Link, keine Einbettung)
+- [x] Instagram-Abschnitt auf der Startseite (Links und Kacheln; optional echter Feed per Widget mit Cookie-Banner)
 - [x] Zentrale Kanaldatei `web/src/data/kanaele.ts` mit Validierung der UTM-Schreibregel
 - [x] Aus den Kanälen generiert: Redirects `/q/<slug>`, QR-Codes (`docs/qr/`), `docs/kanaele.md`
 - [x] Umami-Einbindung über Umgebungsvariablen (ohne Werte kein Skript)
@@ -46,7 +46,8 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 - [ ] **Endgültige Kanalliste** (aktuell nur vorläufige Beispiele in `web/src/data/kanaele.ts`) und **Festivalinhalte** (Datum, Line-up, Preise, Anfahrt, FAQ-Antworten; alles `TODO` in `web/src/pages/` und `web/src/config.ts`)
 - [ ] **`SITE_URL` setzen**, sobald die Domain feststeht, und die QR-Codes neu bauen. Erst dann drucken.
 - [ ] **Instagram-Profil** eintragen (`instagram` in `web/src/config.ts`) und **eigene Fotos** für die Kacheln ablegen (`web/public/insta/`, aktuell Platzhalter "TODO Foto")
-- [ ] Datenschutzerklärung und Impressum rechtlich prüfen lassen (inkl. neuem Abschnitt zum Instagram-Link)
+- [ ] Datenschutzerklärung und Impressum rechtlich prüfen lassen (inkl. Abschnitt zum Instagram-Link)
+- [ ] **Instagram-Widget** anlegen (SnapWidget oder LightWidget, kostenlos) und in `instagram.widget` in `web/src/config.ts` eintragen (Anleitung: `web/public/insta/README.md`); danach Abschnitt `#instagram-feed` der Datenschutzerklärung vervollständigen und prüfen lassen
 
 ## Zu prüfen (Risiken, die beim Bau aufgefallen sind)
 

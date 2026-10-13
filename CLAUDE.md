@@ -55,7 +55,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **Umami, selbst gehostet.** Skript wird über die zentrale Config eingebunden: Host und Website-ID als Umgebungsvariablen `PUBLIC_UMAMI_HOST` und `PUBLIC_UMAMI_WEBSITE_ID` (aktuell Platzhalter). **Fehlen die Werte, wird das Skript nicht eingebunden** und die Seite funktioniert trotzdem.
 - Der Ticketbutton löst ein **Umami-Klick-Event** (`ticket-click`) aus, per `data-umami-event`-Attribut ohne eigenes JavaScript. Die Position (`header`/`hero`/`footer`) geht als `data-umami-event-position` mit.
 - Ein **optionales Skript hängt die UTM-Parameter** des aktuellen Besuchs an den Ticketlink. Schalter `ticket.utmWeitergeben` in `web/src/config.ts`, **standardmäßig AUS** (noch ungeklärt, ob der Ticketshop UTMs auswertet). Bei AUS wird das Skript nicht ausgeliefert.
-- **Keine Cookies, kein localStorage, kein Google Analytics.** Die Seite kommt ohne Cookie-Banner aus. Deshalb auch: keine eingebetteten Karten, Videos, Schriften oder Widgets von Drittanbietern, ohne vorher den Datenschutz zu klären.
+- **Keine Cookies, kein localStorage, kein Google Analytics.** Die Seite kommt ohne Cookie-Banner aus. Deshalb auch: keine eingebetteten Karten, Videos, Schriften oder Widgets von Drittanbietern, ohne vorher den Datenschutz zu klären. **Einzige gewollte Ausnahme:** der Instagram-Feed (siehe "Instagram-Feed mit Cookie-Banner"), und nur, wenn er in der Config eingetragen ist.
 
 ### Analytics-Server (Phase 2, umgesetzt)
 
@@ -113,7 +113,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **Dunkles Thema.** Farben stehen als Variablen oben in `web/src/styles/global.css` (`--farbe-hintergrund`, `--farbe-akzent` usw.). Eine andere Akzentfarbe ist eine einzige Zeile. Es gibt kein helles Thema; die Seite meldet sich per `color-scheme: dark` als dunkel an.
 - **Keine externen Schriften, Bilder oder Effekte.** Vorbild war nur die Anmutung (dunkler Grund, abgerundete Flächen, ein Akzentton). Weiterhin Systemschriften, damit nichts von fremden Servern nachgeladen wird (Datenschutz, Ladezeit).
 - **Instagram-/TikTok-Abschnitt auf der Startseite** ("Bleib auf dem Laufenden", Vorbild Ricola): Überschrift, ein Satz, je ein Link-Knopf zu Instagram und TikTok, darunter Kacheln. Mobil zum Wischen, ab Tablet nebeneinander. Echte Profile: `@straussifestival` auf beiden Plattformen (`instagram` und `tiktok` in `web/src/config.ts`).
-- **Es wird nichts von Instagram oder TikTok eingebunden**, nur verlinkt. Die Kachel-Fotos sind eigene Dateien aus `web/public/insta/` (Anleitung liegt dort). Grund: Ein eingebetteter Feed würde Daten an Meta bzw. TikTok übertragen und die Seite cookie-bannerpflichtig machen. **Nicht durch ein Feed-Widget ersetzen.**
+- ~~Es wird nichts von Instagram oder TikTok eingebunden.~~ **Überholt** auf Wunsch des Auftraggebers, siehe "Instagram-Feed mit Cookie-Banner". Die Kachel-Fotos (eigene Dateien aus `web/public/insta/`) bleiben als Anzeige ohne Zustimmung.
 - Solange `instagram.profilUrl` in `web/src/config.ts` noch `TODO` enthält, warnen der Build und `deploy.sh` (aktuell erledigt, das Profil ist echt eingetragen). Ohne eingetragene Fotos zeigen die Kacheln weiterhin "TODO Foto".
 - **Fußzeile nach Vorbild von Ricola:** ein abgerundetes Panel mit vier Spalten (Folge uns mit Instagram- und TikTok-Knopf, Festival mit den Menülinks, Tickets mit Button, Kontakt) und darunter einer schmalen Leiste: links Festivalname und Veranstalter, rechts Impressum, Datenschutz und "© Straußi Festival 2027". Mobil stehen die Spalten untereinander. Menülinks und Rechtslinks kommen aus den Listen im Layout (`hauptmenue`, `fussmenue`).
 - **Der Ticketbutton kommt jetzt dreimal vor** (Kopfzeile, Startseiten-Kopf, Fußzeile). Das Klick-Event `ticket-click` ist dasselbe; die Stelle steht als `position` (`header`, `hero`, `footer`) im Event und lässt sich in Umami unterscheiden.
@@ -141,6 +141,14 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
   - `.insta-panel` ist zusätzlich schmaler als `.insta-kacheln` (fester Abzug von der Breite, größer ab der Tablet-Breite), damit die äußerste linke und rechte Kachel auch seitlich über den Rand des Farbfelds hinausragen – ebenfalls nach dem Ricola-Vorbild, das links und rechts denselben Überstand zeigt wie unten.
   - Mobil/Tablet blendet eine Regel die erste und letzte Kachel aus, damit bei fünf Kacheln genau eine volle Dreierreihe übrig bleibt statt einer angeschnittenen zweiten Reihe (dieselbe Technik wie bei Ricola).
   - **Leichte "Nachzieh"-Animation:** ein kleines Vanilla-JS in `InstaAbschnitt.astro` setzt beim Scrollen die CSS-Variable `--insta-fortschritt` (0 bis 1, wie weit der Abschnitt durchs Bild gescrollt ist); gerade und ungerade Kacheln lesen sie mit unterschiedlichem Faktor aus (`-6%`/`-12%`), wodurch sie unterschiedlich schnell wandern. Nur innerhalb von `prefers-reduced-motion: no-preference` – sonst bleiben die Kacheln unbeweglich.
+
+## Instagram-Feed mit Cookie-Banner (jederzeit änderbar)
+
+- **Auf Wunsch des Auftraggebers ein echter Instagram-Feed** an der Stelle der Kacheln, über ein **kostenloses Widget eines Drittanbieters** per iframe. Empfohlen SnapWidget oder LightWidget (laut Anbieter ohne Aufruflimit); Elfsight ungeeignet (Gratis-Tarif nur 200 Aufrufe/Monat). Einstellungen in `instagram.widget` in `web/src/config.ts` (`url`, `anbieter`, `hoehe`), anbieterneutral.
+- **Ohne eingetragene `url` ändert sich nichts:** kein Banner, kein localStorage, Datenschutzseite mit dem alten Text. Banner, Fußzeilen-Link „Cookie-Einstellungen“ und die Datenschutz-Abschnitte erscheinen automatisch, sobald `url` gesetzt ist.
+- **Eigener, schlichter Banner** (`web/src/components/CookieBanner.astro`), kein externes Consent-Tool. „Ablehnen“ ist gleich groß wie „Akzeptieren“. Das iframe wird erst nach „Akzeptieren“ per Skript erzeugt (`InstaAbschnitt.astro`); vorher und ohne JavaScript bleiben die Kacheln mit Hinweis und Knopf stehen. Widerruf entfernt das iframe wieder.
+- Die Antwort steht im **localStorage** (`straussi-einwilligung-instagram`, Logik in `web/src/scripts/einwilligung.ts`), nicht in einem Cookie. Umami bleibt cookielos und braucht keine Zustimmung.
+- Die Datenschutzseite bekommt mit Widget einen Abschnitt `#instagram-feed` (mit TODO für Anbieterdaten, USA-Übermittlung und rechtliche Prüfung).
 
 ## Befehle (im Ordner `web/`)
 

@@ -1,0 +1,52 @@
+---
+/**
+ * Cookie-Banner für den Instagram-Feed (Widget eines Drittanbieters).
+ * Wird nur ausgeliefert, wenn in src/config.ts ein Widget eingetragen ist
+ * (instagram.widget.url). Ohne Antwort lädt nichts vom Drittanbieter.
+ * "Ablehnen" ist bewusst genauso groß und gut erreichbar wie "Akzeptieren".
+ */
+import { instagram } from '../config';
+---
+
+<div class="cookie-banner" role="dialog" aria-labelledby="cookie-titel" aria-describedby="cookie-text" hidden data-cookie-banner>
+  <div class="cookie-inner">
+    <p id="cookie-titel" class="cookie-titel">Instagram-Feed anzeigen?</p>
+    <p id="cookie-text" class="cookie-text">
+      Auf der Startseite können wir unsere neuesten Instagram-Beiträge zeigen. Dafür wird ein Dienst von {instagram.widget.anbieter} geladen, der Daten (z. B. deine IP-Adresse) erhält und Cookies setzen kann. Ohne Zustimmung siehst du stattdessen nur Links zu unseren Profilen. Mehr dazu in der <a href="/datenschutz/">Datenschutzerklärung</a>.
+    </p>
+    <div class="cookie-knoepfe">
+      <button type="button" class="button button-klein cookie-ablehnen" data-antwort="nein">Ablehnen</button>
+      <button type="button" class="button button-klein" data-antwort="ja">Akzeptieren</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { leseAntwort, oeffneBanner, speichereAntwort } from '../scripts/einwilligung';
+
+  const banner = document.querySelector<HTMLElement>('[data-cookie-banner]');
+
+  if (banner) {
+    if (leseAntwort() === null) banner.hidden = false;
+
+    banner.querySelectorAll<HTMLButtonElement>('[data-antwort]').forEach((knopf) => {
+      knopf.addEventListener('click', () => {
+        speichereAntwort(knopf.dataset.antwort === 'ja' ? 'ja' : 'nein');
+        banner.hidden = true;
+      });
+    });
+
+    document.addEventListener('einwilligung-oeffnen', () => {
+      banner.hidden = false;
+      banner.querySelector<HTMLButtonElement>('[data-antwort]')?.focus();
+    });
+
+    // Link "Cookie-Einstellungen" in der Fußzeile
+    document.querySelectorAll('[data-cookie-einstellungen]').forEach((link) => {
+      link.addEventListener('click', (ereignis) => {
+        ereignis.preventDefault();
+        oeffneBanner();
+      });
+    });
+  }
+</script>

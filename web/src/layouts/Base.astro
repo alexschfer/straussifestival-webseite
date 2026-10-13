@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Analytics from '../components/Analytics.astro';
+import CookieBanner from '../components/CookieBanner.astro';
 import InstaIcon from '../components/InstaIcon.astro';
 import TikTokIcon from '../components/TikTokIcon.astro';
 import TicketButton from '../components/TicketButton.astro';
@@ -153,6 +154,15 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
                     </li>
                   ))
                 }
+                {
+                  instagram.widget.url && (
+                    <li>
+                      <a href="/datenschutz/#instagram-feed" data-cookie-einstellungen>
+                        Cookie-Einstellungen
+                      </a>
+                    </li>
+                  )
+                }
               </ul>
             </nav>
             <p class="footer-copyright">© {festival.name}</p>
@@ -162,5 +172,6 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
     </footer>
 
     {ticket.utmWeitergeben && <UtmWeitergabe />}
+    {instagram.widget.url && <CookieBanner />}
   </body>
 </html>

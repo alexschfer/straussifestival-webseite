@@ -4,8 +4,11 @@
  * Gestaltung nach dem Vorbild von ricola.com/de-de ("Stay in the Loop"): vollflächiges
  * Farbfeld, reine Icon-Knöpfe, ein versetztes Kachelraster, das über den unteren Rand
  * des Farbfelds hinausragt. Alles kommt aus src/config.ts (Blöcke "instagram" und
- * "tiktok"). Es wird nichts von Instagram oder TikTok eingebunden, die Fotos sind eigene
- * Dateien aus public/insta/.
+ * "tiktok"). Die Fotos der Kacheln sind eigene Dateien aus public/insta/.
+ *
+ * Ist in der Config ein Instagram-Widget eingetragen (instagram.widget.url), ersetzt der
+ * echte Feed die Kacheln, aber erst nach Zustimmung im Cookie-Banner. Vorher (und ohne
+ * JavaScript) bleiben die Kacheln stehen, darunter ein Hinweis mit Knopf.
  */
 import { instagram, tiktok } from '../config';
 import InstaIcon from './InstaIcon.astro';
@@ -13,6 +16,7 @@ import TikTokIcon from './TikTokIcon.astro';
 
 const anzahl = Math.max(5, instagram.fotos.length);
 const kacheln = Array.from({ length: anzahl }, (_, i) => instagram.fotos[i]);
+const widget = instagram.widget;
 ---
 
 <section class="insta" aria-labelledby="insta-titel">
@@ -57,9 +61,58 @@ const kacheln = Array.from({ length: anzahl }, (_, i) => instagram.fotos[i]);
       ))
     }
   </ul>
+
+  {
+    widget.url && (
+      <div class="insta-feed" data-insta-feed data-url={widget.url} data-hoehe={widget.hoehe}>
+        <p class="insta-feed-hinweis" data-insta-feed-hinweis>
+          Hier können unsere neuesten Instagram-Beiträge erscheinen. Dafür brauchen wir deine Zustimmung.
+          <button type="button" class="button button-klein" data-insta-feed-zustimmen>
+            Instagram-Feed anzeigen
+          </button>
+        </p>
+      </div>
+    )
+  }
 </section>
 
 <script>
+  import { leseAntwort, oeffneBanner } from '../scripts/einwilligung';
+
+  // Echter Instagram-Feed: wird erst nach Zustimmung geladen und ersetzt dann die Kacheln.
+  const feed = document.querySelector<HTMLElement>('[data-insta-feed]');
+
+  if (feed) {
+    const kachelRaster = document.querySelector<HTMLElement>('[data-insta-kacheln]');
+    const hinweis = feed.querySelector<HTMLElement>('[data-insta-feed-hinweis]');
+
+    const feedLaden = () => {
+      if (feed.querySelector('iframe')) return;
+      const rahmen = document.createElement('iframe');
+      rahmen.src = feed.dataset.url ?? '';
+      rahmen.title = 'Unsere neuesten Instagram-Beiträge';
+      rahmen.loading = 'lazy';
+      rahmen.style.height = `${feed.dataset.hoehe ?? 420}px`;
+      feed.append(rahmen);
+      if (hinweis) hinweis.hidden = true;
+      if (kachelRaster) kachelRaster.hidden = true;
+    };
+
+    // Nach Widerruf (Antwort "nein") wird der Feed wieder entfernt.
+    const feedEntfernen = () => {
+      feed.querySelector('iframe')?.remove();
+      if (hinweis) hinweis.hidden = false;
+      if (kachelRaster) kachelRaster.hidden = false;
+    };
+
+    if (leseAntwort() === 'ja') feedLaden();
+    document.addEventListener('einwilligung', (ereignis) => {
+      if ((ereignis as CustomEvent).detail === 'ja') feedLaden();
+      else feedEntfernen();
+    });
+    feed.querySelector('[data-insta-feed-zustimmen]')?.addEventListener('click', oeffneBanner);
+  }
+
   // Leichte "Nachzieh"-Animation der Kacheln beim Scrollen (Vorbild ricola.com):
   // gerade und ungerade Kacheln verschieben sich unterschiedlich schnell. Die
   // eigentliche Bewegung steckt in der CSS-Variable --insta-fortschritt (0 bis 1,

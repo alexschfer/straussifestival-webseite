@@ -187,6 +187,18 @@ ul {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   transform: translateY(-1px);
 }
+/* Knöpfe als <button> (z. B. im Cookie-Banner) sehen aus wie Link-Knöpfe */
+button.button {
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+/* Das hidden-Attribut muss auch gegen display-Regeln wie grid/flex gewinnen
+   (Cookie-Banner, Kacheln beim Einblenden des Instagram-Feeds). */
+[hidden] {
+  display: none !important;
+}
 .button-klein {
   padding: 0.35rem 1rem;
   font-size: 0.95rem;
@@ -455,6 +467,73 @@ ul {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+/* Echter Instagram-Feed (Widget, nur nach Zustimmung, siehe InstaAbschnitt.astro).
+   Der Rahmen zieht sich wie die Kacheln über den unteren Rand des Farbfelds. */
+.insta-feed {
+  max-width: var(--breite-gross);
+  margin-inline: auto;
+}
+.insta-feed iframe {
+  display: block;
+  width: 100%;
+  margin-top: -3rem;
+  border: 0;
+  border-radius: var(--radius);
+}
+.insta-feed-hinweis {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5rem auto 0;
+  max-width: var(--breite);
+  color: var(--farbe-text-leise);
+  text-align: center;
+}
+
+/* Cookie-Banner (nur wenn ein Instagram-Widget eingetragen ist) */
+.cookie-banner {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 100;
+  padding: var(--abstand);
+}
+.cookie-inner {
+  max-width: var(--breite);
+  margin-inline: auto;
+  padding: 1.25rem;
+  border: 1px solid var(--farbe-linie);
+  border-radius: var(--radius-gross);
+  background: var(--farbe-flaeche);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.cookie-titel {
+  margin: 0 0 0.4rem;
+  font-weight: 700;
+}
+.cookie-text {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+}
+/* Gold statt Pink: auf der Fläche hätte Pink zu wenig Kontrast (siehe Variablen oben) */
+.cookie-text a {
+  color: var(--farbe-akzent);
+}
+.cookie-knoepfe {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+/* Beide Knöpfe gleich groß (Ablehnen muss so leicht sein wie Akzeptieren) */
+.cookie-knoepfe .button {
+  border: 2px solid var(--farbe-akzent);
+}
+.cookie-knoepfe .cookie-ablehnen {
+  background: transparent;
+  color: var(--farbe-akzent);
 }
 .insta-platzhalter {
   display: flex;
