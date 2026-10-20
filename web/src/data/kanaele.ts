@@ -3,7 +3,7 @@
  *
  * Aus dieser Liste werden beim Build automatisch erzeugt:
  *   1. Weiterleitungen  <seite>/q/<slug>  ->  <seite>?utm_...  (astro.config.ts)
- *   2. QR-Codes         docs/qr/<slug>.svg          (integrations/kanaele-output.ts)
+ *   2. QR-Codes         docs/qr/<slug>.svg          (integrations/kanaele-output.ts, nur utm_medium "scan")
  *   3. Kanaltabelle     docs/kanaele.md             (integrations/kanaele-output.ts)
  *
  * "<seite>" ist dabei jede Seite der Webseite: /q/mensa landet auf der

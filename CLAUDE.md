@@ -43,7 +43,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **Eine einzige Datenquelle** für alle Marketingkanäle: `web/src/data/kanaele.ts`. Pro Kanal: Slug, `utm_source`, `utm_medium`, `utm_content` (optional), Beschreibung.
 - Daraus werden beim Build automatisch erzeugt:
   1. Redirects `<seite>/q/<slug>` -> `<seite>?utm_...` (`redirects`-Option in `astro.config.ts`). **`/q/<slug>` funktioniert hinter jeder Seite**, also `/q/mensa` (Startseite), `/lineup/q/mensa`, `/infos/q/mensa` usw. Die Seitenliste liest `web/integrations/seiten.ts` automatisch aus `src/pages/`; eine neue Seite bekommt ihre Weiterleitungen dadurch von selbst. Ein Kanal braucht dafür keinen Eintrag, die UTM-Parameter sind für jede Zielseite gleich.
-  2. Ein QR-Code als SVG pro Kanal **und Seite** (npm-Paket `qrcode`): `docs/qr/<slug>.svg` für die Startseite, `docs/qr/<seite>/<slug>.svg` für die übrigen Seiten.
+  2. Ein QR-Code als SVG pro **gedrucktem Kanal (`utm_medium` `scan`)** und Seite (npm-Paket `qrcode`, Fehlerkorrektur Q, ca. 25 %; WhatsApp, Instagram, TikTok bekommen keinen QR-Code, ihre Links werden direkt geteilt): `docs/qr/<slug>.svg` für die Startseite, `docs/qr/<seite>/<slug>.svg` für die übrigen Seiten.
   3. `docs/kanaele.md`: Tabelle mit Slug, fertigem UTM-Link und QR-Datei.
   (2 und 3 erledigt die Integration `web/integrations/kanaele-output.ts` im Hook `astro:build:done`.)
 - `utm_campaign` ist immer `straussi-festival-2027`.

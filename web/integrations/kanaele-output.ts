@@ -1,6 +1,6 @@
 /**
  * Astro-Integration: erzeugt beim Build aus src/data/kanaele.ts
- *   - docs/qr/<slug>.svg           QR-Code pro Kanal für die Startseite
+ *   - docs/qr/<slug>.svg           QR-Code pro gedrucktem Kanal (utm_medium "scan") für die Startseite
  *   - docs/qr/<seite>/<slug>.svg   dasselbe für jede weitere Seite
  *   - docs/kanaele.md              Tabelle mit Slug, UTM-Link und QR-Datei
  *   - Weiterleitungsregeln am Ende von dist/.htaccess (siehe unten)
@@ -16,6 +16,12 @@ import { seitenPfade } from './seiten';
 
 /** "/" -> "" (liegt direkt in docs/qr/), "/lineup/" -> "lineup/" (Unterordner). */
 const qrOrdner = (seite: string) => seite.replace(/^\//, '');
+
+/**
+ * QR-Codes nur für gedruckte Kanäle. WhatsApp-, Instagram- und TikTok-Links werden
+ * direkt am Handy angetippt, ein QR-Code dafür würde nur beim Drucken verwirren.
+ */
+const qrKanaele = kanaele.filter((k) => k.utm_medium === 'scan');
 
 const istPlatzhalterDomain = (site: string) => new URL(site).hostname.endsWith('.invalid');
 
@@ -58,7 +64,7 @@ export default function kanaeleOutput(): AstroIntegration {
         for (const seite of seiten) {
           const ordner = new URL(qrOrdner(seite), qrDir);
           await mkdir(ordner, { recursive: true });
-          for (const kanal of kanaele) {
+          for (const kanal of qrKanaele) {
             const svg = await QRCode.toString(`${site}${kurzPfad(kanal, seite)}`, {
               type: 'svg',
               errorCorrectionLevel: 'Q',
@@ -73,7 +79,8 @@ export default function kanaeleOutput(): AstroIntegration {
           const utmLink = `${site}/?${utmQuery(k)}`;
           return (
             `| \`${k.slug}\` | ${zelle(k.beschreibung)} ` +
-            `| \`${site}${kurzPfad(k)}\` | \`${utmLink}\` | [${k.slug}.svg](qr/${k.slug}.svg) |`
+            `| \`${site}${kurzPfad(k)}\` | \`${utmLink}\` ` +
+            `| ${qrKanaele.includes(k) ? `[${k.slug}.svg](qr/${k.slug}.svg)` : 'kein QR-Code (Link teilen)'} |`
           );
         });
         const md = [
@@ -92,10 +99,10 @@ export default function kanaeleOutput(): AstroIntegration {
             : []),
           `Domain: \`${site}\` · Kampagne (\`utm_campaign\`): \`${CAMPAIGN}\``,
           '',
-          '- **Kurz-URL**: steht im QR-Code und leitet auf die Startseite mit UTM-Parametern weiter.',
+          '- **Kurz-URL**: steht im QR-Code bzw. wird geteilt und leitet auf die Startseite mit UTM-Parametern weiter.',
           '- **Fertiger UTM-Link**: das Ziel der Weiterleitung, für Links, die nicht als QR-Code laufen.',
           '',
-          '| Slug | Beschreibung | Kurz-URL (QR-Code) | Fertiger UTM-Link | QR-Datei |',
+          '| Slug | Beschreibung | Kurz-URL (QR-Code oder Link) | Fertiger UTM-Link | QR-Datei |',
           '| --- | --- | --- | --- | --- |',
           ...zeilen,
           '',
@@ -109,7 +116,7 @@ export default function kanaeleOutput(): AstroIntegration {
           `${site}/lineup/q/flyer    ->  Line-up-Seite`,
           '```',
           '',
-          'Die passenden QR-Codes liegen fertig im Ordner `qr/` bereit:',
+          'Die passenden QR-Codes (nur gedruckte Kanäle, `utm_medium` `scan`) liegen fertig im Ordner `qr/` bereit:',
           '',
           '| Seite | QR-Codes |',
           '| --- | --- |',
@@ -125,7 +132,7 @@ export default function kanaeleOutput(): AstroIntegration {
         await writeFile(new URL('kanaele.md', docsDir), md);
 
         logger.info(
-          `${kanaele.length * seiten.length} QR-Codes (${kanaele.length} Kanäle x ${seiten.length} Seiten) ` +
+          `${qrKanaele.length * seiten.length} QR-Codes (${qrKanaele.length} gedruckte Kanäle x ${seiten.length} Seiten) ` +
             `und kanaele.md nach ${fileURLToPath(docsDir)} geschrieben.`,
         );
         if (platzhalter) {
