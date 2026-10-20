@@ -14,7 +14,7 @@ Die Menünamen in Plesk und Matomo können je nach Version leicht abweichen.
 2. **Subdomain hinzufügen:** `stats.straussifestival.de` (eigener Dokumentenstamm, z. B. `stats.straussifestival.de`).
 3. **SSL/TLS-Zertifikate:** Für `straussifestival.de`, `www.straussifestival.de` und `stats.straussifestival.de` ein kostenloses Let's-Encrypt-Zertifikat holen. Kontakt-E-Mail: `orga@straussifestival.de`.
 4. **PHP-Einstellungen** der Subdomain `stats`: PHP 8.1 oder neuer.
-5. **Logs:** Die Log-Rotation ist im Cloud86-Webhosting in Plesk **nicht einstellbar** (nicht gefunden). Die Speicherdauer der Zugriffslogs beim Cloud86-Support erfragen und in die Datenschutzerklärung eintragen (TODO-Kommentar in `web/src/pages/datenschutz.astro`).
+5. **Logs (Pflicht, steht so in der Datenschutzerklärung):** Bei `straussifestival.de` und `stats.straussifestival.de` unter *Logs > Protokollrotation*: nach Zeit **monatlich** (täglich ist bei Cloud86 gesperrt), maximale Anzahl Protokolldateien **1**, nicht per E-Mail senden. Ergibt höchstens ca. 2 Monate Speicherdauer.
 
 ## 2. Einmalig: Matomo installieren
 
