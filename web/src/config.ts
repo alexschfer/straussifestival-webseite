@@ -46,7 +46,16 @@ export const ticket = {
    * Erst auf true setzen, wenn das geklärt ist.
    */
   utmWeitergeben: false,
+
+  /** Start des Vorverkaufs; steht auf dem ausgegrauten Button, solange url noch TODO ist. */
+  vorverkaufAb: '01.12.2026',
 } as const;
+
+/**
+ * Ticketbuttons sind nur klickbar, wenn oben eine echte URL steht. Solange dort
+ * noch TODO steht, erscheinen sie ausgegraut ohne Link (siehe TicketButton.astro).
+ */
+export const ticketAktiv = !ticket.url.includes('TODO');
 
 /**
  * Instagram-Abschnitt auf der Startseite ("Bleib auf dem Laufenden").

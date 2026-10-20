@@ -52,7 +52,7 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-    <link rel="icon" href="/logo.png" type="image/png" />
+    <link rel="icon" href="/logo-klein.png" type="image/png" />
     <Analytics />
   </head>
   <body>
@@ -60,7 +60,7 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
     <header class="site-header">
       <div class="header-inner">
         <a class="brand" href="/">
-          <img src="/logo.png" alt="" width="28" height="28" />
+          <img src="/logo-klein.png" alt="" width="28" height="28" />
           <span>{festival.kurzname} <span class="akzent">{festival.jahr}</span></span>
         </a>
         <TicketButton position="header" text="Tickets" class="button-klein" />
@@ -151,7 +151,7 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
 
         <div class="footer-unten">
           <div class="footer-marke">
-            <img src="/logo.png" alt="" width="40" height="40" class="footer-logo" />
+            <img src="/logo-klein.png" alt="" width="40" height="40" class="footer-logo" />
             <div>
               <p class="footer-name">{festival.kurzname} <span class="akzent">{festival.jahr}</span></p>
               <p class="footer-veranstalter">{festival.veranstalter}</p>

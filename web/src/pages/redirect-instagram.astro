@@ -31,14 +31,14 @@ const ereignis = analytics.instaEvent;
     <meta name="theme-color" content="#1b1c20" />
     <meta name="robots" content="noindex" />
     <title>Weiter zu Instagram – {festival.kurzname}</title>
-    <link rel="icon" href="/logo.png" type="image/png" />
+    <link rel="icon" href="/logo-klein.png" type="image/png" />
     <!-- Ohne JavaScript geht es nach 3 Sekunden trotzdem weiter (dann ohne Zählung). -->
     <meta http-equiv="refresh" content={`3;url=${ziel}`} />
     <Analytics autoTrack={false} />
   </head>
   <body>
     <main class="wrap prose weiter">
-      <img src="/logo.png" alt="" width="96" height="96" />
+      <img src="/logo-klein.png" alt="" width="96" height="96" />
       <p>Weiter zu <strong>{instagram.name}</strong> auf Instagram …</p>
       <p>Falls nichts passiert:</p>
       <a class="button button-gross" href={ziel}>Zu Instagram</a>

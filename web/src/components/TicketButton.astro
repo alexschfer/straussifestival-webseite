@@ -1,5 +1,5 @@
 ---
-import { analytics, ticket } from '../config';
+import { analytics, ticket, ticketAktiv } from '../config';
 
 interface Props {
   /** Wo der Button sitzt; wird im Umami-Event als "position" mitgeschickt. */
@@ -10,14 +10,29 @@ interface Props {
 }
 
 const { position, text = 'Tickets kaufen', class: klasse } = Astro.props;
+
+// Solange keine echte Ticket-URL eingetragen ist (ticketAktiv in config.ts), steht hier
+// ein ausgegrauter Button ohne Link, wie die "bald"-Punkte im Menü. Klein (Kopfzeile)
+// nur mit "bald", sonst mit dem Datum des Vorverkaufsstarts.
+const textAus = klasse?.includes('button-klein') && position === 'header' ? 'bald' : `ab ${ticket.vorverkaufAb}`;
 ---
 
-<a
-  class:list={['button', klasse]}
-  href={ticket.url}
-  target="_blank"
-  rel="noopener"
-  data-ticket-link
-  data-umami-event={analytics.ticketEvent}
-  data-umami-event-position={position}>{text}</a
->
+{
+  ticketAktiv ? (
+    <a
+      class:list={['button', klasse]}
+      href={ticket.url}
+      target="_blank"
+      rel="noopener"
+      data-ticket-link
+      data-umami-event={analytics.ticketEvent}
+      data-umami-event-position={position}
+    >
+      {text}
+    </a>
+  ) : (
+    <span class:list={['button', 'button-aus', klasse]} aria-disabled="true">
+      Tickets <small>{textAus}</small>
+    </span>
+  )
+}
