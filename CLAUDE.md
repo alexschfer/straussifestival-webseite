@@ -180,6 +180,7 @@ Deployment (im Repo-Wurzelordner): `./deploy/deploy.sh`
 - Der Kopf der Datei (zwischen den `---`) und die Zeile `<Base title="..." description="...">` legen Titel und Beschreibung fest.
 - Geschweifte Klammern `{` und `}` sind in Astro-Texten Sonderzeichen. Im Text vermeiden oder als `{'{'}` schreiben.
 - **Neue Seite:** eine Datei in `web/src/pages/` anlegen (am einfachsten `infos.astro` kopieren) und **eine Zeile in der Navigationsliste** in `web/src/layouts/Base.astro` ergänzen (`hauptmenue` oder `fussmenue`). Ohne diese Zeile gibt es die Seite, aber keinen Link darauf.
+- **Seite noch nicht fertig:** Im Menü (`hauptmenue` in `Base.astro`) `bald: true` setzen. Der Punkt erscheint dann ausgegraut mit „bald“ und ist kein Link (Kopf- und Fußzeile). Aktuell so: Line-up und Anfahrt. Die Seiten selbst bleiben unter ihrer Adresse erreichbar; Links im Fließtext auf sie wurden entfernt (Kommentare an den Stellen in `index.astro` und `faq.astro` zeigen, was wieder rein muss).
 - Zwischenüberschriften bekommen keine automatischen Anker-`id`s mehr (waren bei Markdown automatisch da, wurden nirgends verwendet).
 
 ## Offene Punkte

@@ -18,12 +18,14 @@ interface Props {
 const { title, description, startseite = false } = Astro.props;
 
 // Navigation: neue Seite = neue Datei in src/pages/ und hier eine Zeile ergänzen.
-const hauptmenue = [
+// bald: true = Seite ist noch nicht fertig. Der Punkt steht ausgegraut mit „bald“
+// im Menü, ist aber kein Link. Sobald die Seite fertig ist, "bald: true" löschen.
+const hauptmenue: { href: string; text: string; bald?: boolean }[] = [
   { href: '/', text: 'Start' },
   { href: '/infos/', text: 'Infos' },
-  { href: '/lineup/', text: 'Line-up' },
+  { href: '/lineup/', text: 'Line-up', bald: true },
   { href: '/faq/', text: 'FAQ' },
-  { href: '/anfahrt/', text: 'Anfahrt' },
+  { href: '/anfahrt/', text: 'Anfahrt', bald: true },
 ];
 // Rechtliches: erscheint unten in der schmalen Leiste der Fußzeile.
 const fussmenue = [
@@ -67,9 +69,15 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
             {
               hauptmenue.map((eintrag) => (
                 <li>
-                  <a href={eintrag.href} aria-current={istAktuell(eintrag.href) ? 'page' : undefined}>
-                    {eintrag.text}
-                  </a>
+                  {eintrag.bald ? (
+                    <span class="menue-bald">
+                      {eintrag.text} <small>bald</small>
+                    </span>
+                  ) : (
+                    <a href={eintrag.href} aria-current={istAktuell(eintrag.href) ? 'page' : undefined}>
+                      {eintrag.text}
+                    </a>
+                  )}
                 </li>
               ))
             }
@@ -116,7 +124,13 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
               {
                 hauptmenue.map((eintrag) => (
                   <li>
-                    <a href={eintrag.href}>{eintrag.text}</a>
+                    {eintrag.bald ? (
+                      <span class="menue-bald">
+                        {eintrag.text} <small>bald</small>
+                      </span>
+                    ) : (
+                      <a href={eintrag.href}>{eintrag.text}</a>
+                    )}
                   </li>
                 ))
               }

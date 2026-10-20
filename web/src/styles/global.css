@@ -589,6 +589,29 @@ button.button {
   color: var(--farbe-akzent-zwei-hell);
   text-decoration: underline;
 }
+/* Menüpunkte von Seiten, die noch nicht fertig sind (bald: true in Base.astro):
+   ausgegraut, kein Link. */
+.menue-bald {
+  display: inline-block;
+  padding: 0.35rem 0;
+  color: var(--farbe-text-leise);
+  opacity: 0.55;
+  cursor: default;
+}
+.menue-bald small {
+  margin-left: 0.2em;
+  padding: 0.05em 0.45em;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  vertical-align: 0.15em;
+}
+.footer-spalte .menue-bald {
+  padding: 0;
+}
+
 /* Runde Knöpfe für die Social-Media-Symbole */
 .footer-icons {
   display: flex;
