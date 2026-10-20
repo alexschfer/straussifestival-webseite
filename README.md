@@ -59,3 +59,7 @@ Fehlt einer der Werte, wird Matomo nicht eingebunden (dann auch kein Cookie-Bann
 
 - **Aktuell:** Webhosting bei Cloud86 mit Plesk, Matomo im selben Webhosting: [deploy/PLESK.md](deploy/PLESK.md)
 - Alternative für einen eigenen Server mit Docker (Caddy, Umami, Postgres; derzeit **nicht** in Verwendung): [analytics/README.md](analytics/README.md), [deploy/README.md](deploy/README.md). Achtung: Die Webseite selbst bindet inzwischen Matomo ein, nicht mehr Umami.
+
+```
+npm run build && cd dist && rm -f ../../straussifestival-webseite.zip && zip -qr ../../straussifestival-webseite.zip .
+```
