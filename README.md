@@ -1,5 +1,10 @@
 # Straußi Festival 2027: Webseite
 
+> [!IMPORTANT]
+> **Statistikdaten bis spätestens 31.12.2027 löschen.** So steht es in der Datenschutzerklärung (`web/src/pages/datenschutz.astro`), und Umami löscht nicht von selbst.
+> Löschen: in Umami unter den Einstellungen der Website die Daten zurücksetzen (oder die Website dort ganz löschen). Die Datenbanksicherungen auf dem Server werden danach innerhalb von 14 Tagen von selbst überschrieben.
+> Wird das Datum geändert, beides anpassen: diesen Hinweis und die Datenschutzerklärung.
+
 Infoseite zum Straußi Festival 2027 (Studierendenwohnheime Straußäcker, Stuttgart) mit selbst gehosteten Web-Analytics (Umami). Die Seite verlinkt auf den externen Ticketshop und misst, über welchen Kanal Besucher kommen und wie viele auf den Ticketbutton klicken.
 
 Kurz: `web/` bauen, mit `./deploy/deploy.sh` auf die VM bringen. Projektkontext und alle Entscheidungen: [CLAUDE.md](CLAUDE.md). Aufgaben und Stand: [docs/SPEC.md](docs/SPEC.md).

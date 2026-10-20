@@ -51,7 +51,7 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 - [ ] **`SITE_URL` setzen**, sobald die Domain feststeht, und die QR-Codes neu bauen. Erst dann drucken.
 - [ ] **Eigene Fotos** für die Instagram-Kacheln ablegen (`web/public/insta/`, aktuell Platzhalter "TODO Foto"). Das Profil `@straussifestival` ist eingetragen.
 - [x] Datenschutzerklärung ausgefüllt (Straussi 1 e.V. als Verantwortlicher, tatsächlicher technischer Aufbau)
-- [ ] Datenschutz: **Serverstandort** klären (eigene Hardware oder gemieteter Server? Bei Miete den Anbieter nennen), **Löschfrist** der Statistik bestätigen (eingetragen: 31.12.2027) und die Löschung dann auch durchführen
+- [ ] Datenschutz: **Serverstandort** klären (eigene Hardware oder gemieteter Server? Bei Miete den Anbieter nennen), **Statistik bis 31.12.2027 löschen** (steht in Datenschutzerklärung und oben in README.md)
 - [ ] Datenschutzerklärung und Impressum rechtlich prüfen lassen
 - [ ] **Instagram-Widget bei LightWidget** anlegen (Anbieter entschieden, kostenlos) und in `instagram.widget` in `web/src/config.ts` eintragen (Anleitung: `web/public/insta/README.md`); danach Abschnitt `#instagram-feed` der Datenschutzerklärung vervollständigen und prüfen lassen
 
