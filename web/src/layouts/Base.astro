@@ -131,8 +131,7 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
 
           <div class="footer-spalte">
             <h2>Kontakt</h2>
-            {/* TODO: E-Mail-Adresse des Festivalteams eintragen und als Link setzen. */}
-            <p class="footer-spalte-text"><strong>TODO:</strong> Kontaktadresse des Festivalteams</p>
+            <p class="footer-spalte-text"><a href={`mailto:${festival.email}`}>{festival.email}</a></p>
           </div>
         </div>
 

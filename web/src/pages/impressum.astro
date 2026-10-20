@@ -1,15 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
+import { festival } from '../config';
 ---
 
 <Base title="Impressum" description="Anbieterkennzeichnung für die Webseite des Straußi Festivals 2027.">
   <div class="wrap prose">
     <h1>Impressum</h1>
-    <!-- Angaben übernommen aus dem Impressum des Veranstalters: https://straussi1.de/wohnheim/rechtliches/impressum (Stand 20.10.2026). Bei Änderungen dort hier mitziehen. -->
+    <!-- Angaben übernommen aus dem Impressum des Veranstalters: https://straussi1.de/wohnheim/rechtliches/impressum (Stand 20.10.2026), mit Zustimmung des Vorstands. Kontakt ist die Festival-Adresse aus config.ts. Bei Änderungen dort hier mitziehen. -->
     <h2>Angaben zum Anbieter</h2>
     <p>Straussi 1 e.V.<br />Pfaffenwaldring 64<br />70569 Stuttgart</p>
     <h2>Kontakt</h2>
-    <p>E-Mail: <a href="mailto:wohnheimssprecher@straussi1.de">wohnheimssprecher@straussi1.de</a></p>
+    <p>E-Mail: <a href={`mailto:${festival.email}`}>{festival.email}</a></p>
     <h2>Registereintrag</h2>
     <p>Eingetragen im Vereinsregister beim Amtsgericht Stuttgart<br />Registernummer: VR 725467</p>
     <h2>Vertretungsberechtigte Personen</h2>
