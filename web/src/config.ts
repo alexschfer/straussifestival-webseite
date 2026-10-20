@@ -99,6 +99,8 @@ export const analytics = {
   websiteId: (import.meta.env.PUBLIC_UMAMI_WEBSITE_ID ?? '').trim(),
   /** Name des Klick-Events, das der Ticketbutton auslöst. */
   ticketEvent: 'ticket-click',
+  /** Ereignis der Weiterleitung /instagram/ (QR-Codes direkt zu Instagram). */
+  instaEvent: 'insta-weiterleitung',
 };
 
 export const analyticsAktiv = Boolean(analytics.host && analytics.websiteId);

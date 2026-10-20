@@ -27,7 +27,7 @@ Der Build erzeugt außerdem:
 
 - `docs/qr/<slug>.svg`: ein QR-Code pro Marketingkanal (für den Druck)
 - `docs/kanaele.md`: Tabelle aller Kanäle mit UTM-Links
-- `docs/qr/instagram/<slug>.svg`: QR-Codes, die **direkt zu Instagram** führen (Aufruf wird vorher in Umami gezählt, Auswertung unter Seite `/instagram/`)
+- `docs/qr/instagram/<slug>.svg`: QR-Codes, die **direkt zu Instagram** führen (Aufruf wird vorher in Umami gezählt, Auswertung über das Ereignis `insta-weiterleitung`)
 
 **Vor dem Drucken** muss in `web/.env` die echte `SITE_URL` stehen, sonst zeigen die QR-Codes auf eine Platzhalter-Domain. Der Build warnt in diesem Fall.
 

@@ -160,8 +160,8 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 ## Instagram-Weiterleitung per QR-Code (jederzeit änderbar)
 
 - **Seite `web/src/pages/instagram.astro`** zählt den Aufruf in Umami und leitet dann auf `instagram.profilUrl` weiter. Weil sie eine normale Seite ist, gilt automatisch `/instagram/q/<slug>` für jeden Kanal, und die QR-Codes entstehen in `docs/qr/instagram/<slug>.svg`. Kein eigener Kanal, keine eigene Config.
-- Ablauf: `/instagram/q/flyer` -> (Meta-Refresh) `/instagram/?utm_...` -> Umami-Seitenaufruf mit UTMs -> `location.replace` zu Instagram. Das Umami-Skript läuft dort mit `data-auto-track="false"`; die Seite ruft selbst `umami.track()` auf und leitet erst danach weiter (höchstens 1,5 s Wartezeit, ohne Umami/bei Blocker sofort, ohne JavaScript per Meta-Refresh nach 3 s, dann ungezählt).
-- Auswertung in Umami: Seite `/instagram/`, nach UTM-Quelle aufgeschlüsselt. Bewusst ohne das gemeinsame Layout (keine Kopf-/Fußzeile, kein Banner) und mit `noindex`. Nicht im Menü.
+- Ablauf: `/instagram/q/flyer` -> (Meta-Refresh) `/instagram/?utm_...` -> Umami-Seitenaufruf mit UTMs -> `location.replace` zu Instagram. Das Umami-Skript läuft dort mit `data-auto-track="false"`; die Seite sendet selbst den Seitenaufruf und das Ereignis `insta-weiterleitung` (`analytics.instaEvent` in `config.ts`) und leitet erst danach weiter (höchstens 1,5 s Wartezeit, ohne Umami/bei Blocker sofort, ohne JavaScript per Meta-Refresh nach 3 s, dann ungezählt).
+- Auswertung in Umami: Ereignis `insta-weiterleitung` (gewünscht: klar getrennt von den Webseiten-Besuchen) oder Seite `/instagram/`, nach UTM-Quelle aufgeschlüsselt. Die Insta-Scans zählen trotzdem als Besucher der Seite; für reine Webseiten-Zahlen `/instagram/` herausfiltern. Unten steht ein Knopf „Zu Instagram“ für den Fall, dass die automatische Weiterleitung nicht greift (iOS öffnet die Instagram-App oft nur bei angetipptem Link; auf echten Handys noch zu testen). Bewusst ohne das gemeinsame Layout (keine Kopf-/Fußzeile, kein Banner) und mit `noindex`. Nicht im Menü.
 
 ## Befehle (im Ordner `web/`)
 

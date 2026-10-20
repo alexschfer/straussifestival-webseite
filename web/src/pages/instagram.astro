@@ -8,16 +8,18 @@
  * Kanal in Umami und schickt den Besucher dann zu Instagram. Die fertigen
  * QR-Codes liegen in docs/qr/instagram/.
  *
- * Auswertung in Umami: Seite "/instagram/", nach UTM-Quelle aufschlüsseln.
+ * Auswertung in Umami: Ereignis "insta-weiterleitung" (klar getrennt von den
+ * Webseiten-Besuchen) oder Seite "/instagram/", jeweils nach UTM-Quelle aufschlüsseln.
  *
  * Bewusst ohne das gemeinsame Layout (keine Kopf-/Fußzeile, kein Cookie-Banner):
  * Die Seite ist nur einen Augenblick zu sehen.
  */
 import '../styles/global.css';
 import Analytics from '../components/Analytics.astro';
-import { festival, instagram } from '../config';
+import { analytics, festival, instagram } from '../config';
 
 const ziel = instagram.profilUrl;
+const ereignis = analytics.instaEvent;
 ---
 
 <!doctype html>
@@ -38,19 +40,21 @@ const ziel = instagram.profilUrl;
     <main class="wrap prose weiter">
       <img src="/logo.png" alt="" width="96" height="96" />
       <p>Weiter zu <strong>{instagram.name}</strong> auf Instagram …</p>
-      <p><a href={ziel}>Falls nichts passiert: hier tippen</a></p>
+      <p>Falls nichts passiert:</p>
+      <a class="button button-gross" href={ziel}>Zu Instagram</a>
     </main>
 
-    <script is:inline define:vars={{ ziel }}>
-      // Erst zählen, dann weiterleiten. Spätestens nach 1,5 Sekunden geht es
-      // weiter, auch wenn Umami nicht antwortet oder blockiert ist.
+    <script is:inline define:vars={{ ziel, ereignis }}>
+      // Erst zählen (Seitenaufruf und eigenes Ereignis), dann weiterleiten.
+      // Spätestens nach 1,5 Sekunden geht es weiter, auch wenn Umami nicht
+      // antwortet oder blockiert ist.
       window.addEventListener('load', function () {
         var weiter = function () {
           location.replace(ziel);
         };
         if (!window.umami) return weiter();
         Promise.race([
-          Promise.resolve(window.umami.track()),
+          Promise.all([window.umami.track(), window.umami.track(ereignis)]),
           new Promise(function (fertig) {
             setTimeout(fertig, 1500);
           }),
