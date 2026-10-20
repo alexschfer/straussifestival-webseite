@@ -12,6 +12,7 @@ Domain: `https://straussifestival.de` · Kampagne (`utm_campaign`): `straussi-fe
 | --- | --- | --- | --- | --- |
 | `flyer` | QR-Code auf den Flyern. | `https://straussifestival.de/q/flyer` | `https://straussifestival.de/?utm_source=flyer&utm_medium=scan&utm_campaign=straussi-festival-2027` | [flyer.svg](qr/flyer.svg) |
 | `plakat` | QR-Code auf den Plakaten bzw. Aushängen. | `https://straussifestival.de/q/plakat` | `https://straussifestival.de/?utm_source=plakat&utm_medium=scan&utm_campaign=straussi-festival-2027` | [plakat.svg](qr/plakat.svg) |
+| `sticker` | QR-Code auf den Stickern. | `https://straussifestival.de/q/sticker` | `https://straussifestival.de/?utm_source=sticker&utm_medium=scan&utm_campaign=straussi-festival-2027` | [sticker.svg](qr/sticker.svg) |
 | `whatsapp` | Link, der in WhatsApp-Gruppen und -Kanälen geteilt wird. Immer diesen Link teilen, nie nur die Domain. | `https://straussifestival.de/q/whatsapp` | `https://straussifestival.de/?utm_source=whatsapp&utm_medium=messenger&utm_campaign=straussi-festival-2027` | [whatsapp.svg](qr/whatsapp.svg) |
 | `instagram` | Link in der Instagram-Bio bzw. in Stories. | `https://straussifestival.de/q/instagram` | `https://straussifestival.de/?utm_source=instagram&utm_medium=social&utm_campaign=straussi-festival-2027` | [instagram.svg](qr/instagram.svg) |
 | `tiktok` | Link in der TikTok-Bio. | `https://straussifestival.de/q/tiktok` | `https://straussifestival.de/?utm_source=tiktok&utm_medium=social&utm_campaign=straussi-festival-2027` | [tiktok.svg](qr/tiktok.svg) |

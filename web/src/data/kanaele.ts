@@ -52,6 +52,12 @@ export const kanaele: Kanal[] = [
     beschreibung: 'QR-Code auf den Plakaten bzw. Aushängen.',
   },
   {
+    slug: 'sticker',
+    utm_source: 'sticker',
+    utm_medium: 'scan',
+    beschreibung: 'QR-Code auf den Stickern.',
+  },
+  {
     slug: 'whatsapp',
     utm_source: 'whatsapp',
     utm_medium: 'messenger',
