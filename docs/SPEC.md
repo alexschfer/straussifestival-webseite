@@ -10,7 +10,7 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 - [x] Seiten als einfache Astro-Seiten (`web/src/pages/*.astro`, gemeinsames Layout, Navigation als Liste im Layout; ursprünglich Markdown/Content Collections, später auf Wunsch umgestellt): Startseite, Infos, FAQ, Anfahrt, Impressum, Datenschutz
 - [x] Mobiles, schlichtes Layout (dunkles Thema), Ticketbutton prominent, zentrale Ticket-URL in `web/src/config.ts`
 - [x] Instagram-Abschnitt auf der Startseite (Links und Kacheln; optional echter Feed per Widget mit Cookie-Banner)
-- [x] Weiterleitung `/instagram/` mit Zählung in Umami, für QR-Codes direkt zu Instagram (`/instagram/q/<slug>`, QR-Codes in `docs/qr/instagram/`)
+- [x] Weiterleitung `/redirect-instagram/` mit Zählung in Umami, für QR-Codes direkt zu Instagram (`/redirect-instagram/q/<slug>`, QR-Codes in `docs/qr/redirect-instagram/`)
 - [x] Zentrale Kanaldatei `web/src/data/kanaele.ts` mit Validierung der UTM-Schreibregel
 - [x] Aus den Kanälen generiert: Redirects `/q/<slug>`, QR-Codes (`docs/qr/`), `docs/kanaele.md`
 - [x] Umami-Einbindung über Umgebungsvariablen (ohne Werte kein Skript)

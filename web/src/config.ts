@@ -50,7 +50,7 @@ export const ticket = {
  * Instagram-Abschnitt auf der Startseite ("Bleib auf dem Laufenden").
  * Ohne Widget (unten) wird nichts von Instagram eingebunden, nur verlinkt; die Fotos
  * der Kacheln sind eigene Dateien. Mit Widget lädt der Feed erst nach Zustimmung.
- * profilUrl ist auch das Ziel der Weiterleitung /instagram/ (QR-Codes zu Instagram).
+ * profilUrl ist auch das Ziel der Weiterleitung /redirect-instagram/ (QR-Codes zu Instagram).
  */
 export const instagram = {
   profilUrl: 'https://www.instagram.com/straussifestival/',
@@ -99,7 +99,7 @@ export const analytics = {
   websiteId: (import.meta.env.PUBLIC_UMAMI_WEBSITE_ID ?? '').trim(),
   /** Name des Klick-Events, das der Ticketbutton auslöst. */
   ticketEvent: 'ticket-click',
-  /** Ereignis der Weiterleitung /instagram/ (QR-Codes direkt zu Instagram). */
+  /** Ereignis der Weiterleitung /redirect-instagram/ (QR-Codes direkt zu Instagram). */
   instaEvent: 'insta-weiterleitung',
 };
 

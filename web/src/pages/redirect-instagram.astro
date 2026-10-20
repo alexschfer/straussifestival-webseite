@@ -3,13 +3,13 @@
  * Weiterleitung zum Instagram-Profil, mit Zählung in Umami.
  *
  * Gedacht für QR-Codes, die direkt auf Instagram führen sollen. Wie jede Seite
- * funktioniert sie mit allen Kanälen: /instagram/q/flyer leitet erst auf
- * /instagram/?utm_source=flyer&... weiter, diese Seite zählt den Aufruf samt
+ * funktioniert sie mit allen Kanälen: /redirect-instagram/q/flyer leitet erst auf
+ * /redirect-instagram/?utm_source=flyer&... weiter, diese Seite zählt den Aufruf samt
  * Kanal in Umami und schickt den Besucher dann zu Instagram. Die fertigen
- * QR-Codes liegen in docs/qr/instagram/.
+ * QR-Codes liegen in docs/qr/redirect-instagram/.
  *
  * Auswertung in Umami: Ereignis "insta-weiterleitung" (klar getrennt von den
- * Webseiten-Besuchen) oder Seite "/instagram/", jeweils nach UTM-Quelle aufschlüsseln.
+ * Webseiten-Besuchen) oder Seite "/redirect-instagram/", jeweils nach UTM-Quelle aufschlüsseln.
  *
  * Bewusst ohne das gemeinsame Layout (keine Kopf-/Fußzeile, kein Cookie-Banner):
  * Die Seite ist nur einen Augenblick zu sehen.
