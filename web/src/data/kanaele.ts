@@ -16,7 +16,7 @@
  *
  * Schreibregel für alle UTM-Werte und den Slug (wird beim Build geprüft):
  * nur Kleinbuchstaben a-z und Ziffern, keine Umlaute, kein ß, keine
- * Leerzeichen, mehrere Wörter mit Bindestrich: "aushang-wohnheim-a".
+ * Leerzeichen, mehrere Wörter mit Bindestrich: "plakat-mensa".
  */
 
 export interface Kanal {
@@ -24,7 +24,7 @@ export interface Kanal {
   slug: string;
   /** Woher kommt der Besucher? z. B. "flyer", "instagram" */
   utm_source: string;
-  /** Art des Kanals, z. B. "print", "social", "messenger" */
+  /** Art des Kanals: "scan" (gedruckter QR-Code), "messenger", "social" */
   utm_medium: string;
   /** Optional: Variante innerhalb der Quelle, z. B. "wohnheim-a" */
   utm_content?: string;
@@ -42,40 +42,32 @@ export const kanaele: Kanal[] = [
   {
     slug: 'flyer',
     utm_source: 'flyer',
-    utm_medium: 'print',
-    beschreibung: 'Flyer, die verteilt werden (allgemein).',
+    utm_medium: 'scan',
+    beschreibung: 'QR-Code auf den Flyern.',
   },
   {
-    slug: 'aushang-wohnheim-a',
-    utm_source: 'aushang',
-    utm_medium: 'print',
-    utm_content: 'wohnheim-a',
-    beschreibung: 'Aushang im Wohnheim A.',
-  },
-  {
-    slug: 'aushang-wohnheim-b',
-    utm_source: 'aushang',
-    utm_medium: 'print',
-    utm_content: 'wohnheim-b',
-    beschreibung: 'Aushang im Wohnheim B.',
-  },
-  {
-    slug: 'mensa',
-    utm_source: 'mensa',
-    utm_medium: 'print',
-    beschreibung: 'Aushang bzw. Auslage in der Mensa.',
-  },
-  {
-    slug: 'instagram',
-    utm_source: 'instagram',
-    utm_medium: 'social',
-    beschreibung: 'Link im Instagram-Profil bzw. in Beiträgen.',
+    slug: 'plakat',
+    utm_source: 'plakat',
+    utm_medium: 'scan',
+    beschreibung: 'QR-Code auf den Plakaten bzw. Aushängen.',
   },
   {
     slug: 'whatsapp',
     utm_source: 'whatsapp',
     utm_medium: 'messenger',
-    beschreibung: 'Link, der in WhatsApp-Gruppen und -Kanälen geteilt wird.',
+    beschreibung: 'Link, der in WhatsApp-Gruppen und -Kanälen geteilt wird. Immer diesen Link teilen, nie nur die Domain.',
+  },
+  {
+    slug: 'instagram',
+    utm_source: 'instagram',
+    utm_medium: 'social',
+    beschreibung: 'Link in der Instagram-Bio bzw. in Stories.',
+  },
+  {
+    slug: 'tiktok',
+    utm_source: 'tiktok',
+    utm_medium: 'social',
+    beschreibung: 'Link in der TikTok-Bio.',
   },
 ];
 

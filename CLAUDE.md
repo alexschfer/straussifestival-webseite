@@ -48,7 +48,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
   (2 und 3 erledigt die Integration `web/integrations/kanaele-output.ts` im Hook `astro:build:done`.)
 - `utm_campaign` ist immer `straussi-festival-2027`.
 - **Schreibregel für UTM-Werte** (und Slugs): nur Kleinbuchstaben (und Ziffern), keine Umlaute, kein ß, keine Leerzeichen, Wörter mit Bindestrich. Wird **beim Build per Validierung erzwungen** (`validiereKanaele` in `kanaele.ts`; der Build bricht bei Verstoß ab). Doppelte Slugs brechen den Build ebenfalls ab.
-- Beispielkanäle sind angelegt (noch nicht bestätigt, siehe `docs/SPEC.md`): flyer, aushang-wohnheim-a, aushang-wohnheim-b, mensa, instagram, whatsapp.
+- **Kanäle (vom Team festgelegt):** ein Kanal pro Art, **nicht pro Ort** (individuell gedruckte QR-Codes lohnen sich finanziell nicht): `flyer`, `plakat`, `whatsapp`, `instagram`, `tiktok`. Pflicht für die Auswertung ist die Unterscheidung **Scan gegen Messenger**; sie steckt in `utm_medium`.
 
 ### Analytics-Einbindung
 
@@ -78,7 +78,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **QR-Codes liegen in `docs/qr/`** und werden committet, damit das Team sie ohne Node-Setup aus dem Repo holen kann und die Links in `docs/kanaele.md` funktionieren.
 - `utm_content` ist **optional** (nur dort gesetzt, wo ein Kanal Varianten hat).
 - Erlaubt in UTM-Werten sind auch **Ziffern** (a-z, 0-9, Bindestrich).
-- Mediums der Beispielkanäle: `print` (Flyer, Aushänge, Mensa), `social` (Instagram), `messenger` (WhatsApp). Vorläufig.
+- `utm_medium`: `scan` (gedruckte QR-Codes: Flyer, Plakat), `messenger` (WhatsApp), `social` (Instagram-/TikTok-Bio). Früher `print`, umbenannt, weil das Team in „Scan“ denkt. Slugs bewusst kurz (`flyer` statt `scan-flyer`), damit der QR-Code weniger dicht ist.
 - Ticketbutton öffnet den Shop in einem **neuen Tab** (`target="_blank"`), damit die Infoseite offen bleibt.
 - Redirects sind in Astro-Static **Meta-Refresh-Seiten** (`<seite>/q/<slug>/index.html`), keine echten HTTP-301. Für QR-Codes ausreichend; die UTM-Parameter bleiben erhalten.
 - **TypeScript ist auf 6.x gepinnt**, weil `astro check` mit TypeScript 7 noch nicht läuft. Erst anheben, wenn Astro das unterstützt.

@@ -14,12 +14,11 @@ Domain: `https://todo-domain.invalid` · Kampagne (`utm_campaign`): `straussi-fe
 
 | Slug | Beschreibung | Kurz-URL (QR-Code) | Fertiger UTM-Link | QR-Datei |
 | --- | --- | --- | --- | --- |
-| `flyer` | Flyer, die verteilt werden (allgemein). | `https://todo-domain.invalid/q/flyer` | `https://todo-domain.invalid/?utm_source=flyer&utm_medium=print&utm_campaign=straussi-festival-2027` | [flyer.svg](qr/flyer.svg) |
-| `aushang-wohnheim-a` | Aushang im Wohnheim A. | `https://todo-domain.invalid/q/aushang-wohnheim-a` | `https://todo-domain.invalid/?utm_source=aushang&utm_medium=print&utm_campaign=straussi-festival-2027&utm_content=wohnheim-a` | [aushang-wohnheim-a.svg](qr/aushang-wohnheim-a.svg) |
-| `aushang-wohnheim-b` | Aushang im Wohnheim B. | `https://todo-domain.invalid/q/aushang-wohnheim-b` | `https://todo-domain.invalid/?utm_source=aushang&utm_medium=print&utm_campaign=straussi-festival-2027&utm_content=wohnheim-b` | [aushang-wohnheim-b.svg](qr/aushang-wohnheim-b.svg) |
-| `mensa` | Aushang bzw. Auslage in der Mensa. | `https://todo-domain.invalid/q/mensa` | `https://todo-domain.invalid/?utm_source=mensa&utm_medium=print&utm_campaign=straussi-festival-2027` | [mensa.svg](qr/mensa.svg) |
-| `instagram` | Link im Instagram-Profil bzw. in Beiträgen. | `https://todo-domain.invalid/q/instagram` | `https://todo-domain.invalid/?utm_source=instagram&utm_medium=social&utm_campaign=straussi-festival-2027` | [instagram.svg](qr/instagram.svg) |
-| `whatsapp` | Link, der in WhatsApp-Gruppen und -Kanälen geteilt wird. | `https://todo-domain.invalid/q/whatsapp` | `https://todo-domain.invalid/?utm_source=whatsapp&utm_medium=messenger&utm_campaign=straussi-festival-2027` | [whatsapp.svg](qr/whatsapp.svg) |
+| `flyer` | QR-Code auf den Flyern. | `https://todo-domain.invalid/q/flyer` | `https://todo-domain.invalid/?utm_source=flyer&utm_medium=scan&utm_campaign=straussi-festival-2027` | [flyer.svg](qr/flyer.svg) |
+| `plakat` | QR-Code auf den Plakaten bzw. Aushängen. | `https://todo-domain.invalid/q/plakat` | `https://todo-domain.invalid/?utm_source=plakat&utm_medium=scan&utm_campaign=straussi-festival-2027` | [plakat.svg](qr/plakat.svg) |
+| `whatsapp` | Link, der in WhatsApp-Gruppen und -Kanälen geteilt wird. Immer diesen Link teilen, nie nur die Domain. | `https://todo-domain.invalid/q/whatsapp` | `https://todo-domain.invalid/?utm_source=whatsapp&utm_medium=messenger&utm_campaign=straussi-festival-2027` | [whatsapp.svg](qr/whatsapp.svg) |
+| `instagram` | Link in der Instagram-Bio bzw. in Stories. | `https://todo-domain.invalid/q/instagram` | `https://todo-domain.invalid/?utm_source=instagram&utm_medium=social&utm_campaign=straussi-festival-2027` | [instagram.svg](qr/instagram.svg) |
+| `tiktok` | Link in der TikTok-Bio. | `https://todo-domain.invalid/q/tiktok` | `https://todo-domain.invalid/?utm_source=tiktok&utm_medium=social&utm_campaign=straussi-festival-2027` | [tiktok.svg](qr/tiktok.svg) |
 
 ## Auf eine Unterseite zeigen
 
