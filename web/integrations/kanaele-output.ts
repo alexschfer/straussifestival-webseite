@@ -3,14 +3,15 @@
  *   - docs/qr/<slug>.svg           QR-Code pro Kanal für die Startseite
  *   - docs/qr/<seite>/<slug>.svg   dasselbe für jede weitere Seite
  *   - docs/kanaele.md              Tabelle mit Slug, UTM-Link und QR-Datei
+ *   - Weiterleitungsregeln am Ende von dist/.htaccess (siehe unten)
  * und warnt laut, wenn noch Platzhalter (Domain, Ticket-URL) im Spiel sind.
  */
-import { mkdir, rm, writeFile } from 'node:fs/promises';
+import { appendFile, mkdir, rm, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import type { AstroIntegration } from 'astro';
 import QRCode from 'qrcode';
 import { instagram, ticket } from '../src/config';
-import { CAMPAIGN, kanaele, kurzPfad, utmQuery } from '../src/data/kanaele';
+import { CAMPAIGN, kanaele, kanalRedirects, kurzPfad, utmQuery } from '../src/data/kanaele';
 import { seitenPfade } from './seiten';
 
 /** "/" -> "" (liegt direkt in docs/qr/), "/lineup/" -> "lineup/" (Unterordner). */
@@ -32,12 +33,24 @@ export default function kanaeleOutput(): AstroIntegration {
         rootDir = config.root;
       },
 
-      'astro:build:done': async ({ logger }) => {
+      'astro:build:done': async ({ dir, logger }) => {
         const docsDir = new URL('../docs/', rootDir);
         const qrDir = new URL('qr/', docsDir);
         const platzhalter = istPlatzhalterDomain(site);
 
         const seiten = seitenPfade(new URL('src/pages/', rootDir));
+
+        // Echte Weiterleitungen für den Webserver (Cloud86, LiteSpeed/Apache): /q/<slug> springt
+        // direkt per HTTP 302 auf die Seite mit UTM-Parametern. Ohne diese Regeln greifen die
+        // Meta-Refresh-Seiten von Astro, die kurz eine weiße Seite zeigen. 302 statt 301, damit
+        // Browser die Weiterleitung nicht dauerhaft merken (Kanäle können sich noch ändern).
+        const regeln = Object.entries(kanalRedirects(seiten)).map(
+          ([von, nach]) => `RewriteRule ^${von.replace(/^\//, '')}/?$ ${nach} [R=302,L,NE]`,
+        );
+        await appendFile(
+          new URL('.htaccess', dir),
+          ['', '# Kanal-Weiterleitungen (automatisch erzeugt aus src/data/kanaele.ts)', ...regeln, ''].join('\n'),
+        );
 
         // QR-Codes: kompletten Ordner neu aufbauen, damit gelöschte Kanäle und
         // gelöschte Seiten keine alten Dateien hinterlassen.

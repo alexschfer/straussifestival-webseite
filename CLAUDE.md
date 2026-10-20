@@ -172,6 +172,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **Kanäle in Matomo:** UTM-Parameter werden gelesen; für `utm_source`/`utm_medium`/`utm_content` einzeln braucht es das kostenlose Plugin **Marketing Campaigns Reporting**. Ticketklicks pro Kanal über das Ziel **Ticketklick** (Ereignis, Kategorie `Ticket`). Ohne Cookie-Zustimmung ordnet Matomo Klicks nur innerhalb desselben Besuchs einem Kanal zu.
 - **Datenschutzerklärung** entsprechend: Cloud86 als Hoster mit AVV, **Server-Logfiles höchstens 2 Monate** (Protokollrotation in Plesk monatlich – täglich ist bei Cloud86 gesperrt –, max. 1 alte Datei; muss so eingestellt bleiben), Matomo mit IP-Kürzung um 2 Bytes (muss in Matomo so eingestellt sein), Cookie-Abschnitt `#cookies`.
 - `web/public/.htaccess`: HTTPS erzwingen, `www` -> ohne `www`, `ErrorDocument 404 /404.html`, Cache für `/_astro/`.
+- **Kanal-Weiterleitungen sind auf Cloud86 echte HTTP-302** statt Meta-Refresh (die zeigte kurz eine weiße Seite): `kanaele-output.ts` hängt beim Build für jede Seite × Kanal eine `RewriteRule` an `dist/.htaccess` an (Quelle: `kanalRedirects`). 302 statt 301, damit Browser sie nicht dauerhaft merken. Die Meta-Refresh-Seiten von Astro bleiben als Rückfall in `dist/`. Mit Apache 2.4 lokal getestet (302, mit/ohne Schrägstrich, 404, www, Cache).
 - `analytics/` und `deploy/deploy.sh` bleiben als Alternative für einen eigenen Server liegen, sind aber **nicht in Verwendung** und passen nicht mehr zur Matomo-Einbindung der Seite.
 
 ## Befehle (im Ordner `web/`)
