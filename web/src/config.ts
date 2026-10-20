@@ -11,7 +11,7 @@ export const festival = {
   kurzname,
   jahr,
   name: `${kurzname} ${jahr}`,
-  veranstalter: 'Team aus Bewohner*innen von Straußi 1, 2 & 3',
+  veranstalter: 'Bewohner:innen des Straußi 1',
   ort: 'Studierendenwohnheime Straußäcker, Stuttgart',
   datum: '11.06.–12.06.2027',
   /** Kontaktadresse des Festivalteams (Fußzeile und Impressum). */
