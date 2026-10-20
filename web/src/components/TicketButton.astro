@@ -12,9 +12,9 @@ interface Props {
 const { position, text = 'Tickets kaufen', class: klasse } = Astro.props;
 
 // Solange keine echte Ticket-URL eingetragen ist (ticketAktiv in config.ts), steht hier
-// ein ausgegrauter Button ohne Link, wie die "bald"-Punkte im Menü. Klein (Kopfzeile)
-// nur mit "bald", sonst mit dem Datum des Vorverkaufsstarts.
-const textAus = klasse?.includes('button-klein') && position === 'header' ? 'bald' : `ab ${ticket.vorverkaufAb}`;
+// ein ausgegrauter Button ohne Link mit "bald", wie die "bald"-Punkte im Menü.
+// TODO: Datum des Vorverkaufsstarts ergänzen, sobald es feststeht.
+const textAus = 'bald';
 ---
 
 {

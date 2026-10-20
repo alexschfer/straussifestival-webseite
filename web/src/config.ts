@@ -47,9 +47,6 @@ export const ticket = {
    * Erst auf true setzen, wenn das geklärt ist.
    */
   utmWeitergeben: false,
-
-  /** Start des Vorverkaufs; steht auf dem ausgegrauten Button, solange url noch TODO ist. */
-  vorverkaufAb: '01.12.2026',
 } as const;
 
 /**
