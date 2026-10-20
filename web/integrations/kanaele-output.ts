@@ -61,7 +61,7 @@ export default function kanaeleOutput(): AstroIntegration {
           for (const kanal of kanaele) {
             const svg = await QRCode.toString(`${site}${kurzPfad(kanal, seite)}`, {
               type: 'svg',
-              errorCorrectionLevel: 'M',
+              errorCorrectionLevel: 'Q',
               margin: 4,
             });
             await writeFile(new URL(`${kanal.slug}.svg`, ordner), svg);
