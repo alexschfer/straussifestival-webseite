@@ -41,8 +41,9 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 
 - [x] Tracking auf Matomo umgestellt (ohne Cookies, mit Cookies nach Zustimmung), Cookie-Banner immer aktiv mit Matomo
 - [x] Datenschutzerklärung auf Cloud86 und Matomo umgestellt, `.htaccess`, Anleitung `deploy/PLESK.md`
-- [ ] In Plesk: Subdomain `stats`, SSL, **Log-Rotation 7 Tage**, Datenbank, Matomo installieren
-- [ ] In Matomo: **IP-Kürzung 2 Bytes**, Plugin Marketing Campaigns Reporting, Ziel „Ticketklick“, Site-ID in `web/.env`
+- [x] In Plesk: Subdomain `stats`, SSL, Datenbank, Matomo installiert
+- [x] In Matomo: IP-Kürzung 2 Bytes, Plugin Marketing Campaigns Reporting, Ziel „Ticketklick“, Site-ID 1
+- [ ] **Speicherdauer der Zugriffslogs bei Cloud86 erfragen** (Log-Rotation in Plesk nicht einstellbar) und in die Datenschutzerklärung eintragen
 - [ ] Erster Upload, Test mit echten Handys, Testdaten löschen
 - [ ] DPA von Cloud86 herunterladen und beim Verein ablegen; prüfen, ob das Cloud86-Konto auf Straussi 1 e.V. läuft
 

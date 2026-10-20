@@ -18,8 +18,8 @@ const widget = instagram.widget;
 
     <h2>Hosting und Server-Logfiles</h2>
     <p>Die Webseite und unsere Besucherstatistik liegen auf einem Webspace bei Cloud86 B.V., Lavendelheide 21-108, 9202 PD Drachten, Niederlande. Die Server stehen in Rechenzentren in den Niederlanden, also in der EU. Mit Cloud86 besteht ein Vertrag zur Auftragsverarbeitung (Art. 28 DSGVO).</p>
-    {/* Die Speicherdauer der Logfiles muss in Plesk so eingestellt sein (Websites & Domains > Logs > Log-Rotation), siehe deploy/README.md. Bei Änderung hier mitziehen. */}
-    <p>Wenn du die Seite aufrufst, verarbeitet der Webserver technisch notwendig deine IP-Adresse, den Zeitpunkt, die aufgerufene Adresse, die vorher besuchte Seite (Referrer) sowie Angaben zu Browser und Betriebssystem und speichert sie in Protokolldateien (Server-Logfiles). Diese brauchen wir, um die Seite auszuliefern und Fehler oder Angriffe zu erkennen. Die Logfiles werden nach 7 Tagen automatisch gelöscht.</p>
+    {/* TODO: Log-Rotation ist im Cloud86-Webhosting in Plesk nicht einstellbar. Speicherdauer bei Cloud86 angefragt (siehe deploy/PLESK.md); sobald bekannt, hier konkret eintragen. */}
+    <p>Wenn du die Seite aufrufst, verarbeitet der Webserver technisch notwendig deine IP-Adresse, den Zeitpunkt, die aufgerufene Adresse, die vorher besuchte Seite (Referrer) sowie Angaben zu Browser und Betriebssystem und speichert sie in Protokolldateien (Server-Logfiles). Diese Logfiles werden von Cloud86 als technischem Dienstleister geführt, um die Seite auszuliefern und Fehler oder Angriffe zu erkennen; die Speicherdauer legt Cloud86 fest. Wir werten die Logfiles nicht aus.</p>
     <p>Rechtsgrundlage ist unser berechtigtes Interesse, die Webseite sicher und funktionsfähig bereitzustellen (Art. 6 Abs. 1 lit. f DSGVO).</p>
 
     {
