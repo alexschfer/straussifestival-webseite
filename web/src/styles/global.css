@@ -394,6 +394,10 @@ button.button {
   color: var(--farbe-akzent-dunkel);
   text-align: center;
 }
+/* Ohne Fotos gibt es keine Kacheln, die unten ins Farbfeld ragen: kein Extra-Platz nötig. */
+.insta-ohne-kacheln .insta-panel {
+  padding-bottom: 3rem;
+}
 .insta-panel h2 {
   margin: 0 0 0.5rem;
   font-size: clamp(1.6rem, 7vw, 2.4rem);
@@ -723,6 +727,9 @@ button.button {
     grid-template-columns: repeat(5, 1fr);
     gap: 1.25rem;
     margin-top: -6.5rem;
+  }
+  .insta-ohne-kacheln .insta-panel {
+    padding-bottom: 4rem;
   }
   .insta-kachel:nth-child(odd) {
     margin-top: 4rem;

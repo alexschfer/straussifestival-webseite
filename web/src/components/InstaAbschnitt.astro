@@ -9,17 +9,22 @@
  * Ist in der Config ein Instagram-Widget eingetragen (instagram.widget.url), ersetzt der
  * echte Feed die Kacheln, aber erst nach Zustimmung im Cookie-Banner. Vorher (und ohne
  * JavaScript) bleiben die Kacheln stehen, darunter ein Hinweis mit Knopf.
+ *
+ * Solange in instagram.fotos keine Fotos eingetragen sind, gibt es keine Kacheln
+ * (keine "TODO Foto"-Platzhalter auf der Live-Seite). Dann bleibt nur das Farbfeld
+ * mit Überschrift und den Knöpfen zu Instagram und TikTok.
  */
 import { instagram, tiktok } from '../config';
 import InstaIcon from './InstaIcon.astro';
 import TikTokIcon from './TikTokIcon.astro';
 
+const zeigeKacheln = instagram.fotos.length > 0;
 const anzahl = Math.max(5, instagram.fotos.length);
 const kacheln = Array.from({ length: anzahl }, (_, i) => instagram.fotos[i]);
 const widget = instagram.widget;
 ---
 
-<section class="insta" aria-labelledby="insta-titel">
+<section class:list={['insta', { 'insta-ohne-kacheln': !zeigeKacheln }]} aria-labelledby="insta-titel">
   <div class="insta-panel">
     <h2 id="insta-titel">Bleib auf dem Laufenden</h2>
     <p class="insta-text">Folge uns auf Instagram oder TikTok, um nichts zu verpassen.</p>
@@ -48,19 +53,21 @@ const widget = instagram.widget;
   {/* Bewusst AUSSERHALB von .insta-panel: nur so kann das Farbfeld auf die
      Kopfzeile (Überschrift/Text/Icons) begrenzt bleiben, während die höheren
      Kacheln unten darüber hinausragen (siehe Kommentar in global.css). */}
-  <ul class="insta-kacheln" aria-label="Fotos" data-insta-kacheln>
-    {
-      kacheln.map((foto) => (
-        <li class="insta-kachel">
-          {foto ? (
-            <img src={foto.bild} alt={foto.alt} loading="lazy" />
-          ) : (
-            <span class="insta-platzhalter">TODO Foto</span>
-          )}
-        </li>
-      ))
-    }
-  </ul>
+  {
+    zeigeKacheln && (
+      <ul class="insta-kacheln" aria-label="Fotos" data-insta-kacheln>
+        {kacheln.map((foto) => (
+          <li class="insta-kachel">
+            {foto ? (
+              <img src={foto.bild} alt={foto.alt} loading="lazy" />
+            ) : (
+              <span class="insta-platzhalter">TODO Foto</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    )
+  }
 
   {
     widget.url && (
