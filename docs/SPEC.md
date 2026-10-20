@@ -50,7 +50,9 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 - [ ] **Festivalinhalte** (Datum, Line-up, Preise, Anfahrt, FAQ-Antworten; alles `TODO` in `web/src/pages/` und `web/src/config.ts`)
 - [ ] **`SITE_URL` setzen**, sobald die Domain feststeht, und die QR-Codes neu bauen. Erst dann drucken.
 - [ ] **Eigene Fotos** für die Instagram-Kacheln ablegen (`web/public/insta/`, aktuell Platzhalter "TODO Foto"). Das Profil `@straussifestival` ist eingetragen.
-- [ ] Datenschutzerklärung und Impressum rechtlich prüfen lassen (inkl. Abschnitt zum Instagram-Link)
+- [x] Datenschutzerklärung ausgefüllt (Straussi 1 e.V. als Verantwortlicher, tatsächlicher technischer Aufbau)
+- [ ] Datenschutz: **Serverstandort** klären (eigene Hardware oder gemieteter Server? Bei Miete den Anbieter nennen), **Löschfrist** der Statistik bestätigen (eingetragen: 31.12.2027) und die Löschung dann auch durchführen
+- [ ] Datenschutzerklärung und Impressum rechtlich prüfen lassen
 - [ ] **Instagram-Widget bei LightWidget** anlegen (Anbieter entschieden, kostenlos) und in `instagram.widget` in `web/src/config.ts` eintragen (Anleitung: `web/public/insta/README.md`); danach Abschnitt `#instagram-feed` der Datenschutzerklärung vervollständigen und prüfen lassen
 
 ## Zu prüfen (Risiken, die beim Bau aufgefallen sind)
@@ -58,4 +60,4 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 - [ ] **Kanalzuordnung über mehrere Seiten.** Umami liest UTM-Parameter aus der URL des jeweiligen Aufrufs; ein Klick auf einer Unterseite (z. B. `/infos/`) trägt selbst keine UTMs. Getestet mit Umami 3.4.0 und simulierten Requests: Der Bericht **Attribution** (Konversion = Event `ticket-click`) ordnet den Klick trotzdem dem Einstiegskanal zu. Ein Filter direkt auf das Event nach UTM würde ihn dagegen verpassen. Deshalb für die Auswertung den Attributionsbericht verwenden und nach dem ersten Start mit dem echten Tracker gegenprüfen. Nur falls das nicht reicht: UTM-Parameter per kleinem Skript an interne Links weitergeben (ohne Cookie, ohne localStorage).
 - [ ] **Redirects sind Meta-Refresh-Seiten**, keine HTTP-301 (Eigenschaft von Astro im statischen Modus). Caddy liefert `/q/<slug>` direkt aus, ohne zusätzlichen Umweg. Echte 301er wären nur mit Caddy-Regeln möglich, sind aber nicht nötig.
 - [ ] **QR-Codes in `docs/qr/` zeigen erst nach Setzen von `SITE_URL` auf die echte Adresse.** `docs/kanaele.md` warnt, solange die Platzhalter-Domain gilt.
-- [ ] **Datenschutzerklärung anpassen:** Caddy schreibt keine Zugriffs-Logs; klären, ob Selfnet auf der VM oder im Netz eigene Logs führt (siehe TODO in `web/src/pages/datenschutz.astro`).
+- [ ] **Datenschutzerklärung:** Caddy schreibt keine Zugriffs-Logs (steht so in der Erklärung). Klären, ob der Serveranbieter bzw. das Netz eigene Logs führt (siehe TODO-Kommentar in `web/src/pages/datenschutz.astro`).

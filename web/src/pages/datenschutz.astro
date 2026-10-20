@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { instagram } from '../config';
+import { festival, instagram, ticket } from '../config';
 
 // Ist ein Instagram-Widget eingetragen, ändern sich die Abschnitte zu Cookies und Instagram.
 const widget = instagram.widget;
@@ -9,27 +9,59 @@ const widget = instagram.widget;
 <Base title="Datenschutz" description="Datenschutzerklärung für die Webseite des Straußi Festivals 2027.">
   <div class="wrap prose">
     <h1>Datenschutz</h1>
-    <p><strong>TODO: Entwurf.</strong> Diese Erklärung ist nur ein Gerüst. Sie muss vor der Veröffentlichung vervollständigt und rechtlich geprüft werden.</p>
+    {/* Beschreibt den tatsächlichen technischen Aufbau (analytics/, web/src/config.ts). Ändert sich dort etwas (Hosting, Tracking, Widget), diese Seite mitziehen. Rechtlich prüfen lassen. */}
+    <p>Hier erklären wir, welche Daten beim Besuch dieser Webseite verarbeitet werden. Kurz gesagt: so wenig wie möglich. Die Seite setzt keine Cookies, wir nutzen kein Google Analytics, und die Besucherstatistik läuft auf unserem eigenen Server.</p>
+
     <h2>Verantwortlicher</h2>
-    <p><strong>TODO:</strong> Name und Kontaktdaten der verantwortlichen Stelle (siehe <a href="/impressum/">Impressum</a>).</p>
-    <h2>Hosting und Server-Logfiles</h2>
-    <p><strong>TODO:</strong> Hoster benennen (voraussichtlich Selfnet e. V., noch nicht bestätigt), welche Logdaten der Webserver speichert (z. B. IP-Adresse, Zeitpunkt, aufgerufene Seite), wie lange, und auf welcher Rechtsgrundlage.</p>
-    <h2>Reichweitenmessung mit Umami</h2>
-    <p>Wir messen mit der Software Umami, wie unsere Seite genutzt wird und über welche Werbekanäle (z. B. Flyer, Aushänge, QR-Codes, Social Media) Besucher zu uns finden. Umami betreiben wir selbst auf unserem eigenen Server. Wir geben keine Daten an Dritte weiter.</p>
+    <p>Straussi 1 e.V.<br />Pfaffenwaldring 64<br />70569 Stuttgart<br />E-Mail: <a href={`mailto:${festival.email}`}>{festival.email}</a></p>
+    <p>Vertretungsberechtigte Personen und Registereintrag findest du im <a href="/impressum/">Impressum</a>.</p>
+
+    <h2>Hosting und Server</h2>
+    {/* TODO: Wo steht der Server (eigene Hardware oder gemieteter Server bei einem Anbieter)? Bei einem gemieteten Server den Anbieter hier nennen (Auftragsverarbeitung). */}
+    <p>Die Webseite und die Besucherstatistik laufen auf einem Server, den wir selbst betreiben. Wenn du die Seite aufrufst, verarbeitet der Server technisch notwendig deine IP-Adresse und die angefragte Adresse, um dir die Seite auszuliefern. <strong>Zugriffsprotokolle (Logfiles) mit diesen Daten speichern wir nicht.</strong></p>
+    <p>Rechtsgrundlage ist unser berechtigtes Interesse, die Webseite sicher und funktionsfähig bereitzustellen (Art. 6 Abs. 1 lit. f DSGVO).</p>
+
+    <h2>Besucherstatistik mit Umami</h2>
+    <p>Wir messen mit der Open-Source-Software Umami, wie unsere Seite genutzt wird und über welche Werbewege (z. B. QR-Codes auf Flyern, Plakaten und Stickern, Links in WhatsApp, Instagram und TikTok) Besucher zu uns finden. Umami betreiben wir selbst auf unserem eigenen Server. Die Daten werden nicht an Dritte weitergegeben.</p>
+    <p>Dabei werden erfasst:</p>
+    <ul>
+      <li>aufgerufene Seiten, Zeitpunkt des Aufrufs und die Seite, von der du kommst (Referrer)</li>
+      <li>der Werbeweg, falls du über einen unserer Links oder QR-Codes kommst (sogenannte UTM-Parameter in der Adresse, z. B. „flyer“ oder „whatsapp“)</li>
+      <li>Klicks auf den Ticketbutton und Aufrufe unserer Weiterleitung zu Instagram</li>
+      <li>Browser, Betriebssystem, Gerätetyp, Bildschirmgröße und Spracheinstellung</li>
+      <li>ungefährer Standort (Land, Region, Stadt), abgeleitet aus der IP-Adresse</li>
+    </ul>
+    <p>Deine <strong>IP-Adresse wird nicht gespeichert</strong>. Umami bildet daraus nur kurzfristig eine anonyme Kennung, um mehrere Seitenaufrufe desselben Besuchs zusammenzufassen; diese Kennung ändert sich regelmäßig und lässt keinen Rückschluss auf deine Person zu. Wir können die Statistik deshalb nicht einzelnen Personen zuordnen.</p>
     {
       widget.url ? (
-        <p>Umami setzt <strong>keine Cookies</strong>. Wir verwenden kein Google Analytics und keine vergleichbaren Dienste. Cookies von Dritten sind nur möglich, wenn du dem Instagram-Feed zustimmst (siehe unten).</p>
+        <p>Umami setzt <strong>keine Cookies</strong> und speichert nichts auf deinem Gerät. Wir verwenden kein Google Analytics und keine vergleichbaren Dienste. Cookies von Dritten sind nur möglich, wenn du dem Instagram-Feed zustimmst (siehe unten).</p>
       ) : (
         <p>Die Seite setzt <strong>keine Cookies</strong> und nutzt <strong>keinen lokalen Speicher (localStorage)</strong> im Browser. Wir verwenden kein Google Analytics und keine vergleichbaren Dienste.</p>
       )
     }
-    <p><strong>TODO:</strong> Genau auflisten, welche Daten Umami erfasst und speichert (Seitenaufrufe, Klicks auf den Ticketbutton, Herkunft, Browser, Gerät), Speicherdauer und Rechtsgrundlage (z. B. berechtigtes Interesse) prüfen und eintragen.</p>
+    {/* TODO: Speicherdauer vom Team bestätigen lassen und die Löschung dann auch wirklich durchführen (Umami löscht nicht von selbst). */}
+    <p>Rechtsgrundlage ist unser berechtigtes Interesse, die Reichweite unserer Werbung zu messen und unser Angebot zu verbessern (Art. 6 Abs. 1 lit. f DSGVO). Die Statistikdaten löschen wir spätestens am 31.12.2027. Sicherungskopien der Datenbank werden nach 14 Tagen überschrieben.</p>
+    <p>Du kannst der Erfassung widersprechen, indem du eine Nachricht an <a href={`mailto:${festival.email}`}>{festival.email}</a> schickst, oder sie verhindern, indem du in deinem Browser einen Inhalts- oder Trackingblocker verwendest.</p>
+
+    <h2>Weiterleitung zu Instagram</h2>
+    <p>Einige unserer QR-Codes führen über unsere Seite direkt zu unserem Instagram-Profil. Dabei zählen wir den Aufruf wie oben beschrieben mit Umami und leiten dich dann sofort zu Instagram weiter. Ab dort gelten die Datenschutzbestimmungen von Instagram (Meta).</p>
+
     <h2>Externer Ticketshop</h2>
     <p>Tickets verkaufen wir nicht selbst. Der Button „Tickets kaufen“ führt zum externen Anbieter dein-ticket.shop. Ab dem Klick gilt die Datenschutzerklärung des Anbieters.</p>
-    <p><strong>TODO:</strong> Prüfen, ob an den Ticketshop Daten (z. B. UTM-Parameter) übergeben werden. Aktuell ist das abgeschaltet.</p>
+    {
+      ticket.utmWeitergeben ? (
+        <p>Dabei hängen wir den Werbeweg, über den du zu uns gekommen bist (UTM-Parameter, z. B. „flyer“), an den Link zum Ticketshop an. Daten über dich als Person übermitteln wir nicht.</p>
+      ) : (
+        <p>Von uns aus werden dabei keine Daten an den Ticketshop übermittelt.</p>
+      )
+    }
+
+    <h2>Kontakt per E-Mail</h2>
+    <p>Wenn du uns eine E-Mail schreibst, verwenden wir deine Angaben (E-Mail-Adresse, Name, Inhalt der Nachricht) nur, um deine Anfrage zu beantworten (Art. 6 Abs. 1 lit. b bzw. f DSGVO), und löschen sie, wenn sie dafür nicht mehr gebraucht werden.</p>
+
     <h2>Links zu Instagram und TikTok</h2>
     <p>
-      Auf der Startseite verlinken wir unsere Profile bei Instagram und TikTok. Erst wenn du einen der Links anklickst, gelten die Datenschutzbestimmungen des jeweiligen Anbieters.
+      Auf der Seite verlinken wir unsere Profile bei Instagram und TikTok. Erst wenn du einen der Links anklickst, gelten die Datenschutzbestimmungen des jeweiligen Anbieters.
     </p>
     {
       widget.url ? (
@@ -47,9 +79,9 @@ const widget = instagram.widget;
         <p>Wir binden keine Inhalte dieser Dienste ein.</p>
       )
     }
-    <p><strong>TODO:</strong> Text rechtlich prüfen lassen.</p>
 
     <h2>Deine Rechte</h2>
-    <p><strong>TODO:</strong> Auskunft, Berichtigung, Löschung, Einschränkung, Widerspruch, Beschwerderecht bei der Aufsichtsbehörde. Text rechtlich prüfen lassen.</p>
+    <p>Du hast jederzeit das Recht auf Auskunft über deine bei uns gespeicherten Daten (Art. 15 DSGVO), auf Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und auf Widerspruch gegen die Verarbeitung (Art. 21 DSGVO). Schreib uns dazu einfach an <a href={`mailto:${festival.email}`}>{festival.email}</a>.</p>
+    <p>Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren (Art. 77 DSGVO), zum Beispiel beim Landesbeauftragten für den Datenschutz und die Informationsfreiheit Baden-Württemberg.</p>
   </div>
 </Base>
