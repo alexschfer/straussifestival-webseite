@@ -42,7 +42,8 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 - [ ] **Antwort von Selfnet:** VM, Domain, DNS
 - [ ] **Echte Ticketshop-URL** eintragen (`ticket.url` in `web/src/config.ts`)
 - [ ] **Wertet der Ticketshop UTM-Parameter aus?** (Anfrage läuft.) Erst danach den Schalter `ticket.utmWeitergeben` in `web/src/config.ts` auf `true` setzen.
-- [ ] **Verantwortliche Person für das Impressum**, solange kein e. V. besteht (danach auch die Copyright-Zeile in der Fußzeile anpassen, siehe `web/src/layouts/Base.astro`)
+- [x] **Impressum**: Veranstalter ist Straussi 1 e.V.; Angaben aus dessen Impressum übernommen (https://straussi1.de/wohnheim/rechtliches/impressum, Stand 20.10.2026)
+- [ ] Copyright-Zeile in der Fußzeile ggf. auf Straussi 1 e.V. anpassen (`web/src/layouts/Base.astro`)
 - [ ] **Kontaktadresse** des Festivalteams: steht in der Fußzeile als TODO und gehört auch ins Impressum
 - [x] **Kanalliste** festgelegt: `flyer`, `plakat`, `sticker` (Medium `scan`), `whatsapp` (`messenger`), `instagram`, `tiktok` (`social`)
 - [ ] **Festivalinhalte** (Datum, Line-up, Preise, Anfahrt, FAQ-Antworten; alles `TODO` in `web/src/pages/` und `web/src/config.ts`)
