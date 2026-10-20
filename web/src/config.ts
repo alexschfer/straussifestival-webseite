@@ -25,13 +25,14 @@ export const festival = {
 };
 
 /**
- * Eigene Fotos für die Hintergrund-Collage im Startbildschirm (Querformat).
- * Datei in web/public/wohnheime/ ablegen und hier eintragen, siehe README dort.
+ * Eigene Fotos für die Hintergrund-Collage im Startbildschirm (drei hohe Bildspalten,
+ * deshalb Hochformat). Datei in web/public/wohnheime/ ablegen und hier eintragen, siehe README dort.
+ * Keine Fotos mit sichtbaren Sponsoren (Logos, Schirme, Flaschen).
  */
 export const startBilder: { bild: string; alt: string }[] = [
-  { bild: '/wohnheime/hof-1.jpg', alt: 'Innenhof der Wohnheime mit Terrasse, Fahrrädern und Beet' },
-  { bild: '/wohnheime/hof-2.jpg', alt: 'Grüner Innenhof der Wohnheime mit Bäumen und Sitzgelegenheiten' },
-  { bild: '/wohnheime/hof-3.jpg', alt: 'Von Bäumen gesäumter Weg zwischen zwei Wohnheimgebäuden' },
+  { bild: '/wohnheime/party-1.jpg', alt: 'Bühne mit blauen Lasern über einer feiernden Menge im Innenhof' },
+  { bild: '/wohnheime/party-2.jpg', alt: 'Große Strauß-Figur mit ausgebreiteten Flügeln, pink und lila beleuchtet im Nebel' },
+  { bild: '/wohnheime/party-3.jpg', alt: 'Band auf der Bühne, davor ein Publikum mit erhobenen Händen' },
 ];
 
 export const ticket = {
