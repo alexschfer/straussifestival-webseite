@@ -103,7 +103,9 @@ export default function kanaeleOutput(): AstroIntegration {
           ...seiten.map((seite) => {
             const ordner = qrOrdner(seite);
             const ziel = ordner === '' ? 'qr/' : `qr/${ordner}`;
-            return `| \`${seite}\` | [${ziel}](${ziel}) |`;
+            // /instagram/ ist keine Inhaltsseite, sondern leitet (gezählt) zu Instagram weiter.
+            const hinweis = seite === '/instagram/' ? ' (führt direkt zu Instagram)' : '';
+            return `| \`${seite}\`${hinweis} | [${ziel}](${ziel}) |`;
           }),
           '',
         ].join('\n');

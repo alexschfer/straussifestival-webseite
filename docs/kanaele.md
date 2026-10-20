@@ -41,4 +41,5 @@ Die passenden QR-Codes liegen fertig im Ordner `qr/` bereit:
 | `/faq/` | [qr/faq/](qr/faq/) |
 | `/impressum/` | [qr/impressum/](qr/impressum/) |
 | `/infos/` | [qr/infos/](qr/infos/) |
+| `/instagram/` (führt direkt zu Instagram) | [qr/instagram/](qr/instagram/) |
 | `/lineup/` | [qr/lineup/](qr/lineup/) |

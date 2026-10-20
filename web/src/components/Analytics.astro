@@ -1,9 +1,25 @@
 ---
 import { analytics, analyticsAktiv } from '../config';
+
+interface Props {
+  /**
+   * Standard: Umami zählt den Seitenaufruf selbst beim Laden.
+   * false: Die Seite zählt selbst per umami.track() (nur die Weiterleitung
+   * zu Instagram, die erst nach dem Zählen weiterleiten darf).
+   */
+  autoTrack?: boolean;
+}
+
+const { autoTrack = true } = Astro.props;
 ---
 
 {
   analyticsAktiv && (
-    <script defer src={`${analytics.host}/script.js`} data-website-id={analytics.websiteId} />
+    <script
+      defer
+      src={`${analytics.host}/script.js`}
+      data-website-id={analytics.websiteId}
+      data-auto-track={autoTrack ? undefined : 'false'}
+    />
   )
 }

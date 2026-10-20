@@ -28,7 +28,7 @@ Statt der Fotos kann hier auch der echte Feed von `@straussifestival` erscheinen
 Er wird über ein kostenloses Widget eines Drittanbieters eingebunden und lädt erst,
 wenn Besucher im Cookie-Banner zustimmen.
 
-1. Bei **SnapWidget** (snapwidget.com) oder **LightWidget** (lightwidget.com) ein kostenloses
+1. Bei **LightWidget** (lightwidget.com, so entschieden) ein kostenloses
    Konto anlegen, mit dem Instagram-Konto verbinden und ein Widget erstellen
    (Layout z. B. „Slideshow“/„Carousel“ oder Raster, je nachdem, was der Gratis-Tarif anbietet).
 2. Den Einbettungscode kopieren und darin die Adresse bei `src="..."` des `<iframe>` suchen.
@@ -37,7 +37,7 @@ wenn Besucher im Cookie-Banner zustimmen.
    ```ts
    widget: {
      url: 'https://...die Adresse aus src...',
-     anbieter: 'SnapWidget',
+     anbieter: 'LightWidget',
      hoehe: 420,
    },
    ```

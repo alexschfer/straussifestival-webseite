@@ -151,11 +151,17 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 
 ## Instagram-Feed mit Cookie-Banner (jederzeit änderbar)
 
-- **Auf Wunsch des Auftraggebers ein echter Instagram-Feed** an der Stelle der Kacheln, über ein **kostenloses Widget eines Drittanbieters** per iframe. Empfohlen SnapWidget oder LightWidget (laut Anbieter ohne Aufruflimit); Elfsight ungeeignet (Gratis-Tarif nur 200 Aufrufe/Monat). Einstellungen in `instagram.widget` in `web/src/config.ts` (`url`, `anbieter`, `hoehe`), anbieterneutral.
+- **Auf Wunsch des Auftraggebers ein echter Instagram-Feed** an der Stelle der Kacheln, über ein **kostenloses Widget eines Drittanbieters** per iframe. **Entschieden: LightWidget** (laut Anbieter ohne Aufruflimit; SnapWidget wäre die Alternative); Elfsight ungeeignet (Gratis-Tarif nur 200 Aufrufe/Monat). Einstellungen in `instagram.widget` in `web/src/config.ts` (`url`, `anbieter`, `hoehe`), anbieterneutral.
 - **Ohne eingetragene `url` ändert sich nichts:** kein Banner, kein localStorage, Datenschutzseite mit dem alten Text. Banner, Fußzeilen-Link „Cookie-Einstellungen“ und die Datenschutz-Abschnitte erscheinen automatisch, sobald `url` gesetzt ist.
 - **Eigener, schlichter Banner** (`web/src/components/CookieBanner.astro`), kein externes Consent-Tool. „Ablehnen“ ist gleich groß wie „Akzeptieren“. Das iframe wird erst nach „Akzeptieren“ per Skript erzeugt (`InstaAbschnitt.astro`); vorher und ohne JavaScript bleiben die Kacheln mit Hinweis und Knopf stehen. Widerruf entfernt das iframe wieder.
 - Die Antwort steht im **localStorage** (`straussi-einwilligung-instagram`, Logik in `web/src/scripts/einwilligung.ts`), nicht in einem Cookie. Umami bleibt cookielos und braucht keine Zustimmung.
 - Die Datenschutzseite bekommt mit Widget einen Abschnitt `#instagram-feed` (mit TODO für Anbieterdaten, USA-Übermittlung und rechtliche Prüfung).
+
+## Instagram-Weiterleitung per QR-Code (jederzeit änderbar)
+
+- **Seite `web/src/pages/instagram.astro`** zählt den Aufruf in Umami und leitet dann auf `instagram.profilUrl` weiter. Weil sie eine normale Seite ist, gilt automatisch `/instagram/q/<slug>` für jeden Kanal, und die QR-Codes entstehen in `docs/qr/instagram/<slug>.svg`. Kein eigener Kanal, keine eigene Config.
+- Ablauf: `/instagram/q/flyer` -> (Meta-Refresh) `/instagram/?utm_...` -> Umami-Seitenaufruf mit UTMs -> `location.replace` zu Instagram. Das Umami-Skript läuft dort mit `data-auto-track="false"`; die Seite ruft selbst `umami.track()` auf und leitet erst danach weiter (höchstens 1,5 s Wartezeit, ohne Umami/bei Blocker sofort, ohne JavaScript per Meta-Refresh nach 3 s, dann ungezählt).
+- Auswertung in Umami: Seite `/instagram/`, nach UTM-Quelle aufgeschlüsselt. Bewusst ohne das gemeinsame Layout (keine Kopf-/Fußzeile, kein Banner) und mit `noindex`. Nicht im Menü.
 
 ## Befehle (im Ordner `web/`)
 

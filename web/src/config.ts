@@ -48,7 +48,9 @@ export const ticket = {
 
 /**
  * Instagram-Abschnitt auf der Startseite ("Bleib auf dem Laufenden").
- * Es wird nichts von Instagram eingebunden, nur verlinkt. Die Fotos sind eigene Dateien.
+ * Ohne Widget (unten) wird nichts von Instagram eingebunden, nur verlinkt; die Fotos
+ * der Kacheln sind eigene Dateien. Mit Widget lädt der Feed erst nach Zustimmung.
+ * profilUrl ist auch das Ziel der Weiterleitung /instagram/ (QR-Codes zu Instagram).
  */
 export const instagram = {
   profilUrl: 'https://www.instagram.com/straussifestival/',
@@ -61,8 +63,8 @@ export const instagram = {
   fotos: [] as { bild: string; alt: string }[],
 
   /**
-   * Echter Instagram-Feed über ein kostenloses Widget eines Drittanbieters
-   * (z. B. SnapWidget oder LightWidget, beide ohne Aufruflimit), Anleitung in README.md.
+   * Echter Instagram-Feed über das kostenlose Widget von LightWidget (entschieden,
+   * ohne Aufruflimit), Anleitung in web/public/insta/README.md.
    *
    * - url: die Adresse aus dem iframe-Einbettungscode des Anbieters (das, was bei src="..." steht).
    * - anbieter: Name des Anbieters, erscheint im Cookie-Banner und muss in die Datenschutzerklärung.
@@ -72,8 +74,8 @@ export const instagram = {
    * Ist url gesetzt, lädt der Feed ERST nach Zustimmung im Cookie-Banner (vorher die Kacheln).
    */
   widget: {
-    url: '', // TODO: iframe-Adresse des Widgets eintragen
-    anbieter: 'TODO Anbieter',
+    url: '', // TODO: iframe-Adresse des LightWidget-Widgets eintragen
+    anbieter: 'LightWidget',
     hoehe: 420,
   },
 };

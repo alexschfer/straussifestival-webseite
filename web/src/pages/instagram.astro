@@ -1,0 +1,72 @@
+---
+/**
+ * Weiterleitung zum Instagram-Profil, mit Zählung in Umami.
+ *
+ * Gedacht für QR-Codes, die direkt auf Instagram führen sollen. Wie jede Seite
+ * funktioniert sie mit allen Kanälen: /instagram/q/flyer leitet erst auf
+ * /instagram/?utm_source=flyer&... weiter, diese Seite zählt den Aufruf samt
+ * Kanal in Umami und schickt den Besucher dann zu Instagram. Die fertigen
+ * QR-Codes liegen in docs/qr/instagram/.
+ *
+ * Auswertung in Umami: Seite "/instagram/", nach UTM-Quelle aufschlüsseln.
+ *
+ * Bewusst ohne das gemeinsame Layout (keine Kopf-/Fußzeile, kein Cookie-Banner):
+ * Die Seite ist nur einen Augenblick zu sehen.
+ */
+import '../styles/global.css';
+import Analytics from '../components/Analytics.astro';
+import { festival, instagram } from '../config';
+
+const ziel = instagram.profilUrl;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#1b1c20" />
+    <meta name="robots" content="noindex" />
+    <title>Weiter zu Instagram – {festival.kurzname}</title>
+    <link rel="icon" href="/logo.png" type="image/png" />
+    <!-- Ohne JavaScript geht es nach 3 Sekunden trotzdem weiter (dann ohne Zählung). -->
+    <meta http-equiv="refresh" content={`3;url=${ziel}`} />
+    <Analytics autoTrack={false} />
+  </head>
+  <body>
+    <main class="wrap prose weiter">
+      <img src="/logo.png" alt="" width="96" height="96" />
+      <p>Weiter zu <strong>{instagram.name}</strong> auf Instagram …</p>
+      <p><a href={ziel}>Falls nichts passiert: hier tippen</a></p>
+    </main>
+
+    <script is:inline define:vars={{ ziel }}>
+      // Erst zählen, dann weiterleiten. Spätestens nach 1,5 Sekunden geht es
+      // weiter, auch wenn Umami nicht antwortet oder blockiert ist.
+      window.addEventListener('load', function () {
+        var weiter = function () {
+          location.replace(ziel);
+        };
+        if (!window.umami) return weiter();
+        Promise.race([
+          Promise.resolve(window.umami.track()),
+          new Promise(function (fertig) {
+            setTimeout(fertig, 1500);
+          }),
+        ]).then(weiter, weiter);
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .weiter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+</style>
