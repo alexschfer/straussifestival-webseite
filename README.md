@@ -1,13 +1,13 @@
 # Straußi Festival 2027: Webseite
 
 > [!IMPORTANT]
-> **Statistikdaten bis spätestens 31.12.2027 löschen.** So steht es in der Datenschutzerklärung (`web/src/pages/datenschutz.astro`), und Umami löscht nicht von selbst.
-> Löschen: in Umami unter den Einstellungen der Website die Daten zurücksetzen (oder die Website dort ganz löschen). Die Datenbanksicherungen auf dem Server werden danach innerhalb von 14 Tagen von selbst überschrieben.
+> **Statistikdaten bis spätestens 31.12.2027 löschen.** So steht es in der Datenschutzerklärung (`web/src/pages/datenschutz.astro`), und Matomo löscht nicht von selbst.
+> Löschen: in Matomo die Website löschen (Administration > Websites > Verwalten) oder Matomo samt Datenbank in Plesk entfernen. Auch Datenbank-Backups in Plesk löschen.
 > Wird das Datum geändert, beides anpassen: diesen Hinweis und die Datenschutzerklärung.
 
-Infoseite zum Straußi Festival 2027 (Studierendenwohnheime Straußäcker, Stuttgart) mit selbst gehosteten Web-Analytics (Umami). Die Seite verlinkt auf den externen Ticketshop und misst, über welchen Kanal Besucher kommen und wie viele auf den Ticketbutton klicken.
+Infoseite zum Straußi Festival 2027 (Studierendenwohnheime Straußäcker, Stuttgart) mit selbst gehosteten Web-Analytics (Matomo). Die Seite verlinkt auf den externen Ticketshop und misst, über welchen Kanal Besucher kommen und wie viele auf den Ticketbutton klicken.
 
-Kurz: `web/` bauen, mit `./deploy/deploy.sh` auf die VM bringen. Projektkontext und alle Entscheidungen: [CLAUDE.md](CLAUDE.md). Aufgaben und Stand: [docs/SPEC.md](docs/SPEC.md).
+Kurz: `web/` bauen und nach Plesk bei Cloud86 hochladen, Anleitung samt Matomo-Einrichtung: [deploy/PLESK.md](deploy/PLESK.md). Projektkontext und alle Entscheidungen: [CLAUDE.md](CLAUDE.md). Aufgaben und Stand: [docs/SPEC.md](docs/SPEC.md).
 
 ## Lokal starten
 
@@ -32,7 +32,7 @@ Der Build erzeugt außerdem:
 
 - `docs/qr/<slug>.svg`: ein QR-Code pro Marketingkanal (für den Druck)
 - `docs/kanaele.md`: Tabelle aller Kanäle mit UTM-Links
-- `docs/qr/redirect-instagram/<slug>.svg`: QR-Codes, die **direkt zu Instagram** führen (Aufruf wird vorher in Umami gezählt, Auswertung über das Ereignis `insta-weiterleitung`)
+- `docs/qr/redirect-instagram/<slug>.svg`: QR-Codes, die **direkt zu Instagram** führen (Aufruf wird vorher in Matomo gezählt, Auswertung über das Ereignis Kategorie `Instagram`, Aktion `Weiterleitung`)
 
 **Vor dem Drucken** muss in `web/.env` die echte `SITE_URL` stehen, sonst zeigen die QR-Codes auf eine Platzhalter-Domain. Der Build warnt in diesem Fall.
 
@@ -49,13 +49,13 @@ Der Build erzeugt außerdem:
 In `web/.env` eintragen (siehe `web/.env.example`):
 
 ```
-PUBLIC_UMAMI_HOST=https://stats.<domain>
-PUBLIC_UMAMI_WEBSITE_ID=<ID aus Umami>
+PUBLIC_MATOMO_URL=https://stats.<domain>
+PUBLIC_MATOMO_SITE_ID=<ID aus Matomo>
 ```
 
-Fehlt einer der Werte, wird das Tracking-Skript nicht eingebunden und die Seite funktioniert trotzdem.
+Fehlt einer der Werte, wird Matomo nicht eingebunden (dann auch kein Cookie-Banner, solange kein Instagram-Widget eingetragen ist) und die Seite funktioniert trotzdem.
 
-## Analytics-Server und Deployment
+## Hosting und Deployment
 
-- Server-Stack (Caddy, Umami, Postgres, Backup) und lokaler Docker-Test: [analytics/README.md](analytics/README.md)
-- Deployment auf die VM (`./deploy/deploy.sh`), Schritte nach dem ersten Start, Backup, Anbieterwechsel: [deploy/README.md](deploy/README.md)
+- **Aktuell:** Webhosting bei Cloud86 mit Plesk, Matomo im selben Webhosting: [deploy/PLESK.md](deploy/PLESK.md)
+- Alternative für einen eigenen Server mit Docker (Caddy, Umami, Postgres; derzeit **nicht** in Verwendung): [analytics/README.md](analytics/README.md), [deploy/README.md](deploy/README.md). Achtung: Die Webseite selbst bindet inzwischen Matomo ein, nicht mehr Umami.

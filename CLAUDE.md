@@ -163,6 +163,17 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - Ablauf: `/redirect-instagram/q/flyer` -> (Meta-Refresh) `/redirect-instagram/?utm_...` -> Umami-Seitenaufruf mit UTMs -> `location.replace` zu Instagram. Das Umami-Skript läuft dort mit `data-auto-track="false"`; die Seite sendet selbst den Seitenaufruf und das Ereignis `insta-weiterleitung` (`analytics.instaEvent` in `config.ts`) und leitet erst danach weiter (höchstens 1,5 s Wartezeit, ohne Umami/bei Blocker sofort, ohne JavaScript per Meta-Refresh nach 3 s, dann ungezählt).
 - Auswertung in Umami: Ereignis `insta-weiterleitung` (gewünscht: klar getrennt von den Webseiten-Besuchen) oder Seite `/redirect-instagram/`, nach UTM-Quelle aufgeschlüsselt. Die Insta-Scans zählen trotzdem als Besucher der Seite; für reine Webseiten-Zahlen `/redirect-instagram/` herausfiltern. Unten steht ein Knopf „Zu Instagram“ für den Fall, dass die automatische Weiterleitung nicht greift (iOS öffnet die Instagram-App oft nur bei angetipptem Link; auf echten Handys noch zu testen). Bewusst ohne das gemeinsame Layout (keine Kopf-/Fußzeile, kein Banner) und mit `noindex`. Nicht im Menü.
 
+## Umstieg auf Cloud86-Webhosting und Matomo (gilt vor allen älteren Abschnitten zu Umami, Docker und Deploy)
+
+- **Hosting:** Webhosting „Medium“ bei **Cloud86 B.V.** (Plesk, LiteSpeed/Apache, PHP/MySQL, Rechenzentren NL). Dort läuft auch die Nextcloud unter `cloud.straussifestival.de` (nicht anfassen). **Kein Docker, kein Root** – deshalb kein Umami. Die Seite wird lokal gebaut und per Plesk-Dateimanager (ZIP) nach `httpdocs` hochgeladen. Anleitung: `deploy/PLESK.md`. AVV gilt laut Cloud86-Datenschutzerklärung automatisch mit der Nutzung (DPA-PDF ablegen).
+- **Statistik: Matomo** (selbst installiert unter `stats.straussifestival.de`, gleiches Webhosting) statt Umami. Umgebungsvariablen `PUBLIC_MATOMO_URL`, `PUBLIC_MATOMO_SITE_ID`. Einbindung in `web/src/components/Analytics.astro`.
+- **Cookies: hybrid.** Matomo zählt standardmäßig **ohne Cookies** (`requireCookieConsent`); nach „Akzeptieren“ im Cookie-Banner `setCookieConsentGiven` (Wiedererkennung über Tage, Cookies `_pk_id`/`_pk_ses`), bei „Ablehnen“/Widerruf `forgetCookieConsentGiven`. Deshalb erscheint der **Cookie-Banner jetzt immer**, sobald Matomo aktiv ist (`bannerAktiv` in `config.ts`). Eine Antwort gilt für Statistik-Cookies und den Instagram-Feed. localStorage-Schlüssel `straussi-einwilligung`.
+- **Ereignisse:** Ticketklick = Kategorie `Ticket`, Aktion `Klick`, Name = `header`/`hero`/`footer` (Klick-Listener in `Analytics.astro` auf `[data-ticket-link]`, `data-position`). Instagram-Weiterleitung = Kategorie `Instagram`, Aktion `Weiterleitung` (mit Callback, dann `location.replace`). `enableLinkTracking` zählt zusätzlich ausgehende Links (Instagram, TikTok, Ticketshop).
+- **Kanäle in Matomo:** UTM-Parameter werden gelesen; für `utm_source`/`utm_medium`/`utm_content` einzeln braucht es das kostenlose Plugin **Marketing Campaigns Reporting**. Ticketklicks pro Kanal über das Ziel **Ticketklick** (Ereignis, Kategorie `Ticket`). Ohne Cookie-Zustimmung ordnet Matomo Klicks nur innerhalb desselben Besuchs einem Kanal zu.
+- **Datenschutzerklärung** entsprechend: Cloud86 als Hoster mit AVV, **Server-Logfiles 7 Tage** (muss in Plesk so eingestellt sein), Matomo mit IP-Kürzung um 2 Bytes (muss in Matomo so eingestellt sein), Cookie-Abschnitt `#cookies`.
+- `web/public/.htaccess`: HTTPS erzwingen, `www` -> ohne `www`, `ErrorDocument 404 /404.html`, Cache für `/_astro/`.
+- `analytics/` und `deploy/deploy.sh` bleiben als Alternative für einen eigenen Server liegen, sind aber **nicht in Verwendung** und passen nicht mehr zur Matomo-Einbindung der Seite.
+
 ## Befehle (im Ordner `web/`)
 
 ```
@@ -172,7 +183,7 @@ npm run build        Prüfen (astro check) und bauen nach web/dist/; erzeugt auc
 npm run preview      gebaute Seite lokal ansehen
 ```
 
-Deployment (im Repo-Wurzelordner): `./deploy/deploy.sh`
+Deployment: siehe `deploy/PLESK.md` (bauen, ZIP aus `web/dist/`, in Plesk nach `httpdocs` hochladen und entpacken).
 
 ## Hinweise für Inhalte (Astro-Seiten)
 

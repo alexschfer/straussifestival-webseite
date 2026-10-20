@@ -100,18 +100,34 @@ export const tiktok = {
 };
 
 /**
- * Umami-Tracking. Host und Website-ID kommen aus Umgebungsvariablen
- * (web/.env, siehe web/.env.example). Fehlt einer der beiden Werte, wird
- * das Skript nicht eingebunden und die Seite funktioniert trotzdem.
+ * Matomo-Tracking (selbst gehostet auf dem Webhosting, stats.<domain>).
+ * Adresse und Website-ID kommen aus Umgebungsvariablen (web/.env, siehe
+ * web/.env.example). Fehlt einer der beiden Werte, wird Matomo nicht
+ * eingebunden und die Seite funktioniert trotzdem.
+ *
+ * Matomo zählt ohne Cookies. Erst nach "Akzeptieren" im Cookie-Banner setzt
+ * es Cookies und erkennt Besucher dann auch über mehrere Tage wieder.
  */
 export const analytics = {
   /** z. B. "https://stats.example.org", ohne abschließenden Slash */
-  host: (import.meta.env.PUBLIC_UMAMI_HOST ?? '').trim().replace(/\/+$/, ''),
-  websiteId: (import.meta.env.PUBLIC_UMAMI_WEBSITE_ID ?? '').trim(),
-  /** Name des Klick-Events, das der Ticketbutton auslöst. */
-  ticketEvent: 'ticket-click',
+  url: (import.meta.env.PUBLIC_MATOMO_URL ?? '').trim().replace(/\/+$/, ''),
+  siteId: (import.meta.env.PUBLIC_MATOMO_SITE_ID ?? '').trim(),
+  /**
+   * Ereignis beim Klick auf den Ticketbutton: Kategorie und Aktion, als Name geht
+   * die Stelle mit (header, hero, footer). In Matomo ist das Ziel "Ticketklick"
+   * an diese Kategorie geknüpft (siehe deploy/README.md).
+   */
+  ticketKategorie: 'Ticket',
+  ticketAktion: 'Klick',
   /** Ereignis der Weiterleitung /redirect-instagram/ (QR-Codes direkt zu Instagram). */
-  instaEvent: 'insta-weiterleitung',
+  instaKategorie: 'Instagram',
+  instaAktion: 'Weiterleitung',
 };
 
-export const analyticsAktiv = Boolean(analytics.host && analytics.websiteId);
+export const analyticsAktiv = Boolean(analytics.url && analytics.siteId);
+
+/**
+ * Der Cookie-Banner erscheint, sobald es etwas zuzustimmen gibt: Matomo-Cookies
+ * (Statistik) oder der Instagram-Feed. Eine Antwort gilt für beides.
+ */
+export const bannerAktiv = analyticsAktiv || Boolean(instagram.widget.url);

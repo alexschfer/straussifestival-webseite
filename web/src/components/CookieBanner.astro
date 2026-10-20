@@ -1,18 +1,35 @@
 ---
 /**
- * Cookie-Banner für den Instagram-Feed (Widget eines Drittanbieters).
- * Wird nur ausgeliefert, wenn in src/config.ts ein Widget eingetragen ist
- * (instagram.widget.url). Ohne Antwort lädt nichts vom Drittanbieter.
+ * Cookie-Banner: eine Antwort für Statistik-Cookies (Matomo) und, falls eingetragen,
+ * den Instagram-Feed (Widget eines Drittanbieters). Wird nur ausgeliefert, wenn es
+ * etwas zuzustimmen gibt (bannerAktiv in src/config.ts). Ohne Antwort lädt nichts vom
+ * Drittanbieter, und Matomo zählt ohne Cookies.
  * "Ablehnen" ist bewusst genauso groß und gut erreichbar wie "Akzeptieren".
  */
-import { instagram } from '../config';
+import { analyticsAktiv, instagram } from '../config';
+
+const feed = Boolean(instagram.widget.url);
 ---
 
 <div class="cookie-banner" role="dialog" aria-labelledby="cookie-titel" aria-describedby="cookie-text" hidden data-cookie-banner>
   <div class="cookie-inner">
-    <p id="cookie-titel" class="cookie-titel">Instagram-Feed anzeigen?</p>
+    <p id="cookie-titel" class="cookie-titel">Cookies erlauben?</p>
     <p id="cookie-text" class="cookie-text">
-      Auf der Startseite können wir unsere neuesten Instagram-Beiträge zeigen. Dafür wird ein Dienst von {instagram.widget.anbieter} geladen, der Daten (z. B. deine IP-Adresse) erhält und Cookies setzen kann. Ohne Zustimmung siehst du stattdessen nur Links zu unseren Profilen. Mehr dazu in der <a href="/datenschutz/">Datenschutzerklärung</a>.
+      {
+        analyticsAktiv && (
+          <>
+            Mit deiner Zustimmung setzt unsere eigene Besucherstatistik (Matomo, auf unserem eigenen Webspace) Cookies, damit wir sehen, ob du später wiederkommst. Ohne Zustimmung zählen wir nur anonym ohne Cookies.{' '}
+          </>
+        )
+      }
+      {
+        feed && (
+          <>
+            Außerdem zeigen wir dann auf der Startseite unsere neuesten Instagram-Beiträge. Dafür wird ein Dienst von {instagram.widget.anbieter} geladen, der Daten (z. B. deine IP-Adresse) erhält und Cookies setzen kann.{' '}
+          </>
+        )
+      }
+      Mehr dazu in der <a href="/datenschutz/#cookies">Datenschutzerklärung</a>.
     </p>
     <div class="cookie-knoepfe">
       <button type="button" class="button button-klein cookie-ablehnen" data-antwort="nein">Ablehnen</button>

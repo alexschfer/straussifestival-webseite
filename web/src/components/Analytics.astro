@@ -1,25 +1,75 @@
 ---
+/**
+ * Matomo-Tracking. Wird nur eingebunden, wenn Adresse und Website-ID gesetzt
+ * sind (analyticsAktiv in src/config.ts).
+ *
+ * - Ohne Zustimmung zählt Matomo ohne Cookies ("requireCookieConsent").
+ * - Nach "Akzeptieren" im Cookie-Banner setzt es Cookies und erkennt Besucher
+ *   auch an späteren Tagen wieder; "Ablehnen" bzw. Widerruf löscht sie wieder.
+ * - Klicks auf den Ticketbutton gehen als Ereignis an Matomo (Kategorie/Aktion
+ *   aus config.ts, Name = Stelle des Buttons: header, hero, footer).
+ * - Links zu Instagram, TikTok und zum Ticketshop zählt Matomo zusätzlich
+ *   von selbst als "Ausgehende Verweise".
+ */
 import { analytics, analyticsAktiv } from '../config';
+import { SCHLUESSEL } from '../scripts/einwilligung';
 
 interface Props {
   /**
-   * Standard: Umami zählt den Seitenaufruf selbst beim Laden.
-   * false: Die Seite zählt selbst per umami.track() (nur die Weiterleitung
-   * zu Instagram, die erst nach dem Zählen weiterleiten darf).
+   * Standard: Matomo zählt den Seitenaufruf selbst beim Laden.
+   * false: Die Seite zählt selbst (nur die Weiterleitung zu Instagram, die
+   * erst nach dem Zählen weiterleiten darf).
    */
   autoTrack?: boolean;
 }
 
 const { autoTrack = true } = Astro.props;
+const einstellungen = {
+  url: analytics.url,
+  siteId: analytics.siteId,
+  autoTrack,
+  schluessel: SCHLUESSEL,
+  ticketKategorie: analytics.ticketKategorie,
+  ticketAktion: analytics.ticketAktion,
+};
 ---
 
 {
   analyticsAktiv && (
-    <script
-      defer
-      src={`${analytics.host}/script.js`}
-      data-website-id={analytics.websiteId}
-      data-auto-track={autoTrack ? undefined : 'false'}
-    />
+    <script is:inline define:vars={{ einstellungen }}>
+      var _paq = (window._paq = window._paq || []);
+      var zugestimmt = false;
+      try {
+        zugestimmt = localStorage.getItem(einstellungen.schluessel) === 'ja';
+      } catch (fehler) {}
+
+      // Ohne Zustimmung: zählen, aber keine Cookies.
+      _paq.push(['requireCookieConsent']);
+      if (zugestimmt) _paq.push(['setCookieConsentGiven']);
+      if (einstellungen.autoTrack) {
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+      }
+      _paq.push(['setTrackerUrl', einstellungen.url + '/matomo.php']);
+      _paq.push(['setSiteId', einstellungen.siteId]);
+
+      var skript = document.createElement('script');
+      skript.async = true;
+      skript.src = einstellungen.url + '/matomo.js';
+      document.head.appendChild(skript);
+
+      // Antwort im Cookie-Banner (siehe src/scripts/einwilligung.ts)
+      document.addEventListener('einwilligung', function (ereignis) {
+        _paq.push([ereignis.detail === 'ja' ? 'setCookieConsentGiven' : 'forgetCookieConsentGiven']);
+      });
+
+      // Ticketbutton (TicketButton.astro, nur solange er ein echter Link ist)
+      document.addEventListener('click', function (ereignis) {
+        var link = ereignis.target.closest && ereignis.target.closest('[data-ticket-link]');
+        if (link) {
+          _paq.push(['trackEvent', einstellungen.ticketKategorie, einstellungen.ticketAktion, link.dataset.position]);
+        }
+      });
+    </script>
   )
 }

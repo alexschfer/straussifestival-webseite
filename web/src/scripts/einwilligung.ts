@@ -1,13 +1,15 @@
 /**
- * Merkt sich die Antwort aus dem Cookie-Banner (Zustimmung zum Instagram-Feed).
+ * Merkt sich die Antwort aus dem Cookie-Banner (Statistik-Cookies von Matomo und
+ * Instagram-Feed, eine Antwort für beides).
  *
  * Gespeichert wird nur "ja" oder "nein" im lokalen Speicher des Browsers (localStorage),
  * damit der Banner nicht bei jedem Seitenaufruf neu erscheint. Ohne Antwort lädt nichts
- * von Drittanbietern. Wer zustimmt oder ablehnt, löst das Ereignis "einwilligung" aus,
- * auf das der Instagram-Abschnitt hört.
+ * von Drittanbietern und Matomo setzt keine Cookies. Wer zustimmt oder ablehnt, löst das
+ * Ereignis "einwilligung" aus, auf das der Instagram-Abschnitt und Matomo
+ * (Analytics.astro, liest den Schlüssel dort direkt) hören.
  */
 
-const SCHLUESSEL = 'straussi-einwilligung-instagram';
+export const SCHLUESSEL = 'straussi-einwilligung';
 
 export type Antwort = 'ja' | 'nein' | null;
 

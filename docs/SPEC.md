@@ -37,6 +37,15 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 - [ ] Umami-Oberfläche (Menünamen, Passwort ändern, Website-ID finden, Daten zurücksetzen) einmal im Browser durchgehen und `deploy/README.md` bei Abweichungen anpassen; bisher nur die API-Abläufe getestet
 - [ ] Backup-Cron auf der VM einrichten und eine Off-Site-Kopie der Sicherungen organisieren
 
+### Umstieg auf Cloud86-Webhosting und Matomo
+
+- [x] Tracking auf Matomo umgestellt (ohne Cookies, mit Cookies nach Zustimmung), Cookie-Banner immer aktiv mit Matomo
+- [x] Datenschutzerklärung auf Cloud86 und Matomo umgestellt, `.htaccess`, Anleitung `deploy/PLESK.md`
+- [ ] In Plesk: Subdomain `stats`, SSL, **Log-Rotation 7 Tage**, Datenbank, Matomo installieren
+- [ ] In Matomo: **IP-Kürzung 2 Bytes**, Plugin Marketing Campaigns Reporting, Ziel „Ticketklick“, Site-ID in `web/.env`
+- [ ] Erster Upload, Test mit echten Handys, Testdaten löschen
+- [ ] DPA von Cloud86 herunterladen und beim Verein ablegen; prüfen, ob das Cloud86-Konto auf Straussi 1 e.V. läuft
+
 ## Offene Punkte (TODO, nicht erfinden)
 
 - [ ] **Antwort von Selfnet:** VM, Domain, DNS

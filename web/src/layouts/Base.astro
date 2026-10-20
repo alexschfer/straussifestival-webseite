@@ -6,7 +6,7 @@ import InstaIcon from '../components/InstaIcon.astro';
 import TikTokIcon from '../components/TikTokIcon.astro';
 import TicketButton from '../components/TicketButton.astro';
 import UtmWeitergabe from '../components/UtmWeitergabe.astro';
-import { festival, instagram, tiktok, ticket } from '../config';
+import { bannerAktiv, festival, instagram, tiktok, ticket } from '../config';
 
 interface Props {
   title: string;
@@ -168,9 +168,9 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
                   ))
                 }
                 {
-                  instagram.widget.url && (
+                  bannerAktiv && (
                     <li>
-                      <a href="/datenschutz/#instagram-feed" data-cookie-einstellungen>
+                      <a href="/datenschutz/#cookies" data-cookie-einstellungen>
                         Cookie-Einstellungen
                       </a>
                     </li>
@@ -185,6 +185,6 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
     </footer>
 
     {ticket.utmWeitergeben && <UtmWeitergabe />}
-    {instagram.widget.url && <CookieBanner />}
+    {bannerAktiv && <CookieBanner />}
   </body>
 </html>

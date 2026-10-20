@@ -1,25 +1,29 @@
 ---
 /**
- * Weiterleitung zum Instagram-Profil, mit Zählung in Umami.
+ * Weiterleitung zum Instagram-Profil, mit Zählung in Matomo.
  *
  * Gedacht für QR-Codes, die direkt auf Instagram führen sollen. Wie jede Seite
  * funktioniert sie mit allen Kanälen: /redirect-instagram/q/flyer leitet erst auf
  * /redirect-instagram/?utm_source=flyer&... weiter, diese Seite zählt den Aufruf samt
- * Kanal in Umami und schickt den Besucher dann zu Instagram. Die fertigen
+ * Kanal in Matomo und schickt den Besucher dann zu Instagram. Die fertigen
  * QR-Codes liegen in docs/qr/redirect-instagram/.
  *
- * Auswertung in Umami: Ereignis "insta-weiterleitung" (klar getrennt von den
- * Webseiten-Besuchen) oder Seite "/redirect-instagram/", jeweils nach UTM-Quelle aufschlüsseln.
+ * Auswertung in Matomo: Ereignis Kategorie "Instagram", Aktion "Weiterleitung"
+ * (klar getrennt von den Webseiten-Besuchen), nach Kampagne/Quelle aufschlüsseln.
  *
  * Bewusst ohne das gemeinsame Layout (keine Kopf-/Fußzeile, kein Cookie-Banner):
  * Die Seite ist nur einen Augenblick zu sehen.
  */
 import '../styles/global.css';
 import Analytics from '../components/Analytics.astro';
-import { analytics, festival, instagram } from '../config';
+import { analytics, analyticsAktiv, festival, instagram } from '../config';
 
 const ziel = instagram.profilUrl;
-const ereignis = analytics.instaEvent;
+const zaehlen = {
+  aktiv: analyticsAktiv,
+  kategorie: analytics.instaKategorie,
+  aktion: analytics.instaAktion,
+};
 ---
 
 <!doctype html>
@@ -44,22 +48,25 @@ const ereignis = analytics.instaEvent;
       <a class="button button-gross" href={ziel}>Zu Instagram</a>
     </main>
 
-    <script is:inline define:vars={{ ziel, ereignis }}>
+    <script is:inline define:vars={{ ziel, zaehlen }}>
       // Erst zählen (Seitenaufruf und eigenes Ereignis), dann weiterleiten.
-      // Spätestens nach 1,5 Sekunden geht es weiter, auch wenn Umami nicht
-      // antwortet oder blockiert ist.
-      window.addEventListener('load', function () {
-        var weiter = function () {
-          location.replace(ziel);
-        };
-        if (!window.umami) return weiter();
-        Promise.race([
-          Promise.all([window.umami.track(), window.umami.track(ereignis)]),
-          new Promise(function (fertig) {
-            setTimeout(fertig, 1500);
-          }),
-        ]).then(weiter, weiter);
-      });
+      // Spätestens nach 1,5 Sekunden geht es weiter, auch wenn Matomo nicht
+      // antwortet oder blockiert ist. Ohne Matomo sofort.
+      var weitergeleitet = false;
+      var weiter = function () {
+        if (weitergeleitet) return;
+        weitergeleitet = true;
+        location.replace(ziel);
+      };
+      if (!zaehlen.aktiv) {
+        weiter();
+      } else {
+        var _paq = (window._paq = window._paq || []);
+        _paq.push(['trackPageView']);
+        // Letzter Wert: Matomo ruft "weiter" auf, sobald das Ereignis verschickt ist.
+        _paq.push(['trackEvent', zaehlen.kategorie, zaehlen.aktion, undefined, undefined, undefined, weiter]);
+        setTimeout(weiter, 1500);
+      }
     </script>
   </body>
 </html>

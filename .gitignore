@@ -9,3 +9,4 @@ dist/
 .DS_Store
 backups/
 deploy/deploy.env
+straussi-webseite.zip

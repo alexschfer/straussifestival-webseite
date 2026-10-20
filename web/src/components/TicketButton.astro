@@ -1,8 +1,8 @@
 ---
-import { analytics, ticket, ticketAktiv } from '../config';
+import { ticket, ticketAktiv } from '../config';
 
 interface Props {
-  /** Wo der Button sitzt; wird im Umami-Event als "position" mitgeschickt. */
+  /** Wo der Button sitzt; geht im Matomo-Ereignis als Name mit (siehe Analytics.astro). */
   position: 'header' | 'hero' | 'footer';
   /** Buttontext */
   text?: string;
@@ -25,8 +25,7 @@ const textAus = klasse?.includes('button-klein') && position === 'header' ? 'bal
       target="_blank"
       rel="noopener"
       data-ticket-link
-      data-umami-event={analytics.ticketEvent}
-      data-umami-event-position={position}
+      data-position={position}
     >
       {text}
     </a>
