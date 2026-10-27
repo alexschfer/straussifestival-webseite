@@ -57,6 +57,21 @@ export const kanaele: Kanal[] = [
     utm_medium: 'scan',
     beschreibung: 'QR-Code auf den Stickern.',
   },
+  // Feste in den Wohnheimen: eigener QR-Code pro Fest (z. B. auf einem Aufsteller,
+  // Plakat am Stand oder der Leinwand), damit man sieht, wer über das Fest kam.
+  // Normale Flyer, die dort verteilt werden, zählen weiter als "flyer".
+  {
+    slug: 'kattafest',
+    utm_source: 'kattafest',
+    utm_medium: 'scan',
+    beschreibung: 'QR-Code auf dem Kattafest von Straußi 1 (Aufsteller, Plakat am Stand, Leinwand).',
+  },
+  {
+    slug: 'winterfest',
+    utm_source: 'winterfest',
+    utm_medium: 'scan',
+    beschreibung: 'QR-Code auf dem Winterfest von Straußi 3 (Aufsteller, Plakat am Stand, Leinwand).',
+  },
   {
     slug: 'whatsapp',
     utm_source: 'whatsapp',

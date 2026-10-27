@@ -57,7 +57,7 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 - [ ] Copyright-Zeile in der Fußzeile ggf. auf Straussi 1 e.V. anpassen (`web/src/layouts/Base.astro`)
 - [x] **Kontaktadresse** `info@straussifestival.de` (`festival.email` in `web/src/config.ts`, Fußzeile und Impressum)
 - [ ] Postfach `info@straussifestival.de` muss wirklich existieren und gelesen werden (E-Mail-Hosting/MX für die Domain)
-- [x] **Kanalliste** festgelegt: `flyer`, `plakat`, `sticker` (Medium `scan`), `whatsapp` (`messenger`), `instagram`, `tiktok` (`social`)
+- [x] **Kanalliste** festgelegt: `flyer`, `plakat`, `sticker` (Medium `scan`), `whatsapp` (`messenger`), `instagram`, `tiktok` (`social`); dazu pro Wohnheimfest ein eigener QR-Kanal: `kattafest` (Straußi 1), `winterfest` (Straußi 3)
 - [ ] **Festivalinhalte** (Datum, Line-up, Preise, Anfahrt, FAQ-Antworten; alles `TODO` in `web/src/pages/` und `web/src/config.ts`)
 - [ ] **`SITE_URL` setzen**, sobald die Domain feststeht, und die QR-Codes neu bauen. Erst dann drucken.
 - [ ] **Eigene Fotos** für die Instagram-Kacheln ablegen (`web/public/insta/`, aktuell Platzhalter "TODO Foto"). Das Profil `@straussifestival` ist eingetragen.

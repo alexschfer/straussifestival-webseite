@@ -49,6 +49,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - `utm_campaign` ist immer `straussi-festival-2027`.
 - **Schreibregel für UTM-Werte** (und Slugs): nur Kleinbuchstaben (und Ziffern), keine Umlaute, kein ß, keine Leerzeichen, Wörter mit Bindestrich. Wird **beim Build per Validierung erzwungen** (`validiereKanaele` in `kanaele.ts`; der Build bricht bei Verstoß ab). Doppelte Slugs brechen den Build ebenfalls ab.
 - **Kanäle (vom Team festgelegt):** ein Kanal pro Art, **nicht pro Ort** (individuell gedruckte QR-Codes lohnen sich finanziell nicht): `flyer`, `plakat`, `sticker`, `whatsapp`, `instagram`, `tiktok`. Pflicht für die Auswertung ist die Unterscheidung **Scan gegen Messenger**; sie steckt in `utm_medium`.
+- **Ausnahme Feste in den Wohnheimen:** Pro Fest ein eigener Kanal (`kattafest` von Straußi 1, `winterfest` von Straußi 3), damit man sieht, wer über welches Fest kam. Medium `scan` (eigener QR-Code am Fest, z. B. Aufsteller oder Leinwand), das Fest steht in `utm_source`. Normale Flyer, die dort verteilt werden, zählen weiter als `flyer`. Neues Fest = ein Eintrag in `kanaele.ts`.
 
 ### Analytics-Einbindung
 
