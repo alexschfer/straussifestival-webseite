@@ -60,11 +60,30 @@ export const kanaele: Kanal[] = [
   // Feste in den Wohnheimen: eigener QR-Code pro Fest (z. B. auf einem Aufsteller,
   // Plakat am Stand oder der Leinwand), damit man sieht, wer über das Fest kam.
   // Normale Flyer, die dort verteilt werden, zählen weiter als "flyer".
+  //
+  // Wirbt ein Fest über mehrere Wege (eigene Flyer, WhatsApp-Gruppen), bekommt
+  // jeder Weg einen eigenen Eintrag: utm_source ist immer das Fest, utm_medium
+  // wie üblich "scan" oder "messenger", utm_content sagt, welcher Weg genau.
   {
     slug: 'kattafest',
     utm_source: 'kattafest',
     utm_medium: 'scan',
+    utm_content: 'vor-ort',
     beschreibung: 'QR-Code auf dem Kattafest von Straußi 1 (Aufsteller, Plakat am Stand, Leinwand).',
+  },
+  {
+    slug: 'kattafest-flyer',
+    utm_source: 'kattafest',
+    utm_medium: 'scan',
+    utm_content: 'flyer',
+    beschreibung: 'QR-Code auf den Flyern, die für das Kattafest von Straußi 1 gedruckt werden.',
+  },
+  {
+    slug: 'kattafest-whatsapp',
+    utm_source: 'kattafest',
+    utm_medium: 'messenger',
+    utm_content: 'whatsapp',
+    beschreibung: 'Link für die WhatsApp-Gruppen zum Kattafest von Straußi 1. Immer diesen Link teilen, nie nur die Domain.',
   },
   {
     slug: 'winterfest',
