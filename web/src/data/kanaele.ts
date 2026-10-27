@@ -57,22 +57,6 @@ export const kanaele: Kanal[] = [
     utm_medium: 'scan',
     beschreibung: 'QR-Code auf den Stickern.',
   },
-  // Feste in den Wohnheimen: eigener QR-Code pro Fest (z. B. auf einem Aufsteller,
-  // Plakat am Stand oder der Leinwand), damit man sieht, wer über das Fest kam.
-  // Normale Flyer, die dort verteilt werden, zählen weiter als "flyer".
-  // Ein QR-Code pro Fest für alles Gedruckte dort, Name mit Wohnheim (str1, str3).
-  {
-    slug: 'kattafest-str1',
-    utm_source: 'kattafest-str1',
-    utm_medium: 'scan',
-    beschreibung: 'QR-Code auf dem Kattafest von Straußi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
-  },
-  {
-    slug: 'winterfest-str3',
-    utm_source: 'winterfest-str3',
-    utm_medium: 'scan',
-    beschreibung: 'QR-Code auf dem Winterfest von Straußi 3 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
-  },
   {
     slug: 'whatsapp',
     utm_source: 'whatsapp',
@@ -90,6 +74,28 @@ export const kanaele: Kanal[] = [
     utm_source: 'tiktok',
     utm_medium: 'social',
     beschreibung: 'Link in der TikTok-Bio.',
+  },
+  // Feste in den Wohnheimen: eigener QR-Code pro Fest (z. B. auf einem Aufsteller,
+  // Plakat am Stand oder der Leinwand), damit man sieht, wer über das Fest kam.
+  // Normale Flyer, die dort verteilt werden, zählen weiter als "flyer".
+  // Ein QR-Code pro Fest für alles Gedruckte dort, Name mit Wohnheim (str1, str3).
+  {
+    slug: 'kattafest-str1',
+    utm_source: 'kattafest-str1',
+    utm_medium: 'scan',
+    beschreibung: 'QR-Code auf dem Kattafest von Straußi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
+  },
+  {
+    slug: 'winterfest-str3',
+    utm_source: 'winterfest-str3',
+    utm_medium: 'scan',
+    beschreibung: 'QR-Code auf dem Winterfest von Straußi 3 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
+  },
+  {
+    slug: 'halloween-str1',
+    utm_source: 'halloween-str1',
+    utm_medium: 'scan',
+    beschreibung: 'QR-Code auf der Halloween-Party von Straußi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
   },
 ];
 
