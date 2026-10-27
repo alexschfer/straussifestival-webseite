@@ -30,7 +30,7 @@ npm run preview         # gebaute Seite ansehen
 
 Der Build erzeugt außerdem:
 
-- `docs/qr/<slug>.svg`: ein QR-Code pro gedrucktem Kanal (Flyer, Plakat, Sticker, Kattafest, Winterfest); WhatsApp, Instagram und TikTok bekommen keinen, dort den Kurz-Link aus `docs/kanaele.md` teilen
+- `docs/qr/<slug>.svg`: ein QR-Code pro gedrucktem Kanal (Flyer, Plakat, Sticker, Kattafest Straußi 1, Winterfest Straußi 3); WhatsApp, Instagram und TikTok bekommen keinen, dort den Kurz-Link aus `docs/kanaele.md` teilen
 - `docs/kanaele.md`: Tabelle aller Kanäle mit UTM-Links
 - `docs/qr/redirect-instagram/<slug>.svg`: QR-Codes, die **direkt zu Instagram** führen (Aufruf wird vorher in Matomo gezählt, Auswertung über das Ereignis Kategorie `Instagram`, Aktion `Weiterleitung`)
 
