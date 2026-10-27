@@ -41,10 +41,10 @@ Die Menünamen in Plesk und Matomo können je nach Version leicht abweichen.
 cd web
 npm ci
 npm run build                       # prüft und baut nach web/dist/
-cd dist && zip -qr ../../straussi-webseite.zip . && cd ../..
+cd dist && rm -f ../../straussifestival-webseite.zip && zip -qr ../../straussifestival-webseite.zip . && cd ../..
 ```
 
-Dann in Plesk im **Dateimanager** `httpdocs` öffnen, `straussi-webseite.zip` hochladen, **entpacken (vorhandene Dateien überschreiben)** und die ZIP wieder löschen. Die Datei `.htaccess` gehört mit dazu (HTTPS, www-Weiterleitung, 404-Seite).
+Dann in Plesk im **Dateimanager** `httpdocs` öffnen, `straussifestival-webseite.zip` hochladen, **entpacken (vorhandene Dateien überschreiben)** und die ZIP wieder löschen. Die Datei `.htaccess` gehört mit dazu (HTTPS, www-Weiterleitung, 404-Seite).
 
 Danach `docs/` committen, falls sich QR-Codes oder `docs/kanaele.md` geändert haben.
 
