@@ -99,6 +99,21 @@ export const kanaele: Kanal[] = [
   },
 ];
 
+/**
+ * Fremde Quellen: Manche Plattformen hängen selbst UTM-Parameter an Links, z. B.
+ * Instagram an den Bio-Link "utm_source=ig&utm_medium=social&utm_content=link_in_bio"
+ * (in Matomo beobachtet, Oktober 2026). Der Webserver leitet solche Aufrufe auf
+ * dieselbe Seite mit den Werten unseres Kanals um, damit in Matomo nur eine Zeile
+ * pro Plattform steht. Links: utm_source der Plattform, rechts: Slug unseres Kanals.
+ *
+ * TikTok hängt laut Recherche (Oktober 2026) an Bio-Links nichts an, nur an
+ * bezahlte Anzeigen. Deshalb kein Eintrag. Am besten trotzdem überall die
+ * Kurz-URL /q/<slug> verwenden, die ignoriert fremde Parameter ohnehin.
+ */
+export const fremdeQuellen: Record<string, string> = {
+  ig: 'instagram',
+};
+
 // ---------------------------------------------------------------------------
 // Validierung: läuft beim Laden dieser Datei und damit bei jedem Build/Dev-Start.
 // ---------------------------------------------------------------------------
@@ -135,6 +150,14 @@ export function validiereKanaele(liste: Kanal[]): void {
     if (!k.beschreibung.trim()) fehler.push(`Kanal "${k.slug}": beschreibung fehlt.`);
     if (slugs.has(k.slug)) fehler.push(`Slug "${k.slug}" kommt mehrfach vor.`);
     slugs.add(k.slug);
+  }
+
+  for (const [fremd, slug] of Object.entries(fremdeQuellen)) {
+    pruefe(`fremdeQuellen.${fremd}`, 'utm_source', fremd, true);
+    if (!slugs.has(slug)) fehler.push(`fremdeQuellen: Kanal "${slug}" (für "${fremd}") gibt es nicht.`);
+    if (liste.some((k) => k.utm_source === fremd)) {
+      fehler.push(`fremdeQuellen: "${fremd}" ist schon utm_source eines eigenen Kanals.`);
+    }
   }
 
   if (fehler.length > 0) {

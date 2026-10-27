@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 import type { AstroIntegration } from 'astro';
 import QRCode from 'qrcode';
 import { instagram, ticket } from '../src/config';
-import { CAMPAIGN, kanaele, kanalRedirects, kurzPfad, utmQuery } from '../src/data/kanaele';
+import { CAMPAIGN, fremdeQuellen, kanaele, kanalRedirects, kurzPfad, utmQuery } from '../src/data/kanaele';
 import { seitenPfade } from './seiten';
 
 /** "/" -> "" (liegt direkt in docs/qr/), "/lineup/" -> "lineup/" (Unterordner). */
@@ -53,9 +53,27 @@ export default function kanaeleOutput(): AstroIntegration {
         const regeln = Object.entries(kanalRedirects(seiten)).map(
           ([von, nach]) => `RewriteRule ^${von.replace(/^\//, '')}/?$ ${nach} [R=302,L,NE]`,
         );
+        // Fremde Quellen (z. B. "ig" von Instagram) auf unseren Kanal umschreiben: gleiche Seite,
+        // aber mit dessen UTM-Parametern. Steht nach den /q/-Regeln, damit /q/<slug>?utm_source=ig
+        // erst dort landet (die /q/-Regeln verwerfen fremde Parameter ohnehin).
+        const fremdRegeln = Object.entries(fremdeQuellen).flatMap(([fremd, slug]) => {
+          const kanal = kanaele.find((k) => k.slug === slug)!;
+          return [
+            `RewriteCond %{QUERY_STRING} (^|&)utm_source=${fremd}(&|$) [NC]`,
+            `RewriteRule ^(.*)$ /$1?${utmQuery(kanal)} [R=302,L,NE]`,
+          ];
+        });
         await appendFile(
           new URL('.htaccess', dir),
-          ['', '# Kanal-Weiterleitungen (automatisch erzeugt aus src/data/kanaele.ts)', ...regeln, ''].join('\n'),
+          [
+            '',
+            '# Kanal-Weiterleitungen (automatisch erzeugt aus src/data/kanaele.ts)',
+            ...regeln,
+            '',
+            '# Fremde Quellen auf eigene Kanäle umschreiben (fremdeQuellen in src/data/kanaele.ts)',
+            ...fremdRegeln,
+            '',
+          ].join('\n'),
         );
 
         // QR-Codes: kompletten Ordner neu aufbauen, damit gelöschte Kanäle und

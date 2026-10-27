@@ -46,6 +46,8 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 - [x] Protokollrotation `straussifestival.de`: monatlich, 1 Datei (Datenschutz: höchstens 2 Monate)
 - [ ] Protokollrotation auch für `stats.straussifestival.de` prüfen
 - [ ] Erster Upload, Test mit echten Handys, Testdaten löschen
+- [ ] **Bio-Links** auf die Kurz-URLs umstellen: Instagram `straussifestival.de/q/instagram`, TikTok `straussifestival.de/q/tiktok` (Instagram-Bio enthält derzeit nicht die Kurz-URL, in Matomo erschien `ig`)
+- [x] Auffangregel `ig` -> `instagram` (`fremdeQuellen` in `web/src/data/kanaele.ts`)
 - [ ] DPA von Cloud86 herunterladen und beim Verein ablegen; prüfen, ob das Cloud86-Konto auf Straussi 1 e.V. läuft
 
 ## Offene Punkte (TODO, nicht erfinden)
