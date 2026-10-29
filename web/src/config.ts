@@ -40,13 +40,12 @@ export const ticket = {
   url: 'https://straussifestival.dein-ticket.shop/events/straussifestival-111/straussifestival-111',
 
   /**
-   * Hängt die UTM-Parameter des aktuellen Besuchs an den Ticketlink an, bevor
-   * der Besucher zum Ticketshop wechselt (kleines Skript, siehe TicketButton).
-   *
-   * Standardmäßig AUS: Es ist noch ungeklärt, ob der Ticketshop UTMs auswertet.
-   * Erst auf true setzen, wenn das geklärt ist.
+   * Hängt die UTM-Parameter des Besuchs an den Ticketlink an, damit der Ticketshop
+   * sieht, über welchen Werbeweg ein Kauf kam (components/UtmWeitergabe.astro,
+   * Infos für den Shop: docs/TICKETSHOP-UTM.md). Ohne Zustimmung im Cookie-Banner
+   * nur von der Einstiegsseite aus, mit Zustimmung für den ganzen Besuch.
    */
-  utmWeitergeben: false,
+  utmWeitergeben: true,
 } as const;
 
 /**
@@ -126,6 +125,7 @@ export const analyticsAktiv = Boolean(analytics.url && analytics.siteId);
 
 /**
  * Der Cookie-Banner erscheint, sobald es etwas zuzustimmen gibt: Matomo-Cookies
- * (Statistik) oder der Instagram-Feed. Eine Antwort gilt für beides.
+ * (Statistik), der Instagram-Feed oder das Merken des Werbewegs für den Ticketshop
+ * (ticket.utmWeitergeben). Eine Antwort gilt für alles.
  */
-export const bannerAktiv = analyticsAktiv || Boolean(instagram.widget.url);
+export const bannerAktiv = analyticsAktiv || Boolean(instagram.widget.url) || ticket.utmWeitergeben;

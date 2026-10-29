@@ -6,7 +6,7 @@
  * Drittanbieter, und Matomo zählt ohne Cookies.
  * "Ablehnen" ist bewusst genauso groß und gut erreichbar wie "Akzeptieren".
  */
-import { analyticsAktiv, instagram } from '../config';
+import { analyticsAktiv, instagram, ticket } from '../config';
 
 const feed = Boolean(instagram.widget.url);
 ---
@@ -19,6 +19,13 @@ const feed = Boolean(instagram.widget.url);
         analyticsAktiv && (
           <>
             Mit deiner Zustimmung setzt unsere eigene Besucherstatistik (Matomo, auf unserem eigenen Webspace) Cookies, damit wir sehen, ob du später wiederkommst. Ohne Zustimmung zählen wir nur anonym ohne Cookies.{' '}
+          </>
+        )
+      }
+      {
+        ticket.utmWeitergeben && (
+          <>
+            Außerdem merken wir uns während deines Besuchs, über welchen Werbeweg (z. B. Flyer) du gekommen bist, und geben ihn beim Klick auf „Tickets kaufen“ an den Ticketshop weiter.{' '}
           </>
         )
       }

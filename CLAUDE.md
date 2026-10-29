@@ -187,6 +187,12 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **Seite für Bewohner*innen** (`web/src/pages/bewohner.astro`), im Menü als „bald“ markiert, Inhalt noch TODO.
 - **`docs/STYLE.md`** für Mitwirkende (interaktive Geländekarte): Farben/Rollen, Schrift, Abstände, Bausteine, Barrierefreiheit und vor allem **keine Fremd-Karten (Google Maps, OSM-Kacheln, CDN)**, Empfehlung eigene SVG-Karte.
 
+## UTM-Weitergabe an den Ticketshop (dauerhaft an)
+
+- **Ticketshop:** `https://straussifestival.dein-ticket.shop/events/straussifestival-111/straussifestival-111` (`ticket.url`). Vorverkauf läuft seit 20.10.2026. **Preise bewusst nicht auf der Seite**, Early-Bird gestrichen.
+- **`ticket.utmWeitergeben: true`** (dauerhaft, Wunsch des Auftraggebers). `UtmWeitergabe.astro` hängt den Werbeweg an alle `a[data-ticket-link]`: **ohne Zustimmung** nur die UTMs der aktuellen Adresse (nichts gespeichert), **mit Zustimmung** im Cookie-Banner zusätzlich für den Besuch im **sessionStorage** (`straussi-werbeweg`, gelöscht beim Schließen des Tabs oder Widerruf). Grund: Speichern im Browser braucht nach § 25 TDDDG eine Einwilligung. Banner-Text, `bannerAktiv` und Datenschutzerklärung (Abschnitt Ticketshop) entsprechend. Im Browser getestet (ohne/mit Zustimmung, Widerruf, neuer Tab).
+- **Infos für den Shop-Betreiber:** `docs/TICKETSHOP-UTM.md` (bei neuen Kanälen die Tabelle dort ergänzen).
+
 ## Befehle (im Ordner `web/`)
 
 ```

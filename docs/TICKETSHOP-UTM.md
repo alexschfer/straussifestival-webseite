@@ -45,13 +45,9 @@ https://straussifestival.dein-ticket.shop/events/straussifestival-111/straussife
 
 **Schreibweise:** immer klein, nur `a–z`, `0–9` und Bindestrich, keine Umlaute. Neue Werbewege können jederzeit dazukommen, gleiches Schema. Bitte also **beliebige Werte annehmen**, keine feste Liste hinterlegen.
 
-**Sonderfall Instagram:** Instagram hängt an Links teils selbst `utm_source=ig` an. Auf unserer Seite schreiben wir das auf `instagram` um. Falls bei euch direkt `ig` ankommt (z. B. Shop-Link direkt in Instagram geteilt), bitte wie `instagram` werten.
-
 ## Gut zu wissen
 
 - **Ohne UTM-Parameter** (Direktaufruf des Shops oder Besucher ohne Werbeweg) kommt der Link ohne Parameter an. Bitte als „direkt/unbekannt“ werten.
-- **Einschränkung:** Die Parameter gehen nur mit, wenn der Besucher auf der Seite, auf der er gelandet ist, auf „Tickets kaufen“ klickt. Wechselt er vorher auf eine Unterseite, kommt der Klick ohne Parameter an. Unsere eigene Statistik (Matomo) ordnet auch diese Klicks zu. Die Zahlen im Shop sind also eher eine Untergrenze.
+- **Einschränkung:** Hat der Besucher in unserem Cookie-Banner zugestimmt, gehen die Parameter während seines ganzen Besuchs mit. Ohne Zustimmung nur, wenn er auf der Seite, auf der er gelandet ist, auf „Tickets kaufen“ klickt; wechselt er vorher auf eine Unterseite, kommt der Klick ohne Parameter an. Die Zahlen im Shop sind also eher eine Untergrenze.
 - Wir übergeben **keine personenbezogenen Daten**, nur diese Werbeweg-Kennungen.
-- Das Anhängen ist bei uns aktuell **noch ausgeschaltet** und wird eingeschaltet, sobald ihr bestätigt, dass der Shop die Parameter speichert.
-
-**Ansprechpartner:** orga@straussifestival.de
+- Das Anhängen ist bei uns **eingeschaltet**.
