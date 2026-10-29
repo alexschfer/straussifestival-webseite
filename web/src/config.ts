@@ -36,8 +36,8 @@ export const startBilder: { bild: string; alt: string }[] = [
 ];
 
 export const ticket = {
-  // TODO: echte Ticketshop-URL eintragen (aktuell Platzhalter, der Button funktioniert erst danach).
-  url: 'https://dein-ticket.shop/TODO-echte-ticket-url',
+  // Ticketshop bei dein-ticket.shop (Event-Seite des Festivals).
+  url: 'https://straussifestival.dein-ticket.shop/events/straussifestival-111/straussifestival-111',
 
   /**
    * Hängt die UTM-Parameter des aktuellen Besuchs an den Ticketlink an, bevor
