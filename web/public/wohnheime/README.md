@@ -28,7 +28,7 @@ Der Text bei `alt` beschreibt, was tatsächlich auf dem Foto zu sehen ist (keine
 Ortsnamen) und wird angezeigt, wenn das Bild nicht lädt.
 
 Aktuell sind `party-1.jpg`, `party-2.jpg` und `party-3.jpg` eingetragen: Partyfotos von den
-Sommerfesten von Straußi 1 und Straußi 2 (Laserbühne, Strauß-Figur, Band mit Publikum). Sie sind
+Sommerfesten von Straussi 1 und Straussi 2 (Laserbühne, Strauß-Figur, Band mit Publikum). Sie sind
 auf Hochformat (2:3, 1000 x 1500 Pixel) zugeschnitten, weil die Collage aus drei hohen Spalten
 besteht; Querformat-Fotos würden dort stark vergrößert und unscharf.
 

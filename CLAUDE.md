@@ -1,8 +1,8 @@
-# Straußi Festival 2027: Webseite und Web-Analytics
+# Straussi Festival 2027: Webseite und Web-Analytics
 
 ## Kontext
 
-Das Straußi Festival 2027 ist ein Festival der Studierendenwohnheime Straußäcker in Stuttgart, veranstaltet von einem Team aus Bewohner*innen von Straußi 1, 2 & 3, mit rund 7500 erwarteten Gästen.
+Das Straussi Festival 2027 ist ein Festival der Studierendenwohnheime Straußäcker in Stuttgart, veranstaltet von einem Team aus Bewohner*innen von Straussi 1, 2 & 3, mit rund 7500 erwarteten Gästen.
 
 Die Webseite ist eine **Infoseite**, die auf einen externen Ticketshop (dein-ticket.shop) verlinkt. Wichtigstes Ziel neben der Information: nachvollziehen, **über welchen Kanal** (Flyer, Aushänge, QR-Codes, Social Media) die Besucher kommen und **wie viele davon auf den Ticketbutton klicken**. Die meisten Besucher kommen per QR-Code vom Handy.
 
@@ -23,6 +23,7 @@ CLAUDE.md        dieser Projektkontext
 README.md        Kurzanleitung: lokal starten, bauen, deployen
 docs/SPEC.md     Aufgaben und Stand (inkl. offene Punkte)
 docs/kanaele.md  Tabelle der Marketingkanäle (GENERIERT, nicht von Hand ändern)
+docs/STYLE.md    Style-Guide (Farben, Schrift, Bausteine, Datenschutz-Regeln) für neue Bauteile, z. B. die interaktive Karte
 docs/qr/         QR-Codes als SVG pro Kanal und Seite (GENERIERT)
 web/             Astro-Seite
 analytics/       docker-compose.yml, Caddyfile, backup.sh, .env.example, README.md
@@ -116,7 +117,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **Instagram-/TikTok-Abschnitt auf der Startseite** ("Bleib auf dem Laufenden", Vorbild Ricola): Überschrift, ein Satz, je ein Link-Knopf zu Instagram und TikTok, darunter Kacheln. Mobil zum Wischen, ab Tablet nebeneinander. Echte Profile: `@straussifestival` auf beiden Plattformen (`instagram` und `tiktok` in `web/src/config.ts`).
 - ~~Es wird nichts von Instagram oder TikTok eingebunden.~~ **Überholt** auf Wunsch des Auftraggebers, siehe "Instagram-Feed mit Cookie-Banner". Die Kachel-Fotos (eigene Dateien aus `web/public/insta/`) bleiben als Anzeige ohne Zustimmung.
 - Solange `instagram.profilUrl` in `web/src/config.ts` noch `TODO` enthält, warnen der Build und `deploy.sh` (aktuell erledigt, das Profil ist echt eingetragen). Ohne eingetragene Fotos werden die Kacheln **gar nicht angezeigt** (Wunsch des Auftraggebers: keine Platzhalter live); es bleibt das gelbe Farbfeld mit Überschrift und den Knöpfen zu Instagram und TikTok. Ab dem ersten Foto erscheint das Raster wieder (bei weniger als 5 Fotos mit Platzhaltern).
-- **Fußzeile nach Vorbild von Ricola:** ein abgerundetes Panel mit vier Spalten (Folge uns mit Instagram- und TikTok-Knopf, Festival mit den Menülinks, Tickets mit Button, Kontakt) und darunter einer schmalen Leiste: links Festivalname und Veranstalter, rechts Impressum, Datenschutz und "© Straußi Festival 2027". Mobil stehen die Spalten untereinander. Menülinks und Rechtslinks kommen aus den Listen im Layout (`hauptmenue`, `fussmenue`).
+- **Fußzeile nach Vorbild von Ricola:** ein abgerundetes Panel mit vier Spalten (Folge uns mit Instagram- und TikTok-Knopf, Festival mit den Menülinks, Tickets mit Button, Kontakt) und darunter einer schmalen Leiste: links Festivalname und Veranstalter, rechts Impressum, Datenschutz und "© Straussi Festival 2027". Mobil stehen die Spalten untereinander. Menülinks und Rechtslinks kommen aus den Listen im Layout (`hauptmenue`, `fussmenue`).
 - **Der Ticketbutton kommt jetzt dreimal vor** (Kopfzeile, Startseiten-Kopf, Fußzeile). Das Klick-Event `ticket-click` ist dasselbe; die Stelle steht als `position` (`header`, `hero`, `footer`) im Event und lässt sich in Umami unterscheiden.
 - **Die Copyright-Zeile nennt bewusst keinen Rechteinhaber und kein Jahr.** Inzwischen steht Straussi 1 e.V. im Impressum; ob die Zeile den Verein nennen soll, ist noch nicht entschieden.
 - `festival.name` wird in `config.ts` aus `kurzname` und `jahr` zusammengesetzt, damit die Jahreszahl im Kopf farblich abgesetzt werden kann und nur an einer Stelle steht.
@@ -125,7 +126,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 ## Entscheidungen aus der Scroll-Neugestaltung (jederzeit änderbar)
 
 - **Fließender Scroll mit sanften Einblend-Animationen**, kein Scroll-Snap/Einrasten (Vorbild: Fusion-Festival-Archivseiten). Abschnitte bekommen die Klasse `.einblenden`; ein `IntersectionObserver` in `index.astro` ergänzt beim Scrollen einmalig `.sichtbar`. **Ausgeblendet wird nur, wenn das Skript läuft** (es setzt selbst `.einblenden-aktiv` am `<html>`); sonst blieb auf manchen Handys alles zwischen Kopf- und Fußzeile leer. Nicht wieder auf reines CSS-Ausblenden umstellen. Der ausgeblendete Ausgangszustand steht in `global.css` bewusst nur innerhalb von `@media (prefers-reduced-motion: no-preference)` – wer reduzierte Bewegung eingestellt hat, sieht alle Inhalte sofort.
-- **Startbildschirm mit Fotocollage:** drei eigene Partyfotos von den Sommerfesten von Straußi 1 und 2 als Hintergrund (früher Fotos der Innenhöfe, die nicht nach Party aussahen; **keine Sponsoren auf den Fotos**, auf Hochformat 1000 x 1500 zugeschnitten) (`web/public/wohnheime/`, Anleitung in der README dort), dazu ein dunkles Verlauf-Overlay für Lesbarkeit des Textes. Bilder vor dem Einchecken mit Pillow verkleinert/komprimiert (Hochformat max. 1000 x 1500 px, JPEG-Qualität ~70) – die meisten Gäste kommen laut Auftrag mobil per QR-Code.
+- **Startbildschirm mit Fotocollage:** drei eigene Partyfotos von den Sommerfesten von Straussi 1 und 2 als Hintergrund (früher Fotos der Innenhöfe, die nicht nach Party aussahen; **keine Sponsoren auf den Fotos**, auf Hochformat 1000 x 1500 zugeschnitten) (`web/public/wohnheime/`, Anleitung in der README dort), dazu ein dunkles Verlauf-Overlay für Lesbarkeit des Textes. Bilder vor dem Einchecken mit Pillow verkleinert/komprimiert (Hochformat max. 1000 x 1500 px, JPEG-Qualität ~70) – die meisten Gäste kommen laut Auftrag mobil per QR-Code.
 - **Leichter Parallax-Effekt** auf den drei Fotos beim Scrollen, bewusst per kleinem Vanilla-JS (`scroll`-Listener, `requestAnimationFrame`-gedrosselt) statt `background-attachment: fixed` oder CSS-Scroll-Timelines: Fixed-Backgrounds sind auf iOS Safari unzuverlässig, Scroll-Timelines werden dort noch nicht unterstützt. Bei `prefers-reduced-motion: reduce` bleiben die Fotos stehen.
 - **Countdown bis zum Festivalbeginn** (`web/src/components/Countdown.astro`) unterhalb des Startbildschirms. Ziel-Zeitpunkt ist `festival.startZeitpunkt` in `config.ts`, aktuell `2027-06-11T00:00:00+02:00` – Mitternacht als bewusster, jederzeit anpassbarer Platzhalter, solange keine genauere Startzeit feststeht. Der HTML-Ausgangszustand zeigt Platzhalter-Striche statt einer zur Build-Zeit berechneten Zahl (sonst könnte bei selten neu gebauter Seite kurz eine falsche Zahl aufblitzen); nach Ablauf erscheint ein Text statt negativer Zahlen.
 - **Neues, finales Logo** (Strauß am DJ-Pult, rund, transparent; Vorlage `Logo_v01_full_transparent_Straussifestival.png`, auf den Inhalt zugeschnitten und quadratisch gemacht). Zwei Dateien: `web/public/logo.webp` (640 px, groß im Startbildschirm; WebP, weil PNG bei dem Farbverlauf 600 KB wären bzw. als Palette-PNG Farbstufen zeigt) und `web/public/logo-klein.png` (128 px, Palette-PNG, ca. 7 KB: Kopf-, Fußzeile, Favicon, Instagram-Weiterleitung). Keine abgerundeten Ecken mehr per CSS, das Logo ist selbst rund. Austausch: beide Dateien ersetzen.
@@ -176,6 +177,15 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **Kanal-Weiterleitungen sind auf Cloud86 echte HTTP-302** statt Meta-Refresh (die zeigte kurz eine weiße Seite): `kanaele-output.ts` hängt beim Build für jede Seite × Kanal eine `RewriteRule` an `dist/.htaccess` an (Quelle: `kanalRedirects`). 302 statt 301, damit Browser sie nicht dauerhaft merken. Die Meta-Refresh-Seiten von Astro bleiben als Rückfall in `dist/`. Mit Apache 2.4 lokal getestet (302, mit/ohne Schrägstrich, 404, www, Cache).
 - **Fremde Quellen umschreiben:** Instagram hängt an den Bio-Link selbst `utm_source=ig&utm_medium=social&utm_content=link_in_bio` an (in Matomo beobachtet). `fremdeQuellen` in `kanaele.ts` ordnet solche Werte einem eigenen Kanal zu (`ig` -> `instagram`); `kanaele-output.ts` erzeugt daraus eine 302-Regel in `dist/.htaccess`, die jede Seite mit `utm_source=ig` auf dieselbe Seite mit den Werten des Kanals umleitet (andere Parameter wie `fbclid` fallen weg). Mit Apache 2.4 lokal getestet. TikTok hängt laut Recherche an Bio-Links nichts an (nur an bezahlte Anzeigen), deshalb kein Eintrag. In die Bios trotzdem immer `/q/instagram` bzw. `/q/tiktok` eintragen.
 - `analytics/` und `deploy/deploy.sh` bleiben als Alternative für einen eigenen Server liegen, sind aber **nicht in Verwendung** und passen nicht mehr zur Matomo-Einbindung der Seite.
+
+## Inhaltsrunde Oktober 2026 (jederzeit änderbar)
+
+- **Schreibweise überall „Straussi“ (mit ss)**, nie „Straußi“ (Wunsch des Auftraggebers). Der Wohnheimname **Straußäcker** bleibt mit ß.
+- **Kein Zutritt unter 18**, auch nicht in Begleitung; muss klar so dastehen (Infos, FAQ, ABC).
+- **Keine Einlasszeiten** auf der Seite (bewusst entfernt). Verbotsliste: „Waffen jeglicher Art“, dazu (als Witz gewünscht) **Sperrgut**.
+- **Festival-ABC mit Buchstabenleiste** (`web/src/components/FestivalAbc.astro`): Die `<dt>`/`<dd>`-Paare bleiben normales HTML in `faq.astro`; die Komponente setzt beim Bauen Sprungziele `abc-<buchstabe>` an das erste Stichwort je Buchstabe und baut die Leiste (Buchstaben ohne Eintrag ausgegraut). Leiste klebt beim Scrollen oben (`position: sticky`), mobil eine wischbare Zeile, ab 48rem alle 26 in einer Zeile.
+- **Seite für Bewohner*innen** (`web/src/pages/bewohner.astro`), im Menü als „bald“ markiert, Inhalt noch TODO.
+- **`docs/STYLE.md`** für Mitwirkende (interaktive Geländekarte): Farben/Rollen, Schrift, Abstände, Bausteine, Barrierefreiheit und vor allem **keine Fremd-Karten (Google Maps, OSM-Kacheln, CDN)**, Empfehlung eigene SVG-Karte.
 
 ## Befehle (im Ordner `web/`)
 

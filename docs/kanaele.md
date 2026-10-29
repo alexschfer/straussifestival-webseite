@@ -16,9 +16,9 @@ Domain: `https://straussifestival.de` · Kampagne (`utm_campaign`): `straussi-fe
 | `whatsapp` | Link, der in WhatsApp-Gruppen und -Kanälen geteilt wird. Immer diesen Link teilen, nie nur die Domain. | `https://straussifestival.de/q/whatsapp` | `https://straussifestival.de/?utm_source=whatsapp&utm_medium=messenger&utm_campaign=straussi-festival-2027` | kein QR-Code (Link teilen) |
 | `instagram` | Link in der Instagram-Bio bzw. in Stories. | `https://straussifestival.de/q/instagram` | `https://straussifestival.de/?utm_source=instagram&utm_medium=social&utm_campaign=straussi-festival-2027` | kein QR-Code (Link teilen) |
 | `tiktok` | Link in der TikTok-Bio. | `https://straussifestival.de/q/tiktok` | `https://straussifestival.de/?utm_source=tiktok&utm_medium=social&utm_campaign=straussi-festival-2027` | kein QR-Code (Link teilen) |
-| `kattafest-str1` | QR-Code auf dem Kattafest von Straußi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand). | `https://straussifestival.de/q/kattafest-str1` | `https://straussifestival.de/?utm_source=kattafest-str1&utm_medium=scan&utm_campaign=straussi-festival-2027` | [kattafest-str1.svg](qr/kattafest-str1.svg) |
-| `winterfest-str3` | QR-Code auf dem Winterfest von Straußi 3 (Aufsteller, Flyer, Plakat am Stand, Leinwand). | `https://straussifestival.de/q/winterfest-str3` | `https://straussifestival.de/?utm_source=winterfest-str3&utm_medium=scan&utm_campaign=straussi-festival-2027` | [winterfest-str3.svg](qr/winterfest-str3.svg) |
-| `halloween-str1` | QR-Code auf der Halloween-Party von Straußi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand). | `https://straussifestival.de/q/halloween-str1` | `https://straussifestival.de/?utm_source=halloween-str1&utm_medium=scan&utm_campaign=straussi-festival-2027` | [halloween-str1.svg](qr/halloween-str1.svg) |
+| `kattafest-str1` | QR-Code auf dem Kattafest von Straussi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand). | `https://straussifestival.de/q/kattafest-str1` | `https://straussifestival.de/?utm_source=kattafest-str1&utm_medium=scan&utm_campaign=straussi-festival-2027` | [kattafest-str1.svg](qr/kattafest-str1.svg) |
+| `winterfest-str3` | QR-Code auf dem Winterfest von Straussi 3 (Aufsteller, Flyer, Plakat am Stand, Leinwand). | `https://straussifestival.de/q/winterfest-str3` | `https://straussifestival.de/?utm_source=winterfest-str3&utm_medium=scan&utm_campaign=straussi-festival-2027` | [winterfest-str3.svg](qr/winterfest-str3.svg) |
+| `halloween-str1` | QR-Code auf der Halloween-Party von Straussi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand). | `https://straussifestival.de/q/halloween-str1` | `https://straussifestival.de/?utm_source=halloween-str1&utm_medium=scan&utm_campaign=straussi-festival-2027` | [halloween-str1.svg](qr/halloween-str1.svg) |
 
 ## Auf eine Unterseite zeigen
 
@@ -36,6 +36,7 @@ Die passenden QR-Codes (nur gedruckte Kanäle, `utm_medium` `scan`) liegen ferti
 | --- | --- |
 | `/` | [qr/](qr/) |
 | `/anfahrt/` | [qr/anfahrt/](qr/anfahrt/) |
+| `/bewohner/` | [qr/bewohner/](qr/bewohner/) |
 | `/datenschutz/` | [qr/datenschutz/](qr/datenschutz/) |
 | `/faq/` | [qr/faq/](qr/faq/) |
 | `/impressum/` | [qr/impressum/](qr/impressum/) |

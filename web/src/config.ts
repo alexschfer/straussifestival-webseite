@@ -4,14 +4,14 @@
  * Texte der Seiten stehen NICHT hier, sondern direkt in den Dateien unter src/pages/ (z. B. infos.astro).
  */
 
-const kurzname = 'Straußi Festival';
+const kurzname = 'Straussi Festival';
 const jahr = '2027';
 
 export const festival = {
   kurzname,
   jahr,
   name: `${kurzname} ${jahr}`,
-  veranstalter: 'Team aus Bewohner*innen des Straußi 1, 2 & 3',
+  veranstalter: 'Team aus Bewohner*innen des Straussi 1, 2 & 3',
   ort: 'Studierendenwohnheime Straußäcker, Stuttgart',
   datum: '11.06.–12.06.2027',
   /** Kontaktadresse des Festivalteams (Fußzeile und Impressum). */

@@ -1,0 +1,43 @@
+---
+/**
+ * Festival-ABC mit Buchstabenleiste (FAQ-Seite).
+ *
+ * Die Einträge stehen weiterhin als einfache <dt>/<dd>-Paare in faq.astro zwischen
+ * <FestivalAbc> und </FestivalAbc>. Beim Bauen bekommt das erste Stichwort jedes
+ * Buchstabens automatisch ein Sprungziel (id="abc-a", "abc-b" …), und die Leiste
+ * darüber verlinkt alle Buchstaben, zu denen es Einträge gibt. Buchstaben ohne
+ * Eintrag stehen ausgegraut da. Umlaute zählen zum Grundbuchstaben (Ä -> A).
+ * Die Leiste bleibt beim Scrollen durch das ABC oben stehen (global.css, .abc-leiste).
+ */
+
+const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const UMLAUTE: Record<string, string> = { Ä: 'A', Ö: 'O', Ü: 'U' };
+
+const html = await Astro.slots.render('default');
+const vorhanden = new Set<string>();
+
+const mitAnkern = html.replace(/<dt(\s[^>]*)?>([\s\S]*?)<\/dt>/g, (ganz, attribute = '', inhalt: string) => {
+  const ersterBuchstabe = inhalt.replace(/<[^>]+>/g, '').trim().charAt(0).toUpperCase();
+  const buchstabe = UMLAUTE[ersterBuchstabe] ?? ersterBuchstabe;
+  if (!ALPHABET.includes(buchstabe) || vorhanden.has(buchstabe)) return ganz;
+  vorhanden.add(buchstabe);
+  return `<dt id="abc-${buchstabe.toLowerCase()}"${attribute}>${inhalt}</dt>`;
+});
+---
+
+<nav class="abc-leiste" aria-label="Festival-ABC nach Anfangsbuchstaben">
+  <ul>
+    {
+      ALPHABET.map((buchstabe) => (
+        <li>
+          {vorhanden.has(buchstabe) ? (
+            <a href={`#abc-${buchstabe.toLowerCase()}`}>{buchstabe}</a>
+          ) : (
+            <span aria-hidden="true">{buchstabe}</span>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+<dl class="abc" set:html={mitAnkern} />

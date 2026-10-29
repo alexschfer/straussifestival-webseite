@@ -355,6 +355,79 @@ button.button {
 .prose .abc dd {
   margin: 0.2rem 0 0;
 }
+/* Sprungziele der Buchstabenleiste: Platz lassen, damit die Leiste das Stichwort nicht verdeckt */
+.prose .abc dt[id] {
+  scroll-margin-top: 4.5rem;
+}
+
+/* Buchstabenleiste über dem Festival-ABC (components/FestivalAbc.astro). Bleibt beim
+   Scrollen durch das ABC oben stehen. Mobil eine Zeile zum Wischen statt drei Zeilen,
+   die sonst beim Scrollen viel Platz verdecken würden. */
+.prose .abc-leiste {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin: 1rem calc(-1 * var(--abstand)) 0;
+  padding: 0.5rem var(--abstand);
+  background: var(--farbe-hintergrund);
+  border-bottom: 1px solid var(--farbe-linie);
+}
+.prose .abc-leiste ul {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.prose .abc-leiste li {
+  margin: 0;
+  flex-shrink: 0;
+}
+.prose .abc-leiste a,
+.prose .abc-leiste span {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  font-weight: 700;
+  text-decoration: none;
+}
+.prose .abc-leiste a {
+  background: var(--farbe-flaeche);
+  color: var(--farbe-akzent);
+}
+.prose .abc-leiste a:hover {
+  background: var(--farbe-akzent);
+  color: var(--farbe-akzent-dunkel);
+}
+/* Buchstaben ohne Eintrag: ausgegraut, kein Link */
+.prose .abc-leiste span {
+  color: var(--farbe-text-leise);
+  opacity: 0.4;
+}
+/* Ab Tablet passen alle 26 Buchstaben etwas kleiner in eine Zeile */
+@media (min-width: 48rem) {
+  .prose .abc-leiste ul {
+    justify-content: space-between;
+    gap: 0;
+    overflow-x: visible;
+  }
+  .prose .abc-leiste a,
+  .prose .abc-leiste span {
+    width: 1.6rem;
+    height: 1.6rem;
+    font-size: 0.9rem;
+  }
+}
+/* Sanftes Springen zu den Ankern, nur ohne reduzierte Bewegung */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
 .prose ul {
   padding-left: 1.2rem;
   list-style: disc;

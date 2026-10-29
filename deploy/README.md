@@ -70,7 +70,7 @@ Das Zertifikat kann ein, zwei Minuten dauern. Meldet das Skript am Ende "nicht e
 Umami ist jetzt unter `https://stats.<domain>` erreichbar, mit dem Standard-Zugang, den jeder kennt. Deshalb **sofort** der erste Schritt:
 
 1. **Admin-Passwort ändern.** Anmelden mit Benutzer `admin` und Passwort `umami`, dann in den Profil-/Kontoeinstellungen ein neues, langes Passwort setzen. Erst danach weitermachen. Das neue Passwort in den Passwortmanager.
-2. **Website anlegen.** In Umami unter "Settings" > "Websites" > "Add website": Name z. B. "Straußi Festival 2027", Domain `<domain>`.
+2. **Website anlegen.** In Umami unter "Settings" > "Websites" > "Add website": Name z. B. "Straussi Festival 2027", Domain `<domain>`.
 3. **Website-ID kopieren** (in den Einstellungen der angelegten Website, ein Wert wie `496cd939-2b53-4eb6-ac6a-b6d61292f024`).
 4. **In die Web-Config eintragen:** in `web/.env` die Zeile `PUBLIC_UMAMI_WEBSITE_ID=<ID>` ergänzen.
 5. **Erneut deployen:** `./deploy/deploy.sh`. Jetzt enthält die Seite das Tracking-Skript.

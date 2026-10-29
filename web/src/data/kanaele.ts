@@ -83,19 +83,19 @@ export const kanaele: Kanal[] = [
     slug: 'kattafest-str1',
     utm_source: 'kattafest-str1',
     utm_medium: 'scan',
-    beschreibung: 'QR-Code auf dem Kattafest von Straußi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
+    beschreibung: 'QR-Code auf dem Kattafest von Straussi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
   },
   {
     slug: 'winterfest-str3',
     utm_source: 'winterfest-str3',
     utm_medium: 'scan',
-    beschreibung: 'QR-Code auf dem Winterfest von Straußi 3 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
+    beschreibung: 'QR-Code auf dem Winterfest von Straussi 3 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
   },
   {
     slug: 'halloween-str1',
     utm_source: 'halloween-str1',
     utm_medium: 'scan',
-    beschreibung: 'QR-Code auf der Halloween-Party von Straußi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
+    beschreibung: 'QR-Code auf der Halloween-Party von Straussi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
   },
 ];
 

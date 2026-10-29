@@ -24,7 +24,7 @@ Die Menünamen in Plesk und Matomo können je nach Version leicht abweichen.
 4. `https://stats.straussifestival.de` öffnen und den Installationsassistenten durchklicken:
    - Datenbank: Server `localhost`, Name, Benutzer, Passwort aus Schritt 1.
    - Superuser anlegen (Login für die Statistik, Passwort in den Passwortmanager).
-   - Erste Website: Name `Straußi Festival`, Adresse `https://straussifestival.de`, Zeitzone `Europe/Berlin`.
+   - Erste Website: Name `Straussi Festival`, Adresse `https://straussifestival.de`, Zeitzone `Europe/Berlin`.
    - Den angezeigten Tracking-Code **nicht** einbauen, das macht die Seite selbst.
 5. Die **Website-ID** (meist `1`) in `web/.env` bei `PUBLIC_MATOMO_SITE_ID` eintragen.
 
