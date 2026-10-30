@@ -58,16 +58,20 @@ const einstellungen = {
       skript.src = einstellungen.url + '/matomo.js';
       document.head.appendChild(skript);
 
+      // Wichtig in allen Handlern unten: immer window._paq benutzen, nicht die Variable
+      // _paq von oben. Sobald matomo.js geladen ist, ersetzt Matomo window._paq durch ein
+      // eigenes Objekt; was danach noch in das alte Array geschoben wird, liest niemand.
+
       // Antwort im Cookie-Banner (siehe src/scripts/einwilligung.ts)
       document.addEventListener('einwilligung', function (ereignis) {
-        _paq.push([ereignis.detail === 'ja' ? 'setCookieConsentGiven' : 'forgetCookieConsentGiven']);
+        window._paq.push([ereignis.detail === 'ja' ? 'setCookieConsentGiven' : 'forgetCookieConsentGiven']);
       });
 
       // Ticketbutton (TicketButton.astro, nur solange er ein echter Link ist)
       document.addEventListener('click', function (ereignis) {
         var link = ereignis.target.closest && ereignis.target.closest('[data-ticket-link]');
         if (link) {
-          _paq.push(['trackEvent', einstellungen.ticketKategorie, einstellungen.ticketAktion, link.dataset.position]);
+          window._paq.push(['trackEvent', einstellungen.ticketKategorie, einstellungen.ticketAktion, link.dataset.position]);
         }
       });
     </script>
