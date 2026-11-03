@@ -19,6 +19,7 @@ Domain: `https://straussifestival.de` · Kampagne (`utm_campaign`): `straussi-fe
 | `kattafest-str1` | QR-Code auf dem Kattafest von Straussi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand). | `https://straussifestival.de/q/kattafest-str1` | `https://straussifestival.de/?utm_source=kattafest-str1&utm_medium=scan&utm_campaign=straussi-festival-2027` | [kattafest-str1.svg](qr/kattafest-str1.svg) |
 | `winterfest-str3` | QR-Code auf dem Winterfest von Straussi 3 (Aufsteller, Flyer, Plakat am Stand, Leinwand). | `https://straussifestival.de/q/winterfest-str3` | `https://straussifestival.de/?utm_source=winterfest-str3&utm_medium=scan&utm_campaign=straussi-festival-2027` | [winterfest-str3.svg](qr/winterfest-str3.svg) |
 | `halloween-str1` | QR-Code auf der Halloween-Party von Straussi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand). | `https://straussifestival.de/q/halloween-str1` | `https://straussifestival.de/?utm_source=halloween-str1&utm_medium=scan&utm_campaign=straussi-festival-2027` | [halloween-str1.svg](qr/halloween-str1.svg) |
+| `maschinenbau` | QR-Code auf dem Maschinenbauerfest (vor allem zur Instagram-Weiterleitung /redirect-instagram/q/maschinenbau). | `https://straussifestival.de/q/maschinenbau` | `https://straussifestival.de/?utm_source=maschinenbau&utm_medium=scan&utm_campaign=straussi-festival-2027` | [maschinenbau.svg](qr/maschinenbau.svg) |
 
 ## Auf eine Unterseite zeigen
 

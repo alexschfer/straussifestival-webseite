@@ -97,6 +97,13 @@ export const kanaele: Kanal[] = [
     utm_medium: 'scan',
     beschreibung: 'QR-Code auf der Halloween-Party von Straussi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
   },
+  // Fest außerhalb der Wohnheime: Name ohne Wohnheim-Kürzel.
+  {
+    slug: 'maschinenbau',
+    utm_source: 'maschinenbau',
+    utm_medium: 'scan',
+    beschreibung: 'QR-Code auf dem Maschinenbauerfest (vor allem zur Instagram-Weiterleitung /redirect-instagram/q/maschinenbau).',
+  },
 ];
 
 /**
