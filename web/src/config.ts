@@ -86,7 +86,9 @@ export const instagram = {
    * Ist url gesetzt, lädt der Feed ERST nach Zustimmung im Cookie-Banner (vorher die Kacheln).
    */
   widget: {
-    url: '', // TODO: iframe-Adresse des LightWidget-Widgets eintragen
+    // Widget c038160329c25bac8724aca37ea5ea03 angelegt, aber Gratis-Version von LightWidget kann kein HTTPS
+    // (zeigt nur Upgrade-Hinweis). Erst eintragen, wenn HTTPS im Tarif enthalten ist.
+    url: '', // TODO: https://lightwidget.com/widgets/c038160329c25bac8724aca37ea5ea03.html nach Upgrade
     anbieter: 'LightWidget',
     hoehe: 420,
   },
