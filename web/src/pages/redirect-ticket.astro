@@ -1,0 +1,95 @@
+---
+/**
+ * Weiterleitung direkt zum Ticketshop, mit Zählung in Matomo.
+ *
+ * Gedacht für Links auf fremden Seiten, die gleich zum Kauf führen sollen, z. B.
+ * /redirect-ticket/q/rausgegangen oder /redirect-ticket/q/studentenpartys-stuttgart.
+ * Wie jede Seite funktioniert sie mit allen Kanälen: /redirect-ticket/q/<slug> leitet
+ * erst auf /redirect-ticket/?utm_source=...&... weiter, diese Seite zählt den Aufruf
+ * samt Kanal in Matomo und schickt den Besucher dann zum Shop. Die UTM-Parameter gehen
+ * dabei an den Shop mit (aus der Adresse dieser Seite, nichts wird gespeichert), damit
+ * auch der Shop den Werbeweg sieht (docs/TICKETSHOP-UTM.md).
+ *
+ * Auswertung in Matomo: Ereignis Kategorie "Ticket", Aktion "Weiterleitung", nach
+ * Kampagne/Quelle aufschlüsseln. Zählt damit auch für ein Ziel auf die Kategorie "Ticket".
+ *
+ * Bewusst ohne das gemeinsame Layout (keine Kopf-/Fußzeile, kein Cookie-Banner):
+ * Die Seite ist nur einen Augenblick zu sehen. Gleicher Aufbau wie redirect-instagram.astro.
+ */
+import '../styles/global.css';
+import Analytics from '../components/Analytics.astro';
+import { analytics, analyticsAktiv, festival, ticket } from '../config';
+
+const ziel = ticket.url;
+const zaehlen = {
+  aktiv: analyticsAktiv,
+  kategorie: analytics.ticketKategorie,
+  aktion: analytics.ticketWeiterleitungAktion,
+};
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#1b1c20" />
+    <meta name="robots" content="noindex" />
+    <title>Weiter zum Ticketshop – {festival.kurzname}</title>
+    <link rel="icon" href="/logo-klein.png" type="image/png" />
+    <!-- Ohne JavaScript geht es nach 3 Sekunden trotzdem weiter (dann ohne Zählung und ohne Werbeweg). -->
+    <meta http-equiv="refresh" content={`3;url=${ziel}`} />
+    <Analytics autoTrack={false} />
+  </head>
+  <body>
+    <main class="wrap prose weiter">
+      <img src="/logo-klein.png" alt="" width="96" height="96" />
+      <p>Weiter zum <strong>Ticketshop</strong> …</p>
+      <p>Falls nichts passiert:</p>
+      <a class="button button-gross" href={ziel} data-weiter-link>Zu den Tickets</a>
+    </main>
+
+    <script is:inline define:vars={{ ziel, zaehlen }}>
+      // Werbeweg (UTM-Parameter) dieser Adresse an den Shop-Link hängen.
+      var ziel_mit_werbeweg = new URL(ziel);
+      new URLSearchParams(location.search).forEach(function (wert, name) {
+        if (name.indexOf('utm_') === 0 && !ziel_mit_werbeweg.searchParams.has(name)) {
+          ziel_mit_werbeweg.searchParams.set(name, wert);
+        }
+      });
+      var knopf = document.querySelector('[data-weiter-link]');
+      if (knopf) knopf.href = ziel_mit_werbeweg.href;
+
+      // Erst zählen (Seitenaufruf und Ereignis), dann weiterleiten. Spätestens nach
+      // 1,5 Sekunden geht es weiter, auch wenn Matomo nicht antwortet oder blockiert ist.
+      // Ohne Matomo sofort.
+      var weitergeleitet = false;
+      var weiter = function () {
+        if (weitergeleitet) return;
+        weitergeleitet = true;
+        location.replace(ziel_mit_werbeweg.href);
+      };
+      if (!zaehlen.aktiv) {
+        weiter();
+      } else {
+        var _paq = (window._paq = window._paq || []);
+        _paq.push(['trackPageView']);
+        // Letzter Wert: Matomo ruft "weiter" auf, sobald das Ereignis verschickt ist.
+        _paq.push(['trackEvent', zaehlen.kategorie, zaehlen.aktion, undefined, undefined, undefined, weiter]);
+        setTimeout(weiter, 1500);
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .weiter {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+</style>

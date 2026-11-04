@@ -193,6 +193,10 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **`ticket.utmWeitergeben: true`** (dauerhaft, Wunsch des Auftraggebers). `UtmWeitergabe.astro` hängt den Werbeweg an alle `a[data-ticket-link]`: **ohne Zustimmung** nur die UTMs der aktuellen Adresse (nichts gespeichert), **mit Zustimmung** im Cookie-Banner zusätzlich für den Besuch im **sessionStorage** (`straussi-werbeweg`, gelöscht beim Schließen des Tabs oder Widerruf). Grund: Speichern im Browser braucht nach § 25 TDDDG eine Einwilligung. Banner-Text, `bannerAktiv` und Datenschutzerklärung (Abschnitt Ticketshop) entsprechend. Im Browser getestet (ohne/mit Zustimmung, Widerruf, neuer Tab).
 - **Infos für den Shop-Betreiber:** `docs/TICKETSHOP-UTM.md` (bei neuen Kanälen die Tabelle dort ergänzen).
 
+## Ticket-Weiterleitung (redirect-ticket)
+
+- **`web/src/pages/redirect-ticket.astro`**: wie `redirect-instagram`, aber Ziel ist der Ticketshop. Gedacht für Links auf fremden Seiten, die direkt zum Kauf führen: `/redirect-ticket/q/rausgegangen`, `/redirect-ticket/q/studentenpartys-stuttgart` (gilt automatisch für jeden Kanal). Zählt Seitenaufruf + Ereignis **Kategorie `Ticket`, Aktion `Weiterleitung`** (`analytics.ticketWeiterleitungAktion`) und hängt die UTMs der eigenen Adresse an den Shop-Link (nichts gespeichert), dann `location.replace`. Fallback ohne JS: Meta-Refresh nach 3 s ohne UTMs. Datenschutzerklärung hat einen Abschnitt dazu. Im Browser getestet.
+
 ## Ticket-Wörter im Text als Links
 
 - Jedes Wort mit „Ticket“ im Fließtext (Tickets, Ticketshop, Ticketpartner, Tagestickets, Wochenendtickets, Ticketarten, „Tickets kaufen“) ist ein Link zum Shop über **`<TicketLink>`** (`web/src/components/TicketLink.astro`), auf Startseite, Infos, FAQ/ABC und in der Fußzeile. **Nicht** verlinkt: Überschriften, Seitenbeschreibungen und die Datenschutzerklärung.

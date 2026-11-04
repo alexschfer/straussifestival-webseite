@@ -48,3 +48,4 @@ Die passenden QR-Codes (nur gedruckte Kanäle, `utm_medium` `scan`) liegen ferti
 | `/infos/` | [qr/infos/](qr/infos/) |
 | `/lineup/` | [qr/lineup/](qr/lineup/) |
 | `/redirect-instagram/` (führt direkt zu Instagram) | [qr/redirect-instagram/](qr/redirect-instagram/) |
+| `/redirect-ticket/` | [qr/redirect-ticket/](qr/redirect-ticket/) |

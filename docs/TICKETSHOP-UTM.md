@@ -53,6 +53,8 @@ https://straussifestival.dein-ticket.shop/events/straussifestival-111/straussife
 
 ## Gut zu wissen
 
+- **Direktlinks von Plattformen:** Bei Rausgegangen und Studentenpartys Stuttgart führt der Link über unsere Seite direkt zum Shop. Auch dort kommen die Parameter an (z. B. `utm_source=rausgegangen&utm_medium=plattform`).
+
 - **Ohne UTM-Parameter** (Direktaufruf des Shops oder Besucher ohne Werbeweg) kommt der Link ohne Parameter an. Bitte als „direkt/unbekannt“ werten.
 - **Einschränkung:** Hat der Besucher in unserem Cookie-Banner zugestimmt, gehen die Parameter während seines ganzen Besuchs mit. Ohne Zustimmung nur, wenn er auf der Seite, auf der er gelandet ist, auf „Tickets kaufen“ klickt; wechselt er vorher auf eine Unterseite, kommt der Klick ohne Parameter an. Die Zahlen im Shop sind also eher eine Untergrenze.
 - Wir übergeben **keine personenbezogenen Daten**, nur diese Werbeweg-Kennungen.

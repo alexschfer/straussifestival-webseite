@@ -120,6 +120,8 @@ export const analytics = {
    */
   ticketKategorie: 'Ticket',
   ticketAktion: 'Klick',
+  /** Aktion der Weiterleitung /redirect-ticket/ (Links von fremden Seiten direkt zum Shop). */
+  ticketWeiterleitungAktion: 'Weiterleitung',
   /** Ereignis der Weiterleitung /redirect-instagram/ (QR-Codes direkt zu Instagram). */
   instaKategorie: 'Instagram',
   instaAktion: 'Weiterleitung',
