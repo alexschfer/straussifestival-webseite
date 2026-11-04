@@ -16,6 +16,10 @@ export const festival = {
   datum: '11.06.–12.06.2027',
   /** Kontaktadresse des Festivalteams (Fußzeile und Impressum). */
   email: 'info@straussifestival.de',
+  /** Für Bewerbungen von Bands, DJs und anderen Artists (Fußzeile, FAQ). */
+  emailActs: 'acts@straussifestival.de',
+  /** Für Sponsoring-Anfragen (Fußzeile). */
+  emailSponsoring: 'sponsorings@straussifestival.de',
   /**
    * Ziel-Zeitpunkt für den Countdown auf der Startseite (ISO mit Zeitzone).
    * Bewusst Mitternacht als einfacher Platzhalter, solange keine genauere

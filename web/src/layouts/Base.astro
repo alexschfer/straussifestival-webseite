@@ -147,7 +147,17 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
 
           <div class="footer-spalte">
             <h2>Kontakt</h2>
-            <p class="footer-spalte-text"><a href={`mailto:${festival.email}`}>{festival.email}</a></p>
+            <ul class="footer-kontakt">
+              <li><a href={`mailto:${festival.email}`}>{festival.email}</a></li>
+              <li>
+                <span>Acts</span>
+                <a href={`mailto:${festival.emailActs}`}>{festival.emailActs}</a>
+              </li>
+              <li>
+                <span>Sponsoring</span>
+                <a href={`mailto:${festival.emailSponsoring}`}>{festival.emailSponsoring}</a>
+              </li>
+            </ul>
           </div>
         </div>
 

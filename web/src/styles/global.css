@@ -355,6 +355,49 @@ button.button {
 .prose .abc dd {
   margin: 0.2rem 0 0;
 }
+/* FAQ: jede Frage zum Aufklappen (<details class="faq-frage"> in faq.astro, ohne JavaScript).
+   Zeile mit Trennlinie, rechts ein Plus bzw. Minus in der Aktionsfarbe. */
+.prose .faq-frage {
+  border-bottom: 1px solid var(--farbe-linie);
+}
+.prose h2 + .faq-frage {
+  border-top: 1px solid var(--farbe-linie);
+}
+.prose .faq-frage summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  font-weight: 700;
+  line-height: 1.4;
+  list-style: none;
+  cursor: pointer;
+}
+.prose .faq-frage summary::-webkit-details-marker {
+  display: none;
+}
+.prose .faq-frage summary::after {
+  content: '+';
+  flex-shrink: 0;
+  color: var(--farbe-akzent);
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.prose .faq-frage[open] summary::after {
+  content: '−';
+}
+.prose .faq-frage summary:hover {
+  color: var(--farbe-akzent-zwei);
+}
+.prose .faq-frage summary:focus-visible {
+  outline: 3px solid var(--farbe-akzent);
+  outline-offset: 3px;
+}
+.prose .faq-frage p {
+  margin: 0 0 1rem;
+}
+
 /* Sprungziele der Buchstabenleiste: Platz lassen, damit die Leiste das Stichwort nicht verdeckt */
 .prose .abc dt[id] {
   scroll-margin-top: 4.5rem;
@@ -655,6 +698,20 @@ button.button {
 }
 .footer-spalte li {
   margin-block: 0.35rem;
+}
+/* Kontakt-Spalte: kleine Überschrift (Acts, Sponsoring) über der jeweiligen Adresse */
+.footer-kontakt li + li {
+  margin-top: 0.7rem;
+}
+.footer-kontakt span {
+  display: block;
+  color: var(--farbe-text);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.footer-kontakt a {
+  overflow-wrap: anywhere;
 }
 .footer-spalte a {
   color: var(--farbe-text-leise);

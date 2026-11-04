@@ -2,110 +2,164 @@
 import Base from '../layouts/Base.astro';
 import TicketLink from '../components/TicketLink.astro';
 import FestivalAbc from '../components/FestivalAbc.astro';
+import { festival } from '../config';
 ---
 
 <Base title="FAQ & Festival-ABC" description="Häufige Fragen und Antworten zum Straussi Festival 2027: Tickets, Einlass, Anreise, Verpflegung, Regeln – dazu das Festival-ABC von A bis Z.">
   <div class="wrap prose">
     <h1>FAQ</h1>
-    {/* Aufbau: <h2> für einen Themenblock, darin je Frage ein <h3> mit der Frage und ein <p> mit der Antwort.
+    {/* Aufbau: <h2> für einen Themenblock, darin je Frage ein aufklappbares <details class="faq-frage">
+        mit der Frage in <summary> und der Antwort als <p> (aufklappbar ohne JavaScript, Stil in global.css).
         Stellen mit "wird noch bekanntgegeben" sind offene Punkte, jeweils mit einem TODO-Kommentar markiert. */}
 
     <h2>Über das Festival</h2>
 
-    <h3>Was ist das Straussi Festival?</h3>
-    <p>Das Straussi Festival ist ein von drei benachbarten Studierendenwohnheimen (Straußäcker 1, 2 und 3) organisiertes Musikfestival in Stuttgart, das lokalen studentischen Künstler*innen eine Bühne bietet. Es findet auf vier Bühnen statt: eine Main Stage mit Bands (überwiegend Coverbands) sowie drei weitere Bühnen mit DJs aus den Bereichen Techno, House, Trance, Nu Disco, Bounce, Dark Disco und Mixed-Party-Sets.</p>
+    <details class="faq-frage">
+      <summary>Was ist das Straussi Festival?</summary>
+      <p>Das Straussi Festival ist ein von drei benachbarten Studierendenwohnheimen (Straußäcker 1, 2 und 3) organisiertes Musikfestival in Stuttgart, das lokalen studentischen Künstler*innen eine Bühne bietet. Es findet auf vier Bühnen statt: eine Main Stage mit Bands (überwiegend Coverbands) sowie drei weitere Bühnen mit DJs aus den Bereichen Techno, House, Trance, Nu Disco, Bounce, Dark Disco und Mixed-Party-Sets.</p>
+    </details>
 
-    <h3>Wann und wo findet das Straussi Festival 2027 statt?</h3>
-    <p>Das Straussi Festival 2027 findet am 11. und 12. Juni 2027 auf dem Gelände der Straußäcker-Wohnheime, Universitätsstraße 94, 70569 Stuttgart, statt.</p>
+    <details class="faq-frage">
+      <summary>Wann und wo findet das Straussi Festival 2027 statt?</summary>
+      <p>Das Straussi Festival 2027 findet am 11. und 12. Juni 2027 auf dem Gelände der Straußäcker-Wohnheime, Universitätsstraße 94, 70569 Stuttgart, statt.</p>
+    </details>
 
-    <h3>Wer tritt beim Straussi Festival auf?</h3>
-    <p>Die auftretenden Bands und DJs sind größtenteils Studierende, die in den Wohnheimen am Campus – darunter die Straußäcker-Wohnheime – wohnen oder an Stuttgarter Universitäten und Hochschulen studieren. Das Festival legt seinen Fokus bewusst auf die Förderung lokaler, studentischer Nachwuchskünstler*innen. Das Line-up geben wir bald bekannt.</p>
+    <details class="faq-frage">
+      <summary>Wer tritt beim Straussi Festival auf?</summary>
+      <p>Die auftretenden Bands und DJs sind größtenteils Studierende, die in den Wohnheimen am Campus – darunter die Straußäcker-Wohnheime – wohnen oder an Stuttgarter Universitäten und Hochschulen studieren. Das Festival legt seinen Fokus bewusst auf die Förderung lokaler, studentischer Nachwuchskünstler*innen. Das Line-up geben wir bald bekannt.</p>
+    </details>
     {/* Sobald lineup.astro fertig ist: wieder „Mehr dazu unter <a href="/lineup/">Line-up</a>.“ */}
 
-    <h3>Ich bin Artist. Kann ich mich für einen Auftritt bewerben?</h3>
-    <p>Ja! Bands, DJs und andere Artists können sich per E-Mail an <a href="mailto:acts@straussifestival.de">acts@straussifestival.de</a> bewerben.</p>
+    <details class="faq-frage">
+      <summary>Ich bin Artist. Kann ich mich für einen Auftritt bewerben?</summary>
+      <p>Ja! Bands, DJs und andere Artists können sich per E-Mail an <a href={`mailto:${festival.emailActs}`}>{festival.emailActs}</a> bewerben.</p>
+    </details>
 
-    <h3>Wie viele Besucher erwartet das Straussi Festival?</h3>
-    <p>Das Straussi Festival rechnet mit rund 7.500 Besucher*innen pro Tag.</p>
+    <details class="faq-frage">
+      <summary>Wie viele Besucher erwartet das Straussi Festival?</summary>
+      <p>Das Straussi Festival rechnet mit rund 7.500 Besucher*innen pro Tag.</p>
+    </details>
 
     <h2>Tickets & Einlass</h2>
 
-    <h3>Welche Tickets gibt es und was kosten sie?</h3>
-    {/* Preise bewusst nicht auf der Seite (Wunsch des Auftraggebers), sie stehen im Ticketshop. */}
-    <p>Es gibt <TicketLink>Tagestickets</TicketLink> für Freitag oder Samstag und <TicketLink>Wochenendtickets</TicketLink> für beide Tage. Alle <TicketLink>Ticketarten</TicketLink> und Preise findest du im <TicketLink>Ticketshop</TicketLink>, der Button „<TicketLink>Tickets kaufen</TicketLink>“ führt direkt dorthin.</p>
+    <details class="faq-frage">
+      <summary>Welche Tickets gibt es und was kosten sie?</summary>
+      {/* Preise bewusst nicht auf der Seite (Wunsch des Auftraggebers), sie stehen im Ticketshop. */}
+      <p>Es gibt <TicketLink>Tagestickets</TicketLink> für Freitag oder Samstag und <TicketLink>Wochenendtickets</TicketLink> für beide Tage. Alle <TicketLink>Ticketarten</TicketLink> und Preise findest du im <TicketLink>Ticketshop</TicketLink>, der Button „<TicketLink>Tickets kaufen</TicketLink>“ führt direkt dorthin.</p>
+    </details>
 
-    <h3>Wann startet der Vorverkauf für das Straussi Festival 2027?</h3>
-    <p>Der Vorverkauf läuft bereits. Der Button „<TicketLink>Tickets kaufen</TicketLink>“ führt direkt zum <TicketLink>Ticketshop</TicketLink>.</p>
+    <details class="faq-frage">
+      <summary>Wann startet der Vorverkauf für das Straussi Festival 2027?</summary>
+      <p>Der Vorverkauf läuft bereits. Der Button „<TicketLink>Tickets kaufen</TicketLink>“ führt direkt zum <TicketLink>Ticketshop</TicketLink>.</p>
+    </details>
 
-    <h3>Ab welchem Alter darf ich zum Straussi Festival?</h3>
-    <p>Das Straussi Festival ist <strong>erst ab 18 Jahren</strong> zugänglich. Personen unter 18 Jahren haben keinen Zutritt, auch nicht in Begleitung von Eltern oder Erziehungsberechtigten.</p>
+    <details class="faq-frage">
+      <summary>Ab welchem Alter darf ich zum Straussi Festival?</summary>
+      <p>Das Straussi Festival ist <strong>erst ab 18 Jahren</strong> zugänglich. Personen unter 18 Jahren haben keinen Zutritt, auch nicht in Begleitung von Eltern oder Erziehungsberechtigten.</p>
+    </details>
 
     <h2>Anreise & Vor Ort</h2>
 
-    <h3>Wie komme ich am besten zum Straussi Festival?</h3>
-    <p>Die beste Anreise erfolgt mit der S-Bahn bis zur Haltestelle Universität (Linien S1, S2, S3), von dort sind es ca. 5 Gehminuten zum Festivalgelände. Alternativ hält direkt an der S-Bahn-Station Universität auch die Buslinien 82, 84, 91, 92, X74, 747, 748 und X60. Die nächstgelegene Haltestelle ist Schranne (ca. 2 Gehminuten entfernt), bedient von den Linien 82, 84, 91, 92, 747, 748, N1 und X74.</p>
+    <details class="faq-frage">
+      <summary>Wie komme ich am besten zum Straussi Festival?</summary>
+      <p>Die beste Anreise erfolgt mit der S-Bahn bis zur Haltestelle Universität (Linien S1, S2, S3), von dort sind es ca. 5 Gehminuten zum Festivalgelände. Alternativ hält direkt an der S-Bahn-Station Universität auch die Buslinien 82, 84, 91, 92, X74, 747, 748 und X60. Die nächstgelegene Haltestelle ist Schranne (ca. 2 Gehminuten entfernt), bedient von den Linien 82, 84, 91, 92, 747, 748, N1 und X74.</p>
+    </details>
 
-    <h3>Gibt es Parkplätze am Straussi Festival?</h3>
-    <p>Es stehen nur begrenzt Parkplätze am Pfaffenwaldring bei der Hochschule der Medien und der Universität Stuttgart zur Verfügung. Aufgrund der begrenzten Kapazität wird die Anreise mit öffentlichen Verkehrsmitteln (S-Bahn oder Bus) ausdrücklich empfohlen.</p>
+    <details class="faq-frage">
+      <summary>Gibt es Parkplätze am Straussi Festival?</summary>
+      <p>Es stehen nur begrenzt Parkplätze am Pfaffenwaldring bei der Hochschule der Medien und der Universität Stuttgart zur Verfügung. Aufgrund der begrenzten Kapazität wird die Anreise mit öffentlichen Verkehrsmitteln (S-Bahn oder Bus) ausdrücklich empfohlen.</p>
+    </details>
 
-    <h3>Gibt es Camping beim Straussi Festival?</h3>
-    <p>Nein, das Straussi Festival bietet keine Campingmöglichkeit vor Ort. Es handelt sich um ein Tagesfestival ohne Übernachtungsangebot auf dem Gelände. In der Umgebung von Vaihingen und Stuttgart stehen jedoch Hotels, Hostels und Airbnb-Unterkünfte zur Verfügung.</p>
+    <details class="faq-frage">
+      <summary>Gibt es Camping beim Straussi Festival?</summary>
+      <p>Nein, das Straussi Festival bietet keine Campingmöglichkeit vor Ort. Es handelt sich um ein Tagesfestival ohne Übernachtungsangebot auf dem Gelände. In der Umgebung von Vaihingen und Stuttgart stehen jedoch Hotels, Hostels und Airbnb-Unterkünfte zur Verfügung.</p>
+    </details>
 
-    <h3>Wo befindet sich das Festivalgelände genau?</h3>
-    <p>Das Straussi Festival findet auf dem Gelände der Studierendenwohnheime Straußäcker 1, 2 und 3 an der Universitätsstraße 94, 70569 Stuttgart, statt.</p>
+    <details class="faq-frage">
+      <summary>Wo befindet sich das Festivalgelände genau?</summary>
+      <p>Das Straussi Festival findet auf dem Gelände der Studierendenwohnheime Straußäcker 1, 2 und 3 an der Universitätsstraße 94, 70569 Stuttgart, statt.</p>
+    </details>
 
-    <h3>Wo finde ich den Lost & Found (Fundbüro) beim Straussi Festival?</h3>
-    <p>Der Fundservice befindet sich am Infostand im „Straussidreieck“, zentral in der Mitte des Festivalgeländes.</p>
+    <details class="faq-frage">
+      <summary>Wo finde ich den Lost & Found (Fundbüro) beim Straussi Festival?</summary>
+      <p>Der Fundservice befindet sich am Infostand im „Straussidreieck“, zentral in der Mitte des Festivalgeländes.</p>
+    </details>
 
-    <h3>Wo finde ich die Erste Hilfe beim Straussi Festival?</h3>
-    <p>Das Erste-Hilfe-Zelt befindet sich direkt neben dem Infostand im „Straussidreieck“, zentral in der Mitte des Festivalgeländes.</p>
+    <details class="faq-frage">
+      <summary>Wo finde ich die Erste Hilfe beim Straussi Festival?</summary>
+      <p>Das Erste-Hilfe-Zelt befindet sich direkt neben dem Infostand im „Straussidreieck“, zentral in der Mitte des Festivalgeländes.</p>
+    </details>
 
     <h2>Verpflegung</h2>
 
-    <h3>Gibt es Essen und Getränke auf dem Festival?</h3>
-    <p>Ja, auf dem Straussi Festival gibt es ein vielfältiges Angebot an Foodtrucks und Essensständen sowie alkoholische und alkoholfreie Getränke.</p>
+    <details class="faq-frage">
+      <summary>Gibt es Essen und Getränke auf dem Festival?</summary>
+      <p>Ja, auf dem Straussi Festival gibt es ein vielfältiges Angebot an Foodtrucks und Essensständen sowie alkoholische und alkoholfreie Getränke.</p>
+    </details>
 
-    <h3>Gibt es kostenlose Wasserstellen auf dem Festivalgelände?</h3>
-    <p>Ja, auf dem gesamten Festivalgelände stehen kostenlose Wasserstellen (Trinkwasser) zur Verfügung.</p>
+    <details class="faq-frage">
+      <summary>Gibt es kostenlose Wasserstellen auf dem Festivalgelände?</summary>
+      <p>Ja, auf dem gesamten Festivalgelände stehen kostenlose Wasserstellen (Trinkwasser) zur Verfügung.</p>
+    </details>
 
-    <h3>Darf ich eigenes Essen oder eigene Getränke mitbringen?</h3>
-    <p>Nein, das Mitbringen von eigenem Essen und eigenen Getränken ist auf dem Festivalgelände nicht gestattet.</p>
+    <details class="faq-frage">
+      <summary>Darf ich eigenes Essen oder eigene Getränke mitbringen?</summary>
+      <p>Nein, das Mitbringen von eigenem Essen und eigenen Getränken ist auf dem Festivalgelände nicht gestattet.</p>
+    </details>
 
-    <h3>Wie kann ich auf dem Gelände bezahlen?</h3>
-    <p>Auf dem gesamten Festivalgelände wird ausschließlich mit Karte bezahlt (Card only), Bargeld wird nicht akzeptiert.</p>
+    <details class="faq-frage">
+      <summary>Wie kann ich auf dem Gelände bezahlen?</summary>
+      <p>Auf dem gesamten Festivalgelände wird ausschließlich mit Karte bezahlt (Card only), Bargeld wird nicht akzeptiert.</p>
+    </details>
 
     <h2>Regeln & Sicherheit</h2>
 
-    <h3>Was darf ich nicht mit auf das Festivalgelände bringen?</h3>
-    {/* TODO: vollständige Verbotsliste eintragen, sobald sie feststeht. */}
-    <p>Nicht erlaubt sind unter anderem Waffen jeglicher Art, Pyrotechnik, Taschen größer als DIN A4, Glasbehältnisse jeder Art, Drohnen, illegale Drogen sowie Sperrgut (das Sofa bleibt bitte zu Hause). Die vollständige Verbotsliste wird noch bekanntgegeben.</p>
+    <details class="faq-frage">
+      <summary>Was darf ich nicht mit auf das Festivalgelände bringen?</summary>
+      {/* TODO: vollständige Verbotsliste eintragen, sobald sie feststeht. */}
+      <p>Nicht erlaubt sind unter anderem Waffen jeglicher Art, Pyrotechnik, Taschen größer als DIN A4, Glasbehältnisse jeder Art, Drohnen, illegale Drogen sowie Sperrgut (das Sofa bleibt bitte zu Hause). Die vollständige Verbotsliste wird noch bekanntgegeben.</p>
+    </details>
 
-    <h3>Darf ich beim Straussi Festival fotografieren oder filmen?</h3>
-    <p>Privates Fotografieren und Filmen mit dem Handy ist beim Straussi Festival erlaubt. Nicht gestattet sind hingegen professionelle Fotografie und Videografie sowie der Einsatz von Drohnen auf dem gesamten Festivalgelände.</p>
+    <details class="faq-frage">
+      <summary>Darf ich beim Straussi Festival fotografieren oder filmen?</summary>
+      <p>Privates Fotografieren und Filmen mit dem Handy ist beim Straussi Festival erlaubt. Nicht gestattet sind hingegen professionelle Fotografie und Videografie sowie der Einsatz von Drohnen auf dem gesamten Festivalgelände.</p>
+    </details>
 
-    <h3>Ist das Festivalgelände barrierefrei?</h3>
-    {/* TODO: barrierefreie Sanitäranlagen, reservierte Bereiche und Kontaktperson eintragen. */}
-    <p>Das Gelände ist weitgehend eben und dadurch grundsätzlich barrierefrei. Einzelne Bereiche wie Wiesenflächen oder Schotterwege können jedoch für Rollstuhlfahrer*innen oder Personen mit Gehbehinderung unwegsam sein. Details zu barrierefreien Sanitäranlagen, reservierten Bereichen und einer Kontaktperson werden noch bekanntgegeben.</p>
+    <details class="faq-frage">
+      <summary>Ist das Festivalgelände barrierefrei?</summary>
+      {/* TODO: barrierefreie Sanitäranlagen, reservierte Bereiche und Kontaktperson eintragen. */}
+      <p>Das Gelände ist weitgehend eben und dadurch grundsätzlich barrierefrei. Einzelne Bereiche wie Wiesenflächen oder Schotterwege können jedoch für Rollstuhlfahrer*innen oder Personen mit Gehbehinderung unwegsam sein. Details zu barrierefreien Sanitäranlagen, reservierten Bereichen und einer Kontaktperson werden noch bekanntgegeben.</p>
+    </details>
 
-    <h3>Gibt es ein Awareness-Team beim Straussi Festival?</h3>
-    {/* TODO: Erkennungsmerkmal/Farbe, Codewort und Standort des Awareness-Teams eintragen. */}
-    <p>Ja, auf dem Festivalgelände ist ein Awareness-Team im Einsatz, das im Falle von Diskriminierung, Belästigung oder anderen Vorfällen ansprechbar ist. Dem Festival ist es wichtig, einen sicheren Ort ohne Rassismus, Sexismus, Homophobie oder andere Formen der Diskriminierung zu schaffen. Erkennungsmerkmal/Farbe, Codewort und genauer Standort des Teams werden noch bekanntgegeben.</p>
+    <details class="faq-frage">
+      <summary>Gibt es ein Awareness-Team beim Straussi Festival?</summary>
+      {/* TODO: Erkennungsmerkmal/Farbe, Codewort und Standort des Awareness-Teams eintragen. */}
+      <p>Ja, auf dem Festivalgelände ist ein Awareness-Team im Einsatz, das im Falle von Diskriminierung, Belästigung oder anderen Vorfällen ansprechbar ist. Dem Festival ist es wichtig, einen sicheren Ort ohne Rassismus, Sexismus, Homophobie oder andere Formen der Diskriminierung zu schaffen. Erkennungsmerkmal/Farbe, Codewort und genauer Standort des Teams werden noch bekanntgegeben.</p>
+    </details>
 
     <h2>Timetable & Geländeplan</h2>
 
-    <h3>Wo finde ich den Timetable für das Straussi Festival 2027?</h3>
-    <p>Der Timetable mit allen Auftrittszeiten liegt am Festivalwochenende direkt vor Ort aus.</p>
+    <details class="faq-frage">
+      <summary>Wo finde ich den Timetable für das Straussi Festival 2027?</summary>
+      <p>Der Timetable mit allen Auftrittszeiten liegt am Festivalwochenende direkt vor Ort aus.</p>
+    </details>
 
-    <h3>Gibt es einen Geländeplan für das Straussi Festival?</h3>
-    <p>Ja, der Geländeplan ist am Festivalwochenende vor Ort verfügbar.</p>
+    <details class="faq-frage">
+      <summary>Gibt es einen Geländeplan für das Straussi Festival?</summary>
+      <p>Ja, der Geländeplan ist am Festivalwochenende vor Ort verfügbar.</p>
+    </details>
 
     <h2>Social Media</h2>
 
-    <h3>Gibt es einen Hashtag für das Straussi Festival?</h3>
-    <p>Ja, offiziell nutzt das Festival die Hashtags #straussifestival und #straussifestival2027 für Social Media.</p>
+    <details class="faq-frage">
+      <summary>Gibt es einen Hashtag für das Straussi Festival?</summary>
+      <p>Ja, offiziell nutzt das Festival die Hashtags #straussifestival und #straussifestival2027 für Social Media.</p>
+    </details>
 
-    <h3>Gibt es neben dem FAQ auch ein Festival-ABC?</h3>
-    <p>Ja, alle wichtigen Stichpunkte rund um das Straussi Festival sind zusätzlich übersichtlich im <a href="#abc">Festival-ABC</a> von A bis Z zusammengefasst.</p>
+    <details class="faq-frage">
+      <summary>Gibt es neben dem FAQ auch ein Festival-ABC?</summary>
+      <p>Ja, alle wichtigen Stichpunkte rund um das Straussi Festival sind zusätzlich übersichtlich im <a href="#abc">Festival-ABC</a> von A bis Z zusammengefasst.</p>
+    </details>
 
     <h2 id="abc">Festival-ABC</h2>
     <p>Alle wichtigen Infos zum Straussi Festival 2027 auf einen Blick, von A bis Z.</p>
@@ -125,7 +179,7 @@ import FestivalAbc from '../components/FestivalAbc.astro';
       <dd>Gelände ist weitgehend eben, einzelne Wiesen- und Schotterflächen können unwegsam sein. Details werden noch bekanntgegeben.</dd>
 
       <dt>Bewerbung als Artist</dt>
-      <dd>Bands, DJs und andere Artists bewerben sich per E-Mail an <a href="mailto:acts@straussifestival.de">acts@straussifestival.de</a>.</dd>
+      <dd>Bands, DJs und andere Artists bewerben sich per E-Mail an <a href={`mailto:${festival.emailActs}`}>{festival.emailActs}</a>.</dd>
 
       <dt>Bezahlung</dt>
       <dd>Auf dem gesamten Gelände Card only, kein Bargeld.</dd>
