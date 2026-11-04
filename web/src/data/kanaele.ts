@@ -84,25 +84,25 @@ export const kanaele: Kanal[] = [
   // Feste in den Wohnheimen: eigener QR-Code pro Fest (z. B. auf einem Aufsteller,
   // Plakat am Stand oder der Leinwand), damit man sieht, wer über das Fest kam.
   // Normale Flyer, die dort verteilt werden, zählen weiter als "flyer".
-  // Ein QR-Code pro Fest für alles Gedruckte dort. Name nur das Fest, ohne Wohnheim-Kürzel
-  // (früher "-str1"/"-str3"; das Wohnheim steht in der Beschreibung). Schon gedruckte
-  // alte Namen stehen in alteSlugs und leiten weiter.
+  // Ein QR-Code pro Fest für alles Gedruckte dort. Der Link (slug) ist kurz, nur das Fest;
+  // die Quelle (utm_source) behält das Wohnheim-Kürzel (-str1, -str3), damit man in der
+  // Auswertung sieht, welches Wohnheim. Schon gedruckte alte Links stehen in alteSlugs.
   {
     slug: 'kattafest',
-    utm_source: 'kattafest',
+    utm_source: 'kattafest-str1',
     utm_medium: 'scan',
     beschreibung: 'QR-Code auf dem Kattafest von Straussi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
   },
   {
     slug: 'winterfest',
-    utm_source: 'winterfest',
+    utm_source: 'winterfest-str3',
     utm_medium: 'scan',
     beschreibung: 'QR-Code auf dem Winterfest von Straussi 3 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
   },
   {
     slug: 'halloween',
     alteSlugs: ['halloween-str1'],
-    utm_source: 'halloween',
+    utm_source: 'halloween-str1',
     utm_medium: 'scan',
     beschreibung: 'QR-Code auf der Halloween-Party von Straussi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
   },
