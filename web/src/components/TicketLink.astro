@@ -1,0 +1,19 @@
+---
+/**
+ * Wort im Fließtext als Link zum Ticketshop, z. B. <TicketLink>Tickets</TicketLink>.
+ *
+ * Zählt wie die Ticketbuttons: Matomo-Ereignis "Ticket / Klick" mit dem Namen "text"
+ * (Analytics.astro) und Weitergabe des Werbewegs an den Shop (UtmWeitergabe.astro),
+ * beides über das Attribut data-ticket-link. Ohne echte Ticket-URL (ticketAktiv in
+ * config.ts) bleibt es normaler Text.
+ */
+import { ticket, ticketAktiv } from '../config';
+---
+
+{
+  ticketAktiv ? (
+    <a href={ticket.url} target="_blank" rel="noopener" data-ticket-link data-position="text"><slot /></a>
+  ) : (
+    <slot />
+  )
+}

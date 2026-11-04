@@ -5,6 +5,7 @@ import CookieBanner from '../components/CookieBanner.astro';
 import InstaIcon from '../components/InstaIcon.astro';
 import TikTokIcon from '../components/TikTokIcon.astro';
 import TicketButton from '../components/TicketButton.astro';
+import TicketLink from '../components/TicketLink.astro';
 import UtmWeitergabe from '../components/UtmWeitergabe.astro';
 import { bannerAktiv, festival, instagram, tiktok, ticket } from '../config';
 
@@ -140,7 +141,7 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
 
           <div class="footer-spalte">
             <h2>Tickets</h2>
-            <p class="footer-spalte-text">Der Verkauf läuft über unseren Ticketpartner.</p>
+            <p class="footer-spalte-text">Der Verkauf läuft über unseren <TicketLink>Ticketpartner</TicketLink>.</p>
             <TicketButton position="footer" class="button-klein" />
           </div>
 

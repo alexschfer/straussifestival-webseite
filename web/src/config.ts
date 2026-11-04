@@ -111,7 +111,7 @@ export const analytics = {
   siteId: (import.meta.env.PUBLIC_MATOMO_SITE_ID ?? '').trim(),
   /**
    * Ereignis beim Klick auf den Ticketbutton: Kategorie und Aktion, als Name geht
-   * die Stelle mit (header, hero, footer). In Matomo ist das Ziel "Ticketklick"
+   * die Stelle mit (header, hero, footer, bzw. text für TicketLink im Fließtext). In Matomo ist das Ziel "Ticketklick"
    * an diese Kategorie geknüpft (siehe deploy/README.md).
    */
   ticketKategorie: 'Ticket',

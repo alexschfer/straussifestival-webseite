@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import TicketLink from '../components/TicketLink.astro';
 import Countdown from '../components/Countdown.astro';
 import InstaAbschnitt from '../components/InstaAbschnitt.astro';
 import TicketButton from '../components/TicketButton.astro';
@@ -42,8 +43,8 @@ import { festival, startBilder } from '../config';
     <p>Das Line-up steht noch nicht fest. Wir geben es hier bekannt, sobald es so weit ist.</p>
     {/* Sobald lineup.astro fertig ist: wieder auf die Line-up-Seite verlinken. */}
     <h2>Tickets</h2>
-    <p>Tickets gibt es über unseren Ticketpartner. Der Button oben führt direkt zum Ticketshop.</p>
-    <p>Der Vorverkauf läuft! Es gibt Tagestickets für Freitag oder Samstag und Wochenendtickets für beide Tage.</p>
+    <p><TicketLink>Tickets</TicketLink> gibt es über unseren <TicketLink>Ticketpartner</TicketLink>. Der Button oben führt direkt zum <TicketLink>Ticketshop</TicketLink>.</p>
+    <p>Der Vorverkauf läuft! Es gibt <TicketLink>Tagestickets</TicketLink> für Freitag oder Samstag und <TicketLink>Wochenendtickets</TicketLink> für beide Tage.</p>
     <h2>Gut zu wissen</h2>
     <ul>
       <li>Alle Infos zum Ablauf: <a href="/infos/">Infos</a></li>

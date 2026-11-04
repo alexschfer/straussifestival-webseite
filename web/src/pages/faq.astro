@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import TicketLink from '../components/TicketLink.astro';
 import FestivalAbc from '../components/FestivalAbc.astro';
 ---
 
@@ -31,10 +32,10 @@ import FestivalAbc from '../components/FestivalAbc.astro';
 
     <h3>Welche Tickets gibt es und was kosten sie?</h3>
     {/* Preise bewusst nicht auf der Seite (Wunsch des Auftraggebers), sie stehen im Ticketshop. */}
-    <p>Es gibt Tagestickets für Freitag oder Samstag und Wochenendtickets für beide Tage. Alle Ticketarten und Preise findest du im Ticketshop, der Button „Tickets kaufen“ führt direkt dorthin.</p>
+    <p>Es gibt <TicketLink>Tagestickets</TicketLink> für Freitag oder Samstag und <TicketLink>Wochenendtickets</TicketLink> für beide Tage. Alle <TicketLink>Ticketarten</TicketLink> und Preise findest du im <TicketLink>Ticketshop</TicketLink>, der Button „<TicketLink>Tickets kaufen</TicketLink>“ führt direkt dorthin.</p>
 
     <h3>Wann startet der Vorverkauf für das Straussi Festival 2027?</h3>
-    <p>Der Vorverkauf läuft bereits. Der Button „Tickets kaufen“ führt direkt zum Ticketshop.</p>
+    <p>Der Vorverkauf läuft bereits. Der Button „<TicketLink>Tickets kaufen</TicketLink>“ führt direkt zum <TicketLink>Ticketshop</TicketLink>.</p>
 
     <h3>Ab welchem Alter darf ich zum Straussi Festival?</h3>
     <p>Das Straussi Festival ist <strong>erst ab 18 Jahren</strong> zugänglich. Personen unter 18 Jahren haben keinen Zutritt, auch nicht in Begleitung von Eltern oder Erziehungsberechtigten.</p>
@@ -169,7 +170,7 @@ import FestivalAbc from '../components/FestivalAbc.astro';
       <dd>Sofas, Kühlschränke, Matratzen und Sperrmüll aller Art bleiben draußen. Gemütlich wird es trotzdem.</dd>
 
       <dt>Tickets</dt>
-      <dd>Tagestickets (Freitag oder Samstag) und Wochenendtickets. Der Vorverkauf läuft, Tickets gibt es über den Button „Tickets kaufen“.</dd>
+      <dd><TicketLink>Tagestickets</TicketLink> (Freitag oder Samstag) und <TicketLink>Wochenendtickets</TicketLink>. Der Vorverkauf läuft, <TicketLink>Tickets</TicketLink> gibt es über den Button „<TicketLink>Tickets kaufen</TicketLink>“.</dd>
 
       <dt>Timetable</dt>
       <dd>Am Festivalwochenende vor Ort erhältlich.</dd>

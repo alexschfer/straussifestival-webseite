@@ -664,6 +664,11 @@ button.button {
   color: var(--farbe-akzent-zwei-hell);
   text-decoration: underline;
 }
+/* Links mitten im Fußzeilen-Text (z. B. "Ticketpartner") unterstreichen, sonst sehen sie
+   aus wie normaler Text. Die Menülinks der Spalte bleiben ohne Unterstrich. */
+.footer-spalte-text a {
+  text-decoration: underline;
+}
 /* Menüpunkte von Seiten, die noch nicht fertig sind (bald: true in Base.astro):
    ausgegraut, kein Link. */
 .menue-bald {

@@ -193,6 +193,11 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **`ticket.utmWeitergeben: true`** (dauerhaft, Wunsch des Auftraggebers). `UtmWeitergabe.astro` hängt den Werbeweg an alle `a[data-ticket-link]`: **ohne Zustimmung** nur die UTMs der aktuellen Adresse (nichts gespeichert), **mit Zustimmung** im Cookie-Banner zusätzlich für den Besuch im **sessionStorage** (`straussi-werbeweg`, gelöscht beim Schließen des Tabs oder Widerruf). Grund: Speichern im Browser braucht nach § 25 TDDDG eine Einwilligung. Banner-Text, `bannerAktiv` und Datenschutzerklärung (Abschnitt Ticketshop) entsprechend. Im Browser getestet (ohne/mit Zustimmung, Widerruf, neuer Tab).
 - **Infos für den Shop-Betreiber:** `docs/TICKETSHOP-UTM.md` (bei neuen Kanälen die Tabelle dort ergänzen).
 
+## Ticket-Wörter im Text als Links
+
+- Jedes Wort mit „Ticket“ im Fließtext (Tickets, Ticketshop, Ticketpartner, Tagestickets, Wochenendtickets, Ticketarten, „Tickets kaufen“) ist ein Link zum Shop über **`<TicketLink>`** (`web/src/components/TicketLink.astro`), auf Startseite, Infos, FAQ/ABC und in der Fußzeile. **Nicht** verlinkt: Überschriften, Seitenbeschreibungen und die Datenschutzerklärung.
+- `TicketLink` trägt `data-ticket-link` und `data-position="text"`: zählt in Matomo als Ereignis „Ticket / Klick / text“ und bekommt die UTMs wie die Buttons. Ohne echte Ticket-URL normaler Text. Neue Textstellen mit „Ticket“ ebenfalls so verlinken.
+
 ## Befehle (im Ordner `web/`)
 
 ```
