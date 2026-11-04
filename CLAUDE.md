@@ -80,7 +80,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **QR-Codes liegen in `docs/qr/`** und werden committet, damit das Team sie ohne Node-Setup aus dem Repo holen kann und die Links in `docs/kanaele.md` funktionieren.
 - `utm_content` ist **optional** (nur dort gesetzt, wo ein Kanal Varianten hat).
 - Erlaubt in UTM-Werten sind auch **Ziffern** (a-z, 0-9, Bindestrich).
-- `utm_medium`: `scan` (gedruckte QR-Codes: Flyer, Plakat, Sticker), `messenger` (WhatsApp), `social` (Instagram-/TikTok-Bio), `plattform` (Links auf fremden Event-Seiten/Partnern: `rausgegangen`, `stupast` -> Quelle `studentenpartys-stuttgart`; Slug darf kürzer sein als die Quelle). Früher `print`, umbenannt, weil das Team in „Scan“ denkt. Slugs bewusst kurz (`flyer` statt `scan-flyer`), damit der QR-Code weniger dicht ist.
+- `utm_medium`: `scan` (gedruckte QR-Codes: Flyer, Plakat, Sticker), `messenger` (WhatsApp), `social` (Instagram-/TikTok-Bio), `plattform` (Links auf fremden Event-Seiten/Partnern: `rausgegangen`, `studentenpartys-stuttgart`; bei Links, die eingetragen statt gedruckt werden, Slug ausschreiben). Früher `print`, umbenannt, weil das Team in „Scan“ denkt. Slugs bewusst kurz (`flyer` statt `scan-flyer`), damit der QR-Code weniger dicht ist.
 - Ticketbutton öffnet den Shop in einem **neuen Tab** (`target="_blank"`), damit die Infoseite offen bleibt.
 - Redirects sind in Astro-Static **Meta-Refresh-Seiten** (`<seite>/q/<slug>/index.html`), keine echten HTTP-301. Für QR-Codes ausreichend; die UTM-Parameter bleiben erhalten.
 - **TypeScript ist auf 6.x gepinnt**, weil `astro check` mit TypeScript 7 noch nicht läuft. Erst anheben, wenn Astro das unterstützt.

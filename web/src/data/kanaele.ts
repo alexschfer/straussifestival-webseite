@@ -82,7 +82,7 @@ export const kanaele: Kanal[] = [
     beschreibung: 'Link in der TikTok-Bio.',
   },
   // Fremde Event-Plattformen und Partner, die auf uns verlinken (utm_medium "plattform").
-  // Kein QR-Code, der Link wird dort eingetragen. Slug kurz, Quelle ausgeschrieben.
+  // Kein QR-Code, der Link wird dort eingetragen; deshalb Slug ausgeschrieben.
   {
     slug: 'rausgegangen',
     utm_source: 'rausgegangen',
@@ -90,7 +90,7 @@ export const kanaele: Kanal[] = [
     beschreibung: 'Link auf Rausgegangen (Event-App/-Seite).',
   },
   {
-    slug: 'stupast',
+    slug: 'studentenpartys-stuttgart',
     utm_source: 'studentenpartys-stuttgart',
     utm_medium: 'plattform',
     beschreibung: 'Link bei Studentenpartys Stuttgart.',
