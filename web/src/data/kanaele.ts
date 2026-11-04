@@ -24,7 +24,7 @@ export interface Kanal {
   slug: string;
   /** Woher kommt der Besucher? z. B. "flyer", "instagram" */
   utm_source: string;
-  /** Art des Kanals: "scan" (gedruckter QR-Code), "messenger", "social" */
+  /** Art des Kanals: "scan" (gedruckter QR-Code), "messenger", "social", "plattform" (fremde Event-Seiten) */
   utm_medium: string;
   /** Optional: Variante innerhalb der Quelle, z. B. "wohnheim-a" */
   utm_content?: string;
@@ -80,6 +80,20 @@ export const kanaele: Kanal[] = [
     utm_source: 'tiktok',
     utm_medium: 'social',
     beschreibung: 'Link in der TikTok-Bio.',
+  },
+  // Fremde Event-Plattformen und Partner, die auf uns verlinken (utm_medium "plattform").
+  // Kein QR-Code, der Link wird dort eingetragen. Slug kurz, Quelle ausgeschrieben.
+  {
+    slug: 'rausgegangen',
+    utm_source: 'rausgegangen',
+    utm_medium: 'plattform',
+    beschreibung: 'Link auf Rausgegangen (Event-App/-Seite).',
+  },
+  {
+    slug: 'stupast',
+    utm_source: 'studentenpartys-stuttgart',
+    utm_medium: 'plattform',
+    beschreibung: 'Link bei Studentenpartys Stuttgart.',
   },
   // Feste in den Wohnheimen: eigener QR-Code pro Fest (z. B. auf einem Aufsteller,
   // Plakat am Stand oder der Leinwand), damit man sieht, wer über das Fest kam.

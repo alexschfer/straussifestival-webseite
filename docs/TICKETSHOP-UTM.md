@@ -26,6 +26,7 @@ https://straussifestival.dein-ticket.shop/events/straussifestival-111/straussife
 | `scan` | gedruckter QR-Code gescannt |
 | `messenger` | Link aus WhatsApp |
 | `social` | Link aus Instagram- oder TikTok-Bio/Story |
+| `plattform` | Link von einer fremden Event-Seite/-App oder einem Partner |
 
 **`utm_source`** (konkreter Werbeweg):
 
@@ -43,6 +44,8 @@ https://straussifestival.dein-ticket.shop/events/straussifestival-111/straussife
 | `whatsapp` | `messenger` | Link in WhatsApp-Gruppen/-Kanälen |
 | `instagram` | `social` | Link in Instagram-Bio/Stories |
 | `tiktok` | `social` | Link in TikTok-Bio |
+| `rausgegangen` | `plattform` | Link auf Rausgegangen (Event-App) |
+| `studentenpartys-stuttgart` | `plattform` | Link bei Studentenpartys Stuttgart |
 
 `utm_content` ist derzeit nicht in Gebrauch, kann aber später für Varianten dazukommen. Bitte gegebenenfalls mitspeichern.
 
