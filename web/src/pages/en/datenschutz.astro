@@ -1,0 +1,103 @@
+---
+import Base from '../../layouts/Base.astro';
+import { analyticsAktiv, bannerAktiv, festival, instagram, ticket } from '../../config';
+
+// Same conditions as pages/datenschutz.astro (Matomo, banner, ticket shop, Instagram widget).
+const widget = instagram.widget;
+---
+
+<Base title="Privacy policy" description="Privacy policy for the Straussi Festival 2027 website.">
+  {/* English version of pages/datenschutz.astro. The German version is legally binding.
+      Whenever the German privacy policy changes, update this translation as well. */}
+  <div class="wrap prose">
+    <h1>Privacy policy</h1>
+    <p>This is a translation for convenience. The <a href="/datenschutz/" hreflang="de" lang="de">German version (Datenschutz)</a> is legally binding.</p>
+    <p>Here we explain which data is processed when you visit this website. In short: as little as possible. We do not use Google Analytics; our visitor statistics run on our own web space, and we only set cookies if you agree.</p>
+
+    <h2>Controller</h2>
+    <p>Straussi 1 e.V.<br />Pfaffenwaldring 64<br />70569 Stuttgart<br />Germany<br />Email: <a href={`mailto:${festival.email}`}>{festival.email}</a></p>
+    <p>Authorised representatives and register entry are listed in the <a href="/en/impressum/">legal notice</a>.</p>
+
+    <h2>Hosting and server log files</h2>
+    <p>The website and our visitor statistics are hosted on web space at Cloud86 B.V., Lavendelheide 21-108, 9202 PD Drachten, the Netherlands. The servers are located in data centres in the Netherlands, i.e. in the EU. A data processing agreement (Art. 28 GDPR) is in place with Cloud86.</p>
+    <p>When you open the website, the web server necessarily processes your IP address, the time, the requested address, the previously visited page (referrer) and information about your browser and operating system, and stores them in log files (server log files). We need these to deliver the website and to detect errors or attacks. The log files are deleted automatically after two months at the latest. We do not analyse them.</p>
+    <p>The legal basis is our legitimate interest in providing the website securely and reliably (Art. 6 (1) (f) GDPR).</p>
+
+    {
+      analyticsAktiv && (
+        <>
+          <h2>Visitor statistics with Matomo</h2>
+          <p>We use the open-source software Matomo to measure how our website is used and through which promotional channels (e.g. QR codes on flyers, posters and stickers, links in WhatsApp, Instagram and TikTok) visitors find us. We run Matomo ourselves on our web space (see above). The data is not passed on to third parties.</p>
+          <p>The following is recorded:</p>
+          <ul>
+            <li>pages visited, time of the visit and the page you came from (referrer)</li>
+            <li>the promotional channel if you come via one of our links or QR codes (so-called UTM parameters in the address, e.g. “flyer” or “whatsapp”)</li>
+            <li>clicks on the ticket button, on links to other websites (e.g. Instagram, TikTok, ticket shop) and visits to our redirects to Instagram and the ticket shop</li>
+            <li>browser, operating system, device type, screen resolution and language setting</li>
+            <li>approximate location (country, region, city), derived from the IP address</li>
+          </ul>
+          <p>Your <strong>IP address is shortened</strong> (the last two blocks are removed) before it is stored. We therefore cannot attribute the statistics to individual persons.</p>
+          <p><strong>Without your consent, Matomo does not set any cookies.</strong> To group several page views of the same visit, Matomo then creates an identifier from technical characteristics (including IP address, browser and operating system) which is only valid for this visit and does not allow conclusions about you. The legal basis is our legitimate interest in measuring the reach of our promotion and improving our offer (Art. 6 (1) (f) GDPR).</p>
+          <p><strong>With your consent</strong> in the cookie banner, Matomo additionally sets two cookies: <code>_pk_id</code> (a random identifier so we can recognise whether you come back on a later day, stored for 13 months) and <code>_pk_ses</code> (groups a visit, stored for 30 minutes). The legal basis is then your consent (Art. 6 (1) (a) GDPR, Section 25 (1) TDDDG).</p>
+          <p>We will delete the statistics data by 31 December 2027 at the latest.</p>
+          <p>You can object to the recording without cookies by sending a message to <a href={`mailto:${festival.email}`}>{festival.email}</a> or by using a content or tracking blocker in your browser. You can withdraw your consent to cookies at any time via “Cookie settings” at the bottom of every page; the cookies are then deleted.</p>
+        </>
+      )
+    }
+
+    {
+      bannerAktiv ? (
+        <>
+          <h2 id="cookies">Cookies and cookie banner</h2>
+          <p>Cookies (and comparable content from third parties) are only used on this website with your consent in the cookie banner.{analyticsAktiv && ' This concerns the statistics cookies from Matomo (see above).'}{ticket.utmWeitergeben && ' This concerns remembering your promotional channel for the ticket shop (see below).'}{widget.url && ' This concerns the Instagram feed (see below).'} If you decline, the website works just the same.</p>
+          <p>We only store your answer in the banner (“Accept” or “Decline”) in your browser (localStorage) so that the banner does not appear on every visit. You can change or withdraw it at any time via the “Cookie settings” link at the bottom of every page.</p>
+        </>
+      ) : (
+        <p>This website sets <strong>no cookies</strong> and uses <strong>no local storage (localStorage)</strong> in the browser.</p>
+      )
+    }
+
+    <h2>Redirect to Instagram</h2>
+    <p>Some of our QR codes lead via our website directly to our Instagram profile. We count the visit{analyticsAktiv && ' with Matomo as described above'} and then forward you to Instagram straight away. From there, Instagram's (Meta's) privacy policy applies.</p>
+
+    <h2>Redirect to the ticket shop</h2>
+    <p>Some links on other websites lead via our website directly to the ticket shop. We count the visit{analyticsAktiv && ' with Matomo as described above'} and then forward you straight away. We add the promotional channel from the address (UTM parameters, e.g. “rausgegangen”) to the link to the shop; nothing is stored in the process. From there, the ticket shop's privacy policy applies (see below).</p>
+
+    <h2>External ticket shop</h2>
+    <p>We do not sell tickets ourselves. The “Buy tickets” button leads to the external provider dein-ticket.shop. From the moment you click, the provider's privacy policy applies.</p>
+    {
+      ticket.utmWeitergeben ? (
+        <>
+          <p>So that we and the ticket shop can see which promotion works, we add the promotional channel through which you came to us to the link when you click “Buy tickets” (so-called UTM parameters, e.g. “utm_source=flyer”). The ticket shop only receives this identifier of the promotional channel, no data about you as a person.</p>
+          <p><strong>Without your consent</strong> this only happens on the page where you arrived on our website, taken directly from the address of that page; nothing is stored. The legal basis is our legitimate interest in measuring the effect of our promotion (Art. 6 (1) (f) GDPR).</p>
+          <p><strong>With your consent</strong> in the cookie banner, we additionally remember the promotional channel for the duration of your visit in your browser's storage (sessionStorage, entry <code>straussi-werbeweg</code>) so that it is still passed on after you move to another page. The entry is deleted as soon as you close the browser tab or withdraw your consent. The legal basis is then your consent (Art. 6 (1) (a) GDPR, Section 25 (1) TDDDG).</p>
+        </>
+      ) : (
+        <p>We do not transmit any data to the ticket shop.</p>
+      )
+    }
+
+    <h2>Contact by email</h2>
+    <p>If you send us an email, we only use your details (email address, name, content of the message) to answer your enquiry (Art. 6 (1) (b) or (f) GDPR) and delete them when they are no longer needed for this purpose.</p>
+
+    <h2>Links to Instagram and TikTok</h2>
+    <p>We link to our profiles on Instagram and TikTok on this website. The respective provider's privacy policy only applies once you click one of the links.</p>
+    {
+      widget.url ? (
+        <>
+          <h2 id="instagram-feed">Instagram feed (only with your consent)</h2>
+          <p>
+            We can show our latest Instagram posts on the home page. For this we embed a widget from {widget.anbieter}. The widget is <strong>only loaded once you agree in the cookie banner</strong>. Your browser then transmits data (e.g. your IP address, browser information and the page visited) to {widget.anbieter}; the images may also be loaded from Instagram (Meta) servers. Cookies may be set in the process. The legal basis is your consent (Art. 6 (1) (a) GDPR, Section 25 (1) TDDDG).
+          </p>
+          <p><strong>TODO:</strong> Add address and privacy policy of {widget.anbieter}, check transfer to third countries (USA), check whether a data processing agreement is needed, and have this section reviewed legally.</p>
+        </>
+      ) : (
+        <p>We do not embed any content from these services.</p>
+      )
+    }
+
+    <h2>Your rights</h2>
+    <p>You have the right at any time to access the data we store about you (Art. 15 GDPR), to rectification (Art. 16), erasure (Art. 17), restriction of processing (Art. 18), data portability (Art. 20) and to object to processing (Art. 21 GDPR). You can withdraw any consent given at any time with effect for the future (Art. 7 (3) GDPR). Just write to us at <a href={`mailto:${festival.email}`}>{festival.email}</a>.</p>
+    <p>You also have the right to lodge a complaint with a data protection supervisory authority (Art. 77 GDPR), for example the State Commissioner for Data Protection and Freedom of Information of Baden-Württemberg (Landesbeauftragter für den Datenschutz und die Informationsfreiheit Baden-Württemberg).</p>
+  </div>
+</Base>

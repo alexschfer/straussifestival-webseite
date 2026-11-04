@@ -3,8 +3,11 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base title="Seite nicht gefunden" description="Diese Seite gibt es nicht.">
+  {/* Gilt für beide Sprachen (der Webserver zeigt immer diese eine Seite), deshalb zweisprachig. */}
   <div class="wrap prose">
     <h1>Seite nicht gefunden</h1>
     <p>Diese Adresse gibt es nicht (mehr). <a href="/">Zur Startseite</a></p>
+    <h2 lang="en">Page not found</h2>
+    <p lang="en">This address does not exist (any more). <a href="/en/">Go to the home page</a></p>
   </div>
 </Base>

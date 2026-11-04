@@ -8,6 +8,7 @@ import TicketButton from '../components/TicketButton.astro';
 import TicketLink from '../components/TicketLink.astro';
 import UtmWeitergabe from '../components/UtmWeitergabe.astro';
 import { bannerAktiv, festival, instagram, tiktok, ticket } from '../config';
+import { TEXTE, lokal, pfadInSprache, spracheVon } from '../i18n';
 
 interface Props {
   title: string;
@@ -18,22 +19,33 @@ interface Props {
 
 const { title, description, startseite = false } = Astro.props;
 
-// Navigation: neue Seite = neue Datei in src/pages/ und hier eine Zeile ergänzen.
+// Sprache aus der Adresse (/en/... = Englisch), Texte der Bausteine aus src/i18n.ts.
+const sprache = spracheVon(Astro.url);
+const t = TEXTE[sprache];
+const andere = sprache === 'de' ? 'en' : 'de';
+
+// Navigation: neue Seite = neue Datei in src/pages/ (und in src/pages/en/) und hier eine
+// Zeile ergänzen; der Menütext steht in src/i18n.ts unter "menue".
 // bald: true = Seite ist noch nicht fertig. Der Punkt steht ausgegraut mit „bald“
 // im Menü, ist aber kein Link. Sobald die Seite fertig ist, "bald: true" löschen.
 const hauptmenue: { href: string; text: string; bald?: boolean }[] = [
-  { href: '/', text: 'Start' },
-  { href: '/infos/', text: 'Infos' },
-  { href: '/lineup/', text: 'Line-up', bald: true },
-  { href: '/faq/', text: 'FAQ' },
-  { href: '/anfahrt/', text: 'Anfahrt', bald: true },
-  { href: '/bewohner/', text: 'Bewohner*innen', bald: true },
-];
+  { href: '/', text: t.menue.start },
+  { href: '/infos/', text: t.menue.infos },
+  { href: '/lineup/', text: t.menue.lineup, bald: true },
+  { href: '/faq/', text: t.menue.faq },
+  { href: '/anfahrt/', text: t.menue.anfahrt, bald: true },
+  { href: '/bewohner/', text: t.menue.bewohner, bald: true },
+].map((eintrag) => ({ ...eintrag, href: lokal(eintrag.href, sprache) }));
 // Rechtliches: erscheint unten in der schmalen Leiste der Fußzeile.
 const fussmenue = [
-  { href: '/impressum/', text: 'Impressum' },
-  { href: '/datenschutz/', text: 'Datenschutz' },
-];
+  { href: '/impressum/', text: t.menue.impressum },
+  { href: '/datenschutz/', text: t.menue.datenschutz },
+].map((eintrag) => ({ ...eintrag, href: lokal(eintrag.href, sprache) }));
+
+// Dieselbe Seite in der anderen Sprache (für Sprachumschalter und hreflang).
+const pfadAndere = pfadInSprache(Astro.url.pathname, andere);
+// Die 404-Seite gibt es nur einmal (zweisprachig), dort kein Umschalter.
+const zeigeSprachwahl = !Astro.url.pathname.startsWith('/404');
 // Das Menü oben erscheint in der Fußzeile noch einmal als Spalte "Festival".
 
 const seitentitel = startseite ? festival.name : `${title} – ${festival.kurzname}`;
@@ -42,7 +54,7 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
 ---
 
 <!doctype html>
-<html lang="de">
+<html lang={sprache}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -54,26 +66,34 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    {
+      zeigeSprachwahl && (
+        <>
+          <link rel="alternate" hreflang={sprache} href={new URL(Astro.url.pathname, Astro.site)} />
+          <link rel="alternate" hreflang={andere} href={new URL(pfadAndere, Astro.site)} />
+        </>
+      )
+    }
     <link rel="icon" href="/logo-klein.png" type="image/png" />
     <Analytics />
   </head>
   <body>
-    <a class="skip" href="#inhalt">Zum Inhalt springen</a>
+    <a class="skip" href="#inhalt">{t.zumInhalt}</a>
     <header class="site-header">
       <div class="header-inner">
-        <a class="brand" href="/">
+        <a class="brand" href={lokal('/', sprache)}>
           <img src="/logo-klein.png" alt="" width="28" height="28" />
           <span>{festival.kurzname} <span class="akzent">{festival.jahr}</span></span>
         </a>
-        <TicketButton position="header" text="Tickets" class="button-klein" />
-        <nav aria-label="Hauptmenü">
+        <TicketButton position="header" text={t.tickets} class="button-klein" />
+        <nav aria-label={t.hauptmenue}>
           <ul>
             {
               hauptmenue.map((eintrag) => (
                 <li>
                   {eintrag.bald ? (
                     <span class="menue-bald">
-                      {eintrag.text} <small>bald</small>
+                      {eintrag.text} <small>{t.bald}</small>
                     </span>
                   ) : (
                     <a href={eintrag.href} aria-current={istAktuell(eintrag.href) ? 'page' : undefined}>
@@ -82,6 +102,15 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
                   )}
                 </li>
               ))
+            }
+            {
+              zeigeSprachwahl && (
+                <li>
+                  <a class="sprachwahl" href={pfadAndere} hreflang={t.andereSprache.lang} lang={t.andereSprache.lang} aria-label={t.andereSprache.name}>
+                    {t.andereSprache.kurz}
+                  </a>
+                </li>
+              )
             }
           </ul>
         </nav>
@@ -96,15 +125,15 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
       <div class="footer-panel">
         <div class="footer-spalten">
           <div class="footer-spalte">
-            <h2>Folge uns</h2>
-            <p class="footer-spalte-text">Neuigkeiten gibt es zuerst auf Instagram und TikTok.</p>
+            <h2>{t.folgeUns}</h2>
+            <p class="footer-spalte-text">{t.folgeUnsText}</p>
             <div class="footer-icons">
               <a
                 class="footer-icon"
                 href={instagram.profilUrl}
                 target="_blank"
                 rel="noopener"
-                aria-label={`${instagram.name} auf Instagram`}
+                aria-label={`${instagram.name} ${t.aufInstagram}`}
               >
                 <InstaIcon size={20} />
               </a>
@@ -113,7 +142,7 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
                 href={tiktok.profilUrl}
                 target="_blank"
                 rel="noopener"
-                aria-label={`${tiktok.name} auf TikTok`}
+                aria-label={`${tiktok.name} ${t.aufTikTok}`}
               >
                 <TikTokIcon size={20} />
               </a>
@@ -128,7 +157,7 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
                   <li>
                     {eintrag.bald ? (
                       <span class="menue-bald">
-                        {eintrag.text} <small>bald</small>
+                        {eintrag.text} <small>{t.bald}</small>
                       </span>
                     ) : (
                       <a href={eintrag.href}>{eintrag.text}</a>
@@ -140,13 +169,13 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
           </nav>
 
           <div class="footer-spalte">
-            <h2>Tickets</h2>
-            <p class="footer-spalte-text">Der Verkauf läuft über unseren <TicketLink>Ticketpartner</TicketLink>.</p>
+            <h2>{t.tickets}</h2>
+            <p class="footer-spalte-text">{t.verkaufText[0]}<TicketLink>{t.verkaufText[1]}</TicketLink>{t.verkaufText[2]}</p>
             <TicketButton position="footer" class="button-klein" />
           </div>
 
           <div class="footer-spalte">
-            <h2>Kontakt</h2>
+            <h2>{t.kontakt}</h2>
             <ul class="footer-kontakt">
               <li><a href={`mailto:${festival.email}`}>{festival.email}</a></li>
               <li>
@@ -166,11 +195,11 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
             <img src="/logo-klein.png" alt="" width="40" height="40" class="footer-logo" />
             <div>
               <p class="footer-name">{festival.kurzname} <span class="akzent">{festival.jahr}</span></p>
-              <p class="footer-veranstalter">{festival.veranstalter}</p>
+              <p class="footer-veranstalter">{t.veranstalter}</p>
             </div>
           </div>
           <div class="footer-recht">
-            <nav aria-label="Rechtliches">
+            <nav aria-label={t.rechtliches}>
               <ul>
                 {
                   fussmenue.map((eintrag) => (
@@ -182,8 +211,8 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
                 {
                   bannerAktiv && (
                     <li>
-                      <a href="/datenschutz/#cookies" data-cookie-einstellungen>
-                        Cookie-Einstellungen
+                      <a href={`${lokal('/datenschutz/', sprache)}#cookies`} data-cookie-einstellungen>
+                        {t.cookieEinstellungen}
                       </a>
                     </li>
                   )

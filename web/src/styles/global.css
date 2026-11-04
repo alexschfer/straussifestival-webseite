@@ -138,6 +138,22 @@ h2 {
 .brand img {
   display: block;
 }
+/* Sprachumschalter (DE/EN) als letzter Punkt im Hauptmenü */
+.site-header nav a.sprachwahl {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border: 1px solid var(--farbe-linie);
+  border-radius: 999px;
+  color: var(--farbe-text-leise);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+}
+.site-header nav a.sprachwahl:hover {
+  border-color: var(--farbe-akzent-zwei-hell);
+  color: var(--farbe-akzent-zwei-hell);
+}
 
 ul {
   list-style: none;
@@ -853,7 +869,7 @@ button.button {
 }
 
 @media (min-width: 40rem) {
-  /* Reihenfolge im Kopf: Name, Menü, Ticketbutton ganz rechts. */
+  /* Reihenfolge im Kopf: Name, Menü (mit Sprachumschalter am Ende), Ticketbutton ganz rechts. */
   .site-header nav {
     order: 1;
     margin-left: auto;

@@ -1,5 +1,6 @@
 ---
 import { ticket, ticketAktiv } from '../config';
+import { TEXTE, spracheVon } from '../i18n';
 
 interface Props {
   /** Wo der Button sitzt; geht im Matomo-Ereignis als Name mit (siehe Analytics.astro). */
@@ -9,12 +10,13 @@ interface Props {
   class?: string;
 }
 
-const { position, text = 'Tickets kaufen', class: klasse } = Astro.props;
+const t = TEXTE[spracheVon(Astro.url)];
+const { position, text = t.ticketsKaufen, class: klasse } = Astro.props;
 
 // Solange keine echte Ticket-URL eingetragen ist (ticketAktiv in config.ts), steht hier
 // ein ausgegrauter Button ohne Link mit "bald", wie die "bald"-Punkte im Menü.
 // TODO: Datum des Vorverkaufsstarts ergänzen, sobald es feststeht.
-const textAus = 'bald';
+const textAus = t.bald;
 ---
 
 {
@@ -31,7 +33,7 @@ const textAus = 'bald';
     </a>
   ) : (
     <span class:list={['button', 'button-aus', klasse]} aria-disabled="true">
-      Tickets <small>{textAus}</small>
+      {t.tickets} <small>{textAus}</small>
     </span>
   )
 }

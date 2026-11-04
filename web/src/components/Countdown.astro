@@ -7,28 +7,31 @@
  * statt negativer Zahlen.
  */
 import { festival } from '../config';
+import { TEXTE, spracheVon } from '../i18n';
+
+const t = TEXTE[spracheVon(Astro.url)];
 ---
 
 <div class="countdown" data-countdown data-ziel={festival.startZeitpunkt}>
-  <div class="countdown-felder" data-countdown-felder aria-label="Countdown bis zum Festivalbeginn">
+  <div class="countdown-felder" data-countdown-felder aria-label={t.countdownAria}>
     <div class="countdown-feld">
       <span class="countdown-zahl" data-countdown-tage>–</span>
-      <span class="countdown-label">Tage</span>
+      <span class="countdown-label">{t.tage}</span>
     </div>
     <div class="countdown-feld">
       <span class="countdown-zahl" data-countdown-stunden>–</span>
-      <span class="countdown-label">Stunden</span>
+      <span class="countdown-label">{t.stunden}</span>
     </div>
     <div class="countdown-feld">
       <span class="countdown-zahl" data-countdown-minuten>–</span>
-      <span class="countdown-label">Minuten</span>
+      <span class="countdown-label">{t.minuten}</span>
     </div>
     <div class="countdown-feld">
       <span class="countdown-zahl" data-countdown-sekunden>–</span>
-      <span class="countdown-label">Sekunden</span>
+      <span class="countdown-label">{t.sekunden}</span>
     </div>
   </div>
-  <p class="countdown-vorbei" data-countdown-vorbei hidden>Es ist so weit – schön, dass ihr da seid!</p>
+  <p class="countdown-vorbei" data-countdown-vorbei hidden>{t.countdownVorbei}</p>
 </div>
 
 <script>

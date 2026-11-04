@@ -39,6 +39,7 @@ Der Build erzeugt außerdem:
 ## Inhalte ändern
 
 - **Seitentexte:** je eine Datei in `web/src/pages/` (`index.astro` = Startseite, `infos.astro`, `faq.astro`, `anfahrt.astro`, `impressum.astro`, `datenschutz.astro`). Der Text steht direkt darin als einfaches HTML (`<p>`, `<h2>`, `<ul>`). Stellen mit **TODO** sind noch offen.
+- **Englische Version:** jede Seite gibt es zusätzlich in `web/src/pages/en/` (gleicher Dateiname). Änderungen immer in beiden Sprachen machen. Texte von Menü, Fußzeile, Banner usw. stehen zweisprachig in `web/src/i18n.ts`.
 - **Neue Seite oder Menüpunkt:** Datei in `web/src/pages/` anlegen und die Navigationsliste oben in `web/src/layouts/Base.astro` ergänzen.
 - **Ticket-Link, Datum, Instagram-Profil, Schalter:** `web/src/config.ts`
 - **Fotos im Instagram-Abschnitt:** Datei in `web/public/insta/` ablegen und in `web/src/config.ts` eintragen (Anleitung: `web/public/insta/README.md`)

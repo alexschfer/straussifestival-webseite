@@ -10,6 +10,9 @@
  * Die Leiste bleibt beim Scrollen durch das ABC oben stehen (global.css, .abc-leiste).
  */
 
+import { TEXTE, spracheVon } from '../i18n';
+
+const t = TEXTE[spracheVon(Astro.url)];
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const UMLAUTE: Record<string, string> = { Ä: 'A', Ö: 'O', Ü: 'U' };
 
@@ -25,7 +28,7 @@ const mitAnkern = html.replace(/<dt(\s[^>]*)?>([\s\S]*?)<\/dt>/g, (ganz, attribu
 });
 ---
 
-<nav class="abc-leiste" aria-label="Festival-ABC nach Anfangsbuchstaben">
+<nav class="abc-leiste" aria-label={t.abcAria}>
   <ul>
     {
       ALPHABET.map((buchstabe) => (

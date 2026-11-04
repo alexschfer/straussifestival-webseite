@@ -202,6 +202,21 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - Jedes Wort mit „Ticket“ im Fließtext (Tickets, Ticketshop, Ticketpartner, Tagestickets, Wochenendtickets, Ticketarten, „Tickets kaufen“) ist ein Link zum Shop über **`<TicketLink>`** (`web/src/components/TicketLink.astro`), auf Startseite, Infos, FAQ/ABC und in der Fußzeile. **Nicht** verlinkt: Überschriften, Seitenbeschreibungen und die Datenschutzerklärung.
 - `TicketLink` trägt `data-ticket-link` und `data-position="text"`: zählt in Matomo als Ereignis „Ticket / Klick / text“ und bekommt die UTMs wie die Buttons. Ohne echte Ticket-URL normaler Text. Neue Textstellen mit „Ticket“ ebenfalls so verlinken.
 
+## Englische Version (komplett, inkl. Rechtliches)
+
+- **Englische Seiten liegen in `web/src/pages/en/`** mit denselben Dateinamen wie die deutschen (`/en/`, `/en/infos/`, `/en/faq/` …). Alle Seiten sind übersetzt, auch Impressum und Datenschutz; dort steht oben, dass die **deutsche Fassung rechtlich maßgeblich** ist. Übersetzung durch Claude, **noch gegenlesen lassen**.
+- **Texte der gemeinsamen Bausteine** (Menü, Fußzeile, Ticketbutton, Banner, Countdown, Insta-Abschnitt, ABC-Leiste) stehen zweisprachig in **`web/src/i18n.ts`** (`TEXTE.de` / `TEXTE.en`). Die Sprache ergibt sich aus der Adresse (`spracheVon(Astro.url)`: `/en/…` = Englisch). Interne Menülinks über `lokal()`.
+- **Startseite** ist jetzt ein gemeinsamer Baustein **`web/src/components/Startseite.astro`** (Startbild, Countdown, Insta-Abschnitt, Skripte für Einblenden/Parallax); `pages/index.astro` und `pages/en/index.astro` enthalten nur noch ihren Text.
+- **Sprachumschalter** DE/EN als letzter Punkt im Hauptmenü (Kopfzeile), führt zur selben Seite in der anderen Sprache; dazu `hreflang`-Links im Kopf. Auf der 404-Seite (einmal, zweisprachig) kein Umschalter.
+- **Pflege:** Jede inhaltliche Änderung an einer Seite **in beiden Sprachen** machen. Neue Seite = deutsche und englische Datei, sonst führt der Umschalter ins Leere.
+- Kanal-Weiterleitungen (`/q/…`) und QR-Codes gibt es nur für die deutschen Seiten (`seiten.ts` liest nur die oberste Ebene von `src/pages/`); gedruckte Codes führen auf Deutsch, Besucher wechseln per Umschalter.
+- Die Fotos im Startbild haben nur deutsche Alt-Texte (`startBilder` in `config.ts`).
+
+## FAQ aufklappbar, Kontakt in der Fußzeile
+
+- FAQ-Fragen sind `<details class="faq-frage">` mit `<summary>` (ohne JavaScript), Plus/Minus in Gelb; das Festival-ABC bleibt offen.
+- Fußzeile, Spalte Kontakt: `info@`, darunter **Acts** (`acts@straussifestival.de`) und **Sponsoring** (`sponsorings@straussifestival.de`, so vom Auftraggeber angegeben, „mit s hinten“). Adressen zentral in `festival.email`, `festival.emailActs`, `festival.emailSponsoring` (`config.ts`).
+
 ## Befehle (im Ordner `web/`)
 
 ```

@@ -7,40 +7,43 @@
  * "Ablehnen" ist bewusst genauso groß und gut erreichbar wie "Akzeptieren".
  */
 import { analyticsAktiv, instagram, ticket } from '../config';
+import { TEXTE, lokal, spracheVon } from '../i18n';
 
 const feed = Boolean(instagram.widget.url);
+const sprache = spracheVon(Astro.url);
+const t = TEXTE[sprache];
 ---
 
 <div class="cookie-banner" role="dialog" aria-labelledby="cookie-titel" aria-describedby="cookie-text" hidden data-cookie-banner>
   <div class="cookie-inner">
-    <p id="cookie-titel" class="cookie-titel">Cookies erlauben?</p>
+    <p id="cookie-titel" class="cookie-titel">{t.bannerTitel}</p>
     <p id="cookie-text" class="cookie-text">
       {
         analyticsAktiv && (
           <>
-            Mit deiner Zustimmung setzt unsere eigene Besucherstatistik (Matomo, auf unserem eigenen Webspace) Cookies, damit wir sehen, ob du später wiederkommst. Ohne Zustimmung zählen wir nur anonym ohne Cookies.{' '}
+            {t.bannerStatistik}{' '}
           </>
         )
       }
       {
         ticket.utmWeitergeben && (
           <>
-            Außerdem merken wir uns während deines Besuchs, über welchen Werbeweg (z. B. Flyer) du gekommen bist, und geben ihn beim Klick auf „Tickets kaufen“ an den Ticketshop weiter.{' '}
+            {t.bannerWerbeweg}{' '}
           </>
         )
       }
       {
         feed && (
           <>
-            Außerdem zeigen wir dann auf der Startseite unsere neuesten Instagram-Beiträge. Dafür wird ein Dienst von {instagram.widget.anbieter} geladen, der Daten (z. B. deine IP-Adresse) erhält und Cookies setzen kann.{' '}
+            {t.bannerFeed(instagram.widget.anbieter)}{' '}
           </>
         )
       }
-      Mehr dazu in der <a href="/datenschutz/#cookies">Datenschutzerklärung</a>.
+      {t.bannerMehr[0]}<a href={`${lokal('/datenschutz/', sprache)}#cookies`}>{t.bannerMehr[1]}</a>{t.bannerMehr[2]}
     </p>
     <div class="cookie-knoepfe">
-      <button type="button" class="button button-klein cookie-ablehnen" data-antwort="nein">Ablehnen</button>
-      <button type="button" class="button button-klein" data-antwort="ja">Akzeptieren</button>
+      <button type="button" class="button button-klein cookie-ablehnen" data-antwort="nein">{t.ablehnen}</button>
+      <button type="button" class="button button-klein" data-antwort="ja">{t.akzeptieren}</button>
     </div>
   </div>
 </div>

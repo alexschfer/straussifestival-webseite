@@ -17,6 +17,9 @@
 import { instagram, tiktok } from '../config';
 import InstaIcon from './InstaIcon.astro';
 import TikTokIcon from './TikTokIcon.astro';
+import { TEXTE, spracheVon } from '../i18n';
+
+const t = TEXTE[spracheVon(Astro.url)];
 
 const zeigeKacheln = instagram.fotos.length > 0;
 const anzahl = Math.max(5, instagram.fotos.length);
@@ -26,15 +29,15 @@ const widget = instagram.widget;
 
 <section class:list={['insta', { 'insta-ohne-kacheln': !zeigeKacheln }]} aria-labelledby="insta-titel">
   <div class="insta-panel">
-    <h2 id="insta-titel">Bleib auf dem Laufenden</h2>
-    <p class="insta-text">Folge uns auf Instagram oder TikTok, um nichts zu verpassen.</p>
+    <h2 id="insta-titel">{t.instaTitel}</h2>
+    <p class="insta-text">{t.instaText}</p>
     <div class="insta-links">
       <a
         class="insta-link"
         href={instagram.profilUrl}
         target="_blank"
         rel="noopener"
-        aria-label={`${instagram.name} auf Instagram`}
+        aria-label={`${instagram.name} ${t.aufInstagram}`}
       >
         <InstaIcon />
       </a>
@@ -43,7 +46,7 @@ const widget = instagram.widget;
         href={tiktok.profilUrl}
         target="_blank"
         rel="noopener"
-        aria-label={`${tiktok.name} auf TikTok`}
+        aria-label={`${tiktok.name} ${t.aufTikTok}`}
       >
         <TikTokIcon />
       </a>
@@ -55,7 +58,7 @@ const widget = instagram.widget;
      Kacheln unten darüber hinausragen (siehe Kommentar in global.css). */}
   {
     zeigeKacheln && (
-      <ul class="insta-kacheln" aria-label="Fotos" data-insta-kacheln>
+      <ul class="insta-kacheln" aria-label={t.instaFotos} data-insta-kacheln>
         {kacheln.map((foto) => (
           <li class="insta-kachel">
             {foto ? (
@@ -71,11 +74,11 @@ const widget = instagram.widget;
 
   {
     widget.url && (
-      <div class="insta-feed" data-insta-feed data-url={widget.url} data-hoehe={widget.hoehe}>
+      <div class="insta-feed" data-insta-feed data-url={widget.url} data-hoehe={widget.hoehe} data-titel={t.instaFeedTitel}>
         <p class="insta-feed-hinweis" data-insta-feed-hinweis>
-          Hier können unsere neuesten Instagram-Beiträge erscheinen. Dafür brauchen wir deine Zustimmung.
+          {t.instaFeedHinweis}
           <button type="button" class="button button-klein" data-insta-feed-zustimmen>
-            Instagram-Feed anzeigen
+            {t.instaFeedKnopf}
           </button>
         </p>
       </div>
@@ -97,7 +100,7 @@ const widget = instagram.widget;
       if (feed.querySelector('iframe')) return;
       const rahmen = document.createElement('iframe');
       rahmen.src = feed.dataset.url ?? '';
-      rahmen.title = 'Unsere neuesten Instagram-Beiträge';
+      rahmen.title = feed.dataset.titel ?? '';
       rahmen.loading = 'lazy';
       rahmen.style.height = `${feed.dataset.hoehe ?? 420}px`;
       feed.append(rahmen);

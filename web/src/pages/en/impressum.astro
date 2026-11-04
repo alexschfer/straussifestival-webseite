@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import { festival } from '../../config';
+---
+
+<Base title="Legal notice" description="Legal notice (Impressum) for the Straussi Festival 2027 website.">
+  {/* English version of pages/impressum.astro. Keep both in sync; the German version is legally binding. */}
+  <div class="wrap prose">
+    <h1>Legal notice</h1>
+    <p>This is a translation for convenience. The <a href="/impressum/" hreflang="de" lang="de">German version (Impressum)</a> is legally binding.</p>
+    <h2>Provider</h2>
+    <p>Straussi 1 e.V.<br />Pfaffenwaldring 64<br />70569 Stuttgart<br />Germany</p>
+    <h2>Contact</h2>
+    <p>Email: <a href={`mailto:${festival.email}`}>{festival.email}</a></p>
+    <h2>Register entry</h2>
+    <p>Registered in the register of associations (Vereinsregister) at the Stuttgart Local Court (Amtsgericht Stuttgart)<br />Registration number: VR 725467</p>
+    <h2>Authorised representatives</h2>
+    <p>Johannes Volz, chairman<br />Simon Hönes, deputy chairman</p>
+    <h2>Liability for content</h2>
+    <p>In accordance with Section 7 (1) of the German Digital Services Act (DDG), we are responsible for our own content on these pages under general law. We accept no liability for third-party content.</p>
+    <h2>Liability for links</h2>
+    <p>Despite careful checks of content, we accept no liability for the content of external links. The operators of linked pages are solely responsible for their content.</p>
+    <h2>Copyright</h2>
+    <p>The content of this website is subject to German copyright law. Contributions by third parties are marked as such.</p>
+  </div>
+</Base>
