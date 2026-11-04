@@ -30,6 +30,12 @@ export interface Kanal {
   utm_content?: string;
   /** Freitext für das Team, erscheint in docs/kanaele.md */
   beschreibung: string;
+  /**
+   * Optional: frühere Slugs, die schon auf gedruckten QR-Codes stehen. Sie leiten
+   * weiter auf diesen Kanal (gleiche UTM-Werte), damit alte Codes nicht ins Leere
+   * führen. Für sie werden keine neuen QR-Codes erzeugt.
+   */
+  alteSlugs?: string[];
 }
 
 /** utm_campaign ist für alle Kanäle gleich. */
@@ -78,22 +84,25 @@ export const kanaele: Kanal[] = [
   // Feste in den Wohnheimen: eigener QR-Code pro Fest (z. B. auf einem Aufsteller,
   // Plakat am Stand oder der Leinwand), damit man sieht, wer über das Fest kam.
   // Normale Flyer, die dort verteilt werden, zählen weiter als "flyer".
-  // Ein QR-Code pro Fest für alles Gedruckte dort, Name mit Wohnheim (str1, str3).
+  // Ein QR-Code pro Fest für alles Gedruckte dort. Name nur das Fest, ohne Wohnheim-Kürzel
+  // (früher "-str1"/"-str3"; das Wohnheim steht in der Beschreibung). Schon gedruckte
+  // alte Namen stehen in alteSlugs und leiten weiter.
   {
-    slug: 'kattafest-str1',
-    utm_source: 'kattafest-str1',
+    slug: 'kattafest',
+    utm_source: 'kattafest',
     utm_medium: 'scan',
     beschreibung: 'QR-Code auf dem Kattafest von Straussi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
   },
   {
-    slug: 'winterfest-str3',
-    utm_source: 'winterfest-str3',
+    slug: 'winterfest',
+    utm_source: 'winterfest',
     utm_medium: 'scan',
     beschreibung: 'QR-Code auf dem Winterfest von Straussi 3 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
   },
   {
-    slug: 'halloween-str1',
-    utm_source: 'halloween-str1',
+    slug: 'halloween',
+    alteSlugs: ['halloween-str1'],
+    utm_source: 'halloween',
     utm_medium: 'scan',
     beschreibung: 'QR-Code auf der Halloween-Party von Straussi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
   },
@@ -158,6 +167,15 @@ export function validiereKanaele(liste: Kanal[]): void {
     if (slugs.has(k.slug)) fehler.push(`Slug "${k.slug}" kommt mehrfach vor.`);
     slugs.add(k.slug);
   }
+  // Alte Slugs erst nach allen aktuellen prüfen, damit auch Kollisionen mit später
+  // folgenden Kanälen auffallen.
+  for (const k of liste) {
+    for (const alt of k.alteSlugs ?? []) {
+      pruefe(k.slug, 'alteSlugs', alt, true);
+      if (slugs.has(alt)) fehler.push(`Slug "${alt}" (alteSlugs von "${k.slug}") kommt mehrfach vor.`);
+      slugs.add(alt);
+    }
+  }
 
   for (const [fremd, slug] of Object.entries(fremdeQuellen)) {
     pruefe(`fremdeQuellen.${fremd}`, 'utm_source', fremd, true);
@@ -209,8 +227,13 @@ export function zielPfad(kanal: Kanal, seite = '/'): string {
  * Die Seitenliste kommt aus integrations/seiten.ts (alle Dateien in src/pages/).
  */
 export function kanalRedirects(seiten: string[] = ['/']): Record<string, string> {
+  // Aktuelle Slugs und frühere Slugs (alteSlugs) führen auf dasselbe Ziel.
   const paare = seiten.flatMap((seite) =>
-    kanaele.map((k) => [kurzPfad(k, seite), zielPfad(k, seite)] as const),
+    kanaele.flatMap((k) =>
+      [k.slug, ...(k.alteSlugs ?? [])].map(
+        (slug) => [kurzPfad({ ...k, slug }, seite), zielPfad(k, seite)] as const,
+      ),
+    ),
   );
   return Object.fromEntries(paare);
 }

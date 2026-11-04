@@ -34,9 +34,9 @@ https://straussifestival.dein-ticket.shop/events/straussifestival-111/straussife
 | `flyer` | `scan` | QR-Code auf Flyern |
 | `plakat` | `scan` | QR-Code auf Plakaten/Aushängen |
 | `sticker` | `scan` | QR-Code auf Stickern |
-| `kattafest-str1` | `scan` | QR-Code auf dem Kattafest (Straussi 1) |
-| `winterfest-str3` | `scan` | QR-Code auf dem Winterfest (Straussi 3) |
-| `halloween-str1` | `scan` | QR-Code auf der Halloween-Party (Straussi 1) |
+| `kattafest` | `scan` | QR-Code auf dem Kattafest (Straussi 1) |
+| `winterfest` | `scan` | QR-Code auf dem Winterfest (Straussi 3) |
+| `halloween` | `scan` | QR-Code auf der Halloween-Party (Straussi 1); bis 04.11.2026 als `halloween-str1` |
 | `maschinenbau` | `scan` | QR-Code auf dem Maschinenbauerfest |
 | `whatsapp` | `messenger` | Link in WhatsApp-Gruppen/-Kanälen |
 | `instagram` | `social` | Link in Instagram-Bio/Stories |
