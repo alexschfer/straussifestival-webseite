@@ -37,6 +37,8 @@ https://straussifestival.dein-ticket.shop/events/straussifestival-111/straussife
 | `kattafest-str1` | `scan` | QR-Code auf dem Kattafest (Straussi 1) |
 | `winterfest-str3` | `scan` | QR-Code auf dem Winterfest (Straussi 3) |
 | `halloween-str1` | `scan` | QR-Code auf der Halloween-Party (Straussi 1) |
+| `festivalwuba-str1` | `scan` | QR-Code für Festivalwuba (Straussi 1) |
+| `wuba-str1` | `scan` | QR-Code für Wuba (Straussi 1) |
 | `maschinenbau` | `scan` | QR-Code auf dem Maschinenbauerfest |
 | `whatsapp` | `messenger` | Link in WhatsApp-Gruppen/-Kanälen |
 | `instagram` | `social` | Link in Instagram-Bio/Stories |

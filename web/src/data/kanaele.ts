@@ -106,6 +106,18 @@ export const kanaele: Kanal[] = [
     utm_medium: 'scan',
     beschreibung: 'QR-Code auf der Halloween-Party von Straussi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand).',
   },
+  {
+    slug: 'festivalwuba',
+    utm_source: 'festivalwuba-str1',
+    utm_medium: 'scan',
+    beschreibung: 'QR-Code für Festivalwuba (Straussi 1).',
+  },
+  {
+    slug: 'wuba',
+    utm_source: 'wuba-str1',
+    utm_medium: 'scan',
+    beschreibung: 'QR-Code für Wuba (Straussi 1).',
+  },
   // Fest außerhalb der Wohnheime: Name ohne Wohnheim-Kürzel.
   {
     slug: 'maschinenbau',
