@@ -137,7 +137,13 @@ export const kanaele: Kanal[] = [
     slug: 'blockparty-str2',
     utm_source: 'blockparty-str2',
     utm_medium: 'scan',
-    beschreibung: 'QR-Code auf der Blockparty von Straussi 2.',
+    beschreibung: 'QR-Code auf der Blockparty von Straussi 2 (zur Instagram-Weiterleitung /redirect-instagram/q/blockparty-str2).',
+  },
+  {
+    slug: 'netthier',
+    utm_source: 'netthier',
+    utm_medium: 'scan',
+    beschreibung: 'QR-Code für Netthier (zur Instagram-Weiterleitung /redirect-instagram/q/netthier).',
   },
   // Fest außerhalb der Wohnheime: Name ohne Wohnheim-Kürzel.
   {
