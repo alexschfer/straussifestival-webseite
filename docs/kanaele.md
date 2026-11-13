@@ -23,6 +23,8 @@ Domain: `https://straussifestival.de` · Kampagne (`utm_campaign`): `straussi-fe
 | `halloween` | QR-Code auf der Halloween-Party von Straussi 1 (Aufsteller, Flyer, Plakat am Stand, Leinwand). | `https://straussifestival.de/q/halloween` | `https://straussifestival.de/?utm_source=halloween-str1&utm_medium=scan&utm_campaign=straussi-festival-2027` | [halloween.svg](qr/halloween.svg) |
 | `festivalwuba` | QR-Code für Festivalwuba (Straussi 1). | `https://straussifestival.de/q/festivalwuba` | `https://straussifestival.de/?utm_source=festivalwuba-str1&utm_medium=scan&utm_campaign=straussi-festival-2027` | [festivalwuba.svg](qr/festivalwuba.svg) |
 | `wuba` | QR-Code für Wuba (Straussi 1). | `https://straussifestival.de/q/wuba` | `https://straussifestival.de/?utm_source=wuba-str1&utm_medium=scan&utm_campaign=straussi-festival-2027` | [wuba.svg](qr/wuba.svg) |
+| `blockparty-str2` | QR-Code auf der Blockparty von Straussi 2. | `https://straussifestival.de/q/blockparty-str2` | `https://straussifestival.de/?utm_source=blockparty-str2&utm_medium=scan&utm_campaign=straussi-festival-2027` | [blockparty-str2.svg](qr/blockparty-str2.svg) |
+| `netthier` | QR-Code für Netthier. | `https://straussifestival.de/q/netthier` | `https://straussifestival.de/?utm_source=netthier&utm_medium=scan&utm_campaign=straussi-festival-2027` | [netthier.svg](qr/netthier.svg) |
 | `maschinenbau` | QR-Code auf dem Maschinenbauerfest (vor allem zur Instagram-Weiterleitung /redirect-instagram/q/maschinenbau). | `https://straussifestival.de/q/maschinenbau` | `https://straussifestival.de/?utm_source=maschinenbau&utm_medium=scan&utm_campaign=straussi-festival-2027` | [maschinenbau.svg](qr/maschinenbau.svg) |
 
 ## Auf eine Unterseite zeigen
