@@ -139,12 +139,6 @@ export const kanaele: Kanal[] = [
     utm_medium: 'scan',
     beschreibung: 'QR-Code auf der Blockparty von Straussi 2.',
   },
-  {
-    slug: 'netthier',
-    utm_source: 'netthier',
-    utm_medium: 'scan',
-    beschreibung: 'QR-Code für Netthier.', // TODO: genauer beschreiben, was/wo das ist
-  },
   // Fest außerhalb der Wohnheime: Name ohne Wohnheim-Kürzel.
   {
     slug: 'maschinenbau',
