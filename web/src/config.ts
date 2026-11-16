@@ -61,8 +61,8 @@ export const karte = {
   breite: 800,
   hoehe: 600,
   /** Koordinaten der Markierung (Mitte der Wohnanlagen), für den OpenStreetMap-Link. */
-  breitengrad: 48.74265,
-  laengengrad: 9.1015,
+  breitengrad: 48.74276,
+  laengengrad: 9.10169,
 };
 
 /**

@@ -22,7 +22,7 @@ from PIL import Image, ImageDraw
 
 ZOOM = 17
 MITTE = (48.7428, 9.1030)  # Bildmitte: Gelände und S-Bahn Universität passen beide drauf
-GELAENDE = (48.74265, 9.1015)  # Markierung: Mitte der Wohnanlagen Straußäcker I–III
+GELAENDE = (48.74276, 9.10169)  # Markierung: Mitte der Wohnanlagen Straußäcker I–III
 BREITE, HOEHE = 800, 600
 PINK = (238, 12, 227)
 
