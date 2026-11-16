@@ -342,7 +342,7 @@ button.button {
 }
 
 /* Knopf "In den Kalender eintragen" (KalenderButton.astro): aufklappbar ohne JavaScript.
-   Auf der Startseite mittig unter dem Countdown, auf der Anfahrt-Seite linksbündig. */
+   Steht mittig unter dem Countdown auf der Startseite. */
 .kalender {
   margin: 1.5rem 0;
 }

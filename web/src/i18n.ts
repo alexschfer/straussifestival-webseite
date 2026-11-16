@@ -68,7 +68,7 @@ export const TEXTE = {
     minuten: 'Minuten',
     sekunden: 'Sekunden',
     countdownVorbei: 'Es ist so weit – schön, dass ihr da seid!',
-    // Kalender-Knopf (Startseite, Anfahrt)
+    // Kalender-Knopf (Startseite)
     kalenderKnopf: 'In den Kalender eintragen',
     kalenderGoogle: 'Google Kalender',
     kalenderIcs: 'Apple, Outlook & andere (.ics)',
