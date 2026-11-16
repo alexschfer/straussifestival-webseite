@@ -356,12 +356,6 @@ button.button {
 .kalender summary::-webkit-details-marker {
   display: none;
 }
-.kalender summary::after {
-  content: ' +';
-}
-.kalender[open] summary::after {
-  content: ' −';
-}
 .kalender-auswahl,
 .prose .kalender-auswahl {
   display: inline-flex;
