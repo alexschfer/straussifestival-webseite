@@ -33,7 +33,7 @@ const hauptmenue: { href: string; text: string; bald?: boolean }[] = [
   { href: '/infos/', text: t.menue.infos },
   { href: '/lineup/', text: t.menue.lineup, bald: true },
   { href: '/faq/', text: t.menue.faq },
-  { href: '/anfahrt/', text: t.menue.anfahrt, bald: true },
+  { href: '/anfahrt/', text: t.menue.anfahrt },
   { href: '/bewohner/', text: t.menue.bewohner, bald: true },
 ].map((eintrag) => ({ ...eintrag, href: lokal(eintrag.href, sprache) }));
 // Rechtliches: erscheint unten in der schmalen Leiste der Fußzeile.

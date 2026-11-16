@@ -222,7 +222,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - **Karte auf der Anfahrt-Seite** (`web/src/components/Karte.astro`): eigenes Bild `web/public/anfahrt/karte.webp` (OpenStreetMap-Ausschnitt mit pinker Markierung, erzeugt mit `web/werkzeug/karte.py`, liegt bewusst nicht in `public/`), darunter Knöpfe „Google Maps“, „Apple Karten“, „OpenStreetMap“ (nur Links, öffnen die Adresse in der Karten-App). **Keine eingebettete Karte** (vom Auftraggeber so gewählt: keine Zustimmung nötig). Quellenangabe „© OpenStreetMap-Mitwirkende“ ist Lizenzpflicht. Adresse in `festival.adresse`, Koordinaten in `karte` (`config.ts`).
 - **Knopf „In den Kalender eintragen“** (`web/src/components/KalenderButton.astro`) unter dem Countdown auf der Startseite und auf der Anfahrt-Seite. Aufklappbar ohne JavaScript (`<details>`): Google-Kalender-Link und `/kalender.ics` (Endpunkt `web/src/pages/kalender.ics.ts`, für Apple, Outlook, Android). **Ganztägig** 11.–12.06.2027 (`kalender` in `config.ts`), solange es keine Uhrzeiten gibt. Matomo-Ereignis Kategorie `Kalender`, Aktion `Eintrag`, Name `google`/`ics`.
 - Datenschutzerklärung (DE/EN) hat einen Abschnitt „Karte und Kalendereintrag“.
-- Die Anfahrt-Seite steht im Menü weiter auf „bald“ (Fahrrad-Abschnitt noch TODO).
+- Die Anfahrt-Seite ist seit 16.11.2026 freigeschaltet (Menü, Startseite, FAQ verlinken sie). Der Fahrrad-Abschnitt ist bis zur Klärung nur als Kommentar in der Datei (nicht sichtbar).
 
 ## Befehle (im Ordner `web/`)
 
@@ -241,7 +241,7 @@ Deployment: siehe `deploy/PLESK.md` (bauen, ZIP aus `web/dist/`, in Plesk nach `
 - Der Kopf der Datei (zwischen den `---`) und die Zeile `<Base title="..." description="...">` legen Titel und Beschreibung fest.
 - Geschweifte Klammern `{` und `}` sind in Astro-Texten Sonderzeichen. Im Text vermeiden oder als `{'{'}` schreiben.
 - **Neue Seite:** eine Datei in `web/src/pages/` anlegen (am einfachsten `infos.astro` kopieren) und **eine Zeile in der Navigationsliste** in `web/src/layouts/Base.astro` ergänzen (`hauptmenue` oder `fussmenue`). Ohne diese Zeile gibt es die Seite, aber keinen Link darauf.
-- **Seite noch nicht fertig:** Im Menü (`hauptmenue` in `Base.astro`) `bald: true` setzen. Der Punkt erscheint dann ausgegraut mit „bald“ und ist kein Link (Kopf- und Fußzeile). Aktuell so: Line-up und Anfahrt. Die Seiten selbst bleiben unter ihrer Adresse erreichbar; Links im Fließtext auf sie wurden entfernt (Kommentare an den Stellen in `index.astro` und `faq.astro` zeigen, was wieder rein muss).
+- **Seite noch nicht fertig:** Im Menü (`hauptmenue` in `Base.astro`) `bald: true` setzen. Der Punkt erscheint dann ausgegraut mit „bald“ und ist kein Link (Kopf- und Fußzeile). Aktuell so: Line-up und Bewohner*innen. Die Seiten selbst bleiben unter ihrer Adresse erreichbar; Links im Fließtext auf sie wurden entfernt (Kommentare an den Stellen in `index.astro` und `faq.astro` zeigen, was wieder rein muss).
 - Zwischenüberschriften bekommen keine automatischen Anker-`id`s mehr (waren bei Markdown automatisch da, wurden nirgends verwendet).
 
 ## Offene Punkte
