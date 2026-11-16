@@ -9,10 +9,21 @@
  * Servern laden und bräuchte eine Zustimmung im Cookie-Banner. Hier wird nur verlinkt.
  * Die Quellenangabe "© OpenStreetMap-Mitwirkende" ist Pflicht (Lizenz) und muss bleiben.
  */
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import { festival, karte } from '../config';
 import { TEXTE, spracheVon } from '../i18n';
 
 const t = TEXTE[spracheVon(Astro.url)];
+
+// Der Server lässt Bilder 7 Tage im Browser-Cache. Damit ein neues Kartenbild trotzdem
+// sofort erscheint, hängt hier beim Bauen eine Kennung aus dem Dateiinhalt an die Adresse
+// (?v=...). Sie ändert sich nur, wenn sich das Bild ändert.
+const version = createHash('md5')
+  .update(readFileSync(`${process.cwd()}/public${karte.bild}`))
+  .digest('hex')
+  .slice(0, 8);
+const bild = `${karte.bild}?v=${version}`;
 const adresse = encodeURIComponent(festival.adresse);
 
 const google = `https://www.google.com/maps/search/?api=1&query=${adresse}`;
@@ -22,7 +33,7 @@ const osm = `https://www.openstreetmap.org/?mlat=${karte.breitengrad}&mlon=${kar
 
 <figure class="karte">
   <a href={google} target="_blank" rel="noopener">
-    <img src={karte.bild} alt={t.karteAlt} width={karte.breite} height={karte.hoehe} loading="lazy" />
+    <img src={bild} alt={t.karteAlt} width={karte.breite} height={karte.hoehe} loading="lazy" />
   </a>
   <figcaption>
     {t.karteQuelle}: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">{t.karteMitwirkende}</a>
