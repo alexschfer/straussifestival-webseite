@@ -6,6 +6,7 @@
  * Die Skripte für Einblenden und Parallax stehen nur hier.
  */
 import Countdown from './Countdown.astro';
+import KalenderButton from './KalenderButton.astro';
 import InstaAbschnitt from './InstaAbschnitt.astro';
 import TicketButton from './TicketButton.astro';
 import { festival, startBilder } from '../config';
@@ -37,6 +38,7 @@ const t = TEXTE[spracheVon(Astro.url)];
     <div class="countdown-panel">
       <h2 id="countdown-titel">{t.countdownTitel} {festival.kurzname}</h2>
       <Countdown />
+      <KalenderButton />
     </div>
   </section>
 

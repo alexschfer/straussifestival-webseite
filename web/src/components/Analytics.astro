@@ -10,6 +10,8 @@
  *   aus config.ts, Name = Stelle des Buttons: header, hero, footer).
  * - Links zu Instagram, TikTok und zum Ticketshop zählt Matomo zusätzlich
  *   von selbst als "Ausgehende Verweise".
+ * - Klicks auf "In den Kalender eintragen" zählen als Ereignis Kalender / Eintrag
+ *   (Name: google oder ics).
  */
 import { analytics, analyticsAktiv } from '../config';
 import { SCHLUESSEL } from '../scripts/einwilligung';
@@ -31,6 +33,8 @@ const einstellungen = {
   schluessel: SCHLUESSEL,
   ticketKategorie: analytics.ticketKategorie,
   ticketAktion: analytics.ticketAktion,
+  kalenderKategorie: analytics.kalenderKategorie,
+  kalenderAktion: analytics.kalenderAktion,
 };
 ---
 
@@ -72,6 +76,11 @@ const einstellungen = {
         var link = ereignis.target.closest && ereignis.target.closest('[data-ticket-link]');
         if (link) {
           window._paq.push(['trackEvent', einstellungen.ticketKategorie, einstellungen.ticketAktion, link.dataset.position]);
+        }
+        // Knopf "In den Kalender eintragen" (KalenderButton.astro): Name = google bzw. ics
+        var kalender = ereignis.target.closest && ereignis.target.closest('[data-kalender]');
+        if (kalender) {
+          window._paq.push(['trackEvent', einstellungen.kalenderKategorie, einstellungen.kalenderAktion, kalender.dataset.kalender]);
         }
       });
     </script>

@@ -217,6 +217,13 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 - FAQ-Fragen sind `<details class="faq-frage">` mit `<summary>` (ohne JavaScript), Plus/Minus in Gelb; das Festival-ABC bleibt offen.
 - Fußzeile, Spalte Kontakt: `info@`, darunter **Acts** (`acts@straussifestival.de`) und **Sponsoring** (`sponsorings@straussifestival.de`, so vom Auftraggeber angegeben, „mit s hinten“). Adressen zentral in `festival.email`, `festival.emailActs`, `festival.emailSponsoring` (`config.ts`).
 
+## Karte und Kalender-Knopf (November 2026, jederzeit änderbar)
+
+- **Karte auf der Anfahrt-Seite** (`web/src/components/Karte.astro`): eigenes Bild `web/public/anfahrt/karte.webp` (OpenStreetMap-Ausschnitt mit pinker Markierung, erzeugt mit `web/werkzeug/karte.py`, liegt bewusst nicht in `public/`), darunter Knöpfe „Google Maps“, „Apple Karten“, „OpenStreetMap“ (nur Links, öffnen die Adresse in der Karten-App). **Keine eingebettete Karte** (vom Auftraggeber so gewählt: keine Zustimmung nötig). Quellenangabe „© OpenStreetMap-Mitwirkende“ ist Lizenzpflicht. Adresse in `festival.adresse`, Koordinaten in `karte` (`config.ts`).
+- **Knopf „In den Kalender eintragen“** (`web/src/components/KalenderButton.astro`) unter dem Countdown auf der Startseite und auf der Anfahrt-Seite. Aufklappbar ohne JavaScript (`<details>`): Google-Kalender-Link und `/kalender.ics` (Endpunkt `web/src/pages/kalender.ics.ts`, für Apple, Outlook, Android). **Ganztägig** 11.–12.06.2027 (`kalender` in `config.ts`), solange es keine Uhrzeiten gibt. Matomo-Ereignis Kategorie `Kalender`, Aktion `Eintrag`, Name `google`/`ics`.
+- Datenschutzerklärung (DE/EN) hat einen Abschnitt „Karte und Kalendereintrag“.
+- Die Anfahrt-Seite steht im Menü weiter auf „bald“ (Fahrrad-Abschnitt noch TODO).
+
 ## Befehle (im Ordner `web/`)
 
 ```

@@ -52,6 +52,9 @@ Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
 
 ## Offene Punkte (TODO, nicht erfinden)
 
+- [ ] **Uhrzeiten des Festivals:** Kalendereintrag ist ganztägig (`kalender` in `web/src/config.ts`), der Countdown zählt bis Mitternacht. Mit echten Zeiten beides anpassen.
+- [ ] Karte und Kalender-Knopf auf echten Handys testen (Apple Karten/Kalender auf iPhone, Google Maps/Kalender auf Android)
+
 - [ ] **Antwort von Selfnet:** VM, Domain, DNS
 - [ ] **Echte Ticketshop-URL** eintragen (`ticket.url` in `web/src/config.ts`)
 - [ ] **Wertet der Ticketshop UTM-Parameter aus?** (Anfrage läuft.) Erst danach den Schalter `ticket.utmWeitergeben` in `web/src/config.ts` auf `true` setzen.

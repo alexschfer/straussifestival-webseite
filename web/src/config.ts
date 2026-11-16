@@ -26,6 +26,43 @@ export const festival = {
    * Startzeit feststeht. Jederzeit anpassbar, sobald es eine echte Uhrzeit gibt.
    */
   startZeitpunkt: '2027-06-11T00:00:00+02:00',
+  /** Adresse des Festivalgeländes (Karte auf der Anfahrt-Seite und Kalendereintrag). */
+  adresse: 'Universitätsstraße 94, 70569 Stuttgart',
+};
+
+/**
+ * Kalendereintrag zum Mitnehmen (Knopf "In den Kalender", components/KalenderButton.astro,
+ * Datei /kalender.ics aus pages/kalender.ics.ts). Bewusst ganztägig, solange es keine
+ * Uhrzeiten gibt. Format JJJJ-MM-TT, letzterTag ist der letzte Festivaltag (einschließlich).
+ */
+export const kalender = {
+  ersterTag: '2027-06-11',
+  letzterTag: '2027-06-12',
+};
+
+/**
+ * Beginn und Ende des Kalendereintrags im Kalenderformat JJJJMMTT. Bei ganztägigen
+ * Terminen ist das Ende nach Standard der Tag NACH dem letzten Tag. Nicht von Hand ändern.
+ */
+export function kalenderTage() {
+  const ende = new Date(`${kalender.letzterTag}T12:00:00Z`);
+  ende.setUTCDate(ende.getUTCDate() + 1);
+  const format = (datum: string) => datum.slice(0, 10).replaceAll('-', '');
+  return { beginn: format(kalender.ersterTag), ende: format(ende.toISOString()) };
+}
+
+/**
+ * Karte auf der Anfahrt-Seite (components/Karte.astro). Das Bild ist eine eigene Datei
+ * (Ausschnitt aus OpenStreetMap, siehe public/anfahrt/README.md), es wird nichts von
+ * fremden Servern geladen. Die Knöpfe öffnen die Adresse in der Karten-App des Handys.
+ */
+export const karte = {
+  bild: '/anfahrt/karte.webp',
+  breite: 800,
+  hoehe: 600,
+  /** Koordinaten der Markierung (Mitte der Wohnanlagen), für den OpenStreetMap-Link. */
+  breitengrad: 48.74265,
+  laengengrad: 9.1015,
 };
 
 /**
@@ -127,6 +164,9 @@ export const analytics = {
   /** Ereignis der Weiterleitung /redirect-instagram/ (QR-Codes direkt zu Instagram). */
   instaKategorie: 'Instagram',
   instaAktion: 'Weiterleitung',
+  /** Klick auf "In den Kalender": Kategorie und Aktion, als Name die Art (google, ics). */
+  kalenderKategorie: 'Kalender',
+  kalenderAktion: 'Eintrag',
 };
 
 export const analyticsAktiv = Boolean(analytics.url && analytics.siteId);

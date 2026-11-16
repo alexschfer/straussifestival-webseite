@@ -1,5 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Karte from '../../components/Karte.astro';
+import KalenderButton from '../../components/KalenderButton.astro';
 ---
 
 <Base title="Getting there" description="How to get to Straussi Festival 2027 at the Straußäcker student residences in Stuttgart.">
@@ -9,6 +11,8 @@ import Base from '../../layouts/Base.astro';
     <p>The festival takes place on the grounds of the Straußäcker 1, 2 and 3 student residences in Stuttgart.</p>
     <h2>Address</h2>
     <p>Universitätsstraße 94<br />70569 Stuttgart<br />Germany</p>
+    <Karte />
+    <KalenderButton />
     <h2>By public transport</h2>
     <p>The best way to get here is by public transport.</p>
     <ul>
@@ -22,8 +26,7 @@ import Base from '../../layouts/Base.astro';
     <p><strong>TODO:</strong> Bike parking, if available.</p>
     <h2>Accommodation</h2>
     <p>There is no camping on site. There are hotels, hostels and Airbnb accommodation around Vaihingen and Stuttgart.</p>
-    <h2>Map and site plan</h2>
+    <h2>Site plan</h2>
     <p>The site plan will be available on site during the festival weekend.</p>
-    <p><strong>TODO:</strong> Add location / site map (no third-party map embeds without clarifying data protection first).</p>
   </div>
 </Base>

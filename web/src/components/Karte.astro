@@ -1,0 +1,36 @@
+---
+/**
+ * Karte zum Festivalgelände (Anfahrt-Seite): ein eigenes Kartenbild (Ausschnitt aus
+ * OpenStreetMap, Datei in public/anfahrt/, Anleitung dort in der README) und Knöpfe,
+ * die die Adresse in Google Maps, Apple Karten oder OpenStreetMap öffnen – auf dem
+ * Handy meist direkt in der Karten-App mit Navigation.
+ *
+ * Bewusst KEINE eingebettete Karte (Google Maps, OSM-Kacheln): Die würde von fremden
+ * Servern laden und bräuchte eine Zustimmung im Cookie-Banner. Hier wird nur verlinkt.
+ * Die Quellenangabe "© OpenStreetMap-Mitwirkende" ist Pflicht (Lizenz) und muss bleiben.
+ */
+import { festival, karte } from '../config';
+import { TEXTE, spracheVon } from '../i18n';
+
+const t = TEXTE[spracheVon(Astro.url)];
+const adresse = encodeURIComponent(festival.adresse);
+
+const google = `https://www.google.com/maps/search/?api=1&query=${adresse}`;
+const apple = `https://maps.apple.com/?address=${adresse}&q=${encodeURIComponent(festival.name)}`;
+const osm = `https://www.openstreetmap.org/?mlat=${karte.breitengrad}&mlon=${karte.laengengrad}#map=17/${karte.breitengrad}/${karte.laengengrad}`;
+---
+
+<figure class="karte">
+  <a href={google} target="_blank" rel="noopener">
+    <img src={karte.bild} alt={t.karteAlt} width={karte.breite} height={karte.hoehe} loading="lazy" />
+  </a>
+  <figcaption>
+    {t.karteQuelle}: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">{t.karteMitwirkende}</a>
+  </figcaption>
+</figure>
+<p class="karte-links">
+  <span>{t.karteOeffnen}</span>
+  <a class="button button-klein" href={google} target="_blank" rel="noopener">Google Maps</a>
+  <a class="button button-klein" href={apple} target="_blank" rel="noopener">{t.karteApple}</a>
+  <a class="button button-klein" href={osm} target="_blank" rel="noopener">OpenStreetMap</a>
+</p>

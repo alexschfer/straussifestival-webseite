@@ -1,5 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
+import Karte from '../components/Karte.astro';
+import KalenderButton from '../components/KalenderButton.astro';
 ---
 
 <Base title="Anfahrt" description="So kommst du zum Straussi Festival 2027 in den Studierendenwohnheimen Straußäcker in Stuttgart.">
@@ -8,6 +10,8 @@ import Base from '../layouts/Base.astro';
     <p>Das Festival findet auf dem Gelände der Studierendenwohnheime Straußäcker 1, 2 und 3 in Stuttgart statt.</p>
     <h2>Adresse</h2>
     <p>Universitätsstraße 94<br />70569 Stuttgart</p>
+    <Karte />
+    <KalenderButton />
     <h2>Mit Bus und Bahn</h2>
     <p>Am besten kommst du mit öffentlichen Verkehrsmitteln.</p>
     <ul>
@@ -21,8 +25,7 @@ import Base from '../layouts/Base.astro';
     <p><strong>TODO:</strong> Fahrradstellplätze, falls vorhanden.</p>
     <h2>Übernachtung</h2>
     <p>Camping gibt es vor Ort nicht. In der Umgebung von Vaihingen und Stuttgart gibt es Hotels, Hostels und Airbnb-Unterkünfte.</p>
-    <h2>Karte und Geländeplan</h2>
+    <h2>Geländeplan</h2>
     <p>Der Geländeplan ist am Festivalwochenende vor Ort verfügbar.</p>
-    <p><strong>TODO:</strong> Lageplan bzw. Karte einbinden. Bitte keine Karte von einem externen Anbieter einbetten, ohne vorher den Datenschutz zu klären (die Seite kommt bewusst ohne Cookie-Banner aus). Ein Bild des Lageplans als Datei ist unproblematisch.</p>
   </div>
 </Base>
