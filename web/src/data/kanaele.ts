@@ -183,14 +183,18 @@ export const kanaele: Kanal[] = [
     slug: 'netthier',
     utm_source: 'netthier',
     utm_medium: 'scan',
-    beschreibung: 'QR-Code für Netthier (zur Instagram-Weiterleitung /redirect-instagram/q/netthier).',
+    beschreibung: 'QR-Code für Netthier. Auch /redirect-instagram/q/netthier bleibt gültig.',
+    // Seit 18.11.2026 führt auch /q/netthier (gezählt) zu Instagram.
+    ziel: 'instagram',
   },
   // Fest außerhalb der Wohnheime: Name ohne Wohnheim-Kürzel.
   {
     slug: 'maschinenbau',
     utm_source: 'maschinenbau',
     utm_medium: 'scan',
-    beschreibung: 'QR-Code auf dem Maschinenbauerfest (vor allem zur Instagram-Weiterleitung /redirect-instagram/q/maschinenbau).',
+    beschreibung: 'QR-Code auf dem Maschinenbauerfest. Auch /redirect-instagram/q/maschinenbau bleibt gültig.',
+    // Seit 18.11.2026 führt auch /q/maschinenbau (gezählt) zu Instagram.
+    ziel: 'instagram',
   },
 ];
 
