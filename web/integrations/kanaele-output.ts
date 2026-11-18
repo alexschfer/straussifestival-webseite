@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 import type { AstroIntegration } from 'astro';
 import QRCode from 'qrcode';
 import { instagram, ticket } from '../src/config';
-import { CAMPAIGN, fremdeQuellen, kanaele, kanalRedirects, kurzPfad, utmQuery } from '../src/data/kanaele';
+import { CAMPAIGN, fremdeQuellen, kanaele, kanalRedirects, kurzPfad, utmQuery, zielPfad } from '../src/data/kanaele';
 import { seitenPfade } from './seiten';
 
 /** "/" -> "" (liegt direkt in docs/qr/), "/lineup/" -> "lineup/" (Unterordner). */
@@ -94,9 +94,10 @@ export default function kanaeleOutput(): AstroIntegration {
 
         // Kanaltabelle
         const zeilen = kanaele.map((k) => {
-          const utmLink = `${site}/?${utmQuery(k)}`;
+          const utmLink = `${site}${zielPfad(k)}`;
+          const ziel = k.ziel ? ` **Führt zu ${k.ziel === 'instagram' ? 'Instagram' : 'den Tickets'}.**` : '';
           return (
-            `| \`${k.slug}\` | ${zelle(k.beschreibung)} ` +
+            `| \`${k.slug}\` | ${zelle(k.beschreibung)}${ziel} ` +
             `| \`${site}${kurzPfad(k)}\` | \`${utmLink}\` ` +
             `| ${qrKanaele.includes(k) ? `[${k.slug}.svg](qr/${k.slug}.svg)` : 'kein QR-Code (Link teilen)'} |`
           );
@@ -117,7 +118,8 @@ export default function kanaeleOutput(): AstroIntegration {
             : []),
           `Domain: \`${site}\` · Kampagne (\`utm_campaign\`): \`${CAMPAIGN}\``,
           '',
-          '- **Kurz-URL**: steht im QR-Code bzw. wird geteilt und leitet auf die Startseite mit UTM-Parametern weiter.',
+          '- **Kurz-URL**: steht im QR-Code bzw. wird geteilt und leitet auf die Startseite mit UTM-Parametern weiter',
+          '  (bei Kanälen mit „Führt zu Instagram“ stattdessen gezählt weiter zu Instagram).',
           '- **Fertiger UTM-Link**: das Ziel der Weiterleitung, für Links, die nicht als QR-Code laufen.',
           '',
           '| Slug | Beschreibung | Kurz-URL (QR-Code oder Link) | Fertiger UTM-Link | QR-Datei |',

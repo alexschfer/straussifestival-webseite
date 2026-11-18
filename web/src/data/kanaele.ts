@@ -12,6 +12,11 @@
  * dafür nichts extra eingetragen bekommen. Die UTM-Parameter sind überall
  * dieselben, nur die Zielseite unterscheidet sich.
  *
+ * Ausnahme "ziel": Ein Kanal mit ziel: 'instagram' (bzw. 'ticket') führt mit /q/<slug>
+ * nicht auf die Startseite, sondern über die gezählte Weiterleitung /redirect-instagram/
+ * (bzw. /redirect-ticket/) direkt zu Instagram (bzw. zum Ticketshop). <seite>/q/<slug>
+ * hinter einer anderen Seite führt weiterhin auf diese Seite.
+ *
  * Neuen Kanal anlegen = einen Eintrag unten ergänzen, sonst nichts.
  *
  * Schreibregel für alle UTM-Werte und den Slug (wird beim Build geprüft):
@@ -36,7 +41,20 @@ export interface Kanal {
    * führen. Für sie werden keine neuen QR-Codes erzeugt.
    */
   alteSlugs?: string[];
+  /**
+   * Optional: Wohin führt /q/<slug>? Ohne Angabe auf die Startseite (Normalfall).
+   * 'instagram': über /redirect-instagram/ (zählt in Matomo, dann weiter zu Instagram).
+   * 'ticket': über /redirect-ticket/ (zählt, dann weiter zum Ticketshop).
+   * Betrifft nur /q/<slug>, nicht <seite>/q/<slug> hinter anderen Seiten.
+   */
+  ziel?: keyof typeof WEITERLEITUNGSSEITEN;
 }
+
+/** Seiten, auf die ein Kanal mit "ziel" statt auf die Startseite führt. */
+export const WEITERLEITUNGSSEITEN = {
+  instagram: '/redirect-instagram/',
+  ticket: '/redirect-ticket/',
+} as const;
 
 /** utm_campaign ist für alle Kanäle gleich. */
 export const CAMPAIGN = 'straussi-festival-2027';
@@ -62,6 +80,10 @@ export const kanaele: Kanal[] = [
     utm_source: 'sticker',
     utm_medium: 'scan',
     beschreibung: 'QR-Code auf den Stickern.',
+    // Seit 18.11.2026 zu Instagram statt zur Startseite (Wunsch des Teams). Der gedruckte
+    // Code bleibt gültig, nur das Ziel hat sich geändert. In Matomo zählen Sticker-Scans
+    // seitdem als Ereignis Instagram / Weiterleitung, nicht mehr als Startseiten-Besuch.
+    ziel: 'instagram',
   },
   {
     slug: 'whatsapp',
@@ -256,9 +278,14 @@ export function kurzPfad(kanal: Kanal, seite = '/'): string {
   return `${seite}${REDIRECT_SEGMENT}/${kanal.slug}`;
 }
 
-/** Weiterleitungsziel relativ zur Domain, z. B. "/lineup/?utm_source=flyer&...". */
+/**
+ * Weiterleitungsziel relativ zur Domain, z. B. "/lineup/?utm_source=flyer&...".
+ * Bei /q/<slug> (Startseite) und gesetztem "ziel" stattdessen die Weiterleitungsseite,
+ * z. B. "/redirect-instagram/?utm_source=sticker&...".
+ */
 export function zielPfad(kanal: Kanal, seite = '/'): string {
-  return `${seite}?${utmQuery(kanal)}`;
+  const ziel = seite === '/' && kanal.ziel ? WEITERLEITUNGSSEITEN[kanal.ziel] : seite;
+  return `${ziel}?${utmQuery(kanal)}`;
 }
 
 /**
