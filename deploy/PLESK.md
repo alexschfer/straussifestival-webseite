@@ -1,63 +1,63 @@
-# Hosting bei Cloud86 (Webhosting mit Plesk) und Matomo
+# Hosting at Cloud86 (web hosting with Plesk) and Matomo
 
-So läuft die Seite aktuell: **Webhosting „Medium“ bei Cloud86** mit Plesk. Dort gibt es kein Docker, deshalb:
+This is how the site currently runs: **web hosting "Medium" at Cloud86** with Plesk. There is no Docker there, so:
 
-- Die Webseite wird **lokal gebaut** und als fertige Dateien nach `httpdocs` hochgeladen.
-- Die Statistik ist **Matomo** (PHP/MySQL) unter `stats.straussifestival.de`, im selben Webhosting.
-- `analytics/` (Docker, Caddy, Umami) und `deploy/deploy.sh` sind die Alternative für einen eigenen Server und werden hier **nicht** benutzt.
+- The website is **built locally** and uploaded as finished files to `httpdocs`.
+- Analytics is **Matomo** (PHP/MySQL) at `stats.straussifestival.de`, on the same web hosting.
+- `analytics/` (Docker, Caddy, Umami) and `deploy/deploy.sh` are the alternative for an own server and are **not** used here.
 
-Die Menünamen in Plesk und Matomo können je nach Version leicht abweichen.
+Menu names in Plesk and Matomo may differ slightly depending on the version. The menu paths below are given in English; in the German interface they have the corresponding German names.
 
-## 1. Einmalig: Domain und Subdomain in Plesk
+## 1. Once: domain and subdomain in Plesk
 
-1. **Websites & Domains:** Prüfen, ob `straussifestival.de` als Website angelegt ist (Dokumentenstamm `httpdocs`). Die Nextcloud unter `cloud.straussifestival.de` nicht anfassen.
-2. **Subdomain hinzufügen:** `stats.straussifestival.de` (eigener Dokumentenstamm, z. B. `stats.straussifestival.de`).
-3. **SSL/TLS-Zertifikate:** Für `straussifestival.de`, `www.straussifestival.de` und `stats.straussifestival.de` ein kostenloses Let's-Encrypt-Zertifikat holen. Kontakt-E-Mail: `orga@straussifestival.de`.
-4. **PHP-Einstellungen** der Subdomain `stats`: PHP 8.1 oder neuer.
-5. **Logs (Pflicht, steht so in der Datenschutzerklärung):** Bei `straussifestival.de` und `stats.straussifestival.de` unter *Logs > Protokollrotation*: nach Zeit **monatlich** (täglich ist bei Cloud86 gesperrt), maximale Anzahl Protokolldateien **1**, nicht per E-Mail senden. Ergibt höchstens ca. 2 Monate Speicherdauer.
+1. **Websites & Domains:** check that `straussifestival.de` is set up as a website (document root `httpdocs`). Do not touch the Nextcloud at `cloud.straussifestival.de`.
+2. **Add subdomain:** `stats.straussifestival.de` (own document root, e.g. `stats.straussifestival.de`).
+3. **SSL/TLS certificates:** get a free Let's Encrypt certificate for `straussifestival.de`, `www.straussifestival.de` and `stats.straussifestival.de`. Contact email: `orga@straussifestival.de`.
+4. **PHP settings** of the subdomain `stats`: PHP 8.1 or newer.
+5. **Logs (mandatory, the privacy policy says so):** for `straussifestival.de` and `stats.straussifestival.de` under *Logs > Log rotation*: by time, **monthly** (daily is blocked at Cloud86), maximum number of log files **1**, do not send by email. This gives a retention of at most about 2 months.
 
-## 2. Einmalig: Matomo installieren
+## 2. Once: install Matomo
 
-1. **Datenbanken > Datenbank hinzufügen:** MySQL/MariaDB, Name z. B. `matomo`, mit eigenem Benutzer und starkem Passwort (Passwortmanager).
-2. Matomo herunterladen: <https://matomo.org/download/> (ZIP, aktuelle Version).
-3. In Plesk im **Dateimanager** den Ordner der Subdomain `stats` öffnen, die ZIP hochladen und dort entpacken. Matomo liegt danach in einem Unterordner `matomo/`: dessen **Inhalt** eine Ebene nach oben verschieben, so dass `index.php` direkt im Ordner der Subdomain liegt.
-4. `https://stats.straussifestival.de` öffnen und den Installationsassistenten durchklicken:
-   - Datenbank: Server `localhost`, Name, Benutzer, Passwort aus Schritt 1.
-   - Superuser anlegen (Login für die Statistik, Passwort in den Passwortmanager).
-   - Erste Website: Name `Straussi Festival`, Adresse `https://straussifestival.de`, Zeitzone `Europe/Berlin`.
-   - Den angezeigten Tracking-Code **nicht** einbauen, das macht die Seite selbst.
-5. Die **Website-ID** (meist `1`) in `web/.env` bei `PUBLIC_MATOMO_SITE_ID` eintragen.
+1. **Databases > Add database:** MySQL/MariaDB, name e.g. `matomo`, with its own user and a strong password (password manager).
+2. Download Matomo: <https://matomo.org/download/> (ZIP, current version).
+3. In Plesk, open the folder of the `stats` subdomain in the **File Manager**, upload the ZIP and extract it there. Matomo then sits in a subfolder `matomo/`: move its **contents** one level up so that `index.php` is directly in the subdomain's folder.
+4. Open `https://stats.straussifestival.de` and click through the installation wizard:
+   - Database: server `localhost`, name, user, password from step 1.
+   - Create a super user (login for the analytics, password into the password manager).
+   - First website: name `Straussi Festival`, URL `https://straussifestival.de`, time zone `Europe/Berlin`.
+   - Do **not** add the displayed tracking code; the site does that itself.
+5. Enter the **website ID** (usually `1`) in `web/.env` as `PUBLIC_MATOMO_SITE_ID`.
 
-## 3. Einmalig: Matomo einstellen
+## 3. Once: configure Matomo
 
-- **Administration > Datenschutz > Daten anonymisieren:** IP-Adressen um **2 Bytes** kürzen, auch für die Standortbestimmung („Anonymisierte IP-Adressen auch beim Anreichern verwenden“). Steht so in der Datenschutzerklärung.
-- **Administration > Marketplace:** Plugin **„Marketing Campaigns Reporting“** (kostenlos) installieren und aktivieren. Erst damit zeigt Matomo `utm_source`, `utm_medium` und `utm_content` einzeln an (Flyer/Plakat/Sticker, Scan/Messenger/Social).
-- **Ziele > Ziele verwalten > Ziel hinzufügen:** Name `Ticketklick`, Auslöser **Ereignis**, Kategorie ist genau `Ticket`. Damit zeigt Matomo pro Kanal, wie viele Ticketklicks er bringt.
-- Optional: **Administration > System > Allgemeine Einstellungen > Archivierung:** Bei wenig Verkehr reicht die Standardeinstellung (Berichte werden beim Ansehen berechnet).
+- **Administration > Privacy > Anonymize data:** mask IP addresses by **2 bytes**, also for geolocation ("Also use the anonymized IP addresses when enriching visits"). The privacy policy says so.
+- **Administration > Marketplace:** install and activate the plugin **"Marketing Campaigns Reporting"** (free). Only then does Matomo show `utm_source`, `utm_medium` and `utm_content` separately (flyer/poster/sticker, scan/messenger/social).
+- **Goals > Manage goals > Add goal:** name `Ticketklick`, triggered by **Event**, category is exactly `Ticket`. Matomo then shows how many ticket clicks each channel brings.
+- Optional: **Administration > System > General settings > Archiving:** with little traffic, the default is enough (reports are computed when viewed).
 
-## 4. Webseite hochladen (bei jeder Änderung)
+## 4. Upload the website (on every change)
 
 ```sh
 cd web
 npm ci
-npm run build                       # prüft und baut nach web/dist/
+npm run build                       # checks and builds into web/dist/
 cd dist && rm -f ../../straussifestival-webseite.zip && zip -qr ../../straussifestival-webseite.zip . && cd ../..
 ```
 
-Dann in Plesk im **Dateimanager** `httpdocs` öffnen, `straussifestival-webseite.zip` hochladen, **entpacken (vorhandene Dateien überschreiben)** und die ZIP wieder löschen. Die Datei `.htaccess` gehört mit dazu (HTTPS, www-Weiterleitung, 404-Seite).
+Then in Plesk open `httpdocs` in the **File Manager**, upload `straussifestival-webseite.zip`, **extract it (overwrite existing files)** and delete the ZIP again. The file `.htaccess` is part of it (HTTPS, www redirect, 404 page, channel redirects).
 
-Danach `docs/` committen, falls sich QR-Codes oder `docs/kanaele.md` geändert haben.
+Afterwards commit `docs/` if QR codes or `docs/channels.md` have changed.
 
-> Alte Dateien bleiben beim Entpacken liegen. Wird eine Seite gelöscht oder umbenannt, ihren Ordner in `httpdocs` von Hand löschen.
+> Old files stay in place when extracting. If a page is deleted or renamed, delete its folder in `httpdocs` by hand.
 
-## 5. Nach dem ersten Hochladen prüfen
+## 5. Check after the first upload
 
-- `https://straussifestival.de`, `https://straussifestival.de/q/flyer` und `https://straussifestival.de/redirect-instagram/q/flyer` öffnen.
-- In Matomo unter **Besucher > Echtzeit** muss der Besuch erscheinen, unter **Akquisition > Kampagnen** mit Quelle `flyer`.
-- Jeden QR-Code mit iPhone und Android scannen.
-- Testbesuche danach löschen (z. B. unter *Administration > Datenschutz > GDPR-Tools* oder die Website-Daten löschen), bevor die QR-Codes verteilt werden.
+- Open `https://straussifestival.de`, `https://straussifestival.de/q/flyer` and `https://straussifestival.de/redirect-instagram/q/flyer`.
+- In Matomo, the visit must appear under **Visitors > Real-time**, and under **Acquisition > Campaigns** with source `flyer`.
+- Scan every QR code with an iPhone and an Android phone.
+- Then delete the test visits (e.g. under *Administration > Privacy > GDPR tools*, or delete the website data) before the QR codes are distributed.
 
-## Laufend
+## Ongoing
 
-- **Matomo-Updates einspielen**, sobald Matomo oben eins anzeigt (Knopf im Admin-Bereich). Vorher in Plesk ein Backup der Datenbank.
-- **Statistik bis 31.12.2027 löschen** (siehe Hinweis oben in der README).
+- **Install Matomo updates** as soon as Matomo shows one at the top (button in the admin area). Back up the database in Plesk first.
+- **Delete the analytics by 2027-12-31** (see the notice at the top of the README).

@@ -1,28 +1,28 @@
 ---
 /**
- * Weiterleitung zum Instagram-Profil, mit Zählung in Matomo.
+ * Redirect to the Instagram profile, counted in Matomo.
  *
- * Gedacht für QR-Codes, die direkt auf Instagram führen sollen. Wie jede Seite
- * funktioniert sie mit allen Kanälen: /redirect-instagram/q/flyer leitet erst auf
- * /redirect-instagram/?utm_source=flyer&... weiter, diese Seite zählt den Aufruf samt
- * Kanal in Matomo und schickt den Besucher dann zu Instagram. Die fertigen
- * QR-Codes liegen in docs/qr/redirect-instagram/.
+ * Meant for QR codes that should lead straight to Instagram. Like every page,
+ * it works with all channels: /redirect-instagram/q/flyer first redirects to
+ * /redirect-instagram/?utm_source=flyer&..., this page counts the visit including
+ * the channel in Matomo and then sends the visitor on to Instagram. The finished
+ * QR codes are in docs/qr/redirect-instagram/.
  *
- * Auswertung in Matomo: Ereignis Kategorie "Instagram", Aktion "Weiterleitung"
- * (klar getrennt von den Webseiten-Besuchen), nach Kampagne/Quelle aufschlüsseln.
+ * Analysis in Matomo: event category "Instagram", action "Weiterleitung"
+ * (clearly separated from website visits), broken down by campaign/source.
  *
- * Bewusst ohne das gemeinsame Layout (keine Kopf-/Fußzeile, kein Cookie-Banner):
- * Die Seite ist nur einen Augenblick zu sehen.
+ * Deliberately without the shared layout (no header/footer, no cookie banner):
+ * the page is only visible for a moment.
  */
 import '../styles/global.css';
 import Analytics from '../components/Analytics.astro';
-import { analytics, analyticsAktiv, festival, instagram } from '../config';
+import { analytics, analyticsActive, festival, instagram } from '../config';
 
-const ziel = instagram.profilUrl;
-const zaehlen = {
-  aktiv: analyticsAktiv,
-  kategorie: analytics.instaKategorie,
-  aktion: analytics.instaAktion,
+const target = instagram.profileUrl;
+const tracking = {
+  active: analyticsActive,
+  category: analytics.instaCategory,
+  action: analytics.instaAction,
 };
 ---
 
@@ -34,45 +34,45 @@ const zaehlen = {
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#1b1c20" />
     <meta name="robots" content="noindex" />
-    <title>Weiter zu Instagram – {festival.kurzname}</title>
+    <title>Weiter zu Instagram – {festival.shortName}</title>
     <link rel="icon" href="/logo-klein.png" type="image/png" />
-    <!-- Ohne JavaScript geht es nach 3 Sekunden trotzdem weiter (dann ohne Zählung). -->
-    <meta http-equiv="refresh" content={`3;url=${ziel}`} />
+    <!-- Without JavaScript the redirect still happens after 3 seconds (then without counting). -->
+    <meta http-equiv="refresh" content={`3;url=${target}`} />
     <Analytics autoTrack={false} />
   </head>
   <body>
-    <main class="wrap prose weiter">
+    <main class="wrap prose continue">
       <img src="/logo-klein.png" alt="" width="96" height="96" />
       <p>Weiter zu <strong>{instagram.name}</strong> auf Instagram …</p>
       <p>Falls nichts passiert:</p>
-      <a class="button button-gross" href={ziel}>Zu Instagram</a>
+      <a class="button button-large" href={target}>Zu Instagram</a>
     </main>
 
-    <script is:inline define:vars={{ ziel, zaehlen }}>
-      // Erst zählen (Seitenaufruf und eigenes Ereignis), dann weiterleiten.
-      // Spätestens nach 1,5 Sekunden geht es weiter, auch wenn Matomo nicht
-      // antwortet oder blockiert ist. Ohne Matomo sofort.
-      var weitergeleitet = false;
-      var weiter = function () {
-        if (weitergeleitet) return;
-        weitergeleitet = true;
-        location.replace(ziel);
+    <script is:inline define:vars={{ target, tracking }}>
+      // Count first (page view and own event), then redirect.
+      // Redirects after 1.5 seconds at the latest, even if Matomo does not
+      // respond or is blocked. Without Matomo immediately.
+      var redirected = false;
+      var redirect = function () {
+        if (redirected) return;
+        redirected = true;
+        location.replace(target);
       };
-      if (!zaehlen.aktiv) {
-        weiter();
+      if (!tracking.active) {
+        redirect();
       } else {
         var _paq = (window._paq = window._paq || []);
         _paq.push(['trackPageView']);
-        // Letzter Wert: Matomo ruft "weiter" auf, sobald das Ereignis verschickt ist.
-        _paq.push(['trackEvent', zaehlen.kategorie, zaehlen.aktion, undefined, undefined, undefined, weiter]);
-        setTimeout(weiter, 1500);
+        // Last value: Matomo calls "redirect" as soon as the event has been sent.
+        _paq.push(['trackEvent', tracking.category, tracking.action, undefined, undefined, undefined, redirect]);
+        setTimeout(redirect, 1500);
       }
     </script>
   </body>
 </html>
 
 <style>
-  .weiter {
+  .continue {
     min-height: 100vh;
     display: flex;
     flex-direction: column;

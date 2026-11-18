@@ -1,9 +1,9 @@
-# Analytics-Stack: Caddy (HTTPS, Webseite) + Umami + Postgres.
-# Konfiguration ausschließlich über analytics/.env (Vorlage: .env.example).
-# Nur Caddy veröffentlicht Ports; Umami und die Datenbank sind von außen nicht erreichbar.
+# Analytics stack: Caddy (HTTPS, website) + Umami + Postgres.
+# Configuration exclusively via analytics/.env (template: .env.example).
+# Only Caddy publishes ports; Umami and the database are not reachable from outside.
 
-# Fester Projektname: Container- und Volume-Namen hängen sonst am Ordnernamen. Nicht ändern,
-# sonst legt Docker neue, leere Volumes an und die Datenbank scheint verschwunden.
+# Fixed project name: otherwise container and volume names depend on the folder name. Do not change it,
+# or Docker creates new, empty volumes and the database seems to have disappeared.
 name: straussi
 
 x-logging: &logging
@@ -17,36 +17,36 @@ services:
     image: caddy:2-alpine
     restart: unless-stopped
     ports:
-      # Auf einem echten Server bleiben 80/443. Abweichende Ports nur für den lokalen Test.
+      # On a real server, keep 80/443. Different ports only for the local test.
       - "${HTTP_PORT:-80}:${HTTP_PORT:-80}"
       - "${HTTPS_PORT:-443}:${HTTPS_PORT:-443}"
       - "${HTTPS_PORT:-443}:${HTTPS_PORT:-443}/udp"
     environment:
-      DOMAIN: ${DOMAIN:?DOMAIN in .env setzen}
-      ACME_EMAIL: ${ACME_EMAIL:?ACME_EMAIL in .env setzen}
+      DOMAIN: ${DOMAIN:?set DOMAIN in .env}
+      ACME_EMAIL: ${ACME_EMAIL:?set ACME_EMAIL in .env}
       HTTP_PORT: ${HTTP_PORT:-80}
       HTTPS_PORT: ${HTTPS_PORT:-443}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      # Statische Dateien der Astro-Seite (Inhalt von web/dist/), read-only.
+      # Static files of the Astro site (contents of web/dist/), read-only.
       - ${SITE_DIR:-./site}:/srv/site:ro
-      # Zertifikate und Caddy-Zustand überleben Neustarts (sonst drohen Let's-Encrypt-Limits).
+      # Certificates and Caddy state survive restarts (otherwise Let's Encrypt rate limits loom).
       - caddy-data:/data
       - caddy-config:/config
-    # Absichtlich KEIN depends_on auf Umami: Die Infoseite soll auch dann erreichbar
-    # bleiben, wenn Umami gerade nicht läuft.
+    # Deliberately NO depends_on Umami: the info site should stay reachable
+    # even when Umami is not running.
     logging: *logging
 
   umami:
-    # Version bewusst festgelegt (gleicher Stand wie "latest" bzw. "postgresql-latest").
-    # Aktualisieren: Tag ändern, dann `docker compose pull && docker compose up -d`.
+    # Version deliberately pinned (same state as "latest" and "postgresql-latest").
+    # To update: change the tag, then `docker compose pull && docker compose up -d`.
     image: ghcr.io/umami-software/umami:3.4.0
     init: true
     restart: unless-stopped
     environment:
-      DATABASE_URL: postgresql://umami:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD in .env setzen}@db:5432/umami
-      APP_SECRET: ${APP_SECRET:?APP_SECRET in .env setzen}
-      TWO_FACTOR_ENCRYPTION_KEY: ${TWO_FACTOR_ENCRYPTION_KEY:?TWO_FACTOR_ENCRYPTION_KEY in .env setzen}
+      DATABASE_URL: postgresql://umami:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@db:5432/umami
+      APP_SECRET: ${APP_SECRET:?set APP_SECRET in .env}
+      TWO_FACTOR_ENCRYPTION_KEY: ${TWO_FACTOR_ENCRYPTION_KEY:?set TWO_FACTOR_ENCRYPTION_KEY in .env}
       DISABLE_TELEMETRY: "1"
     depends_on:
       db:
@@ -65,7 +65,7 @@ services:
     environment:
       POSTGRES_DB: umami
       POSTGRES_USER: umami
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD in .env setzen}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
     volumes:
       - umami-db-data:/var/lib/postgresql/data
     healthcheck:

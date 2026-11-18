@@ -1,0 +1,154 @@
+---
+/**
+ * "Stay up to date" section with links to Instagram and TikTok and photo tiles.
+ * Design modelled on ricola.com/de-de ("Stay in the Loop"): full-width colour
+ * panel, icon-only buttons, a staggered tile grid that sticks out over the bottom
+ * edge of the colour panel. Everything comes from src/config.ts (blocks "instagram"
+ * and "tiktok"). The tile photos are our own files from public/insta/.
+ *
+ * If an Instagram widget is configured (instagram.widget.url), the real feed replaces
+ * the tiles, but only after consent in the cookie banner. Before that (and without
+ * JavaScript) the tiles stay, with a notice and a button below them.
+ *
+ * As long as instagram.photos contains no photos, there are no tiles
+ * (no "TODO Foto" placeholders on the live site). Then only the colour panel
+ * with the heading and the buttons to Instagram and TikTok remains.
+ */
+import { instagram, tiktok } from '../config';
+import InstaIcon from './InstaIcon.astro';
+import TikTokIcon from './TikTokIcon.astro';
+import { TEXTS, languageOf } from '../i18n';
+
+const t = TEXTS[languageOf(Astro.url)];
+
+const showTiles = instagram.photos.length > 0;
+const count = Math.max(5, instagram.photos.length);
+const tiles = Array.from({ length: count }, (_, i) => instagram.photos[i]);
+const widget = instagram.widget;
+---
+
+<section class:list={['insta', { 'insta-no-tiles': !showTiles }]} aria-labelledby="insta-title">
+  <div class="insta-panel">
+    <h2 id="insta-title">{t.instaTitle}</h2>
+    <p class="insta-text">{t.instaText}</p>
+    <div class="insta-links">
+      <a
+        class="insta-link"
+        href={instagram.profileUrl}
+        target="_blank"
+        rel="noopener"
+        aria-label={`${instagram.name} ${t.onInstagram}`}
+      >
+        <InstaIcon />
+      </a>
+      <a
+        class="insta-link"
+        href={tiktok.profileUrl}
+        target="_blank"
+        rel="noopener"
+        aria-label={`${tiktok.name} ${t.onTikTok}`}
+      >
+        <TikTokIcon />
+      </a>
+    </div>
+  </div>
+
+  {/* Deliberately OUTSIDE .insta-panel: only this way can the colour panel stay limited
+     to the top part (heading/text/icons) while the taller tiles stick out over its
+     bottom edge (see comment in global.css). */}
+  {
+    showTiles && (
+      <ul class="insta-tiles" aria-label={t.instaPhotos} data-insta-tiles>
+        {tiles.map((photo) => (
+          <li class="insta-tile">
+            {photo ? (
+              <img src={photo.image} alt={photo.alt} loading="lazy" />
+            ) : (
+              <span class="insta-placeholder">TODO Foto</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    widget.url && (
+      <div class="insta-feed" data-insta-feed data-url={widget.url} data-height={widget.height} data-title={t.instaFeedTitle}>
+        <p class="insta-feed-notice" data-insta-feed-notice>
+          {t.instaFeedNotice}
+          <button type="button" class="button button-small" data-insta-feed-accept>
+            {t.instaFeedButton}
+          </button>
+        </p>
+      </div>
+    )
+  }
+</section>
+
+<script>
+  import { readAnswer, openBanner } from '../scripts/consent';
+
+  // Real Instagram feed: only loaded after consent, then it replaces the tiles.
+  const feed = document.querySelector<HTMLElement>('[data-insta-feed]');
+
+  if (feed) {
+    const tileGrid = document.querySelector<HTMLElement>('[data-insta-tiles]');
+    const notice = feed.querySelector<HTMLElement>('[data-insta-feed-notice]');
+
+    const loadFeed = () => {
+      if (feed.querySelector('iframe')) return;
+      const frame = document.createElement('iframe');
+      frame.src = feed.dataset.url ?? '';
+      frame.title = feed.dataset.title ?? '';
+      frame.loading = 'lazy';
+      frame.style.height = `${feed.dataset.height ?? 420}px`;
+      feed.append(frame);
+      if (notice) notice.hidden = true;
+      if (tileGrid) tileGrid.hidden = true;
+    };
+
+    // After revoking consent (answer "nein") the feed is removed again.
+    const removeFeed = () => {
+      feed.querySelector('iframe')?.remove();
+      if (notice) notice.hidden = false;
+      if (tileGrid) tileGrid.hidden = false;
+    };
+
+    if (readAnswer() === 'ja') loadFeed();
+    document.addEventListener('consent', (event) => {
+      if ((event as CustomEvent).detail === 'ja') loadFeed();
+      else removeFeed();
+    });
+    feed.querySelector('[data-insta-feed-accept]')?.addEventListener('click', openBanner);
+  }
+
+  // Light "trailing" animation of the tiles while scrolling (modelled on ricola.com):
+  // even and odd tiles move at different speeds. The actual movement lives in the
+  // CSS variable --insta-progress (0 to 1, depending on how far the section has
+  // scrolled through the viewport), evaluated in global.css. Only active without
+  // reduced motion.
+  const grid = document.querySelector<HTMLElement>('[data-insta-tiles]');
+
+  if (grid && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    let requested = false;
+
+    const update = () => {
+      requested = false;
+      const rect = grid.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > innerHeight) return;
+      const progress = Math.min(1, Math.max(0, 1 - rect.top / innerHeight));
+      grid.style.setProperty('--insta-progress', String(progress));
+    };
+
+    const request = () => {
+      if (!requested) {
+        requested = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    update();
+    addEventListener('scroll', request, { passive: true });
+  }
+</script>

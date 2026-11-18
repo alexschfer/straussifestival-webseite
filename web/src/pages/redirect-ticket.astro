@@ -1,30 +1,30 @@
 ---
 /**
- * Weiterleitung direkt zum Ticketshop, mit Zählung in Matomo.
+ * Redirect straight to the ticket shop, counted in Matomo.
  *
- * Gedacht für Links auf fremden Seiten, die gleich zum Kauf führen sollen, z. B.
- * /redirect-ticket/q/rausgegangen oder /redirect-ticket/q/studentenpartys-stuttgart.
- * Wie jede Seite funktioniert sie mit allen Kanälen: /redirect-ticket/q/<slug> leitet
- * erst auf /redirect-ticket/?utm_source=...&... weiter, diese Seite zählt den Aufruf
- * samt Kanal in Matomo und schickt den Besucher dann zum Shop. Die UTM-Parameter gehen
- * dabei an den Shop mit (aus der Adresse dieser Seite, nichts wird gespeichert), damit
- * auch der Shop den Werbeweg sieht (docs/TICKETSHOP-UTM.md).
+ * Meant for links on other websites that should lead directly to buying, e.g.
+ * /redirect-ticket/q/rausgegangen or /redirect-ticket/q/studentenpartys-stuttgart.
+ * Like every page, it works with all channels: /redirect-ticket/q/<slug> first
+ * redirects to /redirect-ticket/?utm_source=...&..., this page counts the visit
+ * including the channel in Matomo and then sends the visitor on to the shop. The UTM
+ * parameters are passed on to the shop (taken from this page's address, nothing is
+ * stored) so the shop can see the channel too (docs/TICKETSHOP-UTM.md).
  *
- * Auswertung in Matomo: Ereignis Kategorie "Ticket", Aktion "Weiterleitung", nach
- * Kampagne/Quelle aufschlüsseln. Zählt damit auch für ein Ziel auf die Kategorie "Ticket".
+ * Analysis in Matomo: event category "Ticket", action "Weiterleitung", broken down
+ * by campaign/source. This also counts towards a goal on the category "Ticket".
  *
- * Bewusst ohne das gemeinsame Layout (keine Kopf-/Fußzeile, kein Cookie-Banner):
- * Die Seite ist nur einen Augenblick zu sehen. Gleicher Aufbau wie redirect-instagram.astro.
+ * Deliberately without the shared layout (no header/footer, no cookie banner):
+ * the page is only visible for a moment. Same structure as redirect-instagram.astro.
  */
 import '../styles/global.css';
 import Analytics from '../components/Analytics.astro';
-import { analytics, analyticsAktiv, festival, ticket } from '../config';
+import { analytics, analyticsActive, festival, ticket } from '../config';
 
-const ziel = ticket.url;
-const zaehlen = {
-  aktiv: analyticsAktiv,
-  kategorie: analytics.ticketKategorie,
-  aktion: analytics.ticketWeiterleitungAktion,
+const target = ticket.url;
+const tracking = {
+  active: analyticsActive,
+  category: analytics.ticketCategory,
+  action: analytics.ticketRedirectAction,
 };
 ---
 
@@ -36,55 +36,55 @@ const zaehlen = {
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#1b1c20" />
     <meta name="robots" content="noindex" />
-    <title>Weiter zum Ticketshop – {festival.kurzname}</title>
+    <title>Weiter zum Ticketshop – {festival.shortName}</title>
     <link rel="icon" href="/logo-klein.png" type="image/png" />
-    <!-- Ohne JavaScript geht es nach 3 Sekunden trotzdem weiter (dann ohne Zählung und ohne Werbeweg). -->
-    <meta http-equiv="refresh" content={`3;url=${ziel}`} />
+    <!-- Without JavaScript the redirect still happens after 3 seconds (then without counting and without the channel). -->
+    <meta http-equiv="refresh" content={`3;url=${target}`} />
     <Analytics autoTrack={false} />
   </head>
   <body>
-    <main class="wrap prose weiter">
+    <main class="wrap prose continue">
       <img src="/logo-klein.png" alt="" width="96" height="96" />
       <p>Weiter zum <strong>Ticketshop</strong> …</p>
       <p>Falls nichts passiert:</p>
-      <a class="button button-gross" href={ziel} data-weiter-link>Zu den Tickets</a>
+      <a class="button button-large" href={target} data-continue-link>Zu den Tickets</a>
     </main>
 
-    <script is:inline define:vars={{ ziel, zaehlen }}>
-      // Werbeweg (UTM-Parameter) dieser Adresse an den Shop-Link hängen.
-      var ziel_mit_werbeweg = new URL(ziel);
-      new URLSearchParams(location.search).forEach(function (wert, name) {
-        if (name.indexOf('utm_') === 0 && !ziel_mit_werbeweg.searchParams.has(name)) {
-          ziel_mit_werbeweg.searchParams.set(name, wert);
+    <script is:inline define:vars={{ target, tracking }}>
+      // Append the channel (UTM parameters) of this address to the shop link.
+      var targetWithChannel = new URL(target);
+      new URLSearchParams(location.search).forEach(function (value, name) {
+        if (name.indexOf('utm_') === 0 && !targetWithChannel.searchParams.has(name)) {
+          targetWithChannel.searchParams.set(name, value);
         }
       });
-      var knopf = document.querySelector('[data-weiter-link]');
-      if (knopf) knopf.href = ziel_mit_werbeweg.href;
+      var button = document.querySelector('[data-continue-link]');
+      if (button) button.href = targetWithChannel.href;
 
-      // Erst zählen (Seitenaufruf und Ereignis), dann weiterleiten. Spätestens nach
-      // 1,5 Sekunden geht es weiter, auch wenn Matomo nicht antwortet oder blockiert ist.
-      // Ohne Matomo sofort.
-      var weitergeleitet = false;
-      var weiter = function () {
-        if (weitergeleitet) return;
-        weitergeleitet = true;
-        location.replace(ziel_mit_werbeweg.href);
+      // Count first (page view and event), then redirect. Redirects after 1.5 seconds
+      // at the latest, even if Matomo does not respond or is blocked.
+      // Without Matomo immediately.
+      var redirected = false;
+      var redirect = function () {
+        if (redirected) return;
+        redirected = true;
+        location.replace(targetWithChannel.href);
       };
-      if (!zaehlen.aktiv) {
-        weiter();
+      if (!tracking.active) {
+        redirect();
       } else {
         var _paq = (window._paq = window._paq || []);
         _paq.push(['trackPageView']);
-        // Letzter Wert: Matomo ruft "weiter" auf, sobald das Ereignis verschickt ist.
-        _paq.push(['trackEvent', zaehlen.kategorie, zaehlen.aktion, undefined, undefined, undefined, weiter]);
-        setTimeout(weiter, 1500);
+        // Last value: Matomo calls "redirect" as soon as the event has been sent.
+        _paq.push(['trackEvent', tracking.category, tracking.action, undefined, undefined, undefined, redirect]);
+        setTimeout(redirect, 1500);
       }
     </script>
   </body>
 </html>
 
 <style>
-  .weiter {
+  .continue {
     min-height: 100vh;
     display: flex;
     flex-direction: column;

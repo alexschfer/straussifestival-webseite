@@ -1,97 +1,99 @@
-# analytics/: Webserver und Statistik
+# analytics/: web server and analytics
 
-Ein `docker compose`-Stack mit drei Containern:
+> **Not in use:** the site currently runs on web hosting at Cloud86 with Matomo, see [deploy/PLESK.md](../deploy/PLESK.md). This folder is the alternative for an own server.
 
-| Container | Aufgabe |
+A `docker compose` stack with three containers:
+
+| Container | Job |
 | --- | --- |
-| `caddy` | HTTPS (automatisch per Let's Encrypt). Liefert unter `<domain>` die statische Webseite aus, leitet `stats.<domain>` an Umami weiter. Einziger Container mit offenen Ports. |
-| `umami` | Statistik-Software (selbst gehostet, Version festgelegt in `docker-compose.yml`). |
-| `db` | Postgres für Umami, Daten im benannten Volume `umami-db-data`. |
+| `caddy` | HTTPS (automatic via Let's Encrypt). Serves the static website at `<domain>`, forwards `stats.<domain>` to Umami. The only container with open ports. |
+| `umami` | Analytics software (self-hosted, version pinned in `docker-compose.yml`). |
+| `db` | Postgres for Umami, data in the named volume `umami-db-data`. |
 
-| Datei | Zweck |
+| File | Purpose |
 | --- | --- |
-| `docker-compose.yml` | der Stack |
-| `Caddyfile` | Routing und HTTPS |
-| `.env.example` | Vorlage für alle Einstellungen und Geheimnisse (`.env` wird nie committet) |
-| `.env.local.example` | Vorlage für den Test auf dem eigenen Rechner |
-| `backup.sh` | nächtliche Datenbanksicherung |
+| `docker-compose.yml` | the stack |
+| `Caddyfile` | routing and HTTPS |
+| `.env.example` | template for all settings and secrets (`.env` is never committed) |
+| `.env.local.example` | template for testing on your own computer |
+| `backup.sh` | nightly database backup |
 
-Die Webseite selbst (`web/dist/`) wird nicht im Container gebaut, sondern als fertige Dateien in den Ordner `site/` neben der `docker-compose.yml` gelegt. Das erledigt `deploy/deploy.sh` (siehe [deploy/README.md](../deploy/README.md)).
+The website itself (`web/dist/`) is not built in the container; it is placed as finished files in the folder `site/` next to `docker-compose.yml`. `deploy/deploy.sh` does that (see [deploy/README.md](../deploy/README.md)).
 
-## Lokal mit Docker testen
+## Testing locally with Docker
 
-Voraussetzung: Docker mit Compose. Die Ports 8080 und 8443 müssen frei sein.
+Requirement: Docker with Compose. Ports 8080 and 8443 must be free.
 
 ```sh
-# 1. Webseite bauen, mit lokalen Adressen (im Ordner web/)
+# 1. Build the website with local addresses (in the web/ folder)
 cd web
 SITE_URL=https://localhost:8443 \
 PUBLIC_UMAMI_HOST=https://stats.localhost:8443 \
-PUBLIC_UMAMI_WEBSITE_ID=platzhalter \
+PUBLIC_UMAMI_WEBSITE_ID=placeholder \
 npm run build
 
-# 2. Stack starten (im Ordner analytics/)
+# 2. Start the stack (in the analytics/ folder)
 cd ../analytics
 cp .env.local.example .env
 docker compose up -d
-docker compose ps           # nach ca. 30 Sekunden: alle "healthy"/"Up"
+docker compose ps           # after about 30 seconds: all "healthy"/"Up"
 ```
 
-> `npm run build` überschreibt dabei `docs/kanaele.md` und `docs/qr/` mit `localhost`-Adressen. Danach mit `git checkout docs/` zurücksetzen und nicht committen.
+> `npm run build` overwrites `docs/channels.md` and `docs/qr/` with `localhost` addresses. Afterwards reset them with `git checkout docs/` and do not commit them.
 
-Dann im Browser (die Warnung wegen des selbst signierten Zertifikats ist beim lokalen Test normal):
+Then in the browser (the warning about the self-signed certificate is normal for the local test):
 
-- Webseite: <https://localhost:8443/>
-- Umami: <https://stats.localhost:8443/>, Anmeldung `admin` / `umami`
-- QR-Weiterleitung: <https://localhost:8443/q/flyer>
+- Website: <https://localhost:8443/>
+- Umami: <https://stats.localhost:8443/>, login `admin` / `umami`
+- QR redirect: <https://localhost:8443/q/flyer>
 
-Ein Aufruf von `http://localhost:8080/` leitet lokal auf `https://localhost/` (ohne Port) um. Das ist nur ein Testeffekt der abweichenden Ports; auf dem Server mit 80/443 funktioniert es. Lokal einfach direkt die `https://…:8443`-Adresse öffnen.
+Opening `http://localhost:8080/` redirects locally to `https://localhost/` (without port). That is only a test artefact of the different ports; on the server with 80/443 it works. Locally, just open the `https://…:8443` address directly.
 
-Damit der Ticketklick lokal in Umami ankommt: in Umami eine Website anlegen (Einstellungen > Websites), deren ID als `PUBLIC_UMAMI_WEBSITE_ID` setzen und die Seite neu bauen. Aufräumen:
+To make the ticket click arrive in Umami locally: create a website in Umami (Settings > Websites), set its ID as `PUBLIC_UMAMI_WEBSITE_ID` and rebuild the site. Cleaning up:
 
 ```sh
-docker compose down        # stoppen, Daten bleiben
-docker compose down -v     # stoppen UND alle Daten des Tests löschen
+docker compose down        # stop, data stays
+docker compose down -v     # stop AND delete all test data
 ```
 
-## Betrieb auf dem Server
+## Running on the server
 
-Normalerweise übernimmt `deploy/deploy.sh` alles: Es kopiert diese Dateien auf die VM, legt beim ersten Mal die `.env` mit frisch erzeugten Geheimnissen an und startet den Stack (Ablauf und Voraussetzungen: [deploy/README.md](../deploy/README.md)). Von Hand geht es so: `cp .env.example .env`, Werte ausfüllen (Geheimnisse mit `openssl rand -hex 32`), `docker compose up -d`.
+Normally `deploy/deploy.sh` takes care of everything: it copies these files to the VM, creates the `.env` with freshly generated secrets on the first run and starts the stack (procedure and requirements: [deploy/README.md](../deploy/README.md)). By hand it works like this: `cp .env.example .env`, fill in the values (secrets with `openssl rand -hex 32`), `docker compose up -d`.
 
-**Sofort nach dem ersten Start:** Umami hat den Standard-Zugang `admin` / `umami`. Das Passwort ändern, bevor irgendetwas anderes passiert (Schritte: [deploy/README.md](../deploy/README.md), Abschnitt "Nach dem ersten Start").
+**Immediately after the first start:** Umami has the default login `admin` / `umami`. Change the password before anything else happens (steps: [deploy/README.md](../deploy/README.md), section "After the first start").
 
-Nützliche Befehle (im Ordner `analytics/`):
+Useful commands (in the `analytics/` folder):
 
 ```sh
-docker compose ps                  # Zustand
-docker compose logs -f umami       # Logs verfolgen
-docker compose pull && docker compose up -d    # Container aktualisieren
+docker compose ps                  # status
+docker compose logs -f umami       # follow the logs
+docker compose pull && docker compose up -d    # update the containers
 ```
 
-Umami aktualisieren: Versions-Tag in `docker-compose.yml` ändern (`ghcr.io/umami-software/umami:<version>`), vorher ein Backup machen, dann `docker compose pull && docker compose up -d`.
+Updating Umami: change the version tag in `docker-compose.yml` (`ghcr.io/umami-software/umami:<version>`), make a backup first, then `docker compose pull && docker compose up -d`.
 
-Datenschutz-Hinweis für die Datenschutzerklärung: Caddy schreibt in dieser Konfiguration keine Zugriffs-Logs. Docker-Logs der Container werden auf 3 Dateien à 10 MB begrenzt.
+Privacy note for the privacy policy: Caddy writes no access logs in this configuration. Docker logs of the containers are limited to 3 files of 10 MB each.
 
-## Backup und Wiederherstellung
+## Backup and restore
 
-`backup.sh` schreibt eine komprimierte Sicherung (`umami-<datum>_<uhrzeit>.sql.gz`) nach `analytics/backups/` und behält die letzten 14. Andere Ziele oder Anzahl: `BACKUP_DIR=/pfad KEEP=30 ./backup.sh`. Bei einem Fehler bricht das Skript mit Fehlercode ab und lässt die bisherigen Sicherungen unangetastet.
+`backup.sh` writes a compressed backup (`umami-<date>_<time>.sql.gz`) to `analytics/backups/` and keeps the last 14. Other target or number: `BACKUP_DIR=/path KEEP=30 ./backup.sh`. On error, the script aborts with an error code and leaves the existing backups untouched.
 
-Nächtlich per Cron (als root auf der VM, `crontab -e`):
+Nightly via cron (as root on the VM, `crontab -e`):
 
 ```cron
 15 3 * * * /opt/straussi/backup.sh >> /var/log/straussi-backup.log 2>&1
 ```
 
-(Den Pfad an den tatsächlichen Ort des Ordners anpassen.)
+(Adjust the path to the actual location of the folder.)
 
-**Die Sicherungen liegen auf derselben VM.** Fällt die VM aus, sind sie mit weg. Den Ordner `backups/` deshalb zusätzlich regelmäßig an einen anderen Ort kopieren (z. B. per `rsync` auf einen anderen Rechner).
+**The backups are on the same VM.** If the VM fails, they are gone with it. So also copy the `backups/` folder regularly to another place (e.g. via `rsync` to another computer).
 
-Wiederherstellen (überschreibt die aktuellen Umami-Daten):
+Restoring (overwrites the current Umami data):
 
 ```sh
 cd analytics
 docker compose stop umami
-gunzip -c backups/umami-<datum>_<uhrzeit>.sql.gz \
+gunzip -c backups/umami-<date>_<time>.sql.gz \
   | docker compose exec -T db sh -c 'psql -q -U "$POSTGRES_USER" -d "$POSTGRES_DB" -v ON_ERROR_STOP=1'
 docker compose start umami
 ```

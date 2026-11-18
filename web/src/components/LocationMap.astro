@@ -1,0 +1,47 @@
+---
+/**
+ * Map of the festival grounds (directions page): our own map image (excerpt from
+ * OpenStreetMap, file in public/anfahrt/, instructions in the README there) and buttons
+ * that open the address in Google Maps, Apple Maps or OpenStreetMap – on a phone
+ * usually straight in the map app with navigation.
+ *
+ * Deliberately NO embedded map (Google Maps, OSM tiles): it would load from third-party
+ * servers and require consent in the cookie banner. Here we only link.
+ * The attribution "© OpenStreetMap contributors" is mandatory (licence) and must stay.
+ */
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { festival, locationMap } from '../config';
+import { TEXTS, languageOf } from '../i18n';
+
+const t = TEXTS[languageOf(Astro.url)];
+
+// The server keeps images in the browser cache for 7 days. So that a new map image
+// still shows up immediately, a fingerprint of the file content is appended to the
+// address at build time (?v=...). It only changes when the image changes.
+const version = createHash('md5')
+  .update(readFileSync(`${process.cwd()}/public${locationMap.image}`))
+  .digest('hex')
+  .slice(0, 8);
+const image = `${locationMap.image}?v=${version}`;
+const address = encodeURIComponent(festival.address);
+
+const google = `https://www.google.com/maps/search/?api=1&query=${address}`;
+const apple = `https://maps.apple.com/?address=${address}&q=${encodeURIComponent(festival.name)}`;
+const osm = `https://www.openstreetmap.org/?mlat=${locationMap.latitude}&mlon=${locationMap.longitude}#map=17/${locationMap.latitude}/${locationMap.longitude}`;
+---
+
+<figure class="location-map">
+  <a href={google} target="_blank" rel="noopener">
+    <img src={image} alt={t.mapAlt} width={locationMap.width} height={locationMap.height} loading="lazy" />
+  </a>
+  <figcaption>
+    {t.mapSource}: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">{t.mapContributors}</a>
+  </figcaption>
+</figure>
+<p class="location-map-links">
+  <span>{t.mapOpen}</span>
+  <a class="button button-small" href={google} target="_blank" rel="noopener">Google Maps</a>
+  <a class="button button-small" href={apple} target="_blank" rel="noopener">{t.mapApple}</a>
+  <a class="button button-small" href={osm} target="_blank" rel="noopener">OpenStreetMap</a>
+</p>

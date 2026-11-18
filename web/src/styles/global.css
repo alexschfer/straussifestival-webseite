@@ -1,39 +1,39 @@
 /*
- * Dunkles, schlichtes Thema, mobil zuerst. Keine externen Schriften, keine Frameworks.
- * Farben und Abstände werden hier oben zentral eingestellt.
+ * Dark, plain theme, mobile first. No external fonts, no frameworks.
+ * Colors and spacing are set centrally up here.
  */
 
 :root {
-  /* Farben aus der Palette des Festivals (je 8 Stufen Pink, Grau, Gelb).
-     Kontrast nach WCAG-Formel geprüft (Fließtext braucht mindestens 4,5:1).
-     Die Palette hat keinen dunklen Ton; Hintergrund, Flächen und Linie sind
-     deshalb eigene, leicht bläuliche Dunkelstufen passend zum Palettengrau. */
-  --farbe-hintergrund: #1b1c20;
-  --farbe-flaeche: #2c2d33;
-  /* Palettengrau, dunkelste Stufe: Kacheln und runde Symbolknöpfe */
-  --farbe-flaeche-hell: #676a79;
-  --farbe-text: #eceded;
-  /* Palettengrau (#ABABAF): 7,4:1 auf dem Hintergrund, 6:1 auf den Flächen */
-  --farbe-text-leise: #ababaf;
-  /* Akzent A: Aktionsfarbe für Buttons (Ticketbutton) und den Fokusring
-     (Palettengelb, kräftigste Stufe). Bleibt bewusst von der Highlight-Farbe
-     getrennt, damit "Aktion" und "Highlight" unterscheidbar bleiben. */
-  --farbe-akzent: #f3e007;
-  /* Sehr dunkle Variante von A für Text auf gelben Flächen (11:1). */
-  --farbe-akzent-dunkel: #2a2700;
-  /* Akzent B: Highlight-Farbe für Links und hervorgehobenen Text (Palettenpink,
-     kräftigste Stufe, 4,7:1 auf dem Hintergrund). Auf den helleren Flächen
-     (Kopf-/Fußzeile) reicht das nicht, dort gilt die hellere Stufe darunter. */
-  --farbe-akzent-zwei: #ee0ce3;
-  /* Hellere Palettenstufe von B für Hover/Aktiv auf den Flächen (6:1). */
-  --farbe-akzent-zwei-hell: #f97bf3;
-  --farbe-linie: #41434b;
+  /* Colors from the festival palette (8 shades each of pink, gray, yellow).
+     Contrast checked with the WCAG formula (body text needs at least 4.5:1).
+     The palette has no dark shade; background, surfaces and line are therefore
+     our own slightly bluish dark shades matching the palette gray. */
+  --color-background: #1b1c20;
+  --color-surface: #2c2d33;
+  /* Palette gray, darkest shade: tiles and round icon buttons */
+  --color-surface-light: #676a79;
+  --color-text: #eceded;
+  /* Palette gray (#ABABAF): 7.4:1 on the background, 6:1 on the surfaces */
+  --color-text-muted: #ababaf;
+  /* Accent A: action color for buttons (ticket button) and the focus ring
+     (palette yellow, most saturated shade). Deliberately kept separate from the
+     highlight color so "action" and "highlight" stay distinguishable. */
+  --color-accent: #f3e007;
+  /* Very dark variant of A for text on yellow surfaces (11:1). */
+  --color-accent-dark: #2a2700;
+  /* Accent B: highlight color for links and emphasized text (palette pink,
+     most saturated shade, 4.7:1 on the background). Not enough on the lighter
+     surfaces (header/footer); the lighter shade below is used there. */
+  --color-accent-two: #ee0ce3;
+  /* Lighter palette shade of B for hover/active on the surfaces (6:1). */
+  --color-accent-two-light: #f97bf3;
+  --color-line: #41434b;
 
-  --breite: 46rem;
-  --breite-gross: 68rem;
-  --abstand: 1.25rem;
+  --width: 46rem;
+  --width-large: 68rem;
+  --spacing: 1.25rem;
   --radius: 1rem;
-  --radius-gross: 1.5rem;
+  --radius-large: 1.5rem;
 }
 
 *,
@@ -51,31 +51,31 @@ body {
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   font-size: 1.0625rem;
   line-height: 1.65;
-  color: var(--farbe-text);
-  background: var(--farbe-hintergrund);
+  color: var(--color-text);
+  background: var(--color-background);
 }
 
 .wrap,
-.wrap-breit {
+.wrap-wide {
   width: 100%;
   margin-inline: auto;
-  padding-inline: var(--abstand);
+  padding-inline: var(--spacing);
 }
 .wrap {
-  max-width: var(--breite);
+  max-width: var(--width);
 }
-.wrap-breit {
-  max-width: var(--breite-gross);
+.wrap-wide {
+  max-width: var(--width-large);
 }
 
 a {
-  color: var(--farbe-akzent-zwei);
+  color: var(--color-accent-two);
   text-underline-offset: 0.2em;
 }
 
 a:focus-visible,
 .button:focus-visible {
-  outline: 3px solid var(--farbe-akzent);
+  outline: 3px solid var(--color-accent);
   outline-offset: 3px;
 }
 
@@ -84,14 +84,14 @@ h2 {
   letter-spacing: -0.015em;
 }
 
-.akzent {
-  color: var(--farbe-akzent-zwei);
+.accent {
+  color: var(--color-accent-two);
 }
-/* Auf den Flächen-Panels (Kopf- und Fußzeile) hätte Akzent B zu wenig
-   Kontrast zum helleren Flächenton – dort läuft die Jahreszahl in Akzent A. */
-.header-inner .akzent,
-.footer-panel .akzent {
-  color: var(--farbe-akzent);
+/* On the surface panels (header and footer) accent B would have too little
+   contrast against the lighter surface color – the year uses accent A there. */
+.header-inner .accent,
+.footer-panel .accent {
+  color: var(--color-accent);
 }
 
 .skip {
@@ -99,21 +99,21 @@ h2 {
   left: -999px;
 }
 .skip:focus {
-  left: var(--abstand);
-  top: var(--abstand);
+  left: var(--spacing);
+  top: var(--spacing);
   z-index: 10;
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
-  background: var(--farbe-akzent);
-  color: var(--farbe-akzent-dunkel);
+  background: var(--color-accent);
+  color: var(--color-accent-dark);
 }
 
-/* Kopfzeile: volle Bildschirmbreite, bündig mit der Oberkante; Name und Ticketbutton
-   in einer Zeile, Menü darunter. Nur der Insta-Abschnitt bekommt die "eingerückte"
-   Panel-Optik, Kopf- und Fußzeile bewusst nicht. */
+/* Header: full screen width, flush with the top edge; name and ticket button
+   on one line, menu below. Only the Insta section gets the "inset" panel look,
+   header and footer deliberately don't. */
 .site-header {
-  background: var(--farbe-flaeche);
-  border-bottom: 1px solid var(--farbe-linie);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-line);
 }
 .header-inner {
   display: flex;
@@ -122,15 +122,15 @@ h2 {
   justify-content: space-between;
   gap: 0.25rem 1rem;
   width: 100%;
-  max-width: var(--breite-gross);
+  max-width: var(--width-large);
   margin-inline: auto;
-  padding: 0.9rem var(--abstand);
+  padding: 0.9rem var(--spacing);
 }
 .brand {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  color: var(--farbe-text);
+  color: var(--color-text);
   font-weight: 700;
   font-size: 1.1rem;
   text-decoration: none;
@@ -138,21 +138,21 @@ h2 {
 .brand img {
   display: block;
 }
-/* Sprachumschalter (DE/EN) als letzter Punkt im Hauptmenü */
-.site-header nav a.sprachwahl {
+/* Language switch (DE/EN) as the last item in the main menu */
+.site-header nav a.language-switch {
   display: inline-block;
   padding: 0.15rem 0.6rem;
-  border: 1px solid var(--farbe-linie);
+  border: 1px solid var(--color-line);
   border-radius: 999px;
-  color: var(--farbe-text-leise);
+  color: var(--color-text-muted);
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-decoration: none;
 }
-.site-header nav a.sprachwahl:hover {
-  border-color: var(--farbe-akzent-zwei-hell);
-  color: var(--farbe-akzent-zwei-hell);
+.site-header nav a.language-switch:hover {
+  border-color: var(--color-accent-two-light);
+  color: var(--color-accent-two-light);
 }
 
 ul {
@@ -172,14 +172,14 @@ ul {
 .site-header nav a {
   display: inline-block;
   padding: 0.35rem 0;
-  color: var(--farbe-text-leise);
+  color: var(--color-text-muted);
   text-decoration: none;
 }
 .site-header nav a:hover {
-  color: var(--farbe-akzent-zwei-hell);
+  color: var(--color-accent-two-light);
 }
 .site-header nav a[aria-current='page'] {
-  color: var(--farbe-akzent-zwei-hell);
+  color: var(--color-accent-two-light);
   font-weight: 600;
   text-decoration: underline;
 }
@@ -189,8 +189,8 @@ ul {
   display: inline-block;
   padding: 0.7rem 1.4rem;
   border-radius: 999px;
-  background: var(--farbe-akzent);
-  color: var(--farbe-akzent-dunkel);
+  background: var(--color-accent);
+  color: var(--color-accent-dark);
   font-weight: 700;
   text-align: center;
   text-decoration: none;
@@ -198,36 +198,36 @@ ul {
     box-shadow 0.15s ease,
     transform 0.15s ease;
 }
-/* Bewusst kein filter: brightness() mehr – das hellte den Button samt Text
-   gleichermaßen auf und ließ die Schrift auf dem hellen Gold verwaschen
-   wirken. Schatten und ein leichtes Anheben ändern keine Farben, der
-   Kontrast zwischen Text und Fläche bleibt beim Hover exakt gleich. */
+/* Deliberately no filter: brightness() anymore – it brightened the button and
+   its text alike and made the text look washed out on the light gold.
+   Shadow and a slight lift change no colors; the contrast between text
+   and surface stays exactly the same on hover. */
 .button:hover {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
   transform: translateY(-1px);
 }
-/* Knöpfe als <button> (z. B. im Cookie-Banner) sehen aus wie Link-Knöpfe */
+/* Buttons as <button> (e.g. in the cookie banner) look like link buttons */
 button.button {
   border: 0;
   font: inherit;
   font-weight: 700;
   cursor: pointer;
 }
-/* Das hidden-Attribut muss auch gegen display-Regeln wie grid/flex gewinnen
-   (Cookie-Banner, Kacheln beim Einblenden des Instagram-Feeds). */
+/* The hidden attribute must also win against display rules like grid/flex
+   (cookie banner, tiles when the Instagram feed is shown). */
 [hidden] {
   display: none !important;
 }
-.button-klein {
+.button-small {
   padding: 0.35rem 1rem;
   font-size: 0.95rem;
 }
-.button-gross {
+.button-large {
   padding: 1rem 2.2rem;
   font-size: 1.2rem;
 }
 
-/* Startseiten-Kopf: Fotocollage als Hintergrund, Verlauf-Overlay für Lesbarkeit */
+/* Home page hero: photo collage as background, gradient overlay for readability */
 .hero {
   position: relative;
   isolation: isolate;
@@ -238,33 +238,33 @@ button.button {
   padding-block: 6rem 2.5rem;
   text-align: center;
 }
-.hero-fotos {
+.hero-photos {
   position: absolute;
-  /* Puffer oben/unten größer als der stärkste Parallax-Faktor (0.26), sonst
-     würde bei starkem Scrollen der Hintergrund am Rand der Fotos durchschimmern. */
+  /* Top/bottom buffer larger than the strongest parallax factor (0.26), otherwise
+     the background would show through at the edge of the photos when scrolling hard. */
   inset: -32% 0;
   z-index: -2;
   display: flex;
 }
-.hero-foto {
+.hero-photo {
   flex: 1 1 0;
   overflow: hidden;
 }
-.hero-foto img {
+.hero-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-.hero-verlauf {
+.hero-gradient {
   position: absolute;
   inset: 0;
   z-index: -1;
   background: linear-gradient(180deg, rgba(27, 28, 32, 0.55) 0%, rgba(27, 28, 32, 0.72) 55%, rgba(27, 28, 32, 0.94) 100%);
 }
 .hero-logo {
-  /* min(): auf schmalen Bildschirmen bis zur verfügbaren Breite schrumpfen,
-     statt über den Rand zu laufen. */
+  /* min(): shrink to the available width on narrow screens
+     instead of overflowing the edge. */
   width: min(24.75rem, 100%);
   height: auto;
   margin: 0 auto 1.25rem;
@@ -277,23 +277,23 @@ button.button {
 }
 .hero-facts {
   margin: 0 0 1.75rem;
-  color: var(--farbe-text-leise);
+  color: var(--color-text-muted);
   font-size: 1.1rem;
 }
 .hero .button {
   width: 100%;
 }
 
-/* Countdown-Abschnitt auf der Startseite */
-.abschnitt-countdown {
-  padding: 0 var(--abstand) 3rem;
+/* Countdown section on the home page */
+.countdown-section {
+  padding: 0 var(--spacing) 3rem;
 }
 .countdown-panel {
-  max-width: var(--breite-gross);
+  max-width: var(--width-large);
   margin-inline: auto;
-  /* Kein horizontales Innenpolster mehr: .abschnitt-countdown polstert schon
-     seitlich, ein zweites Mal hier hätte .countdown-felder schmaler gemacht
-     als .insta-panel (siehe Kommentar dort). */
+  /* No horizontal padding anymore: .countdown-section already pads the
+     sides; padding a second time here would make .countdown-fields narrower
+     than .insta-panel (see comment there). */
   padding: 1rem 0 0;
   text-align: center;
 }
@@ -302,25 +302,25 @@ button.button {
   font-size: clamp(1.8rem, 8vw, 3rem);
   line-height: 1.15;
 }
-/* Zweifarbige Kacheln (Zahl oben, Label unten) nach dem Vorbild der
-   Fusion-Festival-Archivseite – hier in unseren Farben und unserer Systemschrift. */
-.countdown-felder {
+/* Two-tone tiles (number on top, label below) modeled on the
+   Fusion Festival archive page – here in our colors and our system font. */
+.countdown-fields {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
   max-width: 34rem;
   margin-inline: auto;
 }
-.countdown-feld {
+.countdown-field {
   display: flex;
   flex-direction: column;
   border-radius: var(--radius);
   overflow: hidden;
 }
-.countdown-zahl {
+.countdown-number {
   padding: 1.9rem 0.5rem 1rem;
-  background: var(--farbe-akzent);
-  color: var(--farbe-akzent-dunkel);
+  background: var(--color-accent);
+  color: var(--color-accent-dark);
   font-size: clamp(3.8rem, 17vw, 6.5rem);
   font-weight: 800;
   line-height: 1;
@@ -328,36 +328,36 @@ button.button {
 }
 .countdown-label {
   padding: 0.6rem 0.5rem;
-  background: var(--farbe-akzent-dunkel);
-  color: var(--farbe-akzent);
+  background: var(--color-accent-dark);
+  color: var(--color-accent);
   font-size: clamp(0.8rem, 2.8vw, 1rem);
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
-.countdown-vorbei {
+.countdown-over {
   margin: 0;
   font-size: 1.2rem;
   font-weight: 600;
 }
 
-/* Knopf "In den Kalender eintragen" (KalenderButton.astro): aufklappbar ohne JavaScript.
-   Steht mittig unter dem Countdown auf der Startseite. */
-.kalender {
+/* "Add to calendar" button (CalendarButton.astro): expandable without JavaScript.
+   Centered below the countdown on the home page. */
+.calendar {
   margin: 1.5rem 0;
 }
-.abschnitt-countdown .kalender {
+.countdown-section .calendar {
   margin-top: 2rem;
 }
-.kalender summary {
+.calendar summary {
   cursor: pointer;
   list-style: none;
 }
-.kalender summary::-webkit-details-marker {
+.calendar summary::-webkit-details-marker {
   display: none;
 }
-.kalender-auswahl,
-.prose .kalender-auswahl {
+.calendar-options,
+.prose .calendar-options {
   display: inline-flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -365,60 +365,60 @@ button.button {
   padding: 0.5rem;
   list-style: none;
   border-radius: var(--radius);
-  background: var(--farbe-flaeche);
+  background: var(--color-surface);
   text-align: left;
 }
-.abschnitt-countdown .kalender-auswahl {
+.countdown-section .calendar-options {
   display: flex;
   max-width: 22rem;
   margin-inline: auto;
 }
-.prose .kalender-auswahl li {
+.prose .calendar-options li {
   margin: 0;
 }
-/* Auf der Fläche reicht das kräftige Pink nicht (siehe Variablen oben), deshalb Textfarbe
-   und beim Hover die hellere Pink-Stufe wie in Kopf- und Fußzeile. */
-.kalender-auswahl a {
+/* The saturated pink isn't enough on the surface (see variables above), so text color,
+   and on hover the lighter pink shade as in header and footer. */
+.calendar-options a {
   display: block;
   padding: 0.6rem 0.9rem;
   border-radius: calc(var(--radius) - 0.4rem);
-  color: var(--farbe-text);
+  color: var(--color-text);
   font-weight: 600;
   text-decoration: none;
 }
-.kalender-auswahl a:hover,
-.kalender-auswahl a:focus-visible {
-  background: var(--farbe-hintergrund);
-  color: var(--farbe-akzent-zwei-hell);
+.calendar-options a:hover,
+.calendar-options a:focus-visible {
+  background: var(--color-background);
+  color: var(--color-accent-two-light);
 }
 
-/* Karte auf der Anfahrt-Seite (Karte.astro): eigenes Bild, darunter Knöpfe zu den Karten-Apps */
-.karte {
+/* Map on the directions page (LocationMap.astro): own image, below it buttons to the map apps */
+.location-map {
   margin: 1.5rem 0 0;
 }
-.karte img {
+.location-map img {
   display: block;
   width: 100%;
   height: auto;
   border-radius: var(--radius);
 }
-.karte figcaption {
+.location-map figcaption {
   margin-top: 0.4rem;
-  color: var(--farbe-text-leise);
+  color: var(--color-text-muted);
   font-size: 0.8rem;
 }
-.karte-links {
+.location-map-links {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
 }
-.karte-links span {
+.location-map-links span {
   margin-right: 0.25rem;
-  color: var(--farbe-text-leise);
+  color: var(--color-text-muted);
 }
 
-/* Seiteninhalt (Texte, Überschriften, Listen) */
+/* Page content (text, headings, lists) */
 .prose {
   padding-block: 1rem 3rem;
 }
@@ -439,24 +439,24 @@ button.button {
   font-size: 1.1rem;
   line-height: 1.35;
 }
-/* Festival-ABC auf der FAQ-Seite: Stichwort (dt) über kurzem Text (dd) */
+/* Festival ABC on the FAQ page: keyword (dt) above short text (dd) */
 .prose .abc dt {
   margin-top: 1.1rem;
   font-weight: 700;
-  color: var(--farbe-akzent-zwei);
+  color: var(--color-accent-two);
 }
 .prose .abc dd {
   margin: 0.2rem 0 0;
 }
-/* FAQ: jede Frage zum Aufklappen (<details class="faq-frage"> in faq.astro, ohne JavaScript).
-   Zeile mit Trennlinie, rechts ein Plus bzw. Minus in der Aktionsfarbe. */
-.prose .faq-frage {
-  border-bottom: 1px solid var(--farbe-linie);
+/* FAQ: every question is expandable (<details class="faq-question"> in faq.astro, no JavaScript).
+   Row with a divider line, plus or minus on the right in the action color. */
+.prose .faq-question {
+  border-bottom: 1px solid var(--color-line);
 }
-.prose h2 + .faq-frage {
-  border-top: 1px solid var(--farbe-linie);
+.prose h2 + .faq-question {
+  border-top: 1px solid var(--color-line);
 }
-.prose .faq-frage summary {
+.prose .faq-question summary {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -467,48 +467,48 @@ button.button {
   list-style: none;
   cursor: pointer;
 }
-.prose .faq-frage summary::-webkit-details-marker {
+.prose .faq-question summary::-webkit-details-marker {
   display: none;
 }
-.prose .faq-frage summary::after {
+.prose .faq-question summary::after {
   content: '+';
   flex-shrink: 0;
-  color: var(--farbe-akzent);
+  color: var(--color-accent);
   font-size: 1.4rem;
   line-height: 1;
 }
-.prose .faq-frage[open] summary::after {
+.prose .faq-question[open] summary::after {
   content: '−';
 }
-.prose .faq-frage summary:hover {
-  color: var(--farbe-akzent-zwei);
+.prose .faq-question summary:hover {
+  color: var(--color-accent-two);
 }
-.prose .faq-frage summary:focus-visible {
-  outline: 3px solid var(--farbe-akzent);
+.prose .faq-question summary:focus-visible {
+  outline: 3px solid var(--color-accent);
   outline-offset: 3px;
 }
-.prose .faq-frage p {
+.prose .faq-question p {
   margin: 0 0 1rem;
 }
 
-/* Sprungziele der Buchstabenleiste: Platz lassen, damit die Leiste das Stichwort nicht verdeckt */
+/* Jump targets of the letter bar: leave room so the bar doesn't cover the keyword */
 .prose .abc dt[id] {
   scroll-margin-top: 4.5rem;
 }
 
-/* Buchstabenleiste über dem Festival-ABC (components/FestivalAbc.astro). Bleibt beim
-   Scrollen durch das ABC oben stehen. Mobil eine Zeile zum Wischen statt drei Zeilen,
-   die sonst beim Scrollen viel Platz verdecken würden. */
-.prose .abc-leiste {
+/* Letter bar above the festival ABC (components/FestivalAbc.astro). Stays at the top
+   while scrolling through the ABC. On mobile a single swipeable row instead of three rows,
+   which would otherwise cover a lot of space while scrolling. */
+.prose .abc-bar {
   position: sticky;
   top: 0;
   z-index: 5;
-  margin: 1rem calc(-1 * var(--abstand)) 0;
-  padding: 0.5rem var(--abstand);
-  background: var(--farbe-hintergrund);
-  border-bottom: 1px solid var(--farbe-linie);
+  margin: 1rem calc(-1 * var(--spacing)) 0;
+  padding: 0.5rem var(--spacing);
+  background: var(--color-background);
+  border-bottom: 1px solid var(--color-line);
 }
-.prose .abc-leiste ul {
+.prose .abc-bar ul {
   display: flex;
   gap: 0.25rem;
   margin: 0;
@@ -517,12 +517,12 @@ button.button {
   overflow-x: auto;
   scrollbar-width: none;
 }
-.prose .abc-leiste li {
+.prose .abc-bar li {
   margin: 0;
   flex-shrink: 0;
 }
-.prose .abc-leiste a,
-.prose .abc-leiste span {
+.prose .abc-bar a,
+.prose .abc-bar span {
   display: grid;
   place-items: center;
   width: 2.25rem;
@@ -531,34 +531,34 @@ button.button {
   font-weight: 700;
   text-decoration: none;
 }
-.prose .abc-leiste a {
-  background: var(--farbe-flaeche);
-  color: var(--farbe-akzent);
+.prose .abc-bar a {
+  background: var(--color-surface);
+  color: var(--color-accent);
 }
-.prose .abc-leiste a:hover {
-  background: var(--farbe-akzent);
-  color: var(--farbe-akzent-dunkel);
+.prose .abc-bar a:hover {
+  background: var(--color-accent);
+  color: var(--color-accent-dark);
 }
-/* Buchstaben ohne Eintrag: ausgegraut, kein Link */
-.prose .abc-leiste span {
-  color: var(--farbe-text-leise);
+/* Letters without an entry: grayed out, no link */
+.prose .abc-bar span {
+  color: var(--color-text-muted);
   opacity: 0.4;
 }
-/* Ab Tablet passen alle 26 Buchstaben etwas kleiner in eine Zeile */
+/* From tablet width all 26 letters fit, slightly smaller, on one row */
 @media (min-width: 48rem) {
-  .prose .abc-leiste ul {
+  .prose .abc-bar ul {
     justify-content: space-between;
     gap: 0;
     overflow-x: visible;
   }
-  .prose .abc-leiste a,
-  .prose .abc-leiste span {
+  .prose .abc-bar a,
+  .prose .abc-bar span {
     width: 1.6rem;
     height: 1.6rem;
     font-size: 0.9rem;
   }
 }
-/* Sanftes Springen zu den Ankern, nur ohne reduzierte Bewegung */
+/* Smooth jumping to anchors, only without reduced motion */
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
@@ -577,32 +577,32 @@ button.button {
   border-radius: var(--radius);
 }
 .prose strong {
-  color: var(--farbe-akzent-zwei);
+  color: var(--color-accent-two);
 }
 
-/* Instagram-/TikTok-Abschnitt auf der Startseite, nach dem Vorbild von
-   ricola.com/de-de (Abschnitt "Stay in the Loop"): ein vollflächiges,
-   abgerundetes Farbfeld in der Aktionsfarbe mit Überschrift, Text und
-   Profil-Knöpfen, darunter ein versetztes Kachelraster, das bewusst über
-   den unteren Rand des Farbfelds hinausragt. */
+/* Instagram/TikTok section on the home page, modeled on
+   ricola.com/de-de (section "Stay in the Loop"): a full-width,
+   rounded color panel in the action color with heading, text and
+   profile buttons, below it a staggered tile grid that deliberately
+   sticks out over the bottom edge of the color panel. */
 .insta {
-  padding: 0 var(--abstand) 3rem;
+  padding: 0 var(--spacing) 3rem;
 }
-/* Genau so breit wie .countdown-felder (linker/rechter Rand auf gleicher
-   Höhe wie beim Countdown), und damit schmaler als .insta-kacheln
-   (max-width dort ohne Abzug) – dadurch ragen die äußeren Kacheln links
-   und rechts über den Rand des Farbfelds hinaus, wie bei ricola.com/de-de. */
+/* Exactly as wide as .countdown-fields (left/right edge aligned with the
+   countdown), and therefore narrower than .insta-tiles (max-width there
+   without deduction) – so the outer tiles stick out over the left and
+   right edge of the color panel, as on ricola.com/de-de. */
 .insta-panel {
   max-width: 34rem;
   margin-inline: auto;
   padding: 3rem 1.25rem 5rem;
-  border-radius: var(--radius-gross);
-  background: var(--farbe-akzent);
-  color: var(--farbe-akzent-dunkel);
+  border-radius: var(--radius-large);
+  background: var(--color-accent);
+  color: var(--color-accent-dark);
   text-align: center;
 }
-/* Ohne Fotos gibt es keine Kacheln, die unten ins Farbfeld ragen: kein Extra-Platz nötig. */
-.insta-ohne-kacheln .insta-panel {
+/* Without photos there are no tiles reaching into the bottom of the color panel: no extra space needed. */
+.insta-no-tiles .insta-panel {
   padding-bottom: 3rem;
 }
 .insta-panel h2 {
@@ -619,7 +619,7 @@ button.button {
   justify-content: center;
   gap: 0.75rem;
 }
-/* Reine Icon-Knöpfe wie bei Ricola (Profilname steht nur im aria-label). */
+/* Icon-only buttons as on Ricola (the profile name is only in the aria-label). */
 .insta-link {
   display: inline-flex;
   align-items: center;
@@ -627,8 +627,8 @@ button.button {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  background: var(--farbe-akzent-dunkel);
-  color: var(--farbe-akzent);
+  background: var(--color-accent-dark);
+  color: var(--color-accent);
   text-decoration: none;
   transition: transform 0.15s ease;
 }
@@ -636,57 +636,57 @@ button.button {
   transform: scale(1.08);
 }
 
-/* Kachelraster: zieht sich per negativem Rand über den unteren Panelrand,
-   damit die hohen Kacheln wie bei Ricola sichtbar herausragen. Gerade und
-   ungerade Kacheln sind gegeneinander versetzt (Zickzack-Optik). */
-.insta-kacheln {
+/* Tile grid: pulled over the bottom panel edge with a negative margin
+   so the tall tiles visibly stick out, as on Ricola. Even and odd
+   tiles are offset against each other (zigzag look). */
+.insta-tiles {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
-  max-width: var(--breite-gross);
+  max-width: var(--width-large);
   margin: -3rem auto 0;
 }
-.insta-kachel {
+.insta-tile {
   aspect-ratio: 3 / 4;
   border-radius: var(--radius);
-  background: var(--farbe-flaeche-hell);
+  background: var(--color-surface-light);
   overflow: hidden;
 }
-.insta-kachel:nth-child(odd) {
+.insta-tile:nth-child(odd) {
   margin-top: 2.5rem;
 }
-.insta-kachel:nth-child(even) {
+.insta-tile:nth-child(even) {
   margin-bottom: 2.5rem;
 }
-/* Mobil/Tablet zeigt die Dreierreihe nur die mittleren Kacheln (kein
-   angeschnittener zweiter Reihenrest); ab der Fünferreihe sind alle da. */
+/* On mobile/tablet the row of three shows only the middle tiles (no
+   cut-off remainder of a second row); from the row of five on, all are shown. */
 @media (max-width: 39.99rem) {
-  .insta-kachel:first-child,
-  .insta-kachel:last-child {
+  .insta-tile:first-child,
+  .insta-tile:last-child {
     display: none;
   }
 }
-/* Leichte Nachzieh-Animation: gerade und ungerade Kacheln verschieben sich
-   beim Scrollen unterschiedlich schnell (siehe Skript in InstaAbschnitt.astro).
-   Nur ohne reduzierte Bewegung, sonst bleiben die Kacheln an ihrem Platz. */
+/* Slight trailing animation: even and odd tiles move at different speeds
+   while scrolling (see script in InstaSection.astro).
+   Only without reduced motion, otherwise the tiles stay in place. */
 @media (prefers-reduced-motion: no-preference) {
-  .insta-kachel:nth-child(odd) {
-    transform: translateY(calc(var(--insta-fortschritt, 0) * -6%));
+  .insta-tile:nth-child(odd) {
+    transform: translateY(calc(var(--insta-progress, 0) * -6%));
   }
-  .insta-kachel:nth-child(even) {
-    transform: translateY(calc(var(--insta-fortschritt, 0) * -12%));
+  .insta-tile:nth-child(even) {
+    transform: translateY(calc(var(--insta-progress, 0) * -12%));
   }
 }
-.insta-kachel img {
+.insta-tile img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-/* Echter Instagram-Feed (Widget, nur nach Zustimmung, siehe InstaAbschnitt.astro).
-   Der Rahmen zieht sich wie die Kacheln über den unteren Rand des Farbfelds. */
+/* Real Instagram feed (widget, only after consent, see InstaSection.astro).
+   Like the tiles, the frame extends over the bottom edge of the color panel. */
 .insta-feed {
-  max-width: var(--breite-gross);
+  max-width: var(--width-large);
   margin-inline: auto;
 }
 .insta-feed iframe {
@@ -696,35 +696,35 @@ button.button {
   border: 0;
   border-radius: var(--radius);
 }
-.insta-feed-hinweis {
+.insta-feed-notice {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
   margin: 1.5rem auto 0;
-  max-width: var(--breite);
-  color: var(--farbe-text-leise);
+  max-width: var(--width);
+  color: var(--color-text-muted);
   text-align: center;
 }
 
-/* Cookie-Banner (nur wenn ein Instagram-Widget eingetragen ist) */
+/* Cookie banner (only shown when bannerActive in config.ts is true) */
 .cookie-banner {
   position: fixed;
   inset-inline: 0;
   bottom: 0;
   z-index: 100;
-  padding: var(--abstand);
+  padding: var(--spacing);
 }
 .cookie-inner {
-  max-width: var(--breite);
+  max-width: var(--width);
   margin-inline: auto;
   padding: 1.25rem;
-  border: 1px solid var(--farbe-linie);
-  border-radius: var(--radius-gross);
-  background: var(--farbe-flaeche);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-large);
+  background: var(--color-surface);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
-.cookie-titel {
+.cookie-title {
   margin: 0 0 0.4rem;
   font-weight: 700;
 }
@@ -732,103 +732,103 @@ button.button {
   margin: 0 0 1rem;
   font-size: 0.95rem;
 }
-/* Gelb statt Pink: auf der Fläche hätte das kräftige Pink zu wenig Kontrast (siehe Variablen oben) */
+/* Yellow instead of pink: the saturated pink would have too little contrast on the surface (see variables above) */
 .cookie-text a {
-  color: var(--farbe-akzent);
+  color: var(--color-accent);
 }
-.cookie-knoepfe {
+.cookie-buttons {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 0.75rem;
 }
-/* Beide Knöpfe gleich groß (Ablehnen muss so leicht sein wie Akzeptieren) */
-.cookie-knoepfe .button {
-  border: 2px solid var(--farbe-akzent);
+/* Both buttons the same size (declining must be as easy as accepting) */
+.cookie-buttons .button {
+  border: 2px solid var(--color-accent);
 }
-.cookie-knoepfe .cookie-ablehnen {
+.cookie-buttons .cookie-decline {
   background: transparent;
-  color: var(--farbe-akzent);
+  color: var(--color-accent);
 }
-.insta-platzhalter {
+.insta-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
-  /* farbe-text statt farbe-text-leise: auf --farbe-flaeche-hell (Kachel-
-     Hintergrund) reicht der Kontrast von text-leise sonst nicht aus. */
-  color: var(--farbe-text);
+  /* --color-text instead of --color-text-muted: on --color-surface-light (tile
+     background) the contrast of the muted text would not be enough. */
+  color: var(--color-text);
   font-size: 0.9rem;
 }
 
-/* Fußzeile: volle Bildschirmbreite, bündig mit der Unterkante. Oben Spalten mit
-   Links, unten die schmale Leiste mit Rechtlichem. */
+/* Footer: full screen width, flush with the bottom edge. Columns with links on
+   top, the narrow bar with the legal links below. */
 .site-footer {
-  background: var(--farbe-flaeche);
-  border-top: 1px solid var(--farbe-linie);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-line);
 }
 .footer-panel {
-  max-width: var(--breite-gross);
+  max-width: var(--width-large);
   margin-inline: auto;
-  padding: 2.5rem var(--abstand) 1.75rem;
+  padding: 2.5rem var(--spacing) 1.75rem;
   font-size: 0.95rem;
 }
-.footer-spalten {
+.footer-columns {
   display: grid;
   gap: 2rem;
 }
-.footer-spalte h2 {
+.footer-column h2 {
   margin: 0 0 0.6rem;
   font-size: 1rem;
   font-weight: 700;
 }
-.footer-spalte-text {
+.footer-column-text {
   margin: 0 0 0.8rem;
-  color: var(--farbe-text-leise);
+  color: var(--color-text-muted);
 }
-.footer-spalte ul {
+.footer-column ul {
   display: block;
 }
-.footer-spalte li {
+.footer-column li {
   margin-block: 0.35rem;
 }
-/* Kontakt-Spalte: kleine Überschrift (Acts, Sponsoring) über der jeweiligen Adresse */
-.footer-kontakt li + li {
+/* Contact column: small heading (Acts, Sponsoring) above each address */
+.footer-contact li + li {
   margin-top: 0.7rem;
 }
-.footer-kontakt span {
+.footer-contact span {
   display: block;
-  color: var(--farbe-text);
+  color: var(--color-text);
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
-.footer-kontakt a {
+.footer-contact a {
   overflow-wrap: anywhere;
 }
-.footer-spalte a {
-  color: var(--farbe-text-leise);
+.footer-column a {
+  color: var(--color-text-muted);
   text-decoration: none;
 }
-.footer-spalte a:hover {
-  color: var(--farbe-akzent-zwei-hell);
+.footer-column a:hover {
+  color: var(--color-accent-two-light);
   text-decoration: underline;
 }
-/* Links mitten im Fußzeilen-Text (z. B. "Ticketpartner") unterstreichen, sonst sehen sie
-   aus wie normaler Text. Die Menülinks der Spalte bleiben ohne Unterstrich. */
-.footer-spalte-text a {
+/* Underline links within the footer text (e.g. "Ticketpartner"), otherwise they look
+   like normal text. The column's menu links stay without underline. */
+.footer-column-text a {
   text-decoration: underline;
 }
-/* Menüpunkte von Seiten, die noch nicht fertig sind (bald: true in Base.astro):
-   ausgegraut, kein Link. */
-.menue-bald {
+/* Menu items of pages that aren't finished yet (soon: true in Base.astro):
+   grayed out, no link. */
+.menu-soon {
   display: inline-block;
   padding: 0.35rem 0;
-  color: var(--farbe-text-leise);
+  color: var(--color-text-muted);
   opacity: 0.55;
   cursor: default;
 }
-.menue-bald small {
+.menu-soon small {
   margin-left: 0.2em;
   padding: 0.05em 0.45em;
   border: 1px solid currentColor;
@@ -838,11 +838,11 @@ button.button {
   letter-spacing: 0.05em;
   vertical-align: 0.15em;
 }
-.footer-spalte .menue-bald {
+.footer-column .menu-soon {
   padding: 0;
 }
 
-/* Runde Knöpfe für die Social-Media-Symbole */
+/* Round buttons for the social media icons */
 .footer-icons {
   display: flex;
   gap: 0.6rem;
@@ -853,38 +853,38 @@ button.button {
   justify-content: center;
   width: 2.5rem;
   height: 2.5rem;
-  border: 1px solid var(--farbe-linie);
+  border: 1px solid var(--color-line);
   border-radius: 50%;
-  background: var(--farbe-flaeche-hell);
-  color: var(--farbe-text);
+  background: var(--color-surface-light);
+  color: var(--color-text);
 }
 .footer-icon:hover {
-  border-color: var(--farbe-akzent);
-  color: var(--farbe-akzent);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
 }
-.footer-spalte .button {
-  color: var(--farbe-akzent-dunkel);
+.footer-column .button {
+  color: var(--color-accent-dark);
   text-decoration: none;
 }
-/* Höhere Spezifität als ".footer-spalte a:hover" (sonst gewinnt dessen Hover-Farbe
-   und der Text verschwindet auf dem gleichfarbigen Button – genau das war der Bug). */
-.footer-spalte .button:hover {
-  color: var(--farbe-akzent-dunkel);
+/* Higher specificity than ".footer-column a:hover" (otherwise its hover color wins
+   and the text disappears on the same-colored button – that was exactly the bug). */
+.footer-column .button:hover {
+  color: var(--color-accent-dark);
 }
 
-/* Ausgegrauter Ticketbutton, solange es noch keine Ticket-URL gibt (TicketButton.astro).
-   Gleiche Optik wie die "bald"-Punkte im Menü. Doppelte Klasse bzw. .footer-spalte davor,
-   damit die Regeln oben (auch :hover) hier nicht greifen. */
-.button.button-aus,
-.footer-spalte .button.button-aus {
+/* Grayed-out ticket button as long as there is no ticket URL yet (TicketButton.astro).
+   Same look as the "soon" items in the menu. Double class or .footer-column in front
+   so the rules above (including :hover) don't apply here. */
+.button.button-disabled,
+.footer-column .button.button-disabled {
   background: transparent;
-  color: var(--farbe-text-leise);
-  box-shadow: inset 0 0 0 1px var(--farbe-linie);
+  color: var(--color-text-muted);
+  box-shadow: inset 0 0 0 1px var(--color-line);
   opacity: 0.7;
   cursor: default;
   transform: none;
 }
-.button-aus small {
+.button-disabled small {
   margin-left: 0.2em;
   padding: 0.05em 0.45em;
   border: 1px solid currentColor;
@@ -896,15 +896,15 @@ button.button {
   vertical-align: 0.15em;
 }
 
-.footer-unten {
+.footer-bottom {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin-top: 2rem;
   padding-top: 1.25rem;
-  border-top: 1px solid var(--farbe-linie);
+  border-top: 1px solid var(--color-line);
 }
-.footer-marke {
+.footer-brand {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -918,35 +918,35 @@ button.button {
   font-weight: 700;
   font-size: 1.05rem;
 }
-.footer-veranstalter,
+.footer-organizer,
 .footer-copyright {
   margin: 0.15rem 0 0;
-  color: var(--farbe-text-leise);
+  color: var(--color-text-muted);
   font-size: 0.9rem;
 }
-.footer-recht {
+.footer-legal {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem 1.2rem;
 }
-.footer-recht ul {
+.footer-legal ul {
   display: flex;
   flex-wrap: wrap;
   gap: 0 1.2rem;
 }
-.footer-recht a {
-  color: var(--farbe-text-leise);
+.footer-legal a {
+  color: var(--color-text-muted);
   font-size: 0.9rem;
   text-decoration: none;
 }
-.footer-recht a:hover {
-  color: var(--farbe-akzent);
+.footer-legal a:hover {
+  color: var(--color-accent);
   text-decoration: underline;
 }
 
 @media (min-width: 40rem) {
-  /* Reihenfolge im Kopf: Name, Menü (mit Sprachumschalter am Ende), Ticketbutton ganz rechts. */
+  /* Order in the header: name, menu (with language switch at the end), ticket button far right. */
   .site-header nav {
     order: 1;
     margin-left: auto;
@@ -963,7 +963,7 @@ button.button {
   .site-header nav {
     flex-basis: auto;
   }
-  .countdown-felder {
+  .countdown-fields {
     grid-template-columns: repeat(4, 1fr);
     gap: 1.25rem;
     max-width: 64rem;
@@ -972,48 +972,48 @@ button.button {
     max-width: 64rem;
     padding: 4rem 2rem 8rem;
   }
-  .insta-kacheln {
+  .insta-tiles {
     grid-template-columns: repeat(5, 1fr);
     gap: 1.25rem;
     margin-top: -6.5rem;
   }
-  .insta-ohne-kacheln .insta-panel {
+  .insta-no-tiles .insta-panel {
     padding-bottom: 4rem;
   }
-  .insta-kachel:nth-child(odd) {
+  .insta-tile:nth-child(odd) {
     margin-top: 4rem;
   }
-  .insta-kachel:nth-child(even) {
+  .insta-tile:nth-child(even) {
     margin-bottom: 4rem;
   }
   .footer-panel {
     padding: 2.5rem 2rem 1.75rem;
   }
-  .footer-spalten {
+  .footer-columns {
     grid-template-columns: repeat(4, 1fr);
     gap: 2rem 1.5rem;
   }
-  .footer-unten {
+  .footer-bottom {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
   }
 }
 
-/* Sanftes Einblenden von Abschnitten beim Scrollen (siehe IntersectionObserver in index.astro).
-   Der ausgeblendete Ausgangszustand steht bewusst nur hinter prefers-reduced-motion: no-preference –
-   wer reduzierte Bewegung eingestellt hat, sieht die Inhalte immer direkt. */
+/* Gentle fade-in of sections while scrolling (see IntersectionObserver in HomePage.astro).
+   The hidden initial state is deliberately only behind prefers-reduced-motion: no-preference –
+   anyone with reduced motion enabled always sees the content right away. */
 @media (prefers-reduced-motion: no-preference) {
-  /* Nur wenn das Skript läuft (es setzt .einblenden-aktiv am <html>). Ohne Skript
-     bliebe sonst alles zwischen Kopf- und Fußzeile unsichtbar. */
-  .einblenden-aktiv .einblenden {
+  /* Only when the script runs (it sets .fade-in-active on <html>). Without the script
+     everything between header and footer would otherwise stay invisible. */
+  .fade-in-active .fade-in {
     opacity: 0;
     transform: translateY(1.5rem);
     transition:
       opacity 0.6s ease,
       transform 0.6s ease;
   }
-  .einblenden-aktiv .einblenden.sichtbar {
+  .fade-in-active .fade-in.visible {
     opacity: 1;
     transform: translateY(0);
   }

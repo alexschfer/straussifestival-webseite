@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { analyticsAktiv, bannerAktiv, festival, instagram, ticket } from '../../config';
+import { analyticsActive, bannerActive, festival, instagram, ticket } from '../../config';
 
 // Same conditions as pages/datenschutz.astro (Matomo, banner, ticket shop, Instagram widget).
 const widget = instagram.widget;
@@ -24,7 +24,7 @@ const widget = instagram.widget;
     <p>The legal basis is our legitimate interest in providing the website securely and reliably (Art. 6 (1) (f) GDPR).</p>
 
     {
-      analyticsAktiv && (
+      analyticsActive && (
         <>
           <h2>Visitor statistics with Matomo</h2>
           <p>We use the open-source software Matomo to measure how our website is used and through which promotional channels (e.g. QR codes on flyers, posters and stickers, links in WhatsApp, Instagram and TikTok) visitors find us. We run Matomo ourselves on our web space (see above). The data is not passed on to third parties.</p>
@@ -46,10 +46,10 @@ const widget = instagram.widget;
     }
 
     {
-      bannerAktiv ? (
+      bannerActive ? (
         <>
           <h2 id="cookies">Cookies and cookie banner</h2>
-          <p>Cookies (and comparable content from third parties) are only used on this website with your consent in the cookie banner.{analyticsAktiv && ' This concerns the statistics cookies from Matomo (see above).'}{ticket.utmWeitergeben && ' This concerns remembering your promotional channel for the ticket shop (see below).'}{widget.url && ' This concerns the Instagram feed (see below).'} If you decline, the website works just the same.</p>
+          <p>Cookies (and comparable content from third parties) are only used on this website with your consent in the cookie banner.{analyticsActive && ' This concerns the statistics cookies from Matomo (see above).'}{ticket.forwardUtm && ' This concerns remembering your promotional channel for the ticket shop (see below).'}{widget.url && ' This concerns the Instagram feed (see below).'} If you decline, the website works just the same.</p>
           <p>We only store your answer in the banner (“Accept” or “Decline”) in your browser (localStorage) so that the banner does not appear on every visit. You can change or withdraw it at any time via the “Cookie settings” link at the bottom of every page.</p>
         </>
       ) : (
@@ -58,15 +58,15 @@ const widget = instagram.widget;
     }
 
     <h2>Redirect to Instagram</h2>
-    <p>Some of our QR codes lead via our website directly to our Instagram profile. We count the visit{analyticsAktiv && ' with Matomo as described above'} and then forward you to Instagram straight away. From there, Instagram's (Meta's) privacy policy applies.</p>
+    <p>Some of our QR codes lead via our website directly to our Instagram profile. We count the visit{analyticsActive && ' with Matomo as described above'} and then forward you to Instagram straight away. From there, Instagram's (Meta's) privacy policy applies.</p>
 
     <h2>Redirect to the ticket shop</h2>
-    <p>Some links on other websites lead via our website directly to the ticket shop. We count the visit{analyticsAktiv && ' with Matomo as described above'} and then forward you straight away. We add the promotional channel from the address (UTM parameters, e.g. “rausgegangen”) to the link to the shop; nothing is stored in the process. From there, the ticket shop's privacy policy applies (see below).</p>
+    <p>Some links on other websites lead via our website directly to the ticket shop. We count the visit{analyticsActive && ' with Matomo as described above'} and then forward you straight away. We add the promotional channel from the address (UTM parameters, e.g. “rausgegangen”) to the link to the shop; nothing is stored in the process. From there, the ticket shop's privacy policy applies (see below).</p>
 
     <h2>External ticket shop</h2>
     <p>We do not sell tickets ourselves. The “Buy tickets” button leads to the external provider dein-ticket.shop. From the moment you click, the provider's privacy policy applies.</p>
     {
-      ticket.utmWeitergeben ? (
+      ticket.forwardUtm ? (
         <>
           <p>So that we and the ticket shop can see which promotion works, we add the promotional channel through which you came to us to the link when you click “Buy tickets” (so-called UTM parameters, e.g. “utm_source=flyer”). The ticket shop only receives this identifier of the promotional channel, no data about you as a person.</p>
           <p><strong>Without your consent</strong> this only happens on the page where you arrived on our website, taken directly from the address of that page; nothing is stored. The legal basis is our legitimate interest in measuring the effect of our promotion (Art. 6 (1) (f) GDPR).</p>
@@ -91,9 +91,9 @@ const widget = instagram.widget;
         <>
           <h2 id="instagram-feed">Instagram feed (only with your consent)</h2>
           <p>
-            We can show our latest Instagram posts on the home page. For this we embed a widget from {widget.anbieter}. The widget is <strong>only loaded once you agree in the cookie banner</strong>. Your browser then transmits data (e.g. your IP address, browser information and the page visited) to {widget.anbieter}; the images may also be loaded from Instagram (Meta) servers. Cookies may be set in the process. The legal basis is your consent (Art. 6 (1) (a) GDPR, Section 25 (1) TDDDG).
+            We can show our latest Instagram posts on the home page. For this we embed a widget from {widget.provider}. The widget is <strong>only loaded once you agree in the cookie banner</strong>. Your browser then transmits data (e.g. your IP address, browser information and the page visited) to {widget.provider}; the images may also be loaded from Instagram (Meta) servers. Cookies may be set in the process. The legal basis is your consent (Art. 6 (1) (a) GDPR, Section 25 (1) TDDDG).
           </p>
-          <p><strong>TODO:</strong> Add address and privacy policy of {widget.anbieter}, check transfer to third countries (USA), check whether a data processing agreement is needed, and have this section reviewed legally.</p>
+          <p><strong>TODO:</strong> Add address and privacy policy of {widget.provider}, check transfer to third countries (USA), check whether a data processing agreement is needed, and have this section reviewed legally.</p>
         </>
       ) : (
         <p>We do not embed any content from these services.</p>

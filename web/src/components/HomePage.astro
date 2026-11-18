@@ -1,0 +1,120 @@
+---
+/**
+ * Shared layout of the home page for German (pages/index.astro) and English
+ * (pages/en/index.astro): hero image with photo collage and ticket button, countdown,
+ * the text of the respective page in between (slot), and the Instagram section below.
+ * The scripts for fade-in and parallax live only here.
+ */
+import Countdown from './Countdown.astro';
+import CalendarButton from './CalendarButton.astro';
+import InstaSection from './InstaSection.astro';
+import TicketButton from './TicketButton.astro';
+import { festival, heroImages } from '../config';
+import { TEXTS, languageOf } from '../i18n';
+
+const t = TEXTS[languageOf(Astro.url)];
+---
+
+  <section class="hero">
+    <div class="hero-photos">
+      {
+        heroImages.map((photo, i) => (
+          <div class="hero-photo" data-parallax={[0.1, 0.18, 0.26][i % 3]}>
+            <img src={photo.image} alt={photo.alt} loading="eager" />
+          </div>
+        ))
+      }
+    </div>
+    <div class="hero-gradient"></div>
+    <div class="wrap-wide">
+      <img class="hero-logo" src="/logo.webp" alt="" width="88" height="88" />
+      <h1>{festival.shortName} <span class="accent">{festival.year}</span></h1>
+      <p class="hero-facts">{festival.dateText} · {t.location}</p>
+      <TicketButton position="hero" class="button-large" />
+    </div>
+  </section>
+
+  <section class="countdown-section fade-in" aria-labelledby="countdown-title">
+    <div class="countdown-panel">
+      <h2 id="countdown-title">{t.countdownTitle} {festival.shortName}</h2>
+      <Countdown />
+      <CalendarButton />
+    </div>
+  </section>
+
+  <div class="wrap prose fade-in">
+    <slot />
+  </div>
+
+  <div class="fade-in">
+    <InstaSection />
+  </div>
+
+
+<script>
+  // Gently fades in sections with the class "fade-in" as soon as they scroll into
+  // view. Important: content is only hidden once this script runs (class
+  // "fade-in-active" on <html>). If it doesn't run (browser, blocker, script doesn't
+  // load), all content simply stays visible. In the CSS the hidden state also only
+  // applies without reduced motion.
+  const sections = Array.from(document.querySelectorAll<HTMLElement>('.fade-in'));
+
+  if (sections.length && 'IntersectionObserver' in window) {
+    // Mark whatever is already in view as visible right away, so nothing disappears briefly.
+    for (const section of sections) {
+      const rect = section.getBoundingClientRect();
+      if (rect.top < innerHeight && rect.bottom > 0) section.classList.add('visible');
+    }
+    document.documentElement.classList.add('fade-in-active');
+
+    const observer = new IntersectionObserver(
+      (entries, observerInstance) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observerInstance.unobserve(entry.target);
+          }
+        }
+      },
+      // Trigger on the very first visible line (even for very tall sections on small
+      // screens), a little before the bottom edge.
+      { threshold: 0, rootMargin: '0px 0px -10% 0px' },
+    );
+    sections.filter((s) => !s.classList.contains('visible')).forEach((s) => observer.observe(s));
+  }
+</script>
+
+<script>
+  // Light parallax effect for the three hero photos: deliberately done in JS with a throttled
+  // scroll listener instead of background-attachment: fixed or CSS scroll timelines, because fixed
+  // backgrounds are unreliable on iOS Safari and scroll timelines are not supported there yet –
+  // according to CLAUDE.md most guests arrive on mobile via QR code. With reduced motion the
+  // photos stay still.
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const photos = document.querySelectorAll<HTMLElement>('.hero-photo');
+
+  if (hero && photos.length && matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    let requested = false;
+
+    const update = () => {
+      requested = false;
+      const rect = hero.getBoundingClientRect();
+      // Only compute while the hero is (at least partly) visible.
+      if (rect.bottom < 0 || rect.top > innerHeight) return;
+      photos.forEach((photo) => {
+        const factor = Number(photo.dataset.parallax ?? 0);
+        photo.style.transform = `translateY(${rect.top * factor * -1}px)`;
+      });
+    };
+
+    const request = () => {
+      if (!requested) {
+        requested = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    update();
+    addEventListener('scroll', request, { passive: true });
+  }
+</script>

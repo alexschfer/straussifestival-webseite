@@ -1,73 +1,73 @@
 ---
 /**
- * Countdown bis zum Festivalbeginn (festival.startZeitpunkt in src/config.ts).
- * Zeigt beim ersten Rendern bewusst Platzhalter-Striche statt einer zur Build-Zeit
- * berechneten Zahl – sonst könnte bei selten neu gebauter Seite kurz eine falsche
- * Zahl aufblitzen, bevor das Skript sie korrigiert. Nach Ablauf erscheint ein Text
- * statt negativer Zahlen.
+ * Countdown to the start of the festival (festival.startTime in src/config.ts).
+ * On first render it deliberately shows placeholder dashes instead of a number
+ * computed at build time – otherwise, if the site is rarely rebuilt, a wrong number
+ * could flash briefly before the script corrects it. After the start a text appears
+ * instead of negative numbers.
  */
 import { festival } from '../config';
-import { TEXTE, spracheVon } from '../i18n';
+import { TEXTS, languageOf } from '../i18n';
 
-const t = TEXTE[spracheVon(Astro.url)];
+const t = TEXTS[languageOf(Astro.url)];
 ---
 
-<div class="countdown" data-countdown data-ziel={festival.startZeitpunkt}>
-  <div class="countdown-felder" data-countdown-felder aria-label={t.countdownAria}>
-    <div class="countdown-feld">
-      <span class="countdown-zahl" data-countdown-tage>–</span>
-      <span class="countdown-label">{t.tage}</span>
+<div class="countdown" data-countdown data-target={festival.startTime}>
+  <div class="countdown-fields" data-countdown-fields aria-label={t.countdownAria}>
+    <div class="countdown-field">
+      <span class="countdown-number" data-countdown-days>–</span>
+      <span class="countdown-label">{t.days}</span>
     </div>
-    <div class="countdown-feld">
-      <span class="countdown-zahl" data-countdown-stunden>–</span>
-      <span class="countdown-label">{t.stunden}</span>
+    <div class="countdown-field">
+      <span class="countdown-number" data-countdown-hours>–</span>
+      <span class="countdown-label">{t.hours}</span>
     </div>
-    <div class="countdown-feld">
-      <span class="countdown-zahl" data-countdown-minuten>–</span>
-      <span class="countdown-label">{t.minuten}</span>
+    <div class="countdown-field">
+      <span class="countdown-number" data-countdown-minutes>–</span>
+      <span class="countdown-label">{t.minutes}</span>
     </div>
-    <div class="countdown-feld">
-      <span class="countdown-zahl" data-countdown-sekunden>–</span>
-      <span class="countdown-label">{t.sekunden}</span>
+    <div class="countdown-field">
+      <span class="countdown-number" data-countdown-seconds>–</span>
+      <span class="countdown-label">{t.seconds}</span>
     </div>
   </div>
-  <p class="countdown-vorbei" data-countdown-vorbei hidden>{t.countdownVorbei}</p>
+  <p class="countdown-over" data-countdown-over hidden>{t.countdownOver}</p>
 </div>
 
 <script>
   const container = document.querySelector<HTMLElement>('[data-countdown]');
 
   if (container) {
-    const ziel = new Date(container.dataset.ziel ?? '').getTime();
-    const tage = container.querySelector<HTMLElement>('[data-countdown-tage]');
-    const stunden = container.querySelector<HTMLElement>('[data-countdown-stunden]');
-    const minuten = container.querySelector<HTMLElement>('[data-countdown-minuten]');
-    const sekunden = container.querySelector<HTMLElement>('[data-countdown-sekunden]');
-    const felder = container.querySelector<HTMLElement>('[data-countdown-felder]');
-    const vorbei = container.querySelector<HTMLElement>('[data-countdown-vorbei]');
+    const target = new Date(container.dataset.target ?? '').getTime();
+    const days = container.querySelector<HTMLElement>('[data-countdown-days]');
+    const hours = container.querySelector<HTMLElement>('[data-countdown-hours]');
+    const minutes = container.querySelector<HTMLElement>('[data-countdown-minutes]');
+    const seconds = container.querySelector<HTMLElement>('[data-countdown-seconds]');
+    const fields = container.querySelector<HTMLElement>('[data-countdown-fields]');
+    const over = container.querySelector<HTMLElement>('[data-countdown-over]');
 
-    let intervall: ReturnType<typeof setInterval> | undefined;
+    let interval: ReturnType<typeof setInterval> | undefined;
 
-    const zweistellig = (zahl: number) => String(zahl).padStart(2, '0');
+    const twoDigits = (number: number) => String(number).padStart(2, '0');
 
-    const aktualisieren = () => {
-      const rest = ziel - Date.now();
+    const update = () => {
+      const remaining = target - Date.now();
 
-      if (Number.isNaN(rest) || rest <= 0) {
-        felder?.setAttribute('hidden', '');
-        vorbei?.removeAttribute('hidden');
-        if (intervall) clearInterval(intervall);
+      if (Number.isNaN(remaining) || remaining <= 0) {
+        fields?.setAttribute('hidden', '');
+        over?.removeAttribute('hidden');
+        if (interval) clearInterval(interval);
         return;
       }
 
-      const restSekunden = Math.floor(rest / 1000);
-      if (tage) tage.textContent = String(Math.floor(restSekunden / 86400));
-      if (stunden) stunden.textContent = zweistellig(Math.floor((restSekunden % 86400) / 3600));
-      if (minuten) minuten.textContent = zweistellig(Math.floor((restSekunden % 3600) / 60));
-      if (sekunden) sekunden.textContent = zweistellig(restSekunden % 60);
+      const remainingSeconds = Math.floor(remaining / 1000);
+      if (days) days.textContent = String(Math.floor(remainingSeconds / 86400));
+      if (hours) hours.textContent = twoDigits(Math.floor((remainingSeconds % 86400) / 3600));
+      if (minutes) minutes.textContent = twoDigits(Math.floor((remainingSeconds % 3600) / 60));
+      if (seconds) seconds.textContent = twoDigits(remainingSeconds % 60);
     };
 
-    aktualisieren();
-    intervall = setInterval(aktualisieren, 1000);
+    update();
+    interval = setInterval(update, 1000);
   }
 </script>

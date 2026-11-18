@@ -1,71 +1,71 @@
-# Straussi Festival 2027: Webseite
+# Straussi Festival 2027: Website
 
 > [!IMPORTANT]
-> **Statistikdaten bis spätestens 31.12.2027 löschen.** So steht es in der Datenschutzerklärung (`web/src/pages/datenschutz.astro`), und Matomo löscht nicht von selbst.
-> Löschen: in Matomo die Website löschen (Administration > Websites > Verwalten) oder Matomo samt Datenbank in Plesk entfernen. Auch Datenbank-Backups in Plesk löschen.
-> Wird das Datum geändert, beides anpassen: diesen Hinweis und die Datenschutzerklärung.
+> **Delete the analytics data by 2027-12-31 at the latest.** The privacy policy says so (`web/src/pages/datenschutz.astro`), and Matomo does not delete anything on its own.
+> To delete: in Matomo, delete the website (Administration > Websites > Manage), or remove Matomo together with its database in Plesk. Also delete the database backups in Plesk.
+> If the date changes, update both: this notice and the privacy policy.
 
-Infoseite zum Straussi Festival 2027 (Studierendenwohnheime Straußäcker, Stuttgart) mit selbst gehosteten Web-Analytics (Matomo). Die Seite verlinkt auf den externen Ticketshop und misst, über welchen Kanal Besucher kommen und wie viele auf den Ticketbutton klicken.
+Information site for the Straussi Festival 2027 (Straußäcker student residences, Stuttgart) with self-hosted web analytics (Matomo). The site links to the external ticket shop and measures which channel visitors come from and how many of them click the ticket button.
 
-Kurz: `web/` bauen und nach Plesk bei Cloud86 hochladen, Anleitung samt Matomo-Einrichtung: [deploy/PLESK.md](deploy/PLESK.md). Projektkontext und alle Entscheidungen: [CLAUDE.md](CLAUDE.md). Aufgaben und Stand: [docs/SPEC.md](docs/SPEC.md).
+In short: build `web/` and upload it to Plesk at Cloud86; instructions including the Matomo setup: [deploy/PLESK.md](deploy/PLESK.md). Project context and all decisions: [CLAUDE.md](CLAUDE.md). Tasks and status: [docs/SPEC.md](docs/SPEC.md).
 
-## Lokal starten
+## Run locally
 
-Voraussetzung: Node.js 22.12 oder neuer.
+Requirement: Node.js 22.12 or newer.
 
 ```sh
 cd web
 npm install
-cp .env.example .env    # optional; ohne .env läuft alles mit Platzhaltern
+cp .env.example .env    # optional; without .env everything runs with placeholders
 npm run dev             # http://localhost:4321
 ```
 
-## Bauen
+## Build
 
 ```sh
 cd web
-npm run build           # prüft und baut nach web/dist/
-npm run preview         # gebaute Seite ansehen
+npm run build           # checks and builds into web/dist/
+npm run preview         # view the built site
 ```
 
-Der Build erzeugt außerdem:
+The build also generates:
 
-- `docs/qr/<slug>.svg`: ein QR-Code pro gedrucktem Kanal (`utm_medium` `scan`: Flyer, Plakat, Sticker, Visitenkarte, Feste usw.); WhatsApp, Instagram, TikTok und Partnerseiten bekommen keinen, dort den Kurz-Link aus `docs/kanaele.md` teilen
-- `docs/kanaele.md`: Tabelle aller Kanäle mit UTM-Links (Kanäle, die zu Instagram führen, sind dort markiert)
-- `docs/qr/<seite>/<slug>.svg`: dieselben QR-Codes für jede Unterseite, z. B. `docs/qr/redirect-instagram/` (führt **direkt zu Instagram**) und `docs/qr/redirect-ticket/` (führt **direkt zum Ticketshop**). Der Aufruf wird vorher in Matomo gezählt (Ereignis `Instagram` bzw. `Ticket`, Aktion `Weiterleitung`)
-- `kalender.ics`: Kalenderdatei für den Knopf „In den Kalender eintragen“
+- `docs/qr/<slug>.svg`: one QR code per printed channel (`utm_medium` `scan`: flyer, poster, sticker, business card, parties, etc.); WhatsApp, Instagram, TikTok and partner sites get none, share the short link from `docs/channels.md` there instead
+- `docs/channels.md`: table of all channels with their UTM links (channels that lead to Instagram are marked there)
+- `docs/qr/<page>/<slug>.svg`: the same QR codes for every subpage, e.g. `docs/qr/redirect-instagram/` (leads **directly to Instagram**) and `docs/qr/redirect-ticket/` (leads **directly to the ticket shop**). The visit is counted in Matomo first (event `Instagram` or `Ticket`, action `Weiterleitung`)
+- `kalender.ics`: calendar file for the „In den Kalender eintragen“ (add to calendar) button
 
-**Kanal mit Ziel Instagram:** Steht in `web/src/data/kanaele.ts` bei einem Kanal `ziel: 'instagram'`, führt schon der normale Kurz-Link `/q/<slug>` gezählt zu Instagram statt auf die Startseite (aktuell `sticker`, `visitenkarte-insta`, `blockparty-str2`, `netthier`, `maschinenbau`). `/q/instagram` bekommt das nie, der Link steht in der Instagram-Bio.
+**Channel with target Instagram:** If a channel in `web/src/data/channels.ts` has `target: 'instagram'`, the normal short link `/q/<slug>` already leads to Instagram (counted) instead of the home page (currently `sticker`, `visitenkarte-insta`, `blockparty-str2`, `netthier`, `maschinenbau`). `/q/instagram` never gets this, because that link is in the Instagram bio.
 
-**Vor dem Drucken** muss in `web/.env` die echte `SITE_URL` stehen, sonst zeigen die QR-Codes auf eine Platzhalter-Domain. Der Build warnt in diesem Fall.
+**Before printing**, the real `SITE_URL` must be set in `web/.env`, otherwise the QR codes point to a placeholder domain. The build warns in that case.
 
-## Inhalte ändern
+## Changing content
 
-- **Seitentexte:** je eine Datei in `web/src/pages/` (`index.astro` = Startseite, `infos.astro`, `lineup.astro`, `faq.astro`, `anfahrt.astro`, `bewohner.astro`, `impressum.astro`, `datenschutz.astro`). Der Text steht direkt darin als einfaches HTML (`<p>`, `<h2>`, `<ul>`). Stellen mit **TODO** sind noch offen.
-- **Englische Version:** jede Seite gibt es zusätzlich in `web/src/pages/en/` (gleicher Dateiname). Änderungen immer in beiden Sprachen machen. Texte von Menü, Fußzeile, Banner usw. stehen zweisprachig in `web/src/i18n.ts`.
-- **Neue Seite oder Menüpunkt:** Datei in `web/src/pages/` anlegen und die Navigationsliste oben in `web/src/layouts/Base.astro` ergänzen.
-- **Ticket-Link, Datum, Adresse, Kalendertermin, Instagram-Profil, Schalter:** `web/src/config.ts`
-- **Kartenbild auf der Anfahrt-Seite:** `web/public/anfahrt/karte.webp`, neu erzeugen mit `web/werkzeug/karte.py` (Anleitung: `web/public/anfahrt/README.md`). Die Quellenangabe „© OpenStreetMap-Mitwirkende“ muss bleiben.
-- **Fotos im Instagram-Abschnitt:** Datei in `web/public/insta/` ablegen und in `web/src/config.ts` eintragen (Anleitung: `web/public/insta/README.md`)
-- **Marketingkanäle:** `web/src/data/kanaele.ts` (Schreibregel für UTM-Werte: Kleinbuchstaben, keine Umlaute/ß/Leerzeichen, Bindestrich zwischen Wörtern; der Build prüft das)
+- **Page texts:** one file each in `web/src/pages/` (`index.astro` = home page, `infos.astro`, `lineup.astro`, `faq.astro`, `anfahrt.astro`, `bewohner.astro`, `impressum.astro`, `datenschutz.astro`). The text is directly in the file as simple HTML (`<p>`, `<h2>`, `<ul>`). Places marked **TODO** are still open.
+- **English version:** every page also exists in `web/src/pages/en/` (same file name). Always make changes in both languages. Texts of the menu, footer, banner etc. are in `web/src/i18n.ts` in both languages.
+- **New page or menu item:** create a file in `web/src/pages/` and extend the navigation list at the top of `web/src/layouts/Base.astro`.
+- **Ticket link, date, address, calendar entry, Instagram profile, switches:** `web/src/config.ts`
+- **Map image on the directions page:** `web/public/anfahrt/karte.webp`, regenerate with `web/tools/make_map.py` (instructions: `web/public/anfahrt/README.md`). The attribution „© OpenStreetMap-Mitwirkende“ (© OpenStreetMap contributors) must stay.
+- **Photos in the Instagram section:** put the file into `web/public/insta/` and add it in `web/src/config.ts` (instructions: `web/public/insta/README.md`)
+- **Marketing channels:** `web/src/data/channels.ts` (spelling rule for UTM values: lowercase, no umlauts/ß/spaces, hyphens between words; the build checks this)
 
-## Analytics einbinden
+## Enabling analytics
 
-In `web/.env` eintragen (siehe `web/.env.example`):
+Set in `web/.env` (see `web/.env.example`):
 
 ```
 PUBLIC_MATOMO_URL=https://stats.<domain>
-PUBLIC_MATOMO_SITE_ID=<ID aus Matomo>
+PUBLIC_MATOMO_SITE_ID=<ID from Matomo>
 ```
 
-Fehlt einer der Werte, wird Matomo nicht eingebunden (dann auch kein Cookie-Banner, solange kein Instagram-Widget eingetragen ist) und die Seite funktioniert trotzdem.
+If either value is missing, Matomo is not included (and then there is no cookie banner either, as long as no Instagram widget is configured), and the site still works.
 
-## Hosting und Deployment
+## Hosting and deployment
 
-- **Aktuell:** Webhosting bei Cloud86 mit Plesk, Matomo im selben Webhosting: [deploy/PLESK.md](deploy/PLESK.md)
-- Alternative für einen eigenen Server mit Docker (Caddy, Umami, Postgres; derzeit **nicht** in Verwendung): [analytics/README.md](analytics/README.md), [deploy/README.md](deploy/README.md). Achtung: Die Webseite selbst bindet inzwischen Matomo ein, nicht mehr Umami.
+- **Current:** web hosting at Cloud86 with Plesk, Matomo on the same web hosting: [deploy/PLESK.md](deploy/PLESK.md)
+- Alternative for an own server with Docker (Caddy, Umami, Postgres; currently **not** in use): [analytics/README.md](analytics/README.md), [deploy/README.md](deploy/README.md). Note: the website itself now includes Matomo, no longer Umami.
 
-ZIP zum Hochladen bauen (im Ordner `web/`):
+Build the ZIP for uploading (in the `web/` folder):
 
 ```
 npm run build && cd dist && rm -f ../../straussifestival-webseite.zip && zip -qr ../../straussifestival-webseite.zip .

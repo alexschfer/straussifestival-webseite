@@ -1,28 +1,28 @@
 ---
-import { ticket, ticketAktiv } from '../config';
-import { TEXTE, spracheVon } from '../i18n';
+import { ticket, ticketActive } from '../config';
+import { TEXTS, languageOf } from '../i18n';
 
 interface Props {
-  /** Wo der Button sitzt; geht im Matomo-Ereignis als Name mit (siehe Analytics.astro). */
+  /** Where the button sits; sent as the name in the Matomo event (see Analytics.astro). */
   position: 'header' | 'hero' | 'footer';
-  /** Buttontext */
+  /** Button text */
   text?: string;
   class?: string;
 }
 
-const t = TEXTE[spracheVon(Astro.url)];
-const { position, text = t.ticketsKaufen, class: klasse } = Astro.props;
+const t = TEXTS[languageOf(Astro.url)];
+const { position, text = t.buyTickets, class: className } = Astro.props;
 
-// Solange keine echte Ticket-URL eingetragen ist (ticketAktiv in config.ts), steht hier
-// ein ausgegrauter Button ohne Link mit "bald", wie die "bald"-Punkte im Menü.
-// TODO: Datum des Vorverkaufsstarts ergänzen, sobald es feststeht.
-const textAus = t.bald;
+// As long as no real ticket URL is configured (ticketActive in config.ts), this shows
+// a greyed-out button without a link and "soon", like the "soon" items in the menu.
+// TODO: add the presale start date once it is fixed.
+const textDisabled = t.soon;
 ---
 
 {
-  ticketAktiv ? (
+  ticketActive ? (
     <a
-      class:list={['button', klasse]}
+      class:list={['button', className]}
       href={ticket.url}
       target="_blank"
       rel="noopener"
@@ -32,8 +32,8 @@ const textAus = t.bald;
       {text}
     </a>
   ) : (
-    <span class:list={['button', 'button-aus', klasse]} aria-disabled="true">
-      {t.tickets} <small>{textAus}</small>
+    <span class:list={['button', 'button-disabled', className]} aria-disabled="true">
+      {t.tickets} <small>{textDisabled}</small>
     </span>
   )
 }

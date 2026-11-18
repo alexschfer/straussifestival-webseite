@@ -1,46 +1,46 @@
 ---
 /**
- * Festival-ABC mit Buchstabenleiste (FAQ-Seite).
+ * Festival ABC with a letter bar (FAQ page).
  *
- * Die Einträge stehen weiterhin als einfache <dt>/<dd>-Paare in faq.astro zwischen
- * <FestivalAbc> und </FestivalAbc>. Beim Bauen bekommt das erste Stichwort jedes
- * Buchstabens automatisch ein Sprungziel (id="abc-a", "abc-b" …), und die Leiste
- * darüber verlinkt alle Buchstaben, zu denen es Einträge gibt. Buchstaben ohne
- * Eintrag stehen ausgegraut da. Umlaute zählen zum Grundbuchstaben (Ä -> A).
- * Die Leiste bleibt beim Scrollen durch das ABC oben stehen (global.css, .abc-leiste).
+ * The entries are still plain <dt>/<dd> pairs in faq.astro between
+ * <FestivalAbc> and </FestivalAbc>. At build time the first term of each letter
+ * automatically gets a jump target (id="abc-a", "abc-b" …), and the bar above
+ * links every letter that has entries. Letters without an entry are shown
+ * greyed out. Umlauts count towards their base letter (Ä -> A).
+ * The bar stays at the top while scrolling through the ABC (global.css, .abc-bar).
  */
 
-import { TEXTE, spracheVon } from '../i18n';
+import { TEXTS, languageOf } from '../i18n';
 
-const t = TEXTE[spracheVon(Astro.url)];
+const t = TEXTS[languageOf(Astro.url)];
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-const UMLAUTE: Record<string, string> = { Ä: 'A', Ö: 'O', Ü: 'U' };
+const UMLAUTS: Record<string, string> = { Ä: 'A', Ö: 'O', Ü: 'U' };
 
 const html = await Astro.slots.render('default');
-const vorhanden = new Set<string>();
+const present = new Set<string>();
 
-const mitAnkern = html.replace(/<dt(\s[^>]*)?>([\s\S]*?)<\/dt>/g, (ganz, attribute = '', inhalt: string) => {
-  const ersterBuchstabe = inhalt.replace(/<[^>]+>/g, '').trim().charAt(0).toUpperCase();
-  const buchstabe = UMLAUTE[ersterBuchstabe] ?? ersterBuchstabe;
-  if (!ALPHABET.includes(buchstabe) || vorhanden.has(buchstabe)) return ganz;
-  vorhanden.add(buchstabe);
-  return `<dt id="abc-${buchstabe.toLowerCase()}"${attribute}>${inhalt}</dt>`;
+const withAnchors = html.replace(/<dt(\s[^>]*)?>([\s\S]*?)<\/dt>/g, (whole, attributes = '', content: string) => {
+  const firstLetter = content.replace(/<[^>]+>/g, '').trim().charAt(0).toUpperCase();
+  const letter = UMLAUTS[firstLetter] ?? firstLetter;
+  if (!ALPHABET.includes(letter) || present.has(letter)) return whole;
+  present.add(letter);
+  return `<dt id="abc-${letter.toLowerCase()}"${attributes}>${content}</dt>`;
 });
 ---
 
-<nav class="abc-leiste" aria-label={t.abcAria}>
+<nav class="abc-bar" aria-label={t.abcAria}>
   <ul>
     {
-      ALPHABET.map((buchstabe) => (
+      ALPHABET.map((letter) => (
         <li>
-          {vorhanden.has(buchstabe) ? (
-            <a href={`#abc-${buchstabe.toLowerCase()}`}>{buchstabe}</a>
+          {present.has(letter) ? (
+            <a href={`#abc-${letter.toLowerCase()}`}>{letter}</a>
           ) : (
-            <span aria-hidden="true">{buchstabe}</span>
+            <span aria-hidden="true">{letter}</span>
           )}
         </li>
       ))
     }
   </ul>
 </nav>
-<dl class="abc" set:html={mitAnkern} />
+<dl class="abc" set:html={withAnchors} />

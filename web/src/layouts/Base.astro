@@ -6,71 +6,71 @@ import InstaIcon from '../components/InstaIcon.astro';
 import TikTokIcon from '../components/TikTokIcon.astro';
 import TicketButton from '../components/TicketButton.astro';
 import TicketLink from '../components/TicketLink.astro';
-import UtmWeitergabe from '../components/UtmWeitergabe.astro';
-import { bannerAktiv, festival, instagram, tiktok, ticket } from '../config';
-import { TEXTE, lokal, pfadInSprache, spracheVon } from '../i18n';
+import UtmForwarding from '../components/UtmForwarding.astro';
+import { bannerActive, festival, instagram, tiktok, ticket } from '../config';
+import { TEXTS, localPath, pathInLanguage, languageOf } from '../i18n';
 
 interface Props {
   title: string;
   description: string;
-  /** Die Startseite bekommt den Festivalnamen als Titel, alle anderen "Seite – Festival". */
-  startseite?: boolean;
+  /** The home page gets the festival name as its title, all others "Page – Festival". */
+  isHome?: boolean;
 }
 
-const { title, description, startseite = false } = Astro.props;
+const { title, description, isHome = false } = Astro.props;
 
-// Sprache aus der Adresse (/en/... = Englisch), Texte der Bausteine aus src/i18n.ts.
-const sprache = spracheVon(Astro.url);
-const t = TEXTE[sprache];
-const andere = sprache === 'de' ? 'en' : 'de';
+// Language from the URL (/en/... = English), texts of the shared components from src/i18n.ts.
+const language = languageOf(Astro.url);
+const t = TEXTS[language];
+const otherLanguage = language === 'de' ? 'en' : 'de';
 
-// Navigation: neue Seite = neue Datei in src/pages/ (und in src/pages/en/) und hier eine
-// Zeile ergänzen; der Menütext steht in src/i18n.ts unter "menue".
-// bald: true = Seite ist noch nicht fertig. Der Punkt steht ausgegraut mit „bald“
-// im Menü, ist aber kein Link. Sobald die Seite fertig ist, "bald: true" löschen.
-const hauptmenue: { href: string; text: string; bald?: boolean }[] = [
-  { href: '/', text: t.menue.start },
-  { href: '/infos/', text: t.menue.infos },
-  { href: '/lineup/', text: t.menue.lineup, bald: true },
-  { href: '/faq/', text: t.menue.faq },
-  { href: '/anfahrt/', text: t.menue.anfahrt },
-  { href: '/bewohner/', text: t.menue.bewohner, bald: true },
-].map((eintrag) => ({ ...eintrag, href: lokal(eintrag.href, sprache) }));
-// Rechtliches: erscheint unten in der schmalen Leiste der Fußzeile.
-const fussmenue = [
-  { href: '/impressum/', text: t.menue.impressum },
-  { href: '/datenschutz/', text: t.menue.datenschutz },
-].map((eintrag) => ({ ...eintrag, href: lokal(eintrag.href, sprache) }));
+// Navigation: new page = new file in src/pages/ (and in src/pages/en/) plus one line
+// here; the menu text lives in src/i18n.ts under "menu".
+// soon: true = page isn't finished yet. The item appears grayed out with "soon" ("bald")
+// in the menu but is not a link. Once the page is finished, delete "soon: true".
+const mainMenu: { href: string; text: string; soon?: boolean }[] = [
+  { href: '/', text: t.menu.home },
+  { href: '/infos/', text: t.menu.info },
+  { href: '/lineup/', text: t.menu.lineup, soon: true },
+  { href: '/faq/', text: t.menu.faq },
+  { href: '/anfahrt/', text: t.menu.directions },
+  { href: '/bewohner/', text: t.menu.residents, soon: true },
+].map((item) => ({ ...item, href: localPath(item.href, language) }));
+// Legal: appears at the bottom in the narrow bar of the footer.
+const footerMenu = [
+  { href: '/impressum/', text: t.menu.imprint },
+  { href: '/datenschutz/', text: t.menu.privacy },
+].map((item) => ({ ...item, href: localPath(item.href, language) }));
 
-// Dieselbe Seite in der anderen Sprache (für Sprachumschalter und hreflang).
-const pfadAndere = pfadInSprache(Astro.url.pathname, andere);
-// Die 404-Seite gibt es nur einmal (zweisprachig), dort kein Umschalter.
-const zeigeSprachwahl = !Astro.url.pathname.startsWith('/404');
-// Das Menü oben erscheint in der Fußzeile noch einmal als Spalte "Festival".
+// The same page in the other language (for the language switch and hreflang).
+const otherLanguagePath = pathInLanguage(Astro.url.pathname, otherLanguage);
+// The 404 page exists only once (bilingual), so no switch there.
+const showLanguageSwitch = !Astro.url.pathname.startsWith('/404');
+// The top menu appears again in the footer as the "Festival" column.
 
-const seitentitel = startseite ? festival.name : `${title} – ${festival.kurzname}`;
-const aktuellerPfad = Astro.url.pathname.replace(/\/$/, '') || '/';
-const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuellerPfad;
+const pageTitle = isHome ? festival.name : `${title} – ${festival.shortName}`;
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => (href.replace(/\/$/, '') || '/') === currentPath;
 ---
 
 <!doctype html>
-<html lang={sprache}>
+<html lang={language}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#1b1c20" />
-    <title>{seitentitel}</title>
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <meta property="og:title" content={seitentitel} />
+    <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     {
-      zeigeSprachwahl && (
+      showLanguageSwitch && (
         <>
-          <link rel="alternate" hreflang={sprache} href={new URL(Astro.url.pathname, Astro.site)} />
-          <link rel="alternate" hreflang={andere} href={new URL(pfadAndere, Astro.site)} />
+          <link rel="alternate" hreflang={language} href={new URL(Astro.url.pathname, Astro.site)} />
+          <link rel="alternate" hreflang={otherLanguage} href={new URL(otherLanguagePath, Astro.site)} />
         </>
       )
     }
@@ -78,36 +78,36 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
     <Analytics />
   </head>
   <body>
-    <a class="skip" href="#inhalt">{t.zumInhalt}</a>
+    <a class="skip" href="#content">{t.skipToContent}</a>
     <header class="site-header">
       <div class="header-inner">
-        <a class="brand" href={lokal('/', sprache)}>
+        <a class="brand" href={localPath('/', language)}>
           <img src="/logo-klein.png" alt="" width="28" height="28" />
-          <span>{festival.kurzname} <span class="akzent">{festival.jahr}</span></span>
+          <span>{festival.shortName} <span class="accent">{festival.year}</span></span>
         </a>
-        <TicketButton position="header" text={t.tickets} class="button-klein" />
-        <nav aria-label={t.hauptmenue}>
+        <TicketButton position="header" text={t.tickets} class="button-small" />
+        <nav aria-label={t.mainMenu}>
           <ul>
             {
-              hauptmenue.map((eintrag) => (
+              mainMenu.map((item) => (
                 <li>
-                  {eintrag.bald ? (
-                    <span class="menue-bald">
-                      {eintrag.text} <small>{t.bald}</small>
+                  {item.soon ? (
+                    <span class="menu-soon">
+                      {item.text} <small>{t.soon}</small>
                     </span>
                   ) : (
-                    <a href={eintrag.href} aria-current={istAktuell(eintrag.href) ? 'page' : undefined}>
-                      {eintrag.text}
+                    <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                      {item.text}
                     </a>
                   )}
                 </li>
               ))
             }
             {
-              zeigeSprachwahl && (
+              showLanguageSwitch && (
                 <li>
-                  <a class="sprachwahl" href={pfadAndere} hreflang={t.andereSprache.lang} lang={t.andereSprache.lang} aria-label={t.andereSprache.name}>
-                    {t.andereSprache.kurz}
+                  <a class="language-switch" href={otherLanguagePath} hreflang={t.otherLanguage.lang} lang={t.otherLanguage.lang} aria-label={t.otherLanguage.name}>
+                    {t.otherLanguage.short}
                   </a>
                 </li>
               )
@@ -117,50 +117,50 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
       </div>
     </header>
 
-    <main id="inhalt">
+    <main id="content">
       <slot />
     </main>
 
     <footer class="site-footer">
       <div class="footer-panel">
-        <div class="footer-spalten">
-          <div class="footer-spalte">
-            <h2>{t.folgeUns}</h2>
-            <p class="footer-spalte-text">{t.folgeUnsText}</p>
+        <div class="footer-columns">
+          <div class="footer-column">
+            <h2>{t.followUs}</h2>
+            <p class="footer-column-text">{t.followUsText}</p>
             <div class="footer-icons">
               <a
                 class="footer-icon"
-                href={instagram.profilUrl}
+                href={instagram.profileUrl}
                 target="_blank"
                 rel="noopener"
-                aria-label={`${instagram.name} ${t.aufInstagram}`}
+                aria-label={`${instagram.name} ${t.onInstagram}`}
               >
                 <InstaIcon size={20} />
               </a>
               <a
                 class="footer-icon"
-                href={tiktok.profilUrl}
+                href={tiktok.profileUrl}
                 target="_blank"
                 rel="noopener"
-                aria-label={`${tiktok.name} ${t.aufTikTok}`}
+                aria-label={`${tiktok.name} ${t.onTikTok}`}
               >
                 <TikTokIcon size={20} />
               </a>
             </div>
           </div>
 
-          <nav class="footer-spalte" aria-label="Festival">
+          <nav class="footer-column" aria-label="Festival">
             <h2>Festival</h2>
             <ul>
               {
-                hauptmenue.map((eintrag) => (
+                mainMenu.map((item) => (
                   <li>
-                    {eintrag.bald ? (
-                      <span class="menue-bald">
-                        {eintrag.text} <small>{t.bald}</small>
+                    {item.soon ? (
+                      <span class="menu-soon">
+                        {item.text} <small>{t.soon}</small>
                       </span>
                     ) : (
-                      <a href={eintrag.href}>{eintrag.text}</a>
+                      <a href={item.href}>{item.text}</a>
                     )}
                   </li>
                 ))
@@ -168,15 +168,15 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
             </ul>
           </nav>
 
-          <div class="footer-spalte">
+          <div class="footer-column">
             <h2>{t.tickets}</h2>
-            <p class="footer-spalte-text">{t.verkaufText[0]}<TicketLink>{t.verkaufText[1]}</TicketLink>{t.verkaufText[2]}</p>
-            <TicketButton position="footer" class="button-klein" />
+            <p class="footer-column-text">{t.salesText[0]}<TicketLink>{t.salesText[1]}</TicketLink>{t.salesText[2]}</p>
+            <TicketButton position="footer" class="button-small" />
           </div>
 
-          <div class="footer-spalte">
-            <h2>{t.kontakt}</h2>
-            <ul class="footer-kontakt">
+          <div class="footer-column">
+            <h2>{t.contact}</h2>
+            <ul class="footer-contact">
               <li><a href={`mailto:${festival.email}`}>{festival.email}</a></li>
               <li>
                 <span>Acts</span>
@@ -190,29 +190,29 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
           </div>
         </div>
 
-        <div class="footer-unten">
-          <div class="footer-marke">
+        <div class="footer-bottom">
+          <div class="footer-brand">
             <img src="/logo-klein.png" alt="" width="40" height="40" class="footer-logo" />
             <div>
-              <p class="footer-name">{festival.kurzname} <span class="akzent">{festival.jahr}</span></p>
-              <p class="footer-veranstalter">{t.veranstalter}</p>
+              <p class="footer-name">{festival.shortName} <span class="accent">{festival.year}</span></p>
+              <p class="footer-organizer">{t.organizer}</p>
             </div>
           </div>
-          <div class="footer-recht">
-            <nav aria-label={t.rechtliches}>
+          <div class="footer-legal">
+            <nav aria-label={t.legal}>
               <ul>
                 {
-                  fussmenue.map((eintrag) => (
+                  footerMenu.map((item) => (
                     <li>
-                      <a href={eintrag.href}>{eintrag.text}</a>
+                      <a href={item.href}>{item.text}</a>
                     </li>
                   ))
                 }
                 {
-                  bannerAktiv && (
+                  bannerActive && (
                     <li>
-                      <a href={`${lokal('/datenschutz/', sprache)}#cookies`} data-cookie-einstellungen>
-                        {t.cookieEinstellungen}
+                      <a href={`${localPath('/datenschutz/', language)}#cookies`} data-cookie-settings>
+                        {t.cookieSettings}
                       </a>
                     </li>
                   )
@@ -225,7 +225,7 @@ const istAktuell = (href: string) => (href.replace(/\/$/, '') || '/') === aktuel
       </div>
     </footer>
 
-    {ticket.utmWeitergeben && <UtmWeitergabe />}
-    {bannerAktiv && <CookieBanner />}
+    {ticket.forwardUtm && <UtmForwarding />}
+    {bannerActive && <CookieBanner />}
   </body>
 </html>

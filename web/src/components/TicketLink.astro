@@ -1,17 +1,17 @@
 ---
 /**
- * Wort im Fließtext als Link zum Ticketshop, z. B. <TicketLink>Tickets</TicketLink>.
+ * A word in running text as a link to the ticket shop, e.g. <TicketLink>Tickets</TicketLink>.
  *
- * Zählt wie die Ticketbuttons: Matomo-Ereignis "Ticket / Klick" mit dem Namen "text"
- * (Analytics.astro) und Weitergabe des Werbewegs an den Shop (UtmWeitergabe.astro),
- * beides über das Attribut data-ticket-link. Ohne echte Ticket-URL (ticketAktiv in
- * config.ts) bleibt es normaler Text.
+ * Counts like the ticket buttons: Matomo event "Ticket / Klick" with the name "text"
+ * (Analytics.astro) and forwarding of the channel to the shop (UtmForwarding.astro),
+ * both via the data-ticket-link attribute. Without a real ticket URL (ticketActive in
+ * config.ts) it stays plain text.
  */
-import { ticket, ticketAktiv } from '../config';
+import { ticket, ticketActive } from '../config';
 ---
 
 {
-  ticketAktiv ? (
+  ticketActive ? (
     <a href={ticket.url} target="_blank" rel="noopener" data-ticket-link data-position="text"><slot /></a>
   ) : (
     <slot />

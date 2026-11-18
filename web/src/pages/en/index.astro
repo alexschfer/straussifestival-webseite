@@ -1,12 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Startseite from '../../components/Startseite.astro';
+import HomePage from '../../components/HomePage.astro';
 import TicketLink from '../../components/TicketLink.astro';
 ---
 
-<Base title="Home" description="Straussi Festival 2027 at the Straußäcker student residences in Stuttgart. Info on programme, getting there and tickets." startseite>
-  {/* English version of pages/index.astro. Hero, countdown and Instagram section come from components/Startseite.astro. */}
-  <Startseite>
+<Base title="Home" description="Straussi Festival 2027 at the Straußäcker student residences in Stuttgart. Info on programme, getting there and tickets." isHome>
+  {/* English version of pages/index.astro. Hero, countdown and Instagram section come from components/HomePage.astro. */}
+  <HomePage>
     <p>
       <strong>Straussi Festival 2027</strong> is the festival of the Straußäcker student residences in Stuttgart, organised by a team of residents of Straussi 1, 2 &amp; 3.
     </p>
@@ -22,5 +22,5 @@ import TicketLink from '../../components/TicketLink.astro';
       <li>Frequently asked questions: <a href="/en/faq/">FAQ</a></li>
       <li>How to get here: <a href="/en/anfahrt/">Getting there</a></li>
     </ul>
-  </Startseite>
+  </HomePage>
 </Base>

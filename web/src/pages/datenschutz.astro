@@ -1,15 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
-import { analyticsAktiv, bannerAktiv, festival, instagram, ticket } from '../config';
+import { analyticsActive, bannerActive, festival, instagram, ticket } from '../config';
 
-// Ist ein Instagram-Widget eingetragen, ändern sich die Abschnitte zu Cookies und Instagram.
+// If an Instagram widget is configured, the sections on cookies and Instagram change.
 const widget = instagram.widget;
 ---
 
 <Base title="Datenschutz" description="Datenschutzerklärung für die Webseite des Straussi Festivals 2027.">
   <div class="wrap prose">
     <h1>Datenschutz</h1>
-    {/* Beschreibt den tatsächlichen technischen Aufbau (Cloud86-Webhosting, Matomo, web/src/config.ts). Ändert sich dort etwas (Hosting, Tracking, Widget), diese Seite mitziehen. Rechtlich prüfen lassen. */}
+    {/* Describes the actual technical setup (Cloud86 web hosting, Matomo, web/src/config.ts). If anything changes there (hosting, tracking, widget), update this page too. Have it reviewed legally. */}
     <p>Hier erklären wir, welche Daten beim Besuch dieser Webseite verarbeitet werden. Kurz gesagt: so wenig wie möglich. Wir nutzen kein Google Analytics; unsere Besucherstatistik läuft auf unserem eigenen Webspace, und Cookies setzen wir nur, wenn du zustimmst.</p>
 
     <h2>Verantwortlicher</h2>
@@ -18,12 +18,12 @@ const widget = instagram.widget;
 
     <h2>Hosting und Server-Logfiles</h2>
     <p>Die Webseite und unsere Besucherstatistik liegen auf einem Webspace bei Cloud86 B.V., Lavendelheide 21-108, 9202 PD Drachten, Niederlande. Die Server stehen in Rechenzentren in den Niederlanden, also in der EU. Mit Cloud86 besteht ein Vertrag zur Auftragsverarbeitung (Art. 28 DSGVO).</p>
-    {/* Speicherdauer entspricht der Protokollrotation in Plesk (monatlich, max. 1 alte Datei, für straussifestival.de und stats.straussifestival.de), siehe deploy/PLESK.md. Bei Änderung hier mitziehen. */}
+    {/* Retention period matches the log rotation in Plesk (monthly, max. 1 old file, for straussifestival.de and stats.straussifestival.de), see deploy/PLESK.md. If it changes, update it here too. */}
     <p>Wenn du die Seite aufrufst, verarbeitet der Webserver technisch notwendig deine IP-Adresse, den Zeitpunkt, die aufgerufene Adresse, die vorher besuchte Seite (Referrer) sowie Angaben zu Browser und Betriebssystem und speichert sie in Protokolldateien (Server-Logfiles). Diese brauchen wir, um die Seite auszuliefern und Fehler oder Angriffe zu erkennen. Die Logfiles werden spätestens nach zwei Monaten automatisch gelöscht. Wir werten sie nicht aus.</p>
     <p>Rechtsgrundlage ist unser berechtigtes Interesse, die Webseite sicher und funktionsfähig bereitzustellen (Art. 6 Abs. 1 lit. f DSGVO).</p>
 
     {
-      analyticsAktiv && (
+      analyticsActive && (
         <>
           <h2>Besucherstatistik mit Matomo</h2>
           <p>Wir messen mit der Open-Source-Software Matomo, wie unsere Seite genutzt wird und über welche Werbewege (z. B. QR-Codes auf Flyern, Plakaten und Stickern, Links in WhatsApp, Instagram und TikTok) Besucher zu uns finden. Matomo betreiben wir selbst auf unserem Webspace (siehe oben). Die Daten werden nicht an Dritte weitergegeben.</p>
@@ -38,7 +38,7 @@ const widget = instagram.widget;
           <p>Deine <strong>IP-Adresse wird gekürzt</strong> (die letzten zwei Blöcke werden entfernt), bevor sie gespeichert wird. Wir können die Statistik deshalb nicht einzelnen Personen zuordnen.</p>
           <p><strong>Ohne deine Zustimmung setzt Matomo keine Cookies.</strong> Um mehrere Seitenaufrufe desselben Besuchs zusammenzufassen, bildet Matomo dann eine Kennung aus technischen Merkmalen (u. a. IP-Adresse, Browser und Betriebssystem), die nur für diesen Besuch gilt und keinen Rückschluss auf dich zulässt. Rechtsgrundlage ist unser berechtigtes Interesse, die Reichweite unserer Werbung zu messen und unser Angebot zu verbessern (Art. 6 Abs. 1 lit. f DSGVO).</p>
           <p><strong>Mit deiner Zustimmung</strong> im Cookie-Banner setzt Matomo zusätzlich zwei Cookies: <code>_pk_id</code> (eine zufällige Kennung, damit wir erkennen, ob du an einem späteren Tag wiederkommst, Speicherdauer 13 Monate) und <code>_pk_ses</code> (fasst einen Besuch zusammen, Speicherdauer 30 Minuten). Rechtsgrundlage ist dann deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG).</p>
-          {/* Löschdatum steht auch ganz oben in README.md als Erinnerung. Bei Änderung beide Stellen anpassen. */}
+          {/* The deletion date is also at the very top of README.md as a reminder. If it changes, update both places. */}
           <p>Die Statistikdaten löschen wir spätestens am 31.12.2027.</p>
           <p>Du kannst der Erfassung ohne Cookies widersprechen, indem du eine Nachricht an <a href={`mailto:${festival.email}`}>{festival.email}</a> schickst oder in deinem Browser einen Inhalts- oder Trackingblocker verwendest. Deine Einwilligung in Cookies kannst du jederzeit über „Cookie-Einstellungen“ unten auf jeder Seite widerrufen; die Cookies werden dann gelöscht.</p>
         </>
@@ -46,10 +46,10 @@ const widget = instagram.widget;
     }
 
     {
-      bannerAktiv ? (
+      bannerActive ? (
         <>
           <h2 id="cookies">Cookies und Cookie-Banner</h2>
-          <p>Cookies (und vergleichbare Inhalte von Drittanbietern) gibt es auf dieser Seite nur mit deiner Zustimmung im Cookie-Banner.{analyticsAktiv && ' Das betrifft die Statistik-Cookies von Matomo (siehe oben).'}{ticket.utmWeitergeben && ' Das betrifft das Merken deines Werbewegs für den Ticketshop (siehe unten).'}{widget.url && ' Das betrifft den Instagram-Feed (siehe unten).'} Lehnst du ab, funktioniert die Seite genauso.</p>
+          <p>Cookies (und vergleichbare Inhalte von Drittanbietern) gibt es auf dieser Seite nur mit deiner Zustimmung im Cookie-Banner.{analyticsActive && ' Das betrifft die Statistik-Cookies von Matomo (siehe oben).'}{ticket.forwardUtm && ' Das betrifft das Merken deines Werbewegs für den Ticketshop (siehe unten).'}{widget.url && ' Das betrifft den Instagram-Feed (siehe unten).'} Lehnst du ab, funktioniert die Seite genauso.</p>
           <p>Deine Antwort im Banner („Akzeptieren“ oder „Ablehnen“) speichern wir nur in deinem Browser (localStorage), damit der Banner nicht bei jedem Besuch erscheint. Du kannst sie jederzeit über den Link „Cookie-Einstellungen“ unten auf jeder Seite ändern oder widerrufen.</p>
         </>
       ) : (
@@ -58,15 +58,15 @@ const widget = instagram.widget;
     }
 
     <h2>Weiterleitung zu Instagram</h2>
-    <p>Einige unserer QR-Codes führen über unsere Seite direkt zu unserem Instagram-Profil. Dabei zählen wir den Aufruf{analyticsAktiv && ' wie oben beschrieben mit Matomo'} und leiten dich dann sofort zu Instagram weiter. Ab dort gelten die Datenschutzbestimmungen von Instagram (Meta).</p>
+    <p>Einige unserer QR-Codes führen über unsere Seite direkt zu unserem Instagram-Profil. Dabei zählen wir den Aufruf{analyticsActive && ' wie oben beschrieben mit Matomo'} und leiten dich dann sofort zu Instagram weiter. Ab dort gelten die Datenschutzbestimmungen von Instagram (Meta).</p>
 
     <h2>Weiterleitung zum Ticketshop</h2>
-    <p>Einige Links auf anderen Seiten führen über unsere Seite direkt zum Ticketshop. Dabei zählen wir den Aufruf{analyticsAktiv && ' wie oben beschrieben mit Matomo'} und leiten dich dann sofort weiter. Den Werbeweg aus der Adresse (UTM-Parameter, z. B. „rausgegangen“) hängen wir dabei an den Link zum Shop an; gespeichert wird dabei nichts. Ab dort gilt die Datenschutzerklärung des Ticketshops (siehe unten).</p>
+    <p>Einige Links auf anderen Seiten führen über unsere Seite direkt zum Ticketshop. Dabei zählen wir den Aufruf{analyticsActive && ' wie oben beschrieben mit Matomo'} und leiten dich dann sofort weiter. Den Werbeweg aus der Adresse (UTM-Parameter, z. B. „rausgegangen“) hängen wir dabei an den Link zum Shop an; gespeichert wird dabei nichts. Ab dort gilt die Datenschutzerklärung des Ticketshops (siehe unten).</p>
 
     <h2>Externer Ticketshop</h2>
     <p>Tickets verkaufen wir nicht selbst. Der Button „Tickets kaufen“ führt zum externen Anbieter dein-ticket.shop. Ab dem Klick gilt die Datenschutzerklärung des Anbieters.</p>
     {
-      ticket.utmWeitergeben ? (
+      ticket.forwardUtm ? (
         <>
           <p>Damit wir und der Ticketshop sehen, welche Werbung wirkt, hängen wir beim Klick auf „Tickets kaufen“ den Werbeweg, über den du zu uns gekommen bist, an den Link an (sogenannte UTM-Parameter, z. B. „utm_source=flyer“). Der Ticketshop erhält damit nur diese Kennung des Werbewegs, keine Daten über dich als Person.</p>
           <p><strong>Ohne deine Zustimmung</strong> passiert das nur auf der Seite, auf der du bei uns angekommen bist, direkt aus der Adresse dieser Seite; gespeichert wird dabei nichts. Rechtsgrundlage ist unser berechtigtes Interesse, die Wirkung unserer Werbung zu messen (Art. 6 Abs. 1 lit. f DSGVO).</p>
@@ -93,9 +93,9 @@ const widget = instagram.widget;
         <>
           <h2 id="instagram-feed">Instagram-Feed (nur mit deiner Zustimmung)</h2>
           <p>
-            Auf der Startseite können wir unsere neuesten Instagram-Beiträge anzeigen. Dafür binden wir ein Widget von {widget.anbieter} ein. Das Widget wird <strong>erst geladen, wenn du im Cookie-Banner zustimmst</strong>. Dann überträgt dein Browser Daten (z. B. deine IP-Adresse, Browserangaben und die aufgerufene Seite) an {widget.anbieter}; die Bilder können außerdem von Servern von Instagram (Meta) geladen werden. Dabei können Cookies gesetzt werden. Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG).
+            Auf der Startseite können wir unsere neuesten Instagram-Beiträge anzeigen. Dafür binden wir ein Widget von {widget.provider} ein. Das Widget wird <strong>erst geladen, wenn du im Cookie-Banner zustimmst</strong>. Dann überträgt dein Browser Daten (z. B. deine IP-Adresse, Browserangaben und die aufgerufene Seite) an {widget.provider}; die Bilder können außerdem von Servern von Instagram (Meta) geladen werden. Dabei können Cookies gesetzt werden. Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG).
           </p>
-          <p><strong>TODO:</strong> Anschrift und Datenschutzerklärung von {widget.anbieter} verlinken, Drittlandübermittlung (USA) prüfen, ob ein Auftragsverarbeitungsvertrag nötig ist, und den ganzen Abschnitt rechtlich prüfen lassen.</p>
+          <p><strong>TODO:</strong> Anschrift und Datenschutzerklärung von {widget.provider} verlinken, Drittlandübermittlung (USA) prüfen, ob ein Auftragsverarbeitungsvertrag nötig ist, und den ganzen Abschnitt rechtlich prüfen lassen.</p>
         </>
       ) : (
         <p>Wir binden keine Inhalte dieser Dienste ein.</p>

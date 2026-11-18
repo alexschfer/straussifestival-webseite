@@ -1,7 +1,7 @@
-# Einstellungen für den Webserver bei Cloud86 (LiteSpeed/Apache, Plesk).
-# Wird beim Build unverändert nach dist/ kopiert und mit hochgeladen.
+# Settings for the web server at Cloud86 (LiteSpeed/Apache, Plesk).
+# Copied to dist/ by the build (web/integrations/channels-output.ts appends the channel redirects there) and uploaded with it.
 
-# Immer HTTPS
+# Always HTTPS
 RewriteEngine On
 RewriteCond %{HTTPS} !=on
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
@@ -10,10 +10,10 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 
-# Eigene Fehlerseite für unbekannte Adressen (src/pages/404.astro)
+# Own error page for unknown addresses (src/pages/404.astro)
 ErrorDocument 404 /404.html
 
-# Astro legt gehashte Dateien unter /_astro/ ab: dürfen dauerhaft gecacht werden.
+# Astro puts hashed files under /_astro/: they may be cached permanently.
 <IfModule mod_headers.c>
   <If "%{REQUEST_URI} =~ m#^/_astro/#">
     Header set Cache-Control "public, max-age=31536000, immutable"

@@ -1,19 +1,19 @@
 ---
 import Base from '../layouts/Base.astro';
-import Startseite from '../components/Startseite.astro';
+import HomePage from '../components/HomePage.astro';
 import TicketLink from '../components/TicketLink.astro';
 ---
 
-<Base title="Startseite" description="Das Straussi Festival 2027 der Studierendenwohnheime Straußäcker in Stuttgart. Infos zu Programm, Anfahrt und Tickets." startseite>
-  {/* Startbild, Countdown und Instagram-Abschnitt kommen aus components/Startseite.astro (gemeinsam mit en/index.astro). Hier steht nur der Text. */}
-  <Startseite>
+<Base title="Startseite" description="Das Straussi Festival 2027 der Studierendenwohnheime Straußäcker in Stuttgart. Infos zu Programm, Anfahrt und Tickets." isHome>
+  {/* Hero, countdown and Instagram section come from components/HomePage.astro (shared with en/index.astro). Only the text is here. */}
+  <HomePage>
     <p>
       Das <strong>Straussi Festival 2027</strong> ist das Festival der Studierendenwohnheime Straußäcker in Stuttgart, veranstaltet von einem Team aus Bewohner*innen des Straussi 1, 2 & 3.
     </p>
     <p>Zwei Tage, ein Gelände, jede Menge gute Laune: Am 11. und 12. Juni 2027 wird das Gelände der Straußäcker-Wohnheime zur Festivalfläche. Von Studis organisiert, für alle ab 18, mit Musik, Foodtrucks und Getränken.</p>
     <h2>Programm und Line-up</h2>
     <p>Das Line-up steht noch nicht fest. Wir geben es hier bekannt, sobald es so weit ist.</p>
-    {/* Sobald lineup.astro fertig ist: wieder auf die Line-up-Seite verlinken. */}
+    {/* Once lineup.astro is finished: link to the line-up page again. */}
     <h2>Tickets</h2>
     <p><TicketLink>Tickets</TicketLink> gibt es über unseren <TicketLink>Ticketpartner</TicketLink>. Der Button oben führt direkt zum <TicketLink>Ticketshop</TicketLink>.</p>
     <p>Der Vorverkauf läuft! Es gibt <TicketLink>Tagestickets</TicketLink> für Freitag oder Samstag und <TicketLink>Wochenendtickets</TicketLink> für beide Tage.</p>
@@ -23,5 +23,5 @@ import TicketLink from '../components/TicketLink.astro';
       <li>Häufige Fragen: <a href="/faq/">FAQ</a></li>
       <li>So kommst du hin: <a href="/anfahrt/">Anfahrt</a></li>
     </ul>
-  </Startseite>
+  </HomePage>
 </Base>

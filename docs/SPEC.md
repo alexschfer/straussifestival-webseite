@@ -1,79 +1,79 @@
-# Aufgaben und Stand
+# Tasks and status
 
-Kontext, Entscheidungen und Regeln stehen in `CLAUDE.md`.
+Context, decisions and rules are in `CLAUDE.md`.
 
-## Phasen
+## Phases
 
-### Phase 1: `web/` (erledigt)
+### Phase 1: `web/` (done)
 
-- [x] Astro statisch, TypeScript, kein UI-Framework
-- [x] Seiten als einfache Astro-Seiten (`web/src/pages/*.astro`, gemeinsames Layout, Navigation als Liste im Layout; ursprünglich Markdown/Content Collections, später auf Wunsch umgestellt): Startseite, Infos, FAQ, Anfahrt, Impressum, Datenschutz
-- [x] Mobiles, schlichtes Layout (dunkles Thema), Ticketbutton prominent, zentrale Ticket-URL in `web/src/config.ts`
-- [x] Instagram-Abschnitt auf der Startseite (Links und Kacheln; optional echter Feed per Widget mit Cookie-Banner)
-- [x] Weiterleitung `/redirect-instagram/` mit Zählung in Umami, für QR-Codes direkt zu Instagram (`/redirect-instagram/q/<slug>`, QR-Codes in `docs/qr/redirect-instagram/`)
-- [x] Zentrale Kanaldatei `web/src/data/kanaele.ts` mit Validierung der UTM-Schreibregel
-- [x] Aus den Kanälen generiert: Redirects `/q/<slug>`, QR-Codes (`docs/qr/`), `docs/kanaele.md`
-- [x] Umami-Einbindung über Umgebungsvariablen (ohne Werte kein Skript)
-- [x] Ticketbutton löst Umami-Event `ticket-click` aus
-- [x] Optionales Skript "UTM an Ticketlink anhängen", per Schalter, Standard AUS
+- [x] Astro static, TypeScript, no UI framework
+- [x] Pages as plain Astro pages (`web/src/pages/*.astro`, shared layout, navigation as a list in the layout; originally Markdown/content collections, later switched on request): home page, info, FAQ, directions, imprint, privacy policy
+- [x] Mobile, simple layout (dark theme), prominent ticket button, central ticket URL in `web/src/config.ts`
+- [x] Instagram section on the home page (links and tiles; optionally a real feed via widget with cookie banner)
+- [x] Redirect `/redirect-instagram/` with counting in Umami, for QR codes leading directly to Instagram (`/redirect-instagram/q/<slug>`, QR codes in `docs/qr/redirect-instagram/`)
+- [x] Central channel file `web/src/data/channels.ts` with validation of the UTM spelling rule
+- [x] Generated from the channels: redirects `/q/<slug>`, QR codes (`docs/qr/`), `docs/channels.md`
+- [x] Umami integration via environment variables (no values, no script)
+- [x] Ticket button triggers the Umami event `ticket-click`
+- [x] Optional script "append UTMs to the ticket link", via a switch, default OFF
 - [x] `CLAUDE.md`, `README.md`, `docs/SPEC.md`
 
-### Phase 2: `analytics/` (erledigt, lokal mit Docker getestet)
+### Phase 2: `analytics/` (done, tested locally with Docker)
 
-- [x] `docker-compose.yml` (Umami mit Postgres-Image, Postgres in benanntem Volume)
-- [x] `Caddyfile`: Hauptdomain liefert Astro-Dateien, `stats.<domain>` geht an Umami, automatisches HTTPS
-- [x] `.env.example` mit Erklärungen
-- [x] `backup.sh`: nächtlicher `pg_dump`, komprimiert, 14 Stände, Cron-Beispiel
-- [x] Anleitung: lokal mit Docker testen (`analytics/README.md`)
-- [x] `web/src/pages/404.astro` (Caddy braucht `404.html`)
-- [ ] Erster Test mit dem **echten Umami-Tracker** im Browser (bisher nur simulierte Requests) und auf der echten VM mit echtem HTTPS
+- [x] `docker-compose.yml` (Umami with Postgres image, Postgres in a named volume)
+- [x] `Caddyfile`: main domain serves the Astro files, `stats.<domain>` goes to Umami, automatic HTTPS
+- [x] `.env.example` with explanations
+- [x] `backup.sh`: nightly `pg_dump`, compressed, 14 versions, cron example
+- [x] Instructions: test locally with Docker (`analytics/README.md`)
+- [x] `web/src/pages/404.astro` (Caddy needs `404.html`)
+- [ ] First test with the **real Umami tracker** in the browser (so far only simulated requests) and on the real VM with real HTTPS
 
-### Phase 3: `deploy/` (erledigt, gegen eine simulierte VM getestet)
+### Phase 3: `deploy/` (done, tested against a simulated VM)
 
-- [x] Deployment-Anleitung (`deploy/README.md`) und Deploy-Skript (`deploy/deploy.sh`: lokal bauen, `rsync`, Container hochfahren)
-- [x] Schritte nach dem ersten Start: Umami-Admin-Passwort ändern, Website anlegen, Website-ID in die Web-Config eintragen
-- [x] Hostunabhängig (nur `DEPLOY_HOST` ändert sich; Anbieterwechsel inkl. Backup-Restore lokal getestet, kein Terraform)
-- [ ] Erster echter Deploy auf die Selfnet-VM (wartet auf VM, Domain, DNS)
-- [ ] Umami-Oberfläche (Menünamen, Passwort ändern, Website-ID finden, Daten zurücksetzen) einmal im Browser durchgehen und `deploy/README.md` bei Abweichungen anpassen; bisher nur die API-Abläufe getestet
-- [ ] Backup-Cron auf der VM einrichten und eine Off-Site-Kopie der Sicherungen organisieren
+- [x] Deployment instructions (`deploy/README.md`) and deploy script (`deploy/deploy.sh`: build locally, `rsync`, start containers)
+- [x] Steps after the first start: change the Umami admin password, create the website, enter the website ID in the web config
+- [x] Host-independent (only `DEPLOY_HOST` changes; provider switch including backup restore tested locally, no Terraform)
+- [ ] First real deploy to the Selfnet VM (waiting for VM, domain, DNS)
+- [ ] Go through the Umami UI once in the browser (menu names, changing the password, finding the website ID, resetting data) and adjust `deploy/README.md` if anything differs; so far only the API flows were tested
+- [ ] Set up the backup cron on the VM and organise an off-site copy of the backups
 
-### Umstieg auf Cloud86-Webhosting und Matomo
+### Switch to Cloud86 web hosting and Matomo
 
-- [x] Tracking auf Matomo umgestellt (ohne Cookies, mit Cookies nach Zustimmung), Cookie-Banner immer aktiv mit Matomo
-- [x] Datenschutzerklärung auf Cloud86 und Matomo umgestellt, `.htaccess`, Anleitung `deploy/PLESK.md`
-- [x] In Plesk: Subdomain `stats`, SSL, Datenbank, Matomo installiert
-- [x] In Matomo: IP-Kürzung 2 Bytes, Plugin Marketing Campaigns Reporting, Ziel „Ticketklick“, Site-ID 1
-- [x] Protokollrotation `straussifestival.de`: monatlich, 1 Datei (Datenschutz: höchstens 2 Monate)
-- [ ] Protokollrotation auch für `stats.straussifestival.de` prüfen
-- [ ] Erster Upload, Test mit echten Handys, Testdaten löschen
-- [ ] **Bio-Links** auf die Kurz-URLs umstellen: Instagram `straussifestival.de/q/instagram`, TikTok `straussifestival.de/q/tiktok` (Instagram-Bio enthält derzeit nicht die Kurz-URL, in Matomo erschien `ig`)
-- [x] Auffangregel `ig` -> `instagram` (`fremdeQuellen` in `web/src/data/kanaele.ts`)
-- [ ] DPA von Cloud86 herunterladen und beim Verein ablegen; prüfen, ob das Cloud86-Konto auf Straussi 1 e.V. läuft
+- [x] Tracking switched to Matomo (without cookies, with cookies after consent), cookie banner always active with Matomo
+- [x] Privacy policy switched to Cloud86 and Matomo, `.htaccess`, instructions `deploy/PLESK.md`
+- [x] In Plesk: subdomain `stats`, SSL, database, Matomo installed
+- [x] In Matomo: IP anonymisation 2 bytes, plugin Marketing Campaigns Reporting, goal „Ticketklick“, site ID 1
+- [x] Log rotation for `straussifestival.de`: monthly, 1 file (privacy: at most 2 months)
+- [ ] Also check log rotation for `stats.straussifestival.de`
+- [ ] First upload, test with real phones, delete test data
+- [ ] Switch the **bio links** to the short URLs: Instagram `straussifestival.de/q/instagram`, TikTok `straussifestival.de/q/tiktok` (the Instagram bio currently does not contain the short URL, `ig` showed up in Matomo)
+- [x] Catch-all rule `ig` -> `instagram` (`foreignSources` in `web/src/data/channels.ts`)
+- [ ] Download the DPA from Cloud86 and file it with the association; check whether the Cloud86 account is registered to Straussi 1 e.V.
 
-## Offene Punkte (TODO, nicht erfinden)
+## Open items (TODO, do not invent)
 
-- [ ] **Uhrzeiten des Festivals:** Kalendereintrag ist ganztägig (`kalender` in `web/src/config.ts`), der Countdown zählt bis Mitternacht. Mit echten Zeiten beides anpassen.
-- [ ] Karte und Kalender-Knopf auf echten Handys testen (Apple Karten/Kalender auf iPhone, Google Maps/Kalender auf Android)
+- [ ] **Festival times:** the calendar entry is all-day (`calendar` in `web/src/config.ts`), the countdown counts to midnight. Adjust both once real times are known.
+- [ ] Test the map and the calendar button on real phones (Apple Maps/Calendar on iPhone, Google Maps/Calendar on Android)
 
-- [ ] **Antwort von Selfnet:** VM, Domain, DNS
-- [ ] **Echte Ticketshop-URL** eintragen (`ticket.url` in `web/src/config.ts`)
-- [ ] **Wertet der Ticketshop UTM-Parameter aus?** (Anfrage läuft.) Erst danach den Schalter `ticket.utmWeitergeben` in `web/src/config.ts` auf `true` setzen.
-- [x] **Impressum**: Veranstalter ist Straussi 1 e.V.; Angaben aus dessen Impressum übernommen (https://straussi1.de/wohnheim/rechtliches/impressum, Stand 20.10.2026)
-- [ ] Copyright-Zeile in der Fußzeile ggf. auf Straussi 1 e.V. anpassen (`web/src/layouts/Base.astro`)
-- [x] **Kontaktadresse** `info@straussifestival.de` (`festival.email` in `web/src/config.ts`, Fußzeile und Impressum)
-- [ ] Postfach `info@straussifestival.de` muss wirklich existieren und gelesen werden (E-Mail-Hosting/MX für die Domain)
-- [x] **Kanalliste** festgelegt: `flyer`, `plakat`, `sticker` (Medium `scan`), `whatsapp` (`messenger`), `instagram`, `tiktok` (`social`); dazu pro Wohnheimfest ein eigener QR-Kanal: `kattafest-str1`, `winterfest-str3`, `halloween-str1` (je ein QR-Code, Medium `scan`)
-- [ ] **Festivalinhalte** (Datum, Line-up, Preise, Anfahrt, FAQ-Antworten; alles `TODO` in `web/src/pages/` und `web/src/config.ts`)
-- [ ] **`SITE_URL` setzen**, sobald die Domain feststeht, und die QR-Codes neu bauen. Erst dann drucken.
-- [ ] **Eigene Fotos** für die Instagram-Kacheln ablegen (`web/public/insta/`, aktuell Platzhalter "TODO Foto"). Das Profil `@straussifestival` ist eingetragen.
-- [x] Datenschutzerklärung ausgefüllt (Straussi 1 e.V. als Verantwortlicher, tatsächlicher technischer Aufbau)
-- [ ] Datenschutz: **Serverstandort** klären (eigene Hardware oder gemieteter Server? Bei Miete den Anbieter nennen), **Statistik bis 31.12.2027 löschen** (steht in Datenschutzerklärung und oben in README.md)
-- [ ] Datenschutzerklärung und Impressum rechtlich prüfen lassen
-- [ ] **Instagram-Widget bei LightWidget** anlegen (Anbieter entschieden, kostenlos) und in `instagram.widget` in `web/src/config.ts` eintragen (Anleitung: `web/public/insta/README.md`); danach Abschnitt `#instagram-feed` der Datenschutzerklärung vervollständigen und prüfen lassen
+- [ ] **Reply from Selfnet:** VM, domain, DNS
+- [ ] Enter the **real ticket shop URL** (`ticket.url` in `web/src/config.ts`)
+- [ ] **Does the ticket shop evaluate UTM parameters?** (Request pending.) Only then set the switch `ticket.forwardUtm` in `web/src/config.ts` to `true`.
+- [x] **Imprint**: organiser is Straussi 1 e.V.; details taken from its imprint (https://straussi1.de/wohnheim/rechtliches/impressum, as of 2026-10-20)
+- [ ] Possibly change the copyright line in the footer to Straussi 1 e.V. (`web/src/layouts/Base.astro`)
+- [x] **Contact address** `info@straussifestival.de` (`festival.email` in `web/src/config.ts`, footer and imprint)
+- [ ] The mailbox `info@straussifestival.de` must really exist and be read (email hosting/MX for the domain)
+- [x] **Channel list** decided: `flyer`, `plakat`, `sticker` (medium `scan`), `whatsapp` (`messenger`), `instagram`, `tiktok` (`social`); plus one QR channel per residence party: `kattafest-str1`, `winterfest-str3`, `halloween-str1` (one QR code each, medium `scan`)
+- [ ] **Festival content** (date, line-up, prices, directions, FAQ answers; everything marked `TODO` in `web/src/pages/` and `web/src/config.ts`)
+- [ ] **Set `SITE_URL`** as soon as the domain is decided, and rebuild the QR codes. Only then print.
+- [ ] Put **own photos** for the Instagram tiles in place (`web/public/insta/`, currently placeholders "TODO Foto"). The profile `@straussifestival` is set.
+- [x] Privacy policy filled in (Straussi 1 e.V. as controller, actual technical setup)
+- [ ] Privacy: clarify the **server location** (own hardware or rented server? If rented, name the provider), **delete analytics by 2027-12-31** (stated in the privacy policy and at the top of README.md)
+- [ ] Have the privacy policy and imprint legally reviewed
+- [ ] Create the **Instagram widget at LightWidget** (provider decided, free) and enter it in `instagram.widget` in `web/src/config.ts` (instructions: `web/public/insta/README.md`); then complete the `#instagram-feed` section of the privacy policy and have it reviewed
 
-## Zu prüfen (Risiken, die beim Bau aufgefallen sind)
+## To check (risks noticed during the build)
 
-- [ ] **Kanalzuordnung über mehrere Seiten.** Umami liest UTM-Parameter aus der URL des jeweiligen Aufrufs; ein Klick auf einer Unterseite (z. B. `/infos/`) trägt selbst keine UTMs. Getestet mit Umami 3.4.0 und simulierten Requests: Der Bericht **Attribution** (Konversion = Event `ticket-click`) ordnet den Klick trotzdem dem Einstiegskanal zu. Ein Filter direkt auf das Event nach UTM würde ihn dagegen verpassen. Deshalb für die Auswertung den Attributionsbericht verwenden und nach dem ersten Start mit dem echten Tracker gegenprüfen. Nur falls das nicht reicht: UTM-Parameter per kleinem Skript an interne Links weitergeben (ohne Cookie, ohne localStorage).
-- [ ] **Redirects sind Meta-Refresh-Seiten**, keine HTTP-301 (Eigenschaft von Astro im statischen Modus). Caddy liefert `/q/<slug>` direkt aus, ohne zusätzlichen Umweg. Echte 301er wären nur mit Caddy-Regeln möglich, sind aber nicht nötig.
-- [ ] **QR-Codes in `docs/qr/` zeigen erst nach Setzen von `SITE_URL` auf die echte Adresse.** `docs/kanaele.md` warnt, solange die Platzhalter-Domain gilt.
-- [ ] **Datenschutzerklärung:** Caddy schreibt keine Zugriffs-Logs (steht so in der Erklärung). Klären, ob der Serveranbieter bzw. das Netz eigene Logs führt (siehe TODO-Kommentar in `web/src/pages/datenschutz.astro`).
+- [ ] **Channel attribution across several pages.** Umami reads UTM parameters from the URL of each request; a click on a subpage (e.g. `/infos/`) carries no UTMs itself. Tested with Umami 3.4.0 and simulated requests: the **Attribution** report (conversion = event `ticket-click`) still assigns the click to the entry channel. A filter directly on the event by UTM would miss it. So use the attribution report for analysis and double-check with the real tracker after the first start. Only if that is not enough: pass the UTM parameters on to internal links with a small script (no cookie, no localStorage).
+- [ ] **Redirects are meta-refresh pages**, not HTTP 301 (a property of Astro in static mode). Caddy serves `/q/<slug>` directly, without an extra detour. Real 301s would only be possible with Caddy rules, but are not needed.
+- [ ] **QR codes in `docs/qr/` only point to the real address once `SITE_URL` is set.** `docs/channels.md` warns as long as the placeholder domain applies.
+- [ ] **Privacy policy:** Caddy writes no access logs (the policy says so). Clarify whether the server provider or the network keeps its own logs (see the TODO comment in `web/src/pages/datenschutz.astro`).

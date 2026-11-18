@@ -1,86 +1,87 @@
 ---
 /**
- * Matomo-Tracking. Wird nur eingebunden, wenn Adresse und Website-ID gesetzt
- * sind (analyticsAktiv in src/config.ts).
+ * Matomo tracking. Only included when the address and site ID are set
+ * (analyticsActive in src/config.ts).
  *
- * - Ohne Zustimmung zählt Matomo ohne Cookies ("requireCookieConsent").
- * - Nach "Akzeptieren" im Cookie-Banner setzt es Cookies und erkennt Besucher
- *   auch an späteren Tagen wieder; "Ablehnen" bzw. Widerruf löscht sie wieder.
- * - Klicks auf den Ticketbutton gehen als Ereignis an Matomo (Kategorie/Aktion
- *   aus config.ts, Name = Stelle des Buttons: header, hero, footer).
- * - Links zu Instagram, TikTok und zum Ticketshop zählt Matomo zusätzlich
- *   von selbst als "Ausgehende Verweise".
- * - Klicks auf "In den Kalender eintragen" zählen als Ereignis Kalender / Eintrag
- *   (Name: google oder ics).
+ * - Without consent, Matomo counts without cookies ("requireCookieConsent").
+ * - After "Accept" in the cookie banner it sets cookies and recognises visitors
+ *   on later days as well; "Decline" or revoking consent deletes them again.
+ * - Clicks on the ticket button are sent to Matomo as an event (category/action
+ *   from config.ts, name = position of the button: header, hero, footer).
+ * - Matomo additionally counts links to Instagram, TikTok and the ticket shop
+ *   on its own as "Outlinks".
+ * - Clicks on "Add to calendar" count as the event Kalender / Eintrag
+ *   (name: google or ics).
  */
-import { analytics, analyticsAktiv } from '../config';
-import { SCHLUESSEL } from '../scripts/einwilligung';
+import { analytics, analyticsActive } from '../config';
+import { STORAGE_KEY } from '../scripts/consent';
 
 interface Props {
   /**
-   * Standard: Matomo zählt den Seitenaufruf selbst beim Laden.
-   * false: Die Seite zählt selbst (nur die Weiterleitung zu Instagram, die
-   * erst nach dem Zählen weiterleiten darf).
+   * Default: Matomo counts the page view itself on load.
+   * false: the page counts itself (only the redirect to Instagram, which may
+   * only redirect after counting).
    */
   autoTrack?: boolean;
 }
 
 const { autoTrack = true } = Astro.props;
-const einstellungen = {
+const settings = {
   url: analytics.url,
   siteId: analytics.siteId,
   autoTrack,
-  schluessel: SCHLUESSEL,
-  ticketKategorie: analytics.ticketKategorie,
-  ticketAktion: analytics.ticketAktion,
-  kalenderKategorie: analytics.kalenderKategorie,
-  kalenderAktion: analytics.kalenderAktion,
+  storageKey: STORAGE_KEY,
+  ticketCategory: analytics.ticketCategory,
+  ticketAction: analytics.ticketAction,
+  calendarCategory: analytics.calendarCategory,
+  calendarAction: analytics.calendarAction,
 };
 ---
 
 {
-  analyticsAktiv && (
-    <script is:inline define:vars={{ einstellungen }}>
+  analyticsActive && (
+    <script is:inline define:vars={{ settings }}>
       var _paq = (window._paq = window._paq || []);
-      var zugestimmt = false;
+      var consented = false;
       try {
-        zugestimmt = localStorage.getItem(einstellungen.schluessel) === 'ja';
-      } catch (fehler) {}
+        // 'ja' is the stored value for consent (kept as is for existing consents).
+        consented = localStorage.getItem(settings.storageKey) === 'ja';
+      } catch (error) {}
 
-      // Ohne Zustimmung: zählen, aber keine Cookies.
+      // Without consent: count, but no cookies.
       _paq.push(['requireCookieConsent']);
-      if (zugestimmt) _paq.push(['setCookieConsentGiven']);
-      if (einstellungen.autoTrack) {
+      if (consented) _paq.push(['setCookieConsentGiven']);
+      if (settings.autoTrack) {
         _paq.push(['trackPageView']);
         _paq.push(['enableLinkTracking']);
       }
-      _paq.push(['setTrackerUrl', einstellungen.url + '/matomo.php']);
-      _paq.push(['setSiteId', einstellungen.siteId]);
+      _paq.push(['setTrackerUrl', settings.url + '/matomo.php']);
+      _paq.push(['setSiteId', settings.siteId]);
 
-      var skript = document.createElement('script');
-      skript.async = true;
-      skript.src = einstellungen.url + '/matomo.js';
-      document.head.appendChild(skript);
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = settings.url + '/matomo.js';
+      document.head.appendChild(script);
 
-      // Wichtig in allen Handlern unten: immer window._paq benutzen, nicht die Variable
-      // _paq von oben. Sobald matomo.js geladen ist, ersetzt Matomo window._paq durch ein
-      // eigenes Objekt; was danach noch in das alte Array geschoben wird, liest niemand.
+      // Important in all handlers below: always use window._paq, not the variable
+      // _paq from above. As soon as matomo.js has loaded, Matomo replaces window._paq with
+      // its own object; anything pushed into the old array after that is never read.
 
-      // Antwort im Cookie-Banner (siehe src/scripts/einwilligung.ts)
-      document.addEventListener('einwilligung', function (ereignis) {
-        window._paq.push([ereignis.detail === 'ja' ? 'setCookieConsentGiven' : 'forgetCookieConsentGiven']);
+      // Answer in the cookie banner (see src/scripts/consent.ts)
+      document.addEventListener('consent', function (event) {
+        window._paq.push([event.detail === 'ja' ? 'setCookieConsentGiven' : 'forgetCookieConsentGiven']);
       });
 
-      // Ticketbutton (TicketButton.astro, nur solange er ein echter Link ist)
-      document.addEventListener('click', function (ereignis) {
-        var link = ereignis.target.closest && ereignis.target.closest('[data-ticket-link]');
+      // Ticket button (TicketButton.astro, only while it is a real link)
+      document.addEventListener('click', function (event) {
+        var link = event.target.closest && event.target.closest('[data-ticket-link]');
         if (link) {
-          window._paq.push(['trackEvent', einstellungen.ticketKategorie, einstellungen.ticketAktion, link.dataset.position]);
+          window._paq.push(['trackEvent', settings.ticketCategory, settings.ticketAction, link.dataset.position]);
         }
-        // Knopf "In den Kalender eintragen" (KalenderButton.astro): Name = google bzw. ics
-        var kalender = ereignis.target.closest && ereignis.target.closest('[data-kalender]');
-        if (kalender) {
-          window._paq.push(['trackEvent', einstellungen.kalenderKategorie, einstellungen.kalenderAktion, kalender.dataset.kalender]);
+        // "Add to calendar" button (CalendarButton.astro): name = google or ics
+        var calendar = event.target.closest && event.target.closest('[data-calendar]');
+        if (calendar) {
+          window._paq.push(['trackEvent', settings.calendarCategory, settings.calendarAction, calendar.dataset.calendar]);
         }
       });
     </script>

@@ -1,0 +1,74 @@
+---
+/**
+ * Only included when ticket.forwardUtm in src/config.ts is true.
+ *
+ * Appends the UTM parameters (channel, e.g. utm_source=flyer) to all ticket links,
+ * so the ticket shop can see where a purchase came from (docs/TICKETSHOP-UTM.md).
+ *
+ * - Without consent in the cookie banner: only the parameters of the current address,
+ *   i.e. only on the page the visitor landed on. Nothing is stored.
+ * - With consent: the parameters are remembered in sessionStorage for the duration of
+ *   the visit (deleted as soon as the tab is closed), so they are still passed on after
+ *   moving to a subpage. Revoking consent deletes them immediately.
+ *   Storing in the browser requires consent under § 25 TDDDG, hence this approach.
+ */
+---
+
+<script>
+  import { readAnswer } from '../scripts/consent';
+
+  const UTM_PARAMETERS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  // sessionStorage key in visitors' browsers; keep it unchanged.
+  const STORAGE = 'straussi-werbeweg';
+
+  /** UTM parameters of the current address (empty if there are none). */
+  const fromAddress = new URLSearchParams();
+  const current = new URLSearchParams(location.search);
+  for (const name of UTM_PARAMETERS) {
+    const value = current.get(name);
+    if (value) fromAddress.set(name, value);
+  }
+
+  const save = () => {
+    try {
+      if (fromAddress.toString()) sessionStorage.setItem(STORAGE, fromAddress.toString());
+    } catch {
+      // Storage blocked (e.g. private mode): then only from this page.
+    }
+  };
+
+  const remembered = () => {
+    try {
+      return new URLSearchParams(sessionStorage.getItem(STORAGE) ?? '');
+    } catch {
+      return new URLSearchParams();
+    }
+  };
+
+  /** Write the channel onto all ticket links. Whatever the link already carries stays. */
+  const apply = () => {
+    const channel = fromAddress.toString() ? fromAddress : readAnswer() === 'ja' ? remembered() : new URLSearchParams();
+    document.querySelectorAll<HTMLAnchorElement>('a[data-ticket-link]').forEach((link) => {
+      const target = new URL(link.href);
+      channel.forEach((value, name) => {
+        if (!target.searchParams.has(name)) target.searchParams.set(name, value);
+      });
+      link.href = target.href;
+    });
+  };
+
+  if (readAnswer() === 'ja') save();
+  apply();
+
+  // Answer in the cookie banner on this page: consent remembers the channel from now on,
+  // declining or revoking deletes it.
+  document.addEventListener('consent', (event) => {
+    if ((event as CustomEvent).detail === 'ja') {
+      save();
+    } else {
+      try {
+        sessionStorage.removeItem(STORAGE);
+      } catch {}
+    }
+  });
+</script>

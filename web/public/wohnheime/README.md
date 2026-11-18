@@ -1,39 +1,40 @@
-# Fotos für den Startbildschirm
+# Photos for the hero screen
 
-Hier liegen die eigenen Fotos, die auf der Startseite ganz oben als Hintergrund-Collage
-hinter Titel und Datum erscheinen (drei Bildspalten mit Parallax-Effekt beim Scrollen).
+This folder holds our own photos that appear at the very top of the home page as a
+background collage behind the title and date (three image columns with a parallax
+effect when scrolling).
 
-1. Foto hier ablegen, quer/breit (Querformat), nicht größer als ca. 1200 Pixel breit und
-   komprimiert (JPEG, Qualität ca. 70), damit die Startseite auch mobil per QR-Code schnell
-   lädt. Dateiname ohne Umlaute und Leerzeichen, z. B. `hof-4.jpg`.
+1. Put the photo here, landscape, no wider than about 1200 pixels and
+   compressed (JPEG, quality about 70), so that the home page also loads quickly on
+   phones via QR code. File name without umlauts and spaces, e.g. `hof-4.jpg`.
 
-   Kleiner Python/Pillow-Einzeiler zum Verkleinern und Komprimieren:
+   Small Python/Pillow snippet for scaling down and compressing:
 
    ```python
    from PIL import Image, ImageOps
-   bild = ImageOps.exif_transpose(Image.open('original.jpg')).convert('RGB')
-   bild.thumbnail((1200, 1200))
-   bild.save('web/public/wohnheime/hof-4.jpg', 'JPEG', quality=70, optimize=True, progressive=True)
+   image = ImageOps.exif_transpose(Image.open('original.jpg')).convert('RGB')
+   image.thumbnail((1200, 1200))
+   image.save('web/public/wohnheime/hof-4.jpg', 'JPEG', quality=70, optimize=True, progressive=True)
    ```
 
-2. In `web/src/config.ts` im Block `startBilder` eintragen:
+2. Add it in `web/src/config.ts` in the `heroImages` block:
 
    ```ts
-   startBilder: [
-     { bild: '/wohnheime/hof-4.jpg', alt: 'Kurze, wahrheitsgemäße Beschreibung des Fotos' },
+   heroImages: [
+     { image: '/wohnheime/hof-4.jpg', alt: 'Kurze, wahrheitsgemäße Beschreibung des Fotos' },
    ],
    ```
 
-Der Text bei `alt` beschreibt, was tatsächlich auf dem Foto zu sehen ist (keine erfundenen
-Ortsnamen) und wird angezeigt, wenn das Bild nicht lädt.
+The `alt` text describes what can actually be seen in the photo (no invented
+place names, in German like the page) and is shown when the image does not load.
 
-Aktuell sind `party-1.jpg`, `party-2.jpg` und `party-3.jpg` eingetragen: Partyfotos von den
-Sommerfesten von Straussi 1 und Straussi 2 (Laserbühne, Strauß-Figur, Band mit Publikum). Sie sind
-auf Hochformat (2:3, 1000 x 1500 Pixel) zugeschnitten, weil die Collage aus drei hohen Spalten
-besteht; Querformat-Fotos würden dort stark vergrößert und unscharf.
+Currently `party-1.jpg`, `party-2.jpg` and `party-3.jpg` are entered: party photos from the
+summer parties of Straussi 1 and Straussi 2 (laser stage, ostrich figure, band with audience).
+They are cropped to portrait format (2:3, 1000 x 1500 pixels) because the collage consists of
+three tall columns; landscape photos would be enlarged a lot there and look blurry.
 
-**Keine Sponsoren:** Auf den Fotos dürfen keine Sponsoren zu sehen sein (Logos auf Schirmen,
-Bannern, Flaschen, Kühlschränken usw.).
+**No sponsors:** no sponsors may be visible in the photos (logos on umbrellas,
+banners, bottles, fridges etc.).
 
-**Wichtig:** Nur eigene Fotos verwenden oder solche, für die ihr die Rechte habt. Wer auf
-dem Foto erkennbar ist, sollte damit einverstanden sein.
+**Important:** only use your own photos or photos you have the rights to. Anyone
+recognisable in the photo should agree to it.

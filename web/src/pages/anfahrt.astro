@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import Karte from '../components/Karte.astro';
+import LocationMap from '../components/LocationMap.astro';
 ---
 
 <Base title="Anfahrt" description="So kommst du zum Straussi Festival 2027 in den Studierendenwohnheimen Straußäcker in Stuttgart.">
@@ -9,7 +9,7 @@ import Karte from '../components/Karte.astro';
     <p>Das Festival findet auf dem Gelände der Studierendenwohnheime Straußäcker 1, 2 und 3 in Stuttgart statt.</p>
     <h2>Adresse</h2>
     <p>Universitätsstraße 94<br />70569 Stuttgart</p>
-    <Karte />
+    <LocationMap />
     <h2>Mit Bus und Bahn</h2>
     <p>Am besten kommst du mit öffentlichen Verkehrsmitteln.</p>
     <ul>
@@ -19,7 +19,7 @@ import Karte from '../components/Karte.astro';
     </ul>
     <h2>Mit dem Auto</h2>
     <p>Es stehen nur begrenzt Parkplätze am Pfaffenwaldring bei der Hochschule der Medien und der Universität Stuttgart zur Verfügung. Wegen der begrenzten Kapazität empfehlen wir ausdrücklich die Anreise mit S-Bahn oder Bus.</p>
-    {/* TODO: Abschnitt „Mit dem Fahrrad“ (Fahrradstellplätze, falls vorhanden) ergänzen, sobald bekannt. Bis dahin ausgeblendet. */}
+    {/* TODO: add a section "Mit dem Fahrrad" (bike parking, if available) once known. Hidden until then. */}
     <h2>Übernachtung</h2>
     <p>Camping gibt es vor Ort nicht. In der Umgebung von Vaihingen und Stuttgart gibt es Hotels, Hostels und Airbnb-Unterkünfte.</p>
     <h2>Geländeplan</h2>

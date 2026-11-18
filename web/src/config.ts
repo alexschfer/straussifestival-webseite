@@ -1,179 +1,179 @@
 /**
- * Zentrale Konfiguration der Webseite.
- * Alles, was sich ändern kann (Ticket-Link, Schalter, Eckdaten), steht hier.
- * Texte der Seiten stehen NICHT hier, sondern direkt in den Dateien unter src/pages/ (z. B. infos.astro).
+ * Central configuration of the website.
+ * Everything that may change (ticket link, switches, key facts) lives here.
+ * Page texts do NOT live here, but directly in the files under src/pages/ (e.g. infos.astro).
  */
 
-const kurzname = 'Straussi Festival';
-const jahr = '2027';
+const shortName = 'Straussi Festival';
+const year = '2027';
 
 export const festival = {
-  kurzname,
-  jahr,
-  name: `${kurzname} ${jahr}`,
-  veranstalter: 'Team aus Bewohner*innen des Straussi 1, 2 & 3',
-  ort: 'Studierendenwohnheime Straußäcker, Stuttgart',
-  datum: '11.06.–12.06.2027',
-  /** Kontaktadresse des Festivalteams (Fußzeile und Impressum). */
+  shortName,
+  year,
+  name: `${shortName} ${year}`,
+  organizer: 'Team aus Bewohner*innen des Straussi 1, 2 & 3',
+  location: 'Studierendenwohnheime Straußäcker, Stuttgart',
+  dateText: '11.06.–12.06.2027',
+  /** Contact address of the festival team (footer and imprint). */
   email: 'info@straussifestival.de',
-  /** Für Bewerbungen von Bands, DJs und anderen Artists (Fußzeile, FAQ). */
+  /** For applications from bands, DJs and other artists (footer, FAQ). */
   emailActs: 'acts@straussifestival.de',
-  /** Für Sponsoring-Anfragen (Fußzeile). */
+  /** For sponsoring requests (footer). */
   emailSponsoring: 'sponsorings@straussifestival.de',
   /**
-   * Ziel-Zeitpunkt für den Countdown auf der Startseite (ISO mit Zeitzone).
-   * Bewusst Mitternacht als einfacher Platzhalter, solange keine genauere
-   * Startzeit feststeht. Jederzeit anpassbar, sobald es eine echte Uhrzeit gibt.
+   * Target time for the countdown on the home page (ISO with time zone).
+   * Deliberately midnight as a simple placeholder as long as no more precise
+   * start time is fixed. Change at any time once there is a real time.
    */
-  startZeitpunkt: '2027-06-11T00:00:00+02:00',
-  /** Adresse des Festivalgeländes (Karte auf der Anfahrt-Seite und Kalendereintrag). */
-  adresse: 'Universitätsstraße 94, 70569 Stuttgart',
+  startTime: '2027-06-11T00:00:00+02:00',
+  /** Address of the festival grounds (map on the directions page and calendar entry). */
+  address: 'Universitätsstraße 94, 70569 Stuttgart',
 };
 
 /**
- * Kalendereintrag zum Mitnehmen (Knopf "In den Kalender", components/KalenderButton.astro,
- * Datei /kalender.ics aus pages/kalender.ics.ts). Bewusst ganztägig, solange es keine
- * Uhrzeiten gibt. Format JJJJ-MM-TT, letzterTag ist der letzte Festivaltag (einschließlich).
+ * Calendar entry to take away (button "In den Kalender", components/CalendarButton.astro,
+ * file /kalender.ics from pages/kalender.ics.ts). Deliberately all-day as long as there are
+ * no times. Format YYYY-MM-DD, lastDay is the last festival day (inclusive).
  */
-export const kalender = {
-  ersterTag: '2027-06-11',
-  letzterTag: '2027-06-12',
+export const calendar = {
+  firstDay: '2027-06-11',
+  lastDay: '2027-06-12',
 };
 
 /**
- * Beginn und Ende des Kalendereintrags im Kalenderformat JJJJMMTT. Bei ganztägigen
- * Terminen ist das Ende nach Standard der Tag NACH dem letzten Tag. Nicht von Hand ändern.
+ * Start and end of the calendar entry in calendar format YYYYMMDD. For all-day
+ * events the end is, by the standard, the day AFTER the last day. Do not change by hand.
  */
-export function kalenderTage() {
-  const ende = new Date(`${kalender.letzterTag}T12:00:00Z`);
-  ende.setUTCDate(ende.getUTCDate() + 1);
-  const format = (datum: string) => datum.slice(0, 10).replaceAll('-', '');
-  return { beginn: format(kalender.ersterTag), ende: format(ende.toISOString()) };
+export function calendarDays() {
+  const end = new Date(`${calendar.lastDay}T12:00:00Z`);
+  end.setUTCDate(end.getUTCDate() + 1);
+  const format = (date: string) => date.slice(0, 10).replaceAll('-', '');
+  return { start: format(calendar.firstDay), end: format(end.toISOString()) };
 }
 
 /**
- * Karte auf der Anfahrt-Seite (components/Karte.astro). Das Bild ist eine eigene Datei
- * (Ausschnitt aus OpenStreetMap, siehe public/anfahrt/README.md), es wird nichts von
- * fremden Servern geladen. Die Knöpfe öffnen die Adresse in der Karten-App des Handys.
+ * Map on the directions page (components/LocationMap.astro). The image is our own file
+ * (excerpt from OpenStreetMap, see public/anfahrt/README.md); nothing is loaded from
+ * third-party servers. The buttons open the address in the phone's map app.
  */
-export const karte = {
-  bild: '/anfahrt/karte.webp',
-  breite: 800,
-  hoehe: 600,
-  /** Koordinaten der Markierung (Mitte der Wohnanlagen), für den OpenStreetMap-Link. */
-  breitengrad: 48.74276,
-  laengengrad: 9.10169,
+export const locationMap = {
+  image: '/anfahrt/karte.webp',
+  width: 800,
+  height: 600,
+  /** Coordinates of the marker (centre of the residences), for the OpenStreetMap link. */
+  latitude: 48.74276,
+  longitude: 9.10169,
 };
 
 /**
- * Eigene Fotos für die Hintergrund-Collage im Startbildschirm (drei hohe Bildspalten,
- * deshalb Hochformat). Datei in web/public/wohnheime/ ablegen und hier eintragen, siehe README dort.
- * Keine Fotos mit sichtbaren Sponsoren (Logos, Schirme, Flaschen).
+ * Our own photos for the background collage of the hero screen (three tall image columns,
+ * hence portrait format). Put the file in web/public/wohnheime/ and add it here, see the README there.
+ * No photos with visible sponsors (logos, umbrellas, bottles).
  */
-export const startBilder: { bild: string; alt: string }[] = [
-  { bild: '/wohnheime/party-1.jpg', alt: 'Bühne mit blauen Lasern über einer feiernden Menge im Innenhof' },
-  { bild: '/wohnheime/party-2.jpg', alt: 'Große Strauß-Figur mit ausgebreiteten Flügeln, pink und lila beleuchtet im Nebel' },
-  { bild: '/wohnheime/party-3.jpg', alt: 'Band auf der Bühne, davor ein Publikum mit erhobenen Händen' },
+export const heroImages: { image: string; alt: string }[] = [
+  { image: '/wohnheime/party-1.jpg', alt: 'Bühne mit blauen Lasern über einer feiernden Menge im Innenhof' },
+  { image: '/wohnheime/party-2.jpg', alt: 'Große Strauß-Figur mit ausgebreiteten Flügeln, pink und lila beleuchtet im Nebel' },
+  { image: '/wohnheime/party-3.jpg', alt: 'Band auf der Bühne, davor ein Publikum mit erhobenen Händen' },
 ];
 
 export const ticket = {
-  // Ticketshop bei dein-ticket.shop (Event-Seite des Festivals).
+  // Ticket shop at dein-ticket.shop (the festival's event page).
   url: 'https://straussifestival.dein-ticket.shop/events/straussifestival-111/straussifestival-111',
 
   /**
-   * Hängt die UTM-Parameter des Besuchs an den Ticketlink an, damit der Ticketshop
-   * sieht, über welchen Werbeweg ein Kauf kam (components/UtmWeitergabe.astro,
-   * Infos für den Shop: docs/TICKETSHOP-UTM.md). Ohne Zustimmung im Cookie-Banner
-   * nur von der Einstiegsseite aus, mit Zustimmung für den ganzen Besuch.
+   * Appends the visit's UTM parameters to the ticket link, so the ticket shop
+   * sees which channel a purchase came from (components/UtmForwarding.astro,
+   * info for the shop: docs/TICKETSHOP-UTM.md). Without consent in the cookie banner
+   * only from the landing page, with consent for the whole visit.
    */
-  utmWeitergeben: true,
+  forwardUtm: true,
 } as const;
 
 /**
- * Ticketbuttons sind nur klickbar, wenn oben eine echte URL steht. Solange dort
- * noch TODO steht, erscheinen sie ausgegraut ohne Link (siehe TicketButton.astro).
+ * Ticket buttons are only clickable if a real URL is set above. As long as it
+ * still says TODO, they appear greyed out without a link (see TicketButton.astro).
  */
-export const ticketAktiv = !ticket.url.includes('TODO');
+export const ticketActive = !ticket.url.includes('TODO');
 
 /**
- * Instagram-Abschnitt auf der Startseite ("Bleib auf dem Laufenden").
- * Ohne Widget (unten) wird nichts von Instagram eingebunden, nur verlinkt; die Fotos
- * der Kacheln sind eigene Dateien. Mit Widget lädt der Feed erst nach Zustimmung.
- * profilUrl ist auch das Ziel der Weiterleitung /redirect-instagram/ (QR-Codes zu Instagram).
+ * Instagram section on the home page ("Bleib auf dem Laufenden").
+ * Without the widget (below) nothing is embedded from Instagram, only linked; the
+ * tile photos are our own files. With the widget the feed only loads after consent.
+ * profileUrl is also the target of the redirect /redirect-instagram/ (QR codes to Instagram).
  */
 export const instagram = {
-  profilUrl: 'https://www.instagram.com/straussifestival/',
+  profileUrl: 'https://www.instagram.com/straussifestival/',
   name: '@straussifestival',
   /**
-   * Eigene Fotos für die Kacheln (Hochformat, ca. 3:4). Datei in web/public/insta/ ablegen und hier eintragen:
-   *   { bild: '/insta/foto-1.jpg', alt: 'Kurze Beschreibung des Fotos' }
-   * Solange weniger als 5 eingetragen sind, stehen an den freien Stellen Platzhalter.
+   * Our own photos for the tiles (portrait, approx. 3:4). Put the file in web/public/insta/ and add it here:
+   *   { image: '/insta/foto-1.jpg', alt: 'Short description of the photo' }
+   * As long as fewer than 5 are listed, placeholders fill the free spots.
    */
-  fotos: [] as { bild: string; alt: string }[],
+  photos: [] as { image: string; alt: string }[],
 
   /**
-   * Echter Instagram-Feed über das kostenlose Widget von LightWidget (entschieden,
-   * ohne Aufruflimit), Anleitung in web/public/insta/README.md.
+   * Real Instagram feed via the free LightWidget widget (decided,
+   * no view limit), instructions in web/public/insta/README.md.
    *
-   * - url: die Adresse aus dem iframe-Einbettungscode des Anbieters (das, was bei src="..." steht).
-   * - anbieter: Name des Anbieters, erscheint im Cookie-Banner und muss in die Datenschutzerklärung.
-   * - hoehe: Höhe des Feeds in Pixeln (je nach Anzahl der Reihen im Widget anpassen).
+   * - url: the address from the provider's iframe embed code (whatever is in src="...").
+   * - provider: name of the provider; shown in the cookie banner and must go into the privacy policy.
+   * - height: height of the feed in pixels (adjust to the number of rows in the widget).
    *
-   * Solange url leer ist, gibt es weder Feed noch Cookie-Banner, und es bleiben die Kacheln oben.
-   * Ist url gesetzt, lädt der Feed ERST nach Zustimmung im Cookie-Banner (vorher die Kacheln).
+   * As long as url is empty, there is neither a feed nor a cookie banner, and the tiles above stay.
+   * If url is set, the feed loads ONLY after consent in the cookie banner (the tiles before that).
    */
   widget: {
-    // Widget c038160329c25bac8724aca37ea5ea03 angelegt, aber Gratis-Version von LightWidget kann kein HTTPS
-    // (zeigt nur Upgrade-Hinweis). Erst eintragen, wenn HTTPS im Tarif enthalten ist.
-    url: '', // TODO: https://lightwidget.com/widgets/c038160329c25bac8724aca37ea5ea03.html nach Upgrade
-    anbieter: 'LightWidget',
-    hoehe: 420,
+    // Widget c038160329c25bac8724aca37ea5ea03 created, but the free version of LightWidget has no HTTPS
+    // (only shows an upgrade notice). Only fill in once HTTPS is included in the plan.
+    url: '', // TODO: https://lightwidget.com/widgets/c038160329c25bac8724aca37ea5ea03.html after upgrade
+    provider: 'LightWidget',
+    height: 420,
   },
 };
 
 /**
- * TikTok-Profil, wird wie Instagram nur verlinkt (kein eingebettetes Video/Widget).
+ * TikTok profile, only linked like Instagram (no embedded video/widget).
  */
 export const tiktok = {
-  profilUrl: 'https://www.tiktok.com/@straussifestival',
+  profileUrl: 'https://www.tiktok.com/@straussifestival',
   name: '@straussifestival',
 };
 
 /**
- * Matomo-Tracking (selbst gehostet auf dem Webhosting, stats.<domain>).
- * Adresse und Website-ID kommen aus Umgebungsvariablen (web/.env, siehe
- * web/.env.example). Fehlt einer der beiden Werte, wird Matomo nicht
- * eingebunden und die Seite funktioniert trotzdem.
+ * Matomo tracking (self-hosted on the web hosting, stats.<domain>).
+ * Address and site ID come from environment variables (web/.env, see
+ * web/.env.example). If either value is missing, Matomo is not
+ * included and the site still works.
  *
- * Matomo zählt ohne Cookies. Erst nach "Akzeptieren" im Cookie-Banner setzt
- * es Cookies und erkennt Besucher dann auch über mehrere Tage wieder.
+ * Matomo counts without cookies. Only after "Akzeptieren" in the cookie banner does
+ * it set cookies and then also recognises visitors across several days.
  */
 export const analytics = {
-  /** z. B. "https://stats.example.org", ohne abschließenden Slash */
+  /** e.g. "https://stats.example.org", without a trailing slash */
   url: (import.meta.env.PUBLIC_MATOMO_URL ?? '').trim().replace(/\/+$/, ''),
   siteId: (import.meta.env.PUBLIC_MATOMO_SITE_ID ?? '').trim(),
   /**
-   * Ereignis beim Klick auf den Ticketbutton: Kategorie und Aktion, als Name geht
-   * die Stelle mit (header, hero, footer, bzw. text für TicketLink im Fließtext). In Matomo ist das Ziel "Ticketklick"
-   * an diese Kategorie geknüpft (siehe deploy/README.md).
+   * Event on a click on the ticket button: category and action; the name is the
+   * position (header, hero, footer, or text for TicketLink in body text). In Matomo the goal "Ticketklick"
+   * is tied to this category (see deploy/README.md).
    */
-  ticketKategorie: 'Ticket',
-  ticketAktion: 'Klick',
-  /** Aktion der Weiterleitung /redirect-ticket/ (Links von fremden Seiten direkt zum Shop). */
-  ticketWeiterleitungAktion: 'Weiterleitung',
-  /** Ereignis der Weiterleitung /redirect-instagram/ (QR-Codes direkt zu Instagram). */
-  instaKategorie: 'Instagram',
-  instaAktion: 'Weiterleitung',
-  /** Klick auf "In den Kalender": Kategorie und Aktion, als Name die Art (google, ics). */
-  kalenderKategorie: 'Kalender',
-  kalenderAktion: 'Eintrag',
+  ticketCategory: 'Ticket',
+  ticketAction: 'Klick',
+  /** Action of the redirect /redirect-ticket/ (links from third-party sites straight to the shop). */
+  ticketRedirectAction: 'Weiterleitung',
+  /** Event of the redirect /redirect-instagram/ (QR codes straight to Instagram). */
+  instaCategory: 'Instagram',
+  instaAction: 'Weiterleitung',
+  /** Click on "In den Kalender": category and action; the name is the kind (google, ics). */
+  calendarCategory: 'Kalender',
+  calendarAction: 'Eintrag',
 };
 
-export const analyticsAktiv = Boolean(analytics.url && analytics.siteId);
+export const analyticsActive = Boolean(analytics.url && analytics.siteId);
 
 /**
- * Der Cookie-Banner erscheint, sobald es etwas zuzustimmen gibt: Matomo-Cookies
- * (Statistik), der Instagram-Feed oder das Merken des Werbewegs für den Ticketshop
- * (ticket.utmWeitergeben). Eine Antwort gilt für alles.
+ * The cookie banner appears as soon as there is something to consent to: Matomo cookies
+ * (statistics), the Instagram feed, or remembering the channel for the ticket shop
+ * (ticket.forwardUtm). One answer applies to everything.
  */
-export const bannerAktiv = analyticsAktiv || Boolean(instagram.widget.url) || ticket.utmWeitergeben;
+export const bannerActive = analyticsActive || Boolean(instagram.widget.url) || ticket.forwardUtm;

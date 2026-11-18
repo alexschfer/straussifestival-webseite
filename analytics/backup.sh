@@ -1,47 +1,47 @@
 #!/usr/bin/env bash
-# Sichert die Umami-Datenbank: pg_dump, komprimiert, die letzten 14 Stände bleiben.
+# Backs up the Umami database: pg_dump, compressed, the last 14 versions are kept.
 #
-# Aufruf:  ./backup.sh            (aus beliebigem Ordner, der Pfad des Skripts zählt)
+# Usage:  ./backup.sh            (from any folder, the script's own path counts)
 #
-# Cron-Beispiel (täglich um 03:15 Uhr, als root auf der VM):
+# Cron example (daily at 03:15, as root on the VM):
 #   15 3 * * * /opt/straussi/backup.sh >> /var/log/straussi-backup.log 2>&1
 #
-# Einstellungen per Umgebungsvariable (optional):
-#   BACKUP_DIR   Zielordner der Sicherungen (Standard: <Ordner dieses Skripts>/backups)
-#   KEEP         Anzahl aufbewahrter Stände (Standard: 14)
+# Settings via environment variables (optional):
+#   BACKUP_DIR   target folder for the backups (default: <folder of this script>/backups)
+#   KEEP         number of versions to keep (default: 14)
 #
-# Wiederherstellen:  siehe README.md, Abschnitt "Backup und Wiederherstellung".
-# Wichtig: Liegen die Sicherungen auf derselben VM, schützen sie nicht vor deren Verlust.
-# Den Ordner zusätzlich regelmäßig an einen anderen Ort kopieren.
+# Restoring:  see README.md, section "Backup and restore".
+# Important: backups on the same VM do not protect against losing that VM.
+# Also copy the folder regularly to another place.
 
 set -euo pipefail
 
-SKRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BACKUP_DIR="${BACKUP_DIR:-$SKRIPT_DIR/backups}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BACKUP_DIR="${BACKUP_DIR:-$SCRIPT_DIR/backups}"
 KEEP="${KEEP:-14}"
 
 mkdir -p "$BACKUP_DIR"
 
-ZIEL="$BACKUP_DIR/umami-$(date +%Y-%m-%d_%H%M%S).sql.gz"
-TEMP="$ZIEL.partial"
+TARGET="$BACKUP_DIR/umami-$(date +%Y-%m-%d_%H%M%S).sql.gz"
+TEMP="$TARGET.partial"
 trap 'rm -f "$TEMP"' EXIT
 
-# Benutzer und Datenbankname stammen aus dem Container selbst (POSTGRES_USER/POSTGRES_DB).
-docker compose --project-directory "$SKRIPT_DIR" exec -T db \
+# User and database name come from the container itself (POSTGRES_USER/POSTGRES_DB).
+docker compose --project-directory "$SCRIPT_DIR" exec -T db \
   sh -c 'pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" --clean --if-exists' \
   | gzip -9 > "$TEMP"
 
-# Nur behalten, wenn die Datei ein gültiges, nicht leeres Archiv ist.
+# Only keep the file if it is a valid, non-empty archive.
 gzip -t "$TEMP"
 if [ ! -s "$TEMP" ] || [ "$(gzip -dc "$TEMP" | wc -c)" -lt 100 ]; then
-  echo "FEHLER: Sicherung ist leer oder unvollständig, wird verworfen." >&2
+  echo "ERROR: backup is empty or incomplete, discarding it." >&2
   exit 1
 fi
-mv "$TEMP" "$ZIEL"
-echo "$(date '+%Y-%m-%d %H:%M:%S') Sicherung geschrieben: $ZIEL ($(du -h "$ZIEL" | cut -f1))"
+mv "$TEMP" "$TARGET"
+echo "$(date '+%Y-%m-%d %H:%M:%S') Backup written: $TARGET ($(du -h "$TARGET" | cut -f1))"
 
-# Alte Stände löschen: die neuesten $KEEP behalten.
-ls -1t "$BACKUP_DIR"/umami-*.sql.gz 2>/dev/null | tail -n +"$((KEEP + 1))" | while read -r alt; do
-  rm -f -- "$alt"
-  echo "Alten Stand gelöscht: $alt"
+# Delete old versions: keep the newest $KEEP.
+ls -1t "$BACKUP_DIR"/umami-*.sql.gz 2>/dev/null | tail -n +"$((KEEP + 1))" | while read -r old; do
+  rm -f -- "$old"
+  echo "Deleted old version: $old"
 done

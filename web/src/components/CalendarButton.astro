@@ -1,0 +1,33 @@
+---
+/**
+ * "Add to calendar" button (home page only, below the countdown).
+ * A collapsible menu without JavaScript (<details>) with two options:
+ * - Google Calendar: link that opens a pre-filled event in Google Calendar.
+ * - .ics file (/kalender.ics, from pages/kalender.ics.ts): opens Apple Calendar on
+ *   iPhone/Mac, otherwise Outlook or the phone's calendar app.
+ * Date and location come from src/config.ts (calendar, festival.address). All-day,
+ * as long as there are no times. Nothing is loaded from third-party servers.
+ * Matomo counts clicks as the event Kalender / Eintrag / google or ics (Analytics.astro).
+ */
+import { festival, calendarDays } from '../config';
+import { TEXTS, languageOf } from '../i18n';
+
+const t = TEXTS[languageOf(Astro.url)];
+
+const days = calendarDays();
+const site = Astro.site ? new URL(Astro.site).origin : '';
+const google = new URL('https://calendar.google.com/calendar/render');
+google.searchParams.set('action', 'TEMPLATE');
+google.searchParams.set('text', festival.name);
+google.searchParams.set('dates', `${days.start}/${days.end}`);
+google.searchParams.set('location', festival.address);
+google.searchParams.set('details', `${t.calendarDescription} ${site}`);
+---
+
+<details class="calendar">
+  <summary class="button">{t.calendarButton}</summary>
+  <ul class="calendar-options">
+    <li><a href={google.href} target="_blank" rel="noopener" data-calendar="google">{t.calendarGoogle}</a></li>
+    <li><a href="/kalender.ics" data-calendar="ics">{t.calendarIcs}</a></li>
+  </ul>
+</details>
