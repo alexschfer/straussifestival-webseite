@@ -175,7 +175,9 @@ export const kanaele: Kanal[] = [
     slug: 'blockparty-str2',
     utm_source: 'blockparty-str2',
     utm_medium: 'scan',
-    beschreibung: 'QR-Code auf der Blockparty von Straussi 2 (zur Instagram-Weiterleitung /redirect-instagram/q/blockparty-str2).',
+    beschreibung: 'QR-Code auf der Blockparty von Straussi 2. Auch /redirect-instagram/q/blockparty-str2 bleibt gültig.',
+    // Seit 18.11.2026 führt auch /q/blockparty-str2 (gezählt) zu Instagram.
+    ziel: 'instagram',
   },
   {
     slug: 'netthier',

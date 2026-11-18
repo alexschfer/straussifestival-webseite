@@ -227,7 +227,7 @@ deploy/          deploy.sh, deploy.env.example, README.md (Anleitung)
 ## Kanäle mit Ziel Instagram (`ziel` in `kanaele.ts`, November 2026)
 
 - Ein Kanal kann `ziel: 'instagram'` (oder `'ticket'`) bekommen. Dann führt **`/q/<slug>`** nicht auf die Startseite, sondern per 302 auf `/redirect-instagram/?utm_…` (bzw. `/redirect-ticket/`) und wird dort wie gewohnt gezählt und weitergeleitet. `<seite>/q/<slug>` hinter anderen Seiten bleibt unverändert. Logik in `zielPfad()` (`kanaele.ts`), wirkt auf `.htaccess`-Regeln, Astro-Ausweichseiten und `docs/kanaele.md`.
-- **Aktuell: `sticker`** (seit 18.11.2026, die schon gedruckten Sticker-Codes führen jetzt zu Instagram). Sticker-Scans zählen in Matomo seitdem als Ereignis Instagram / Weiterleitung, nicht mehr als Startseiten-Besuch.
+- **Aktuell: `sticker`** (seit 18.11.2026, die schon gedruckten Sticker-Codes führen jetzt zu Instagram), **`visitenkarte-insta`** (neben `visitenkarte` zur Webseite) und **`blockparty-str2`** (der alte Link `/redirect-instagram/q/blockparty-str2` bleibt gültig). Sticker-Scans zählen in Matomo seitdem als Ereignis Instagram / Weiterleitung, nicht mehr als Startseiten-Besuch.
 - `/q/instagram` bleibt bewusst **ohne** `ziel`: Der Link steht in der Instagram-Bio und muss auf die Webseite führen (sonst Schleife zurück zu Instagram).
 - Bewusst keine echte Direktweiterleitung zu instagram.com ohne unsere Seite: Dann liefe kein Matomo, der Scan würde nicht gezählt.
 
