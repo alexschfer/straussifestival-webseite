@@ -2,7 +2,7 @@
 
 ## Context
 
-The Straussi Festival 2027 is a festival of the Straußäcker student residences in Stuttgart, organised by a team of residents of Straussi 1, 2 & 3, with around 7,500 expected guests.
+The Straussi Festival 2027 is a festival of the Straussi student residences in Stuttgart, organised by a team of residents of Straussi 1, 2 & 3, with around 7,500 expected guests.
 
 The website is an **information site** that links to an external ticket shop (dein-ticket.shop). The most important goal besides information: tracking **which channel** (flyers, posters, QR codes, social media) visitors come from and **how many of them click the ticket button**. Most visitors arrive via QR code on their phone.
 
@@ -181,7 +181,7 @@ deploy/            deploy.sh, deploy.env.example, README.md (instructions), PLES
 
 ## Content round October 2026 (can be changed at any time)
 
-- **Spelling everywhere "Straussi" (with ss)**, never "Straußi" (the client's wish). The residence name **Straußäcker** keeps the ß.
+- **Spelling everywhere "Straussi" (with ss)**, never "Straußi" (the client's wish). **The residences are also called "Straussi" on the site** ("Studierendenwohnheime Straussi", "Straussi-Wohnheime", "Straussi 1, 2 und 3", EN "Straussi student residences"), not "Straußäcker" (the client's wish, November 2026; there is no street of that name, the address is Universitätsstraße 94). Exceptions we cannot change: the label in the OSM map image, the text in the ticket shop.
 - **No admission under 18**, not even when accompanied; must be stated clearly like that (info, FAQ, ABC).
 - **No admission times** on the site (deliberately removed). Prohibited items list: „Waffen jeglicher Art“ (weapons of any kind), plus (wanted as a joke) **Sperrgut** (bulky waste).
 - **Festival ABC with letter bar** (`web/src/components/FestivalAbc.astro`): the `<dt>`/`<dd>` pairs stay normal HTML in `faq.astro`; at build time the component sets jump targets `abc-<letter>` on the first keyword per letter and builds the bar (letters without an entry greyed out). The bar sticks to the top while scrolling (`position: sticky`), on mobile a swipeable row, from 48rem all 26 in one row.

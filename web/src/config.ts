@@ -12,7 +12,7 @@ export const festival = {
   year,
   name: `${shortName} ${year}`,
   organizer: 'Team aus Bewohner*innen des Straussi 1, 2 & 3',
-  location: 'Studierendenwohnheime Straußäcker, Stuttgart',
+  location: 'Studierendenwohnheime Straussi, Stuttgart',
   dateText: '11.06.–12.06.2027',
   /** Contact address of the festival team (footer and imprint). */
   email: 'info@straussifestival.de',

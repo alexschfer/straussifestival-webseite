@@ -5,7 +5,7 @@
 > To delete: in Matomo, delete the website (Administration > Websites > Manage), or remove Matomo together with its database in Plesk. Also delete the database backups in Plesk.
 > If the date changes, update both: this notice and the privacy policy.
 
-Information site for the Straussi Festival 2027 (Straußäcker student residences, Stuttgart) with self-hosted web analytics (Matomo). The site links to the external ticket shop and measures which channel visitors come from and how many of them click the ticket button.
+Information site for the Straussi Festival 2027 (Straussi student residences, Stuttgart) with self-hosted web analytics (Matomo). The site links to the external ticket shop and measures which channel visitors come from and how many of them click the ticket button.
 
 In short: build `web/` and upload it to Plesk at Cloud86; instructions including the Matomo setup: [deploy/PLESK.md](deploy/PLESK.md). Project context and all decisions: [CLAUDE.md](CLAUDE.md). Tasks and status: [docs/SPEC.md](docs/SPEC.md).
 

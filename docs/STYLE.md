@@ -8,7 +8,7 @@ For everyone building something new for the site (e.g. the **interactive site ma
 - **Mobile first.** Most guests arrive by QR code on their phone. Build for the phone first (about 360–400 px wide), then extend for larger screens.
 - **Simple and fast:** system fonts, no CSS framework, no UI framework (no React/Vue), as little JavaScript as possible. Keep images small.
 - **Load nothing from third-party servers** (fonts, scripts, maps, images, videos), see [Privacy](#privacy-important-for-the-map). The site has a cookie banner only for our own analytics and the Instagram feed; anything else would first need legal clarification.
-- Language: code comments and identifiers in **English** (e.g. `stage`, `location`, `description`). Visible page text is **German** (with the English version under `/en/`). Spelling: **Straussi** (with ss); the residences are called **Straußäcker**.
+- Language: code comments and identifiers in **English** (e.g. `stage`, `location`, `description`). Visible page text is **German** (with the English version under `/en/`). Spelling: **Straussi** (with ss), also for the residences ("Straussi-Wohnheime", "Straussi 1, 2 und 3"), never "Straußi" or "Straußäcker".
 
 ## Colours
 
