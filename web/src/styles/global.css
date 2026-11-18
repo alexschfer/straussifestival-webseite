@@ -169,6 +169,12 @@ ul {
   flex-wrap: wrap;
   gap: 0 1.2rem;
 }
+/* Center menu items vertically, so the smaller language switch (EN/DE) sits on the
+   same middle line as the other items and the ticket button, not on the text baseline. */
+.site-header nav li {
+  display: flex;
+  align-items: center;
+}
 .site-header nav a {
   display: inline-block;
   padding: 0.35rem 0;
