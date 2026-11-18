@@ -200,8 +200,9 @@ deploy/            deploy.sh, deploy.env.example, README.md (instructions), PLES
 
 ## Ticket words in the text as links
 
-- Every word containing „Ticket“ in body text (Tickets, Ticketshop, Ticketpartner, Tagestickets, Wochenendtickets, Ticketarten, „Tickets kaufen“) is a link to the shop via **`<TicketLink>`** (`web/src/components/TicketLink.astro`), on the home page, info, FAQ/ABC and in the footer. **Not** linked: headings, page descriptions and the privacy policy.
+- Every word containing „Ticket“ in body text (Tickets, Ticketshop, Tagestickets, Wochenendtickets, Ticketarten, „Tickets kaufen“) is a link to the shop via **`<TicketLink>`** (`web/src/components/TicketLink.astro`), on the home page, info, FAQ/ABC and in the footer. **Not** linked: headings, page descriptions and the privacy policy.
 - `TicketLink` carries `data-ticket-link` and `data-position="text"`: it counts in Matomo as the event "Ticket / Klick / text" and gets the UTMs like the buttons. Without a real ticket URL, plain text. Link new text passages containing „Ticket“ the same way.
+- **Exception „Ticketpartner“** (footer and home page, EN „ticket partner“): a plain link to the provider's general page **`https://dein-ticket.shop/`** (`ticket.partnerUrl` in `config.ts`, new tab), not to our event (the client's wish). Not a `TicketLink`, so no ticket click event and no UTMs; Matomo only counts it as an outbound link.
 
 ## English version (complete, including legal pages)
 

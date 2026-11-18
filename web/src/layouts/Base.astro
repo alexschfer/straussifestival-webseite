@@ -5,7 +5,6 @@ import CookieBanner from '../components/CookieBanner.astro';
 import InstaIcon from '../components/InstaIcon.astro';
 import TikTokIcon from '../components/TikTokIcon.astro';
 import TicketButton from '../components/TicketButton.astro';
-import TicketLink from '../components/TicketLink.astro';
 import UtmForwarding from '../components/UtmForwarding.astro';
 import { bannerActive, festival, instagram, tiktok, ticket } from '../config';
 import { TEXTS, localPath, pathInLanguage, languageOf } from '../i18n';
@@ -170,7 +169,7 @@ const isCurrent = (href: string) => (href.replace(/\/$/, '') || '/') === current
 
           <div class="footer-column">
             <h2>{t.tickets}</h2>
-            <p class="footer-column-text">{t.salesText[0]}<TicketLink>{t.salesText[1]}</TicketLink>{t.salesText[2]}</p>
+            <p class="footer-column-text">{t.salesText[0]}<a href={ticket.partnerUrl} target="_blank" rel="noopener">{t.salesText[1]}</a>{t.salesText[2]}</p>
             <TicketButton position="footer" class="button-small" />
           </div>
 

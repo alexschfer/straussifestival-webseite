@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import HomePage from '../../components/HomePage.astro';
 import TicketLink from '../../components/TicketLink.astro';
+import { ticket } from '../../config';
 ---
 
 <Base title="Home" description="Straussi Festival 2027 at the Straussi student residences in Stuttgart. Info on programme, getting there and tickets." isHome>
@@ -14,7 +15,7 @@ import TicketLink from '../../components/TicketLink.astro';
     <h2>Programme and line-up</h2>
     <p>The line-up has not been fixed yet. We will announce it here as soon as it is ready.</p>
     <h2>Tickets</h2>
-    <p><TicketLink>Tickets</TicketLink> are available from our <TicketLink>ticket partner</TicketLink>. The button above takes you straight to the <TicketLink>ticket shop</TicketLink>.</p>
+    <p><TicketLink>Tickets</TicketLink> are available from our <a href={ticket.partnerUrl} target="_blank" rel="noopener">ticket partner</a>. The button above takes you straight to the <TicketLink>ticket shop</TicketLink>.</p>
     <p>Presale is on! There are <TicketLink>day tickets</TicketLink> for Friday or Saturday and <TicketLink>weekend tickets</TicketLink> for both days.</p>
     <h2>Good to know</h2>
     <ul>

@@ -80,6 +80,10 @@ export const ticket = {
   // Ticket shop at dein-ticket.shop (the festival's event page).
   url: 'https://straussifestival.dein-ticket.shop/events/straussifestival-111/straussifestival-111',
 
+  // General page of the ticket provider: target of the word "Ticketpartner" (footer, home page),
+  // which names the provider instead of leading to our event.
+  partnerUrl: 'https://dein-ticket.shop/',
+
   /**
    * Appends the visit's UTM parameters to the ticket link, so the ticket shop
    * sees which channel a purchase came from (components/UtmForwarding.astro,
