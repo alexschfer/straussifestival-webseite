@@ -22,7 +22,7 @@ from PIL import Image, ImageDraw
 
 ZOOM = 17
 CENTER = (48.7428, 9.1030)  # image centre: grounds and S-Bahn Universität both fit
-GROUNDS = (48.74276, 9.10169)  # marker: centre of the Straußäcker I–III residences
+GROUNDS = (48.74276, 9.10169)  # marker: centre of the Straussi 1–3 residences
 WIDTH, HEIGHT = 800, 600
 PINK = (238, 12, 227)
 
