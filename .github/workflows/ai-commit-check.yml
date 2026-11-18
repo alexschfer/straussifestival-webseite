@@ -1,0 +1,27 @@
+name: AI Commit Check
+
+# Fails if a commit names an AI tool (e.g. a Co-Authored-By trailer or a
+# "Generated with Claude Code" note). See the rule at the top of CLAUDE.md.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Only reads the repository, never writes.
+permissions:
+  contents: read
+
+jobs:
+  ai-commit-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full Git history so all commits can be checked
+
+      - name: AI Commit Check
+        # Third-party action, pinned to the commit of tag v1.0.1 so a moved tag
+        # cannot run different code here (reviewed on 2026-11-18).
+        uses: Jondolf/ai-commit-check@7069d4254c6310cdb0395a6ab0ca1f29af897f83 # v1.0.1

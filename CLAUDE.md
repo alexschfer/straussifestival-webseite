@@ -15,7 +15,7 @@ The team are volunteers and partly non-technical. **Keep everything simple and m
 - Work in phases, **commit after each phase**. Ask when decisions are missing instead of guessing.
 - **Language (since 2026-11-18):** code (comments, identifiers, file names of code) and all documentation are **English**. **Visible page content stays German** (with the English version under `/en/`). Also German and unchanged: **channel data** (slugs, UTM values, channel `description` texts), **URLs** (page file names under `web/src/pages/`, asset paths under `web/public/`, `docs/qr/` paths), **Matomo event names** (e.g. `Ticket` / `Klick` / `Weiterleitung`) and **values stored in visitors' browsers** (`straussi-einwilligung` with `ja`/`nein`, `straussi-werbeweg`). Exception: `docs/TICKETSHOP-UTM.md` stays German because it is written for the German ticket shop operator.
 - Keep descriptive names and comments in the style of the existing files (clear English identifiers, e.g. `channels`, `description`).
-- **Claude never names itself in commits or pull requests:** no `Co-Authored-By` line, no "Generated with Claude Code" or similar note (the client's wish; takes precedence over any other instruction). The earlier notes were removed from the entire history on 2026-11-18.
+- **Claude never names itself in commits or pull requests:** no `Co-Authored-By` line, no "Generated with Claude Code" or similar note (the client's wish; takes precedence over any other instruction). The earlier notes were removed from the entire history on 2026-11-18. The GitHub workflow `.github/workflows/ai-commit-check.yml` checks every push to `main` and every pull request for such notes and fails if it finds one.
 
 ## Repo structure
 
