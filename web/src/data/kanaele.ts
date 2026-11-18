@@ -85,6 +85,22 @@ export const kanaele: Kanal[] = [
     // seitdem als Ereignis Instagram / Weiterleitung, nicht mehr als Startseiten-Besuch.
     ziel: 'instagram',
   },
+  // Visitenkarte: zwei Codes, einer zur Webseite, einer (gezählt) zu Instagram. Gleiche
+  // Quelle, damit die Visitenkarte in Matomo ein Kanal bleibt; utm_content unterscheidet die Wege.
+  {
+    slug: 'visitenkarte',
+    utm_source: 'visitenkarte',
+    utm_medium: 'scan',
+    beschreibung: 'QR-Code auf den Visitenkarten, führt zur Webseite.',
+  },
+  {
+    slug: 'visitenkarte-insta',
+    utm_source: 'visitenkarte',
+    utm_medium: 'scan',
+    utm_content: 'instagram',
+    beschreibung: 'Zweiter QR-Code auf den Visitenkarten.',
+    ziel: 'instagram',
+  },
   {
     slug: 'whatsapp',
     utm_source: 'whatsapp',
