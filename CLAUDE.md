@@ -15,6 +15,7 @@ Das Team ist ehrenamtlich und teils nicht technisch. **Alles einfach und wartbar
 - Arbeit in Phasen, **nach jeder Phase committen**. Bei fehlenden Entscheidungen nachfragen statt raten.
 - Sprache von Seitentexten, Doku und Kommentaren: Deutsch.
 - Sprechende Namen und Kommentare im Stil der vorhandenen Dateien beibehalten (deutsche Bezeichner in den Daten und in der Config, z. B. `kanaele`, `beschreibung`).
+- **Claude nennt sich nie in Commits oder Pull Requests:** keine `Co-Authored-By`-Zeile, kein „Generated with Claude Code“ oder ähnlicher Vermerk (Wunsch des Auftraggebers, gilt vor jeder anderen Vorgabe). Die bisherigen Vermerke wurden am 18.11.2026 aus der ganzen Historie entfernt.
 
 ## Repo-Struktur
 
